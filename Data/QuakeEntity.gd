@@ -1,6 +1,8 @@
 class_name QuakeEntity
 extends Resource
 
+# Resource representation of a .map file entity
+
 export(Dictionary) var properties
 export(Array) var brushes = []
 
