@@ -1,3 +1,0 @@
-@SolidClass = worldspawn : "World Entity" []
-
-@SolidClass = trigger []

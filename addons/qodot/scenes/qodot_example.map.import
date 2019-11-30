@@ -1,0 +1,14 @@
+[remap]
+
+importer="qodot.map"
+type="QuakeMap"
+path="res://.import/qodot_example.map-0beca6cfc49aea4ed8720fb48ce95389.tres"
+
+[deps]
+
+source_file="res://addons/qodot/scenes/qodot_example.map"
+dest_files=[ "res://.import/qodot_example.map-0beca6cfc49aea4ed8720fb48ce95389.tres" ]
+
+[params]
+
+map_format="standard"

@@ -1,0 +1,99 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Reference",
+"class": "MapImportPlugin",
+"language": "GDScript",
+"path": "res://addons/qodot/src/quake_map_import_plugin.gd"
+}, {
+"base": "Node",
+"class": "QodotNode",
+"language": "GDScript",
+"path": "res://addons/qodot/src/nodes/qodot_node.gd"
+}, {
+"base": "EditorPlugin",
+"class": "QodotPlugin",
+"language": "GDScript",
+"path": "res://addons/qodot/src/qodot_plugin.gd"
+}, {
+"base": "Spatial",
+"class": "QodotSpatial",
+"language": "GDScript",
+"path": "res://addons/qodot/src/nodes/qodot_spatial.gd"
+}, {
+"base": "Reference",
+"class": "QodotUtil",
+"language": "GDScript",
+"path": "res://addons/qodot/src/qodot_util.gd"
+}, {
+"base": "Reference",
+"class": "QuakeBrush",
+"language": "GDScript",
+"path": "res://addons/qodot/src/data/quake_brush.gd"
+}, {
+"base": "Reference",
+"class": "QuakeEntity",
+"language": "GDScript",
+"path": "res://addons/qodot/src/data/quake_entity.gd"
+}, {
+"base": "Reference",
+"class": "QuakeMap",
+"language": "GDScript",
+"path": "res://addons/qodot/src/data/quake_map.gd"
+}, {
+"base": "QodotSpatial",
+"class": "QuakeMapNode",
+"language": "GDScript",
+"path": "res://addons/qodot/src/nodes/quake_map_node.gd"
+}, {
+"base": "Reference",
+"class": "QuakeMapReader",
+"language": "GDScript",
+"path": "res://addons/qodot/src/quake_map_reader.gd"
+}, {
+"base": "Reference",
+"class": "QuakePlane",
+"language": "GDScript",
+"path": "res://addons/qodot/src/data/quake_plane.gd"
+}, {
+"base": "Reference",
+"class": "QuakePlaneAxes",
+"language": "GDScript",
+"path": "res://addons/qodot/src/nodes/quake_plane_axes.gd"
+} ]
+_global_script_class_icons={
+"MapImportPlugin": "",
+"QodotNode": "res://addons/qodot/icons/icon_qodot_node.svg",
+"QodotPlugin": "",
+"QodotSpatial": "res://addons/qodot/icons/icon_qodot_spatial.svg",
+"QodotUtil": "",
+"QuakeBrush": "",
+"QuakeEntity": "",
+"QuakeMap": "",
+"QuakeMapNode": "",
+"QuakeMapReader": "",
+"QuakePlane": "",
+"QuakePlaneAxes": ""
+}
+
+[application]
+
+config/name="Qodot"
+run/main_scene="res://addons/qodot/scenes/qodot_example.tscn"
+config/icon="res://icon.png"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "qodot" )
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"
