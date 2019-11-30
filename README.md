@@ -159,7 +159,7 @@ Controls the spawning of collision objects for brushes with the given classname.
 
 ## TrenchBroom
 
-[TrenchBroom](https://kristianduske.com/trenchbroom/) is a free Quake-compatible level editor with a modern interface.
+[TrenchBroom](https://kristianduske.com/trenchbroom/) is a cross platform level editor for Quake-engine based games. It supports Quake, Quake 2, and Hexen 2 and runs on Windows (XP and newer), Mac OS X (10.6 and newer) and Linux. TrenchBroom is easy to use and provides many simple and advanced tools to create complex and interesting levels with ease.
 
 ### Trailer
 
