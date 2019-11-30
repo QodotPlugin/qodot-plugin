@@ -167,7 +167,7 @@ Controls the spawning of collision objects for brushes with the given classname.
 
 ### Qodot Integration
 
-To integrate Qodot with Trenchbroom, copy the contents of the TrenchBroom folder into your TrenchBroom install folder. You should end up with [your TrenchBroom Install]/games/Qodot/
+To integrate Qodot with TrenchBroom, copy the contents of the TrenchBroom folder into your TrenchBroom install folder. You should end up with [your TrenchBroom Install]/games/Qodot/
 
 Then, either open a Qodot-compatible map in TrenchBroom or create a new map from the user interface and select the Qodot profile. You will need to set the game directory to the parent directory of your project's textures folder in order for TrenchBroom to detect them.
 
