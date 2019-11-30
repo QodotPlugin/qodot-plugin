@@ -2,7 +2,7 @@
 
 Quake *.map* file support for Godot.
 
-![](https://raw.githubusercontent.com/ShiftyAxel/Qodot/master/extras/screenshots/heading.png)
+![Image Heading](https://raw.githubusercontent.com/ShiftyAxel/Qodot/master/extras/screenshots/heading.png)
 
 ## Overview
 
@@ -167,12 +167,11 @@ Controls the spawning of collision objects for brushes with the given classname.
 
 ### Qodot Integration
 
-To integrate Qodot with TrenchBroom, copy the contents of the TrenchBroom folder into your TrenchBroom install folder. You should end up with [your TrenchBroom Install]/games/Qodot/
+To integrate Qodot with TrenchBroom, copy the contents of the *extras/TrenchBroom* folder into your TrenchBroom install folder. You should end up with *[Your TrenchBroom Install]/games/Qodot/*.
 
 Then, either open a Qodot-compatible map in TrenchBroom or create a new map from the user interface and select the Qodot profile. You will need to set the game directory to the parent directory of your project's textures folder in order for TrenchBroom to detect them.
 
 The Qodot profile can be copied for use as the basis of a game-specific profile, but any maps created prior will need to be manually updated using a text editor to point at the new game name and .fgd file.
-
 
 #### Note
 
