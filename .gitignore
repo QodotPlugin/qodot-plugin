@@ -5,3 +5,6 @@ export_presets.cfg
 
 # Mono-specific ignores
 .mono/
+
+# Qodot-specific ignores
+export/

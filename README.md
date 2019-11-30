@@ -56,7 +56,17 @@ Every .map file has a 'wordspawn' entity by default, which is used to store all 
 
 ## Installation
 
-To install Qodot, create res://addons/Qodot in your project folder and extract the contents of this repository into it.
+### Godot Plugin
+
+To add Qodot to a project, copy addons/qodot/ into your res://addons/ directory, then enable it in Project Settings.
+
+### TrenchBroom Integration
+
+To integrate Qodot with Trenchbroom, copy the contents of the TrenchBroom folder into your TrenchBroom install folder. You should end up with [your TrenchBroom Install]/games/Qodot/
+
+Then, either open a Qodot-compatible map in TrenchBroom or create a new map from the user interface and select the Qodot profile. You will need to set the game directory to the parent directory of your project's textures folder in order for TrenchBroom to detect them.
+
+The Qodot profile can be copied for use as the basis of a game-specific profile, but any maps created prior will need to be manually updated using a text editor to point at the new game name and .fgd file.
 
 ## Usage
 
@@ -80,7 +90,7 @@ To convert the QuakeMap instance into usable level geometry, pass it into the se
 
 ## Example Content
 
-An example scene is available in Scenes/QodotExample.scene, and its source map file can be found in TrenchBroom/QodotExample.map
+The repo contains an example project with a simple .map scene imported as a .tscn An example scene is available in Scenes/QodotExample.scene, and its source map file can be found in TrenchBroom/QodotExample.map
 
 In order to open the example map in TrenchBroom, it will need access to the Qodot game configuration. See the TrenchBroom Integration section below for details.
 
@@ -153,14 +163,6 @@ Controls the spawning of a CollisionObject for brushes with the given classname.
 ### spawn_brush_collision_object(classname: String) -> CollisionObject
 
 Controls the spawning of collision objects for brushes with the given classname. Typically used to differentiate between solid geometry and triggers.
-
-## TrenchBroom Integration
-
-To integrate Qodot with Trenchbroom, copy the contents of the TrenchBroom/Qodot folder (minus the .gdignore) into [your TrenchBroom install]/games/Qodot
-
-Then, either open a Qodot-compatible map in TrenchBroom or create a new map from the user interface and select the Qodot profile. You will need to set the game directory to the parent directory of your textures folder in order for TrenchBroom to detect them.
-
-The Qodot profile can be copied for use as the basis of a game-specific profile, but any maps created prior will need to be manually updated using a text editor to point at the new game name and .fgd file.
 
 ### Note
 

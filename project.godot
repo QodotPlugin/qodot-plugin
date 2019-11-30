@@ -87,7 +87,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Qodot"
-run/main_scene="res://addons/qodot/scenes/qodot_example.tscn"
+run/main_scene="res://scenes/qodot_example.tscn"
 config/icon="res://icon.png"
 
 [editor_plugins]
