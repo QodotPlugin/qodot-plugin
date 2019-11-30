@@ -2,7 +2,7 @@
 
 Quake .map file support for Godot.
 
-![](https://raw.githubusercontent.com/ShiftyAxel/Qodot/master/Screenshot.png)
+![](https://raw.githubusercontent.com/ShiftyAxel/Qodot/master/Screenshots/heading.png)
 
 ## Overview
 
