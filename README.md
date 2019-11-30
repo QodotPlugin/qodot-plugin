@@ -26,7 +26,7 @@ Qodot extends the Godot editor to import Quake .map files, and provides an exten
 
 Qodot was created to solve a long-standing problem with modern game engines: The lack of simple, accessible level editing functionality for users without 3D modeling expertise.
 
-Unity, Unreal and Godot are all capable of CSG to some extent or other with varying degrees of usability, but lack fine-grained direct manipulation of geometry and lack per-face texture and UV manipulation. It's positioned more as a prototyping tool to be used ahead of a proper art pass than a viable methodology.
+Unity, Unreal and Godot are all capable of CSG to some extent or other with varying degrees of usability, but lack fine-grained direct manipulation of geometry, as well as per-face texture and UV manipulation. It's positioned more as a prototyping tool to be used ahead of a proper art pass than a viable methodology.
 
 Conversely, dedicated 3D modeling packages like Maya or Blender are very powerful and can iterate fast in experienced hands, but have an intimidating skill floor for users with a programming-focused background that just want to build levels for their game.
 
@@ -78,19 +78,17 @@ An example scene is available in Scenes/QodotExample.scene, and its source map f
 
 In order to open the example map in TrenchBroom, it will need access to the Qodot game configuration. See the TrenchBroom Integration section below for details.
 
-## Important Types
-
-### QuakeMapNode
+## QuakeMapNode
 
 QuakeMapNode is the main user-facing element of Qodot- it takes a QuakeMapFile object imported from a .map file and turns it into usable level geometry.
 
-#### Properties
+### Properties
 
-##### Reload
+#### Reload
 
 Regenerates the map when clicked.
 
-##### Mode
+#### Mode
 
 Decides how the .map file should be rendered.
 
@@ -98,19 +96,19 @@ Decides how the .map file should be rendered.
 - Face Points - Debug visualization of intersecting plane vertices
 - Brush Meshes - Full mesh representation with collision
 
-##### Inverse Scale Factor
+#### Inverse Scale Factor
 
 Used to convert from Quake units to arbitrary scene units; map coordinates are divided by this value during conversion into meshes.
 
 The default of 16 is a best-effort mapping from Quake 3's '1 Unit = ~1 Inch' coordinates to Godot's preferred Metric measurement.
 
-##### Autoload Map Path
+#### Autoload Map Path
 
 The file path to your map.
 
 ex. res://Maps/MyMap.map
 
-##### Base Texture Path
+#### Base Texture Path
 
 The base search path for textures defined in the map file.
 
@@ -118,7 +116,7 @@ Quake maps use an extensionless '[package]/[texture]' format, so textures should
 
 ex. res://Textures/base/my-texture.png
 
-##### Texture Extension
+#### Texture Extension
 
 The file extension appended to quake-format texture names. Plain image formats are recommended for easy interoperation with map editors.
 
@@ -126,7 +124,7 @@ ex: .png, .jpg or .tres
 
 ## Extending Qodot
 
-By default, Qodot provides basic conversion of brushes into StaticBody and Area nodes based on the presence of "trigger" in their .map classname.
+By default, Qodot provides basic conversion of brushes into StaticBody and Area nodes based on the presence of 'trigger' in their .map classname.
 
 All entities outside of triggers and the default 'worldspawn' node used to hold static geometry will be spawned as simple Position3D placholders.
 
@@ -150,9 +148,9 @@ Controls the spawning of a CollisionObject for brushes with the given classname.
 
 Controls the spawning of collision objects for brushes with the given classname. Typically used to differentiate between solid geometry and triggers.
 
-## TrenchBroom integration
+## TrenchBroom Integration
 
-To integrate Qodot with Trenchbroom, copy the contents of the TrenchBroom/Qodot folder (minus the .gdignore) into [your TrenchBroom install]/games/Qodot.
+To integrate Qodot with Trenchbroom, copy the contents of the TrenchBroom/Qodot folder (minus the .gdignore) into [your TrenchBroom install]/games/Qodot
 
 Then, either open a Qodot-compatible map in TrenchBroom or create a new map from the user interface and select the Qodot profile. You will need to set the game directory to the parent directory of your textures folder in order for TrenchBroom to detect them.
 
