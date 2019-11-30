@@ -137,9 +137,3 @@ The Qodot profile can be copied for use as the basis of a game-specific profile,
 
 #### Note
 TrenchBroom will create an 'autosaves' folder containing map backups alongside any maps you edit with it, so make sure to create a .gdignore file within to prevent Godot from repeatedly importing several versions of the same map.
-
-## Known Issues
-- .map file asset IDs change on every reimport, so the QuakeMapNode needs to be manually refreshed
-- Following the above, QuakeMapNode manually loads a .map asset from a string path instead of an exported Resource to sidestep editor UX issues and hanging references
-- Shaders are currently unsupported, and will be need to be implemented on a game-by-game basis 
-- Geometry generation is single-threaded, meaning large maps will stall on load
