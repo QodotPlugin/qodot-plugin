@@ -1,6 +1,8 @@
-# Qodot
+# ![](https://raw.githubusercontent.com/ShiftyAxel/Qodot/master/Icon.png) Qodot
 
 Quake .map file support for Godot.
+
+![](https://raw.githubusercontent.com/ShiftyAxel/Qodot/master/Screenshot.png)
 
 ## Overview
 
