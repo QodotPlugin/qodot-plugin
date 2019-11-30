@@ -90,9 +90,9 @@ To convert the QuakeMap instance into usable level geometry, pass it into the se
 
 ## Example Content
 
-The repo contains an example project with a simple .map scene imported as a .tscn An example scene is available in Scenes/QodotExample.scene, and its source map file can be found in TrenchBroom/QodotExample.map
+The repo contains an example project with a simple .map scene imported as a .tscn
 
-In order to open the example map in TrenchBroom, it will need access to the Qodot game configuration. See the TrenchBroom Integration section below for details.
+In order to open the example map in TrenchBroom, it will need access to the Qodot game configuration as specified in the [Trenchbroom Integration](#trenchbroom-integration) section.
 
 ## QuakeMapNode
 
