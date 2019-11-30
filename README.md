@@ -52,6 +52,10 @@ Every .map file has a 'wordspawn' entity by default, which is used to store all 
 
 [More information on the .map file spec can be found here.](http://www.gamers.org/dEngine/quake/QDP/qmapspec.html)
 
+## Installation
+
+To install Qodot, create res://addons/Qodot in your project folder and extract the contents of this repository into it.
+
 ## Usage
 
 ### In-Editor
