@@ -1,4 +1,4 @@
-class_name QuakeMapNode
+class_name QodotMap
 extends QodotSpatial
 tool
 
@@ -32,6 +32,8 @@ export(String, DIR) var base_texture_path = "res://textures" setget set_base_tex
 # File extension appended to textures specified in the .map file
 export(String) var texture_extension = ".png"
 
+export(Script) var entity_mapper = QodotEntityMapper
+
 # Internal variables for calculating vertex winding
 var _winding_normal = Vector3.ZERO
 var _winding_basis = Vector3.ZERO
@@ -39,22 +41,6 @@ var _winding_basis = Vector3.ZERO
 
 ## Inheritance interface
 ## Override these functions to control game-specific tree population
-
-# Create and return a Node to represent the given .map classname
-func spawn_entity_node(classname: String) -> Node:
-	var node = null
-
-	if(classname.find("trigger") > -1):
-		node = QodotSpatial.new()
-		node.name = classname
-	elif(classname == "worldspawn"):
-		node = QodotSpatial.new()
-		node.name = classname
-	else:
-		node = Position3D.new()
-		node.name = classname
-
-	return node
 
 # Determine whether the given .map classname should create a mesh
 func should_spawn_brush_mesh(classname: String) -> bool:
@@ -78,59 +64,47 @@ func spawn_brush_collision_object(classname: String) -> CollisionObject:
 ## Setters
 func set_reload(new_reload):
 	if(reload != new_reload):
-		if(Engine.is_editor_hint()):
-			update_map()
+		update_map()
 
 func set_mode(new_mode):
 	if(mode != new_mode):
 		mode = new_mode
-
-		if(Engine.is_editor_hint()):
-			update_map()
+		update_map()
 
 func set_inverse_scale_factor(new_inverse_scale_factor):
 	if(inverse_scale_factor != new_inverse_scale_factor):
 		inverse_scale_factor = new_inverse_scale_factor
-
-		if(Engine.is_editor_hint()):
-			update_map()
+		update_map()
 
 func set_autoload_map_path(new_autoload_map_path):
 	if(autoload_map_path != new_autoload_map_path):
 		autoload_map_path = new_autoload_map_path
-
-		if(Engine.is_editor_hint()):
-			update_map()
+		update_map()
 
 func set_base_texture_path(new_base_texture_path):
 	if(base_texture_path != new_base_texture_path):
 		base_texture_path = new_base_texture_path
-
-		if(Engine.is_editor_hint()):
-			update_map()
+		update_map()
 
 func set_texture_extension(new_texture_extension):
 	if(texture_extension != new_texture_extension):
 		texture_extension = new_texture_extension
-
-		if(Engine.is_editor_hint()):
-			update_map()
+		update_map()
 
 ## Map autoload handler
 func update_map():
-	var autoload_map := load(autoload_map_path) as QuakeMap
-	set_map(autoload_map)
+	if(Engine.is_editor_hint()):
+		var autoload_map := load(autoload_map_path) as QuakeMap
+		set_map(autoload_map)
 
 ## Built-in overrides
 func _ready():
-	if(Engine.is_editor_hint()):
-		update_map()
+	update_map()
 
 ## Business logic
 # Clears any existing children,
 # then renders the provided QuakeMap into an entity/brush tree
 func set_map(map: QuakeMap):
-
 	if(map != null):
 		clear_map()
 
@@ -144,19 +118,22 @@ func set_map(map: QuakeMap):
 # Clears any existing children
 func clear_map():
 	for child in get_children():
-		print(child.get_type())
-		remove_child(child)
-		child.queue_free()
+		if(child.get_script() == QodotEntity):
+			remove_child(child)
+			child.queue_free()
 
 # Creates a node representation of an entity and its child brushes
 func create_entity(parent, entity):
-	var entity_node = null
+	var entity_node = QodotUtil.add_child_editor(parent, QodotEntity.new())
 
 	if("classname" in entity.properties):
 		var classname = entity.properties["classname"]
-		entity_node = spawn_entity_node(classname)
-	else:
-		entity_node.name = "Entity0"
+		entity_node.name = classname
+
+		if(entity_mapper != null):
+			var entity_spawned_node = entity_mapper.spawn_node_for_classname(classname)
+			if(entity_spawned_node != null):
+				QodotUtil.add_child_editor(entity_node, entity_spawned_node)
 
 	if("origin" in entity.properties):
 		entity_node.translation = entity.properties["origin"] / inverse_scale_factor
@@ -164,7 +141,8 @@ func create_entity(parent, entity):
 	if("angle" in entity.properties):
 		entity_node.rotation.y = deg2rad(180 + entity.properties["angle"])
 
-	QodotUtil.add_child_editor(parent, entity_node)
+	if("properties" in entity_node):
+		entity_node.properties = entity.properties
 
 	for brush in entity.brushes:
 		create_brush(entity_node, brush, entity.properties)

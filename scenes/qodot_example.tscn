@@ -1,7 +1,7 @@
 [gd_scene load_steps=82 format=2]
 
-[ext_resource path="res://addons/qodot/src/nodes/quake_map_node.gd" type="Script" id=1]
-[ext_resource path="res://addons/qodot/src/nodes/qodot_spatial.gd" type="Script" id=2]
+[ext_resource path="res://addons/qodot/src/nodes/qodot_map.gd" type="Script" id=1]
+[ext_resource path="res://addons/qodot/src/nodes/qodot_entity.gd" type="Script" id=2]
 [ext_resource path="res://textures/base/uv_test.png" type="Texture" id=3]
 [ext_resource path="res://textures/base/checkerboard.png" type="Texture" id=4]
 [ext_resource path="res://textures/base/uv_test_512.png" type="Texture" id=5]
@@ -1180,10 +1180,15 @@ shape = SubResource( 2 )
 [node name="Qodot Example" type="Spatial" parent="."]
 script = ExtResource( 1 )
 autoload_map_path = "res://scenes/qodot_example.map"
-base_texture_path = "res://textures"
 
 [node name="worldspawn" type="Spatial" parent="Qodot Example"]
 script = ExtResource( 2 )
+properties = {
+"_tb_def": "builtin:Qodot.fgd",
+"_tb_textures": "textures/base",
+"classname": "worldspawn",
+"message": "Qodot Example"
+}
 
 [node name="Brush0" type="MeshInstance" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 4, -2.5 )
@@ -1358,11 +1363,22 @@ material/5 = null
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush10/StaticBody"]
 shape = SubResource( 75 )
 
-[node name="example_player_start" type="Position3D" parent="Qodot Example"]
+[node name="example_player_start" type="Spatial" parent="Qodot Example"]
 transform = Transform( -0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 6.5, 2, -0.5 )
+script = ExtResource( 2 )
+properties = {
+"angle": 315.0,
+"classname": "example_player_start",
+"origin": Vector3( 104, 32, -8 )
+}
+
+[node name="Position3D" type="Position3D" parent="Qodot Example/example_player_start"]
 
 [node name="trigger" type="Spatial" parent="Qodot Example"]
 script = ExtResource( 2 )
+properties = {
+"classname": "trigger"
+}
 
 [node name="Brush0" type="Area" parent="Qodot Example/trigger"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 3, 0 )
