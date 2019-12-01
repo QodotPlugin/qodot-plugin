@@ -27,7 +27,7 @@ export(float) var inverse_scale_factor = 16.0 setget set_inverse_scale_factor
 export(String, FILE, "*.map") var autoload_map_path setget set_autoload_map_path
 
 # Base search path for textures specified in the .map file
-export(String, DIR) var base_texture_path = "res://addons/qodot/textures" setget set_base_texture_path
+export(String, DIR) var base_texture_path = "res://textures" setget set_base_texture_path
 
 # File extension appended to textures specified in the .map file
 export(String) var texture_extension = ".png"
@@ -144,6 +144,7 @@ func set_map(map: QuakeMap):
 # Clears any existing children
 func clear_map():
 	for child in get_children():
+		print(child.get_type())
 		remove_child(child)
 		child.queue_free()
 
