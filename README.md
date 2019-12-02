@@ -169,12 +169,12 @@ Qodot supports the full range of Quake-derived texture formats.
 | Format           | Geometry     | Textures     | UVs          | Extended face data | Collision | Entities |
 | :--------------- | :----------: | :----------: | :----------: | :----------------: | --------: | -------: |
 | Standard         | Yes          | Yes          | Yes          | N/A                | Yes       | Basic    |
+| Valve            | Yes          | Yes          | Yes          | N/A                | Yes       | Basic    |
 | Quake 2          | Yes          | Yes          | Yes          | Yes                | Yes       | Basic    |
 | Quake 3          | Yes          | Yes          | Yes          | Yes                | Yes       | Basic    |
 | Quake 3 (Legacy) | Yes          | Yes          | Yes          | Yes                | Yes       | Basic    |
 | Hexen 2          | Yes          | Yes          | Yes          | Yes                | Yes       | Basic    |
 | Daikatana        | Yes          | Yes          | Yes          | Yes                | Yes       | Basic    |
-| Valve            | Yes          | Yes          | Yes          | N/A                | Yes       | Basic    |
 
 [More information on the *.map* file spec can be found here.](http://www.gamers.org/dEngine/quake/QDP/qmapspec.html)
 
