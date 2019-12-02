@@ -164,19 +164,17 @@ Every *.map* file has a *worldspawn* entity by default, which is used to store a
 
 ### Compatibility
 
-Qodot was built using the output of TrenchBroom in Quake 1 Standard format as a reference, but is robust enough to support the minor syntactic differences of most variant formats.
+Qodot supports the full range of Quake-derived texture formats.
 
 | Format           | Geometry     | Textures     | UVs          | Extended face data | Collision | Entities |
 | :--------------- | :----------: | :----------: | :----------: | :----------------: | --------: | -------: |
 | Standard         | Yes          | Yes          | Yes          | N/A                | Yes       | Basic    |
-| Quake 2          | Yes          | Yes          | Yes          | No                 | Yes       | Basic    |
-| Quake 3          | Yes          | Yes          | Yes          | No                 | Yes       | Basic    |
-| Quake 3 (Legacy) | Yes          | Yes          | Yes          | No                 | Yes       | Basic    |
-| Hexen 2          | Yes          | Yes          | Yes          | No                 | Yes       | Basic    |
-| Daikatana        | Yes          | Yes          | Yes          | No                 | Yes       | Basic    |
-| Valve            | Yes          | Yes          | No           | Yes                | Yes       | Basic    |
-
-Valve format is the major outlier as of 1.1.0, since it uses a slightly different format for its texture UVs.
+| Quake 2          | Yes          | Yes          | Yes          | Yes                | Yes       | Basic    |
+| Quake 3          | Yes          | Yes          | Yes          | Yes                | Yes       | Basic    |
+| Quake 3 (Legacy) | Yes          | Yes          | Yes          | Yes                | Yes       | Basic    |
+| Hexen 2          | Yes          | Yes          | Yes          | Yes                | Yes       | Basic    |
+| Daikatana        | Yes          | Yes          | Yes          | Yes                | Yes       | Basic    |
+| Valve            | Yes          | Yes          | Yes          | N/A                | Yes       | Basic    |
 
 [More information on the *.map* file spec can be found here.](http://www.gamers.org/dEngine/quake/QDP/qmapspec.html)
 
