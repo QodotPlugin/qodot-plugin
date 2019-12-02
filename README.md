@@ -199,3 +199,11 @@ The Qodot profile can be copied for use as the basis of a game-specific profile,
 #### Note
 
 TrenchBroom will create an 'autosaves' folder containing map backups alongside any maps you edit with it, so make sure to create a .gdignore file within to prevent Godot from repeatedly importing several versions of the same map.
+
+## Credits
+
+Kristian Duske - For creating TrenchBroom and inspiring the creation of Qodot
+
+Arkii - For example code and handy documentation of the Valve 220 format
+
+therektafire - For bits and bobs on Valve 220, SKIP/CLIP, and occlusion culling
