@@ -22,8 +22,6 @@ func get_resource_type():
 func get_preset_count():
 	return QodotEnums.Presets.size()
 
-# Only supports standard-format Quake 1 maps for now,
-# but any extensions should be implemented using presets
 func get_preset_name(preset):
 	match preset:
 		QodotEnums.Presets.PRESET_STANDARD:
