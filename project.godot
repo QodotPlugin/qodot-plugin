@@ -117,7 +117,7 @@ _global_script_class_icons={
 "QuakeMapImportPlugin": "",
 "QuakeMapReader": "",
 "QuakePlane": "",
-"QuakePlaneAxes": "res://addons/Qodot/Icons/icon_qodot_spatial.svg"
+"QuakePlaneAxes": "res://addons/qodot/icons/icon_qodot_spatial.svg"
 }
 
 [application]
