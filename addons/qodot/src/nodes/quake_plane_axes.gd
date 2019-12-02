@@ -1,4 +1,4 @@
-class_name QuakePlaneAxes, 'res://addons/Qodot/Icons/icon_qodot_spatial.svg'
+class_name QuakePlaneAxes, 'res://addons/qodot/icons/icon_qodot_spatial.svg'
 extends ImmediateGeometry
 tool
 
