@@ -1,10 +1,11 @@
-[gd_scene load_steps=344 format=2]
+[gd_scene load_steps=349 format=2]
 
 [ext_resource path="res://addons/qodot/src/nodes/qodot_map.gd" type="Script" id=1]
 [ext_resource path="res://addons/qodot/src/nodes/qodot_entity.gd" type="Script" id=2]
 [ext_resource path="res://addons/qodot/src/nodes/qodot_brush.gd" type="Script" id=3]
 [ext_resource path="res://textures/base/checkerboard.png" type="Texture" id=4]
-[ext_resource path="res://textures/base/uv_test_512.png" type="Texture" id=5]
+[ext_resource path="res://textures/special/skip.png" type="Texture" id=5]
+[ext_resource path="res://textures/base/uv_test_512.png" type="Texture" id=6]
 
 [sub_resource type="Environment" id=1]
 background_mode = 1
@@ -49,7 +50,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=7]
-albedo_texture = ExtResource( 4 )
+albedo_texture = ExtResource( 5 )
 
 [sub_resource type="ArrayMesh" id=8]
 surfaces/0 = {
@@ -154,7 +155,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=20]
-albedo_texture = ExtResource( 4 )
+albedo_texture = ExtResource( 5 )
 
 [sub_resource type="ArrayMesh" id=21]
 surfaces/0 = {
@@ -767,7 +768,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=96]
-albedo_texture = ExtResource( 4 )
+albedo_texture = ExtResource( 5 )
 
 [sub_resource type="ArrayMesh" id=97]
 surfaces/0 = {
@@ -977,7 +978,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=122]
-albedo_texture = ExtResource( 4 )
+albedo_texture = ExtResource( 5 )
 
 [sub_resource type="ArrayMesh" id=123]
 surfaces/0 = {
@@ -1011,7 +1012,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=126]
-albedo_texture = ExtResource( 4 )
+albedo_texture = ExtResource( 5 )
 
 [sub_resource type="ArrayMesh" id=127]
 surfaces/0 = {
@@ -1031,7 +1032,7 @@ surfaces/0 = {
 points = PoolVector3Array( 2, 0.666667, 0.333333, -2, 0.666667, 0.333333, -2, -0.333333, -0.666667, 2, -0.333333, -0.666667, -2, -0.333333, 0.333333, -2, -0.333333, -0.666667, -2, 0.666667, 0.333333, 2, -0.333333, -0.666667, -2, -0.333333, -0.666667, -2, -0.333333, 0.333333, 2, -0.333333, 0.333333, 2, 0.666667, 0.333333, 2, -0.333333, -0.666667, 2, -0.333333, 0.333333, -2, -0.333333, 0.333333, -2, 0.666667, 0.333333, 2, 0.666667, 0.333333, 2, -0.333333, 0.333333 )
 
 [sub_resource type="SpatialMaterial" id=129]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=130]
 surfaces/0 = {
@@ -1048,7 +1049,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=131]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=132]
 surfaces/0 = {
@@ -1082,7 +1083,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=135]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=136]
 surfaces/0 = {
@@ -1099,7 +1100,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=137]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=138]
 surfaces/0 = {
@@ -1116,7 +1117,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=139]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=140]
 surfaces/0 = {
@@ -1204,7 +1205,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=150]
-albedo_texture = ExtResource( 4 )
+albedo_texture = ExtResource( 5 )
 
 [sub_resource type="ArrayMesh" id=151]
 surfaces/0 = {
@@ -1499,7 +1500,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=186]
-albedo_texture = ExtResource( 4 )
+albedo_texture = ExtResource( 5 )
 
 [sub_resource type="ArrayMesh" id=187]
 surfaces/0 = {
@@ -1672,7 +1673,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=207]
-albedo_texture = ExtResource( 4 )
+albedo_texture = ExtResource( 5 )
 
 [sub_resource type="ArrayMesh" id=208]
 surfaces/0 = {
@@ -1794,7 +1795,7 @@ surfaces/0 = {
 points = PoolVector3Array( 0.974027, 1.44026, -0.874458, 0.974026, 1.44026, -0.874458, 0.974026, 1.44026, -0.87446, -1.02597, 1.44026, -0.874458, -1.02598, 1.44026, -0.87446, -1.02597, -2.55974, -0.874458, 0.974026, -2.55974, -0.874458, -1.02597, -2.55974, -0.874458, -1.02597, 1.44026, -0.87446, -1.02598, 1.44026, -0.87446, -1.02597, 1.44026, -0.874458, -2.02597, 0.440259, 0.12554, -2.02597, -2.55974, 0.12554, 0.974027, 1.44026, -0.874458, 0.974026, 1.44026, -0.874458, 0.974026, 1.44026, -0.87446, 0.974026, -2.55974, -0.874458, 1.97403, -2.55974, 0.125542, 1.97403, 0.44026, 0.125542, -2.02597, 0.440259, 0.12554, -1.02598, 1.44026, -0.87446, -1.02597, 1.44026, -0.87446, -1.02597, 1.44026, -0.874458, -1.02597, 1.44026, 0.12554, -1.52597, 0.940259, 0.625542, 0.974026, -2.55974, 1.12554, 1.97403, -2.55974, 0.125542, 0.974026, -2.55974, -0.874458, -1.02597, -2.55974, -0.874458, -2.02597, -2.55974, 0.12554, -1.02597, -2.55974, 1.12554, 0.974027, 1.44026, 0.12554, -1.02597, 1.44026, 0.12554, -1.02597, 1.44026, -0.874458, -1.02597, 1.44026, -0.87446, 0.974026, 1.44026, -0.874458, 0.974027, 1.44026, -0.874458, 0.974027, 1.44026, -0.874458, 1.47403, 0.94026, 0.62554, 0.974027, 1.44026, 0.12554, 0.974026, 1.44026, -0.87446, 0.974027, 1.44026, -0.874458, 0.974027, 1.44026, -0.874458, 1.97403, 0.44026, 0.125542, -1.02597, -2.55974, 1.12554, -2.02597, -2.55974, 0.12554, -2.02597, 0.440259, 0.12554, -1.52597, 0.940259, 0.625542, -1.02597, 0.440259, 1.12554, -1.02597, 0.440259, 1.12554, -1.52597, 0.940259, 0.625542, -1.02597, 1.44026, 0.12554, 0.974027, 1.44026, 0.12554, 1.47403, 0.94026, 0.62554, 0.974025, 0.440261, 1.12554, 1.47403, 0.94026, 0.62554, 1.97403, 0.44026, 0.125542, 1.97403, -2.55974, 0.125542, 0.974026, -2.55974, 1.12554, 0.974025, 0.440261, 1.12554, 0.974026, -2.55974, 1.12554, -1.02597, -2.55974, 1.12554, -1.02597, 0.440259, 1.12554, 0.974025, 0.440261, 1.12554 )
 
 [sub_resource type="SpatialMaterial" id=222]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=223]
 surfaces/0 = {
@@ -1811,7 +1812,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=224]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=225]
 surfaces/0 = {
@@ -1845,7 +1846,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=228]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=229]
 surfaces/0 = {
@@ -1862,7 +1863,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=230]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=231]
 surfaces/0 = {
@@ -1879,7 +1880,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=232]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=233]
 surfaces/0 = {
@@ -1899,7 +1900,7 @@ surfaces/0 = {
 points = PoolVector3Array( -0.5, 1.5, -0.5, -0.5, -1.5, -0.5, 0.5, -1.5, -0.5, 0.5, 1.5, -0.5, -0.5, -1.5, 0.5, -0.5, -1.5, -0.5, -0.5, 1.5, -0.5, -0.5, 1.5, 0.5, 0.5, -1.5, -0.5, -0.5, -1.5, -0.5, -0.5, -1.5, 0.5, 0.5, -1.5, 0.5, -0.5, 1.5, 0.5, -0.5, 1.5, -0.5, 0.5, 1.5, -0.5, 0.5, 1.5, 0.5, 0.5, 1.5, -0.5, 0.5, -1.5, -0.5, 0.5, -1.5, 0.5, 0.5, 1.5, 0.5, 0.5, -1.5, 0.5, -0.5, -1.5, 0.5, -0.5, 1.5, 0.5, 0.5, 1.5, 0.5 )
 
 [sub_resource type="SpatialMaterial" id=235]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=236]
 surfaces/0 = {
@@ -1916,7 +1917,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=237]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=238]
 surfaces/0 = {
@@ -1933,7 +1934,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=239]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=240]
 surfaces/0 = {
@@ -1950,7 +1951,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=241]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=242]
 surfaces/0 = {
@@ -1967,7 +1968,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=243]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=244]
 surfaces/0 = {
@@ -1984,7 +1985,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=245]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=246]
 surfaces/0 = {
@@ -2004,7 +2005,7 @@ surfaces/0 = {
 points = PoolVector3Array( -0.5, 0.5, -13.5, -0.5, -0.5, -13.5, 0.5, -0.5, -13.5, 0.5, 0.5, -13.5, -0.5, 0.5, 13.5, -0.5, -0.5, 13.5, -0.5, -0.5, -13.5, -0.5, 0.5, -13.5, 0.5, -0.5, -13.5, -0.5, -0.5, -13.5, -0.5, -0.5, 13.5, 0.5, -0.5, 13.5, 0.5, 0.5, 13.5, -0.5, 0.5, 13.5, -0.5, 0.5, -13.5, 0.5, 0.5, -13.5, 0.5, 0.5, -13.5, 0.5, -0.5, -13.5, 0.5, -0.5, 13.5, 0.5, 0.5, 13.5, 0.5, -0.5, 13.5, -0.5, -0.5, 13.5, -0.5, 0.5, 13.5, 0.5, 0.5, 13.5 )
 
 [sub_resource type="SpatialMaterial" id=248]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=249]
 surfaces/0 = {
@@ -2021,7 +2022,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=250]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=251]
 surfaces/0 = {
@@ -2038,7 +2039,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=252]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=253]
 surfaces/0 = {
@@ -2055,7 +2056,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=254]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=255]
 surfaces/0 = {
@@ -2072,7 +2073,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=256]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=257]
 surfaces/0 = {
@@ -2089,7 +2090,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=258]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=259]
 surfaces/0 = {
@@ -2109,7 +2110,7 @@ surfaces/0 = {
 points = PoolVector3Array( 15.5, 0.5, -0.5, -15.5, 0.5, -0.5, -15.5, -0.5, -0.5, 15.5, -0.5, -0.5, -15.5, -0.5, 0.5, -15.5, -0.5, -0.5, -15.5, 0.5, -0.5, -15.5, 0.5, 0.5, 15.5, -0.5, -0.5, -15.5, -0.5, -0.5, -15.5, -0.5, 0.5, 15.5, -0.5, 0.5, 15.5, 0.5, 0.5, -15.5, 0.5, 0.5, -15.5, 0.5, -0.5, 15.5, 0.5, -0.5, 15.5, 0.5, -0.5, 15.5, -0.5, -0.5, 15.5, -0.5, 0.5, 15.5, 0.5, 0.5, 15.5, -0.5, 0.5, -15.5, -0.5, 0.5, -15.5, 0.5, 0.5, 15.5, 0.5, 0.5 )
 
 [sub_resource type="SpatialMaterial" id=261]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=262]
 surfaces/0 = {
@@ -2126,7 +2127,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=263]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=264]
 surfaces/0 = {
@@ -2160,7 +2161,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=267]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=268]
 surfaces/0 = {
@@ -2177,7 +2178,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=269]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=270]
 surfaces/0 = {
@@ -2194,7 +2195,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=271]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=272]
 surfaces/0 = {
@@ -2214,7 +2215,7 @@ surfaces/0 = {
 points = PoolVector3Array( -0.5, 1.5, -0.5, -0.5, -1.5, -0.5, 0.5, -1.5, -0.5, 0.5, 1.5, -0.5, -0.5, -1.5, 0.5, -0.5, -1.5, -0.5, -0.5, 1.5, -0.5, -0.5, 1.5, 0.5, 0.5, -1.5, -0.5, -0.5, -1.5, -0.5, -0.5, -1.5, 0.5, 0.5, -1.5, 0.5, -0.5, 1.5, 0.5, -0.5, 1.5, -0.5, 0.5, 1.5, -0.5, 0.5, 1.5, 0.5, 0.5, 1.5, -0.5, 0.5, -1.5, -0.5, 0.5, -1.5, 0.5, 0.5, 1.5, 0.5, 0.5, -1.5, 0.5, -0.5, -1.5, 0.5, -0.5, 1.5, 0.5, 0.5, 1.5, 0.5 )
 
 [sub_resource type="SpatialMaterial" id=274]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=275]
 surfaces/0 = {
@@ -2231,7 +2232,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=276]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=277]
 surfaces/0 = {
@@ -2265,7 +2266,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=280]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=281]
 surfaces/0 = {
@@ -2282,7 +2283,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=282]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=283]
 surfaces/0 = {
@@ -2299,7 +2300,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=284]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=285]
 surfaces/0 = {
@@ -2319,7 +2320,7 @@ surfaces/0 = {
 points = PoolVector3Array( -0.5, 1.5, -0.5, -0.5, -1.5, -0.5, 0.5, -1.5, -0.5, 0.5, 1.5, -0.5, -0.5, -1.5, 0.5, -0.5, -1.5, -0.5, -0.5, 1.5, -0.5, -0.5, 1.5, 0.5, 0.5, -1.5, -0.5, -0.5, -1.5, -0.5, -0.5, -1.5, 0.5, 0.5, -1.5, 0.5, -0.5, 1.5, 0.5, -0.5, 1.5, -0.5, 0.5, 1.5, -0.5, 0.5, 1.5, 0.5, 0.5, 1.5, -0.5, 0.5, -1.5, -0.5, 0.5, -1.5, 0.5, 0.5, 1.5, 0.5, 0.5, -1.5, 0.5, -0.5, -1.5, 0.5, -0.5, 1.5, 0.5, 0.5, 1.5, 0.5 )
 
 [sub_resource type="SpatialMaterial" id=287]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=288]
 surfaces/0 = {
@@ -2336,7 +2337,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=289]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=290]
 surfaces/0 = {
@@ -2353,7 +2354,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=291]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=292]
 surfaces/0 = {
@@ -2370,7 +2371,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=293]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=294]
 surfaces/0 = {
@@ -2387,7 +2388,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=295]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=296]
 surfaces/0 = {
@@ -2404,7 +2405,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=297]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=298]
 surfaces/0 = {
@@ -2424,7 +2425,7 @@ surfaces/0 = {
 points = PoolVector3Array( -0.5, 0.5, -13.5, -0.5, -0.5, -13.5, 0.5, -0.5, -13.5, 0.5, 0.5, -13.5, -0.5, 0.5, 13.5, -0.5, -0.5, 13.5, -0.5, -0.5, -13.5, -0.5, 0.5, -13.5, 0.5, -0.5, -13.5, -0.5, -0.5, -13.5, -0.5, -0.5, 13.5, 0.5, -0.5, 13.5, 0.5, 0.5, 13.5, -0.5, 0.5, 13.5, -0.5, 0.5, -13.5, 0.5, 0.5, -13.5, 0.5, 0.5, -13.5, 0.5, -0.5, -13.5, 0.5, -0.5, 13.5, 0.5, 0.5, 13.5, 0.5, -0.5, 13.5, -0.5, -0.5, 13.5, -0.5, 0.5, 13.5, 0.5, 0.5, 13.5 )
 
 [sub_resource type="SpatialMaterial" id=300]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=301]
 surfaces/0 = {
@@ -2441,7 +2442,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=302]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=303]
 surfaces/0 = {
@@ -2475,7 +2476,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=306]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=307]
 surfaces/0 = {
@@ -2492,7 +2493,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=308]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=309]
 surfaces/0 = {
@@ -2509,7 +2510,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=310]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=311]
 surfaces/0 = {
@@ -2529,7 +2530,7 @@ surfaces/0 = {
 points = PoolVector3Array( -0.5, 1.5, -0.5, -0.5, -1.5, -0.5, 0.5, -1.5, -0.5, 0.5, 1.5, -0.5, -0.5, -1.5, 0.5, -0.5, -1.5, -0.5, -0.5, 1.5, -0.5, -0.5, 1.5, 0.5, 0.5, -1.5, -0.5, -0.5, -1.5, -0.5, -0.5, -1.5, 0.5, 0.5, -1.5, 0.5, -0.5, 1.5, 0.5, -0.5, 1.5, -0.5, 0.5, 1.5, -0.5, 0.5, 1.5, 0.5, 0.5, 1.5, -0.5, 0.5, -1.5, -0.5, 0.5, -1.5, 0.5, 0.5, 1.5, 0.5, 0.5, -1.5, 0.5, -0.5, -1.5, 0.5, -0.5, 1.5, 0.5, 0.5, 1.5, 0.5 )
 
 [sub_resource type="SpatialMaterial" id=313]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=314]
 surfaces/0 = {
@@ -2546,7 +2547,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=315]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=316]
 surfaces/0 = {
@@ -2563,7 +2564,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=317]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=318]
 surfaces/0 = {
@@ -2580,7 +2581,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=319]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=320]
 surfaces/0 = {
@@ -2597,7 +2598,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=321]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=322]
 surfaces/0 = {
@@ -2614,7 +2615,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=323]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=324]
 surfaces/0 = {
@@ -2634,7 +2635,7 @@ surfaces/0 = {
 points = PoolVector3Array( -11, 0.5, -0.5, -11, -0.5, -0.5, 11, -0.5, -0.5, 11, 0.5, -0.5, -11, -0.5, 0.5, -11, -0.5, -0.5, -11, 0.5, -0.5, -11, 0.5, 0.5, 11, -0.5, -0.5, -11, -0.5, -0.5, -11, -0.5, 0.5, 11, -0.5, 0.5, -11, 0.5, 0.5, -11, 0.5, -0.5, 11, 0.5, -0.5, 11, 0.5, 0.5, 11, 0.5, -0.5, 11, -0.5, -0.5, 11, -0.5, 0.5, 11, 0.5, 0.5, 11, -0.5, 0.5, -11, -0.5, 0.5, -11, 0.5, 0.5, 11, 0.5, 0.5 )
 
 [sub_resource type="SpatialMaterial" id=326]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=327]
 surfaces/0 = {
@@ -2651,7 +2652,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=328]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=329]
 surfaces/0 = {
@@ -2685,7 +2686,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=332]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=333]
 surfaces/0 = {
@@ -2702,7 +2703,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=334]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=335]
 surfaces/0 = {
@@ -2719,7 +2720,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=336]
-albedo_texture = ExtResource( 5 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="ArrayMesh" id=337]
 surfaces/0 = {
@@ -2737,6 +2738,18 @@ surfaces/0 = {
 
 [sub_resource type="ConvexPolygonShape" id=338]
 points = PoolVector3Array( -0.5, 1.5, -0.5, -0.5, -1.5, -0.5, 0.5, -1.5, -0.5, 0.5, 1.5, -0.5, -0.5, -1.5, 0.5, -0.5, -1.5, -0.5, -0.5, 1.5, -0.5, -0.5, 1.5, 0.5, 0.5, -1.5, -0.5, -0.5, -1.5, -0.5, -0.5, -1.5, 0.5, 0.5, -1.5, 0.5, -0.5, 1.5, 0.5, -0.5, 1.5, -0.5, 0.5, 1.5, -0.5, 0.5, 1.5, 0.5, 0.5, 1.5, -0.5, 0.5, -1.5, -0.5, 0.5, -1.5, 0.5, 0.5, 1.5, 0.5, 0.5, -1.5, 0.5, -0.5, -1.5, 0.5, -0.5, 1.5, 0.5, 0.5, 1.5, 0.5 )
+
+[sub_resource type="ConvexPolygonShape" id=339]
+points = PoolVector3Array( -11.5, 8, -0.5, -11.5, -8, -0.5, 11.5, -8, -0.5, 11.5, 8, -0.5, -11.5, -8, 0.5, -11.5, -8, -0.5, -11.5, 8, -0.5, -11.5, 8, 0.5, 11.5, -8, -0.5, -11.5, -8, -0.5, -11.5, -8, 0.5, 11.5, -8, 0.5, -11.5, 8, 0.5, -11.5, 8, -0.5, 11.5, 8, -0.5, 11.5, 8, 0.5, 11.5, 8, -0.5, 11.5, -8, -0.5, 11.5, -8, 0.5, 11.5, 8, 0.5, 11.5, -8, 0.5, -11.5, -8, 0.5, -11.5, 8, 0.5, 11.5, 8, 0.5 )
+
+[sub_resource type="ConvexPolygonShape" id=340]
+points = PoolVector3Array( -0.5, 8, -13.5, -0.5, -8, -13.5, 0.5, -8, -13.5, 0.5, 8, -13.5, -0.5, -8, 13.5, -0.5, -8, -13.5, -0.5, 8, -13.5, -0.5, 8, 13.5, 0.5, -8, -13.5, -0.5, -8, -13.5, -0.5, -8, 13.5, 0.5, -8, 13.5, 0.5, 8, 13.5, -0.5, 8, 13.5, -0.5, 8, -13.5, 0.5, 8, -13.5, 0.5, 8, -13.5, 0.5, -8, -13.5, 0.5, -8, 13.5, 0.5, 8, 13.5, 0.5, -8, 13.5, -0.5, -8, 13.5, -0.5, 8, 13.5, 0.5, 8, 13.5 )
+
+[sub_resource type="ConvexPolygonShape" id=341]
+points = PoolVector3Array( -15.5, 8, -0.5, -15.5, -8, -0.5, 15.5, -8, -0.5, 15.5, 8, -0.5, -15.5, -8, 0.5, -15.5, -8, -0.5, -15.5, 8, -0.5, -15.5, 8, 0.5, 15.5, -8, -0.5, -15.5, -8, -0.5, -15.5, -8, 0.5, 15.5, -8, 0.5, 15.5, 8, 0.5, -15.5, 8, 0.5, -15.5, 8, -0.5, 15.5, 8, -0.5, 15.5, 8, -0.5, 15.5, -8, -0.5, 15.5, -8, 0.5, 15.5, 8, 0.5, 15.5, -8, 0.5, -15.5, -8, 0.5, -15.5, 8, 0.5, 15.5, 8, 0.5 )
+
+[sub_resource type="ConvexPolygonShape" id=342]
+points = PoolVector3Array( -0.5, 8, -14, -0.5, -8, -14, 0.5, -8, -14, 0.5, 8, -14, -0.5, -8, 14, -0.5, -8, -14, -0.5, 8, -14, -0.5, 8, 14, 0.5, -8, 14, 0.5, -8, -14, -0.5, -8, -14, -0.5, -8, 14, -0.5, 8, 14, -0.5, 8, -14, 0.5, 8, -14, 0.5, 8, 14, 0.5, 8, 14, 0.5, 8, -14, 0.5, -8, -14, 0.5, -8, 14, 0.5, -8, 14, -0.5, -8, 14, -0.5, 8, 14, 0.5, 8, 14 )
 
 [node name="Node" type="Node"]
 
@@ -2816,16 +2829,15 @@ script = ExtResource( 1 )
 autoload_map_path = "res://scenes/qodot_example.map"
 
 [node name="worldspawn" type="Spatial" parent="Qodot Example"]
-editor/display_folded = true
 script = ExtResource( 2 )
 properties = {
-"_tb_textures": "textures/base",
+"_tb_def": "builtin:Qodot.fgd",
+"_tb_textures": "textures/base;textures/special",
 "classname": "worldspawn",
 "mapversion": "220"
 }
 
 [node name="Brush0" type="Spatial" parent="Qodot Example/worldspawn"]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 0, -10.5 )
 script = ExtResource( 3 )
 
@@ -2865,7 +2877,6 @@ material/0 = null
 shape = SubResource( 15 )
 
 [node name="Brush1" type="Spatial" parent="Qodot Example/worldspawn"]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.49976, 2.5, -11 )
 script = ExtResource( 3 )
 
@@ -2905,7 +2916,6 @@ material/0 = null
 shape = SubResource( 28 )
 
 [node name="Brush2" type="Spatial" parent="Qodot Example/worldspawn"]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.99997, 5.5, -11 )
 script = ExtResource( 3 )
 
@@ -2945,7 +2955,6 @@ material/0 = null
 shape = SubResource( 41 )
 
 [node name="Brush3" type="Spatial" parent="Qodot Example/worldspawn"]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 8, -11 )
 script = ExtResource( 3 )
 
@@ -2985,7 +2994,6 @@ material/0 = null
 shape = SubResource( 54 )
 
 [node name="Brush4" type="Spatial" parent="Qodot Example/worldspawn"]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13.005, 9.59333, -10.76 )
 script = ExtResource( 3 )
 
@@ -3020,7 +3028,6 @@ material/0 = null
 shape = SubResource( 65 )
 
 [node name="Brush5" type="Spatial" parent="Qodot Example/worldspawn"]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17.4667, 7.93333, -11.2 )
 script = ExtResource( 3 )
 
@@ -3060,7 +3067,6 @@ material/0 = null
 shape = SubResource( 78 )
 
 [node name="Brush6" type="Spatial" parent="Qodot Example/worldspawn"]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20.0004, 5.5, -11 )
 script = ExtResource( 3 )
 
@@ -3100,7 +3106,6 @@ material/0 = null
 shape = SubResource( 91 )
 
 [node name="Brush7" type="Spatial" parent="Qodot Example/worldspawn"]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.5001, 2.5, -11 )
 script = ExtResource( 3 )
 
@@ -3140,7 +3145,6 @@ material/0 = null
 shape = SubResource( 104 )
 
 [node name="Brush8" type="Spatial" parent="Qodot Example/worldspawn"]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 7, 15 )
 script = ExtResource( 3 )
 
@@ -3180,7 +3184,6 @@ material/0 = null
 shape = SubResource( 117 )
 
 [node name="Brush9" type="Spatial" parent="Qodot Example/worldspawn"]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 7.33333, 10.6667 )
 script = ExtResource( 3 )
 
@@ -3215,7 +3218,6 @@ material/0 = null
 shape = SubResource( 128 )
 
 [node name="Brush10" type="Spatial" parent="Qodot Example/worldspawn"]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 4, 6.99954 )
 script = ExtResource( 3 )
 
@@ -3255,7 +3257,6 @@ material/0 = null
 shape = SubResource( 141 )
 
 [node name="Brush11" type="Spatial" parent="Qodot Example/worldspawn"]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 3.5, -21 )
 script = ExtResource( 3 )
 
@@ -3315,7 +3316,6 @@ material/0 = null
 shape = SubResource( 162 )
 
 [node name="Brush12" type="Spatial" parent="Qodot Example/worldspawn"]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 3, -20 )
 script = ExtResource( 3 )
 
@@ -3355,7 +3355,6 @@ material/0 = null
 shape = SubResource( 175 )
 
 [node name="Brush13" type="Spatial" parent="Qodot Example/worldspawn"]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.02273, 3.59372, -21.8831 )
 script = ExtResource( 3 )
 
@@ -3420,7 +3419,6 @@ material/0 = null
 shape = SubResource( 198 )
 
 [node name="Brush14" type="Spatial" parent="Qodot Example/worldspawn"]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.02597, 3.55974, -18.1255 )
 script = ExtResource( 3 )
 
@@ -3485,7 +3483,6 @@ material/0 = null
 shape = SubResource( 221 )
 
 [node name="Brush15" type="Spatial" parent="Qodot Example/worldspawn"]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 2.5, 3.5 )
 script = ExtResource( 3 )
 
@@ -3525,7 +3522,6 @@ material/0 = null
 shape = SubResource( 234 )
 
 [node name="Brush16" type="Spatial" parent="Qodot Example/worldspawn"]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 3.5, -10.5 )
 script = ExtResource( 3 )
 
@@ -3565,7 +3561,6 @@ material/0 = null
 shape = SubResource( 247 )
 
 [node name="Brush17" type="Spatial" parent="Qodot Example/worldspawn"]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 3.5, -24.5 )
 script = ExtResource( 3 )
 
@@ -3605,7 +3600,6 @@ material/0 = null
 shape = SubResource( 260 )
 
 [node name="Brush18" type="Spatial" parent="Qodot Example/worldspawn"]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 2.5, -24.5 )
 script = ExtResource( 3 )
 
@@ -3838,3 +3832,39 @@ material/0 = null
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush23/StaticBody"]
 shape = SubResource( 338 )
+
+[node name="Brush24" type="Spatial" parent="Qodot Example/worldspawn"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 12, 3.5 )
+script = ExtResource( 3 )
+
+[node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush24"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush24/StaticBody"]
+shape = SubResource( 339 )
+
+[node name="Brush25" type="Spatial" parent="Qodot Example/worldspawn"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 12, -10.5 )
+script = ExtResource( 3 )
+
+[node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush25"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush25/StaticBody"]
+shape = SubResource( 340 )
+
+[node name="Brush26" type="Spatial" parent="Qodot Example/worldspawn"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 12, -24.5 )
+script = ExtResource( 3 )
+
+[node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush26"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush26/StaticBody"]
+shape = SubResource( 341 )
+
+[node name="Brush27" type="Spatial" parent="Qodot Example/worldspawn"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 12, -10 )
+script = ExtResource( 3 )
+
+[node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush27"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush27/StaticBody"]
+shape = SubResource( 342 )

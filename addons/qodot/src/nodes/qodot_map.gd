@@ -43,8 +43,30 @@ var _winding_basis = Vector3.ZERO
 ## Override these functions to control game-specific tree population
 
 # Determine whether the given .map classname should create a mesh
-func should_spawn_brush_mesh(classname: String) -> bool:
-	return classname.find('trigger') == -1
+func should_spawn_brush_mesh(brush: QuakeBrush, parent_entity: QuakeEntity) -> bool:
+	# Don't spawn collision if the brush is textured entirely with CLIP
+	var is_clip = true
+	for plane in brush.planes:
+		if(plane.texture.find('clip') == -1):
+			is_clip = false
+
+	if(is_clip):
+		return false
+
+	# Classname-specific behavior
+	if('classname' in parent_entity.properties):
+		# Don't spawn collision for trigger brushes
+		return parent_entity.properties['classname'].find('trigger') == -1
+
+	# Default to true for entities with empty classnames
+	return true
+
+func should_spawn_face_mesh(plane: QuakePlane, parent_brush: QuakeBrush, parent_entity: QuakeEntity) -> bool:
+	# Don't spawn a mesh if the face is textured with SKIP
+	if(plane.texture.find('skip') > -1):
+		return false
+
+	return true
 
 # Determine whether the given .map classname should create a collision object
 func should_spawn_brush_collision(classname: String) -> bool:
@@ -123,8 +145,8 @@ func clear_map():
 			child.queue_free()
 
 # Creates a node representation of an entity and its child brushes
-func create_entity(parent, entity):
-	var entity_node = QodotUtil.add_child_editor(parent, QodotEntity.new())
+func create_entity(parent_map_node, entity):
+	var entity_node = QodotUtil.add_child_editor(parent_map_node, QodotEntity.new())
 
 	if('classname' in entity.properties):
 		entity_node.name = entity.properties['classname']
@@ -144,10 +166,10 @@ func create_entity(parent, entity):
 			QodotUtil.add_child_editor(entity_node, entity_spawned_node)
 
 	for brush in entity.brushes:
-		create_brush(entity_node, brush, entity.properties)
+		create_brush(entity_node, brush, entity)
 
 # Creates a node representation of a brush
-func create_brush(parent, brush, properties):
+func create_brush(parent_entity_node, brush, parent_entity):
 	var planes = brush.planes
 	var face_vertices = find_face_vertices(planes)
 	var face_normals = find_face_normals(planes)
@@ -161,7 +183,7 @@ func create_brush(parent, brush, properties):
 		brush_center += center
 	brush_center /= face_centers.size()
 
-	var brush_node = QodotUtil.add_child_editor(parent, QodotBrush.new())
+	var brush_node = QodotUtil.add_child_editor(parent_entity_node, QodotBrush.new())
 	brush_node.name = 'Brush0'
 	brush_node.translation = brush_center
 
@@ -190,71 +212,71 @@ func create_brush(parent, brush, properties):
 
 		Mode.BRUSH_MESHES:
 			var classname = null
-			if('classname' in properties):
-				classname = properties['classname']
+			if('classname' in parent_entity.properties):
+				classname = parent_entity.properties['classname']
 
-			if(should_spawn_brush_mesh(classname)):
-				# Create mesh
+			if(should_spawn_brush_mesh(brush, parent_entity)):
 				for plane_idx in sorted_local_face_vertices:
 					var plane = planes[plane_idx]
-					var vertices = sorted_local_face_vertices[plane_idx]
+					if(should_spawn_face_mesh(plane, brush, parent_entity)):
+						var vertices = sorted_local_face_vertices[plane_idx]
 
-					var surface_tool = SurfaceTool.new()
-					surface_tool.begin(Mesh.PRIMITIVE_TRIANGLE_FAN)
+						var surface_tool = SurfaceTool.new()
+						surface_tool.begin(Mesh.PRIMITIVE_TRIANGLE_FAN)
 
-					var normal = face_normals[plane_idx]
-					surface_tool.add_normal(normal)
+						var normal = face_normals[plane_idx]
+						surface_tool.add_normal(normal)
 
 
-					var texture = null
-					if(plane.texture != TEXTURE_EMPTY):
-						var texturePath = base_texture_path + '/' + plane.texture + texture_extension
-						texture = load(texturePath)
+						var texture = null
+						if(plane.texture != TEXTURE_EMPTY):
+							var texturePath = base_texture_path + '/' + plane.texture + texture_extension
+							texture = load(texturePath)
 
-						if(texture != null):
-							var spatial_material = SpatialMaterial.new()
-							spatial_material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, texture)
-							surface_tool.set_material(spatial_material)
+							if(texture != null):
+								var spatial_material = SpatialMaterial.new()
+								spatial_material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, texture)
+								surface_tool.set_material(spatial_material)
 
-					var vertex_idx = 0
-					for vertex in vertices:
-						surface_tool.add_index(vertex_idx)
+						var vertex_idx = 0
+						for vertex in vertices:
+							surface_tool.add_index(vertex_idx)
 
-						var global_vertex = face_centers[plane_idx] + vertex
+							var global_vertex = face_centers[plane_idx] + vertex
 
-						if(texture != null):
-							var uv = null
+							if(texture != null):
+								var uv = null
 
-							if(plane.uv.size() == 2):
-								uv = get_standard_uv(
-										global_vertex,
-										normal,
-										texture,
-										plane.uv,
-										plane.rotation,
-										plane.scale
-									)
-							elif(plane.uv.size() == 8):
-								uv = get_valve_uv(
-										global_vertex,
-										normal,
-										texture,
-										plane.uv,
-										plane.rotation,
-										plane.scale
-									)
+								if(plane.uv.size() == 2):
+									uv = get_standard_uv(
+											global_vertex,
+											normal,
+											texture,
+											plane.uv,
+											plane.rotation,
+											plane.scale
+										)
+								elif(plane.uv.size() == 8):
+									uv = get_valve_uv(
+											global_vertex,
+											normal,
+											texture,
+											plane.uv,
+											plane.rotation,
+											plane.scale
+										)
 
-							if(uv != null):
-								surface_tool.add_uv(uv)
+								if(uv != null):
+									surface_tool.add_uv(uv)
 
-						var local_vertex = global_vertex - face_centers[plane_idx]
-						surface_tool.add_vertex(local_vertex)
-						vertex_idx += 1
+							var local_vertex = global_vertex - face_centers[plane_idx]
+							surface_tool.add_vertex(local_vertex)
+							vertex_idx += 1
 
-					var face_mesh_node = QodotUtil.add_child_editor(brush_node, MeshInstance.new())
-					face_mesh_node.name = 'Face0'
-					face_mesh_node.translation = face_centers[plane_idx] - brush_center
-					face_mesh_node.set_mesh(surface_tool.commit())
+						var face_mesh_node = QodotUtil.add_child_editor(brush_node, MeshInstance.new())
+						face_mesh_node.name = 'Face0'
+						face_mesh_node.translation = face_centers[plane_idx] - brush_center
+						face_mesh_node.set_mesh(surface_tool.commit())
 
 			# Create collision
 			if(should_spawn_brush_collision(classname)):
