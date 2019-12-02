@@ -2,9 +2,9 @@ class_name QuakePlaneAxes, 'res://addons/Qodot/Icons/icon_qodot_spatial.svg'
 extends ImmediateGeometry
 tool
 
-# ImmediateGeometry  node for rendering the three-point representation of a QuakePlane
+# ImmediateGeometry  node for rendering the three-vertex representation of a QuakePlane
 
-export(PoolVector3Array) var point_set = [Vector3.ZERO, Vector3.UP, Vector3.RIGHT]
+export(PoolVector3Array) var vertex_set = [Vector3.ZERO, Vector3.UP, Vector3.RIGHT]
 export(PoolIntArray) var indices = [0, 1, 2]
 var material = SpatialMaterial.new()
 
@@ -18,12 +18,12 @@ func _process(delta):
 
 	begin(1, null)
 	set_color(Color.red)
-	add_vertex(point_set[indices[0]])
-	add_vertex(point_set[indices[1]])
+	add_vertex(vertex_set[indices[0]])
+	add_vertex(vertex_set[indices[1]])
 	end()
 
 	begin(1, null)
 	set_color(Color.green)
-	add_vertex(point_set[indices[0]])
-	add_vertex(point_set[indices[2]])
+	add_vertex(vertex_set[indices[0]])
+	add_vertex(vertex_set[indices[2]])
 	end()

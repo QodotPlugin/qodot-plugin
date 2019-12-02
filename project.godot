@@ -10,6 +10,11 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "QodotSpatial",
+"class": "QodotBrush",
+"language": "GDScript",
+"path": "res://addons/qodot/src/nodes/qodot_brush.gd"
+}, {
+"base": "QodotSpatial",
 "class": "QodotEntity",
 "language": "GDScript",
 "path": "res://addons/qodot/src/nodes/qodot_entity.gd"
@@ -85,6 +90,7 @@ _global_script_classes=[ {
 "path": "res://addons/qodot/src/nodes/quake_plane_axes.gd"
 } ]
 _global_script_class_icons={
+"QodotBrush": "",
 "QodotEntity": "",
 "QodotEntityMapper": "",
 "QodotEnums": "",

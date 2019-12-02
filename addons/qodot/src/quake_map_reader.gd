@@ -51,7 +51,7 @@ func read_entity(file: File, valve_uvs: bool, bitmask_format: int) -> QuakeEntit
 			match key:
 				'origin':
 					var val_comps = val.split(' ')
-					entity_properties[key] = parse_point(val)
+					entity_properties[key] = parse_vertex(val)
 				'angle':
 					entity_properties[key] = float(val)
 				_:
@@ -89,7 +89,7 @@ func read_brush(file: File, valve_uvs: bool, bitmask_format: int) -> QuakeBrush:
 func parse_plane(line: String, valve_uvs: bool, bitmask_format: int) -> QuakePlane:
 	QodotUtil.debug_print(['Plane: ', line])
 
-	# Parse points
+	# Parse vertices
 	var first_open_bracket = line.find(OPEN_BRACKET, 0)
 	var second_open_bracket = line.find(OPEN_BRACKET, first_open_bracket + 1)
 	var third_open_bracket = line.find(OPEN_BRACKET, second_open_bracket + 1)
@@ -98,12 +98,12 @@ func parse_plane(line: String, valve_uvs: bool, bitmask_format: int) -> QuakePla
 	var second_close_bracket = line.find(CLOSE_BRACKET, first_close_bracket + 1)
 	var third_close_bracket = line.find(CLOSE_BRACKET, second_close_bracket + 1)
 
-	var first_point = parse_point(line.substr(first_open_bracket + 2, first_close_bracket - first_open_bracket - 2))
-	var second_point = parse_point(line.substr(second_open_bracket + 2, second_close_bracket - second_open_bracket - 2))
-	var third_point = parse_point(line.substr(third_open_bracket + 2, third_close_bracket - third_open_bracket - 2))
+	var first_vertex = parse_vertex(line.substr(first_open_bracket + 2, first_close_bracket - first_open_bracket - 2))
+	var second_vertex = parse_vertex(line.substr(second_open_bracket + 2, second_close_bracket - second_open_bracket - 2))
+	var third_vertex = parse_vertex(line.substr(third_open_bracket + 2, third_close_bracket - third_open_bracket - 2))
 
-	var points = [first_point, second_point, third_point]
-	QodotUtil.debug_print(['Points: ', points])
+	var vertices = [first_vertex, second_vertex, third_vertex]
+	QodotUtil.debug_print(['Vertices: ', vertices])
 
 	# Parse other stuff
 	var loose_params = Array(line.substr(third_close_bracket + 2, line.length()).split(' '))
@@ -178,10 +178,10 @@ func parse_plane(line: String, valve_uvs: bool, bitmask_format: int) -> QuakePla
 				color = int(loose_params.pop_front())
 				QodotUtil.debug_print(['Color: ', color])
 
-	return QuakePlane.new(points, texture, uv, rotation, scale, surface, content, color, hexen_2_param)
+	return QuakePlane.new(vertices, texture, uv, rotation, scale, surface, content, color, hexen_2_param)
 
-func parse_point(point_substr: String) -> Vector3:
-	var comps = point_substr.split(' ')
+func parse_vertex(vertex_substr: String) -> Vector3:
+	var comps = vertex_substr.split(' ')
 	return Vector3(comps[1], comps[2], comps[0])
 
 func read_line(file: File):

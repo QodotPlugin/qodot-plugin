@@ -3,7 +3,7 @@ extends Resource
 
 # Resource representation of a .map file brush plane
 
-export(PoolVector3Array) var points = [Vector3.ZERO, Vector3.RIGHT, Vector3.DOWN]
+export(PoolVector3Array) var vertices = [Vector3.ZERO, Vector3.RIGHT, Vector3.DOWN]
 export(String) var texture
 export(PoolRealArray) var uv
 export(float) var rotation
@@ -14,7 +14,7 @@ export(int) var color
 export(int) var hexen_2_param
 
 func _init(
-	points: PoolVector3Array,
+	vertices: PoolVector3Array,
 	texture: String,
 	uv: PoolRealArray,
 	rotation: float,
@@ -24,7 +24,7 @@ func _init(
 	color: int,
 	hexen_2_param: int
 	):
-	self.points = points
+	self.vertices = vertices
 	self.texture = texture
 	self.uv = uv
 	self.rotation = rotation
@@ -36,14 +36,14 @@ func _init(
 
 # Get the plane's normal
 static func get_normal(plane) -> Vector3:
-	var v0 = (plane.points[2] - plane.points[0]).normalized()
-	var v1 = (plane.points[1] - plane.points[0]).normalized()
+	var v0 = (plane.vertices[2] - plane.vertices[0]).normalized()
+	var v1 = (plane.vertices[1] - plane.vertices[0]).normalized()
 	return v0.cross(v1).normalized()
 
 # Get the plane's distance from the world origin
 static func get_distance(plane) -> float:
 	var normal = get_normal(plane)
-	return plane.points[0].dot(normal)
+	return plane.vertices[0].dot(normal)
 
 # Intersect three brush planes to form a vertex
 static func intersect_planes(plane1, plane2, plane3, epsilon: float = 0.0001):
