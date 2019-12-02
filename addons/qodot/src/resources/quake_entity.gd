@@ -3,7 +3,7 @@ extends Resource
 
 # Resource representation of a .map file entity
 
-export(Dictionary) var properties
+export(Dictionary) var properties = {}
 export(Array) var brushes = []
 
 func _init(properties, brushes):

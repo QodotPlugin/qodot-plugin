@@ -9,11 +9,6 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Reference",
-"class": "MapImportPlugin",
-"language": "GDScript",
-"path": "res://addons/qodot/src/quake_map_import_plugin.gd"
-}, {
 "base": "QodotSpatial",
 "class": "QodotEntity",
 "language": "GDScript",
@@ -69,6 +64,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/qodot/src/resources/quake_map.gd"
 }, {
+"base": "EditorImportPlugin",
+"class": "QuakeMapImportPlugin",
+"language": "GDScript",
+"path": "res://addons/qodot/src/quake_map_import_plugin.gd"
+}, {
 "base": "Reference",
 "class": "QuakeMapReader",
 "language": "GDScript",
@@ -79,13 +79,12 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/qodot/src/resources/quake_plane.gd"
 }, {
-"base": "Reference",
+"base": "ImmediateGeometry",
 "class": "QuakePlaneAxes",
 "language": "GDScript",
 "path": "res://addons/qodot/src/nodes/quake_plane_axes.gd"
 } ]
 _global_script_class_icons={
-"MapImportPlugin": "",
 "QodotEntity": "",
 "QodotEntityMapper": "",
 "QodotEnums": "",
@@ -97,9 +96,10 @@ _global_script_class_icons={
 "QuakeBrush": "",
 "QuakeEntity": "",
 "QuakeMap": "",
+"QuakeMapImportPlugin": "",
 "QuakeMapReader": "",
 "QuakePlane": "",
-"QuakePlaneAxes": ""
+"QuakePlaneAxes": "res://addons/Qodot/Icons/icon_qodot_spatial.svg"
 }
 
 [application]

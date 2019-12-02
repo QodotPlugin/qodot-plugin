@@ -5,16 +5,34 @@ extends Resource
 
 export(PoolVector3Array) var points = [Vector3.ZERO, Vector3.RIGHT, Vector3.DOWN]
 export(String) var texture
-export(Vector2) var uv
+export(PoolRealArray) var uv
 export(float) var rotation
 export(Vector2) var scale
+export(int) var surface
+export(int) var content
+export(int) var color
+export(int) var hexen_2_param
 
-func _init(points: PoolVector3Array, texture: String, uv: Vector2, rotation: float, scale: Vector2):
+func _init(
+	points: PoolVector3Array,
+	texture: String,
+	uv: PoolRealArray,
+	rotation: float,
+	scale: Vector2,
+	surface: int,
+	content: int,
+	color: int,
+	hexen_2_param: int
+	):
 	self.points = points
 	self.texture = texture
 	self.uv = uv
 	self.rotation = rotation
 	self.scale = scale
+	self.surface = surface
+	self.content = content
+	self.color = color
+	self.hexen_2_param = hexen_2_param
 
 # Get the plane's normal
 static func get_normal(plane) -> Vector3:

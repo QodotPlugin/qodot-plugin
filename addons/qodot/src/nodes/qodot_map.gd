@@ -237,16 +237,29 @@ func create_brush(parent, brush, properties):
 						var global_point = face_centers[plane_idx] + point
 
 						if(texture != null):
-							surface_tool.add_uv(
-								get_uv(
-									global_point,
-									normal,
-									texture,
-									plane.uv,
-									plane.rotation,
-									plane.scale
-								)
-							)
+							var uv = null
+
+							if(plane.uv.size() == 2):
+								uv = get_standard_uv(
+										global_point,
+										normal,
+										texture,
+										plane.uv,
+										plane.rotation,
+										plane.scale
+									)
+							elif(plane.uv.size() == 8):
+								uv = get_valve_uv(
+										global_point,
+										normal,
+										texture,
+										plane.uv,
+										plane.rotation,
+										plane.scale
+									)
+
+							if(uv != null):
+								surface_tool.add_uv(uv)
 
 						var local_point = global_point - brush_center
 						surface_tool.add_vertex(local_point)
@@ -377,30 +390,56 @@ func get_winding_rotation(point):
 
 	return cartesian2polar(pu, pv).y
 
-func get_uv(
+func get_standard_uv(
 	global_point: Vector3,
 	normal: Vector3,
 	texture: Texture,
-	translation: Vector2,
+	uv: PoolRealArray,
 	rotation: float,
 	scale: Vector2) -> Vector2:
-	var uv = Vector2.ZERO
+	var uv_out = Vector2.ZERO
 
 	var du = abs(normal.dot(Vector3.UP))
 	var dr = abs(normal.dot(Vector3.RIGHT))
 	var df = abs(normal.dot(Vector3.BACK))
 
 	if(du >= dr && du >= df):
-		uv = Vector2(global_point.z, -global_point.x)
+		uv_out = Vector2(global_point.z, -global_point.x)
 	elif(dr >= du && dr >= df):
-		uv = Vector2(global_point.z, -global_point.y)
+		uv_out = Vector2(global_point.z, -global_point.y)
 	elif(df >= du && df >= dr):
-		uv = Vector2(global_point.x, -global_point.y)
+		uv_out = Vector2(global_point.x, -global_point.y)
 
-	uv /=  texture.get_size() / inverse_scale_factor
+	uv_out /=  texture.get_size() / inverse_scale_factor
 
-	uv = uv.rotated(deg2rad(rotation))
-	uv /= scale
-	uv += translation / texture.get_size()
+	uv_out = uv_out.rotated(deg2rad(rotation))
+	uv_out /= scale
+	uv_out += Vector2(uv[0], uv[1]) / texture.get_size()
 
-	return uv
+	return uv_out
+
+
+func get_valve_uv(
+	global_point: Vector3,
+	normal: Vector3,
+	texture: Texture,
+	uv: PoolRealArray,
+	rotation: float,
+	scale: Vector2) -> Vector2:
+	var uv_out = Vector2.ZERO
+
+	var u_axis = Vector3(uv[1], uv[2], uv[0])
+	var u_shift = uv[3]
+	var v_axis = Vector3(uv[5], uv[6], uv[4])
+	var v_shift = uv[7]
+
+	uv_out.x = u_axis.dot(global_point)
+	uv_out.y = v_axis.dot(global_point)
+
+	var texture_size = texture.get_size()
+
+	uv_out /=  texture_size / inverse_scale_factor
+	uv_out /= scale
+	uv_out += Vector2(u_shift, v_shift) / texture_size
+
+	return uv_out
