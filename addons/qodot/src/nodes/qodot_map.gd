@@ -33,55 +33,12 @@ export(String, DIR) var base_texture_path = 'res://textures' setget set_base_tex
 export(String) var texture_extension = '.png'
 
 export(Script) var entity_mapper = QodotEntityMapper
+export(Script) var brush_mapper = QodotBrushMapper
+export(Script) var face_mapper = QodotFaceMapper
 
 # Internal variables for calculating vertex winding
 var _winding_normal = Vector3.ZERO
 var _winding_basis = Vector3.ZERO
-
-
-## Inheritance interface
-## Override these functions to control game-specific tree population
-
-# Determine whether the given .map classname should create a mesh
-func should_spawn_brush_mesh(brush: QuakeBrush, parent_entity: QuakeEntity) -> bool:
-	# Don't spawn collision if the brush is textured entirely with CLIP
-	var is_clip = true
-	for plane in brush.planes:
-		if(plane.texture.find('clip') == -1):
-			is_clip = false
-
-	if(is_clip):
-		return false
-
-	# Classname-specific behavior
-	if('classname' in parent_entity.properties):
-		# Don't spawn collision for trigger brushes
-		return parent_entity.properties['classname'].find('trigger') == -1
-
-	# Default to true for entities with empty classnames
-	return true
-
-func should_spawn_face_mesh(plane: QuakePlane, parent_brush: QuakeBrush, parent_entity: QuakeEntity) -> bool:
-	# Don't spawn a mesh if the face is textured with SKIP
-	if(plane.texture.find('skip') > -1):
-		return false
-
-	return true
-
-# Determine whether the given .map classname should create a collision object
-func should_spawn_brush_collision(classname: String) -> bool:
-	return true
-
-# Create and return a CollisionObject for the given .map classname
-func spawn_brush_collision_object(classname: String) -> CollisionObject:
-	var node = null
-
-	if(classname.find('trigger') > -1):
-		node = Area.new()
-	else:
-		node = StaticBody.new()
-
-	return node
 
 ## Setters
 func set_reload(new_reload):
@@ -215,10 +172,10 @@ func create_brush(parent_entity_node, brush, parent_entity):
 			if('classname' in parent_entity.properties):
 				classname = parent_entity.properties['classname']
 
-			if(should_spawn_brush_mesh(brush, parent_entity)):
+			if(brush_mapper.should_spawn_brush_mesh(brush, parent_entity)):
 				for plane_idx in sorted_local_face_vertices:
 					var plane = planes[plane_idx]
-					if(should_spawn_face_mesh(plane, brush, parent_entity)):
+					if(face_mapper.should_spawn_face_mesh(plane, brush, parent_entity)):
 						var vertices = sorted_local_face_vertices[plane_idx]
 
 						var surface_tool = SurfaceTool.new()
@@ -279,7 +236,7 @@ func create_brush(parent_entity_node, brush, parent_entity):
 						face_mesh_node.set_mesh(surface_tool.commit())
 
 			# Create collision
-			if(should_spawn_brush_collision(classname)):
+			if(brush_mapper.should_spawn_brush_collision(brush, parent_entity)):
 				var collision_vertices = []
 				for plane_idx in sorted_local_face_vertices:
 					var vertices = sorted_local_face_vertices[plane_idx]
@@ -288,7 +245,7 @@ func create_brush(parent_entity_node, brush, parent_entity):
 						var local_vertex = global_vertex - brush_center
 						collision_vertices.append(local_vertex)
 
-				var brush_collision_object = QodotUtil.add_child_editor(brush_node, spawn_brush_collision_object(classname))
+				var brush_collision_object = QodotUtil.add_child_editor(brush_node, brush_mapper.spawn_brush_collision_object(brush, parent_entity))
 
 				var brush_collision_shape = QodotUtil.add_child_editor(brush_collision_object, CollisionShape.new())
 				var brush_convex_collision = ConvexPolygonShape.new()

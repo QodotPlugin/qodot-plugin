@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/qodot/src/nodes/qodot_brush.gd"
 }, {
+"base": "Reference",
+"class": "QodotBrushMapper",
+"language": "GDScript",
+"path": "res://addons/qodot/src/mappers/qodot_brush_mapper.gd"
+}, {
 "base": "QodotSpatial",
 "class": "QodotEntity",
 "language": "GDScript",
@@ -22,12 +27,17 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "QodotEntityMapper",
 "language": "GDScript",
-"path": "res://addons/qodot/src/qodot_entity_mapper.gd"
+"path": "res://addons/qodot/src/mappers/qodot_entity_mapper.gd"
 }, {
 "base": "Reference",
 "class": "QodotEnums",
 "language": "GDScript",
 "path": "res://addons/qodot/src/qodot_enums.gd"
+}, {
+"base": "Reference",
+"class": "QodotFaceMapper",
+"language": "GDScript",
+"path": "res://addons/qodot/src/mappers/qodot_face_mapper.gd"
 }, {
 "base": "QodotSpatial",
 "class": "QodotMap",
@@ -91,9 +101,11 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "QodotBrush": "",
+"QodotBrushMapper": "",
 "QodotEntity": "",
 "QodotEntityMapper": "",
 "QodotEnums": "",
+"QodotFaceMapper": "",
 "QodotMap": "",
 "QodotNode": "res://addons/qodot/icons/icon_qodot_node.svg",
 "QodotPlugin": "",
