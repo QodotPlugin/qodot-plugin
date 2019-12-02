@@ -30,8 +30,12 @@ export(String, FILE, '*.map') var autoload_map_path setget set_autoload_map_path
 export(String, DIR) var base_texture_path = 'res://textures' setget set_base_texture_path
 
 # File extension appended to textures specified in the .map file
-export(String) var texture_extension = '.png'
+export(String) var texture_extension = '.png' setget set_texture_extension
 
+# Materials
+export (SpatialMaterial) var default_material setget set_default_material
+
+# Mappers used to control tree population
 export(Script) var entity_mapper = QodotEntityMapper
 export(Script) var brush_mapper = QodotBrushMapper
 export(Script) var face_mapper = QodotFaceMapper
@@ -68,6 +72,11 @@ func set_base_texture_path(new_base_texture_path):
 func set_texture_extension(new_texture_extension):
 	if(texture_extension != new_texture_extension):
 		texture_extension = new_texture_extension
+		update_map()
+
+func set_default_material(new_default_material):
+	if(default_material != new_default_material):
+		default_material = new_default_material
 		update_map()
 
 ## Map autoload handler
@@ -191,7 +200,11 @@ func create_brush(parent_entity_node, brush, parent_entity):
 							texture = load(texturePath)
 
 							if(texture != null):
-								var spatial_material = SpatialMaterial.new()
+								var spatial_material = null
+								if(default_material != null):
+									spatial_material = default_material.duplicate()
+								else:
+									spatial_material = SpatialMaterial.new()
 								spatial_material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, texture)
 								surface_tool.set_material(spatial_material)
 

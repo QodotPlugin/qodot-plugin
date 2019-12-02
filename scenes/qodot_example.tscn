@@ -1,4 +1,4 @@
-[gd_scene load_steps=320 format=2]
+[gd_scene load_steps=321 format=2]
 
 [ext_resource path="res://addons/qodot/src/nodes/qodot_map.gd" type="Script" id=1]
 [ext_resource path="res://addons/qodot/src/nodes/qodot_entity.gd" type="Script" id=2]
@@ -9,15 +9,18 @@
 [sub_resource type="Environment" id=1]
 background_mode = 1
 ambient_light_color = Color( 1, 1, 1, 1 )
-ambient_light_energy = 0.1
 
 [sub_resource type="SphereShape" id=2]
 radius = 0.4
 
 [sub_resource type="SpatialMaterial" id=3]
-albedo_texture = ExtResource( 4 )
 
-[sub_resource type="ArrayMesh" id=4]
+[sub_resource type="SpatialMaterial" id=4]
+albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
+
+[sub_resource type="ArrayMesh" id=5]
 surfaces/0 = {
 "aabb": AABB( -16.5, -1, 0, 33, 2.00001, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 132, 193, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 64, 0, 184, 0, 0, 132, 193, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 129, 0, 0, 64, 0, 56, 0, 0, 132, 65, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 129, 0, 64, 203, 0, 56, 0, 0, 132, 65, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 129, 0, 64, 203, 0, 184 ),
@@ -25,16 +28,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 3 ),
+"material": SubResource( 4 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=5]
+[sub_resource type="SpatialMaterial" id=6]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=6]
+[sub_resource type="ArrayMesh" id=7]
 surfaces/0 = {
 "aabb": AABB( 0, -1, -14.5, 1e-005, 2, 29 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 128, 191, 0, 0, 104, 65, 129, 0, 0, 0, 0, 64, 0, 56, 0, 0, 0, 0, 0, 0, 128, 191, 0, 0, 104, 193, 129, 0, 0, 0, 64, 202, 0, 56, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 104, 193, 129, 0, 0, 0, 64, 202, 0, 184, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 104, 65, 129, 0, 0, 0, 0, 64, 0, 184 ),
@@ -42,16 +47,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 5 ),
+"material": SubResource( 6 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=7]
+[sub_resource type="SpatialMaterial" id=8]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=8]
+[sub_resource type="ArrayMesh" id=9]
 surfaces/0 = {
 "aabb": AABB( -16.5, 0, -14.5, 33, 1e-005, 29 ),
 "array_data": PoolByteArray( 0, 0, 132, 193, 0, 0, 0, 0, 0, 0, 104, 65, 0, 127, 0, 0, 0, 64, 0, 64, 0, 0, 132, 193, 0, 0, 0, 0, 0, 0, 104, 193, 0, 127, 0, 0, 64, 202, 0, 64, 0, 0, 132, 65, 0, 0, 0, 0, 0, 0, 104, 193, 0, 127, 0, 0, 64, 202, 64, 203, 0, 0, 132, 65, 0, 0, 0, 0, 0, 0, 104, 65, 0, 127, 0, 0, 0, 64, 64, 203 ),
@@ -59,16 +66,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 7 ),
+"material": SubResource( 8 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=9]
+[sub_resource type="SpatialMaterial" id=10]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=10]
+[sub_resource type="ArrayMesh" id=11]
 surfaces/0 = {
 "aabb": AABB( 0, -1, -14.5, 1e-005, 2.00001, 29 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 104, 193, 127, 0, 0, 0, 64, 74, 0, 184, 0, 0, 0, 0, 0, 0, 128, 191, 0, 0, 104, 193, 127, 0, 0, 0, 64, 74, 0, 56, 0, 0, 0, 0, 0, 0, 128, 191, 0, 0, 104, 65, 127, 0, 0, 0, 0, 192, 0, 56, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 104, 65, 127, 0, 0, 0, 0, 192, 0, 184 ),
@@ -76,16 +85,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 9 ),
+"material": SubResource( 10 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=11]
+[sub_resource type="SpatialMaterial" id=12]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=12]
+[sub_resource type="ArrayMesh" id=13]
 surfaces/0 = {
 "aabb": AABB( -16.5, -1, 0, 33, 2, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 132, 65, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 127, 0, 64, 75, 0, 56, 0, 0, 132, 193, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 127, 0, 0, 192, 0, 56, 0, 0, 132, 193, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 192, 0, 184, 0, 0, 132, 65, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 127, 0, 64, 75, 0, 184 ),
@@ -93,19 +104,21 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 11 ),
+"material": SubResource( 12 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="ConvexPolygonShape" id=13]
+[sub_resource type="ConvexPolygonShape" id=14]
 points = PoolVector3Array( -16.5, 1, -14.5, -16.5, -1, -14.5, 16.5, -1, -14.5, 16.5, 1, -14.5, -16.5, -1, 14.5, -16.5, -1, -14.5, -16.5, 1, -14.5, -16.5, 1, 14.5, 16.5, -1, -14.5, -16.5, -1, -14.5, -16.5, -1, 14.5, 16.5, -1, 14.5, -16.5, 1, 14.5, -16.5, 1, -14.5, 16.5, 1, -14.5, 16.5, 1, 14.5, 16.5, 1, -14.5, 16.5, -1, -14.5, 16.5, -1, 14.5, 16.5, 1, 14.5, 16.5, -1, 14.5, -16.5, -1, 14.5, -16.5, 1, 14.5, 16.5, 1, 14.5 )
 
-[sub_resource type="SpatialMaterial" id=14]
+[sub_resource type="SpatialMaterial" id=15]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=15]
+[sub_resource type="ArrayMesh" id=16]
 surfaces/0 = {
 "aabb": AABB( -2.49983, -1.5, 0, 4.99908, 3.00001, 1e-005 ),
 "array_data": PoolByteArray( 122, 243, 31, 64, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 129, 0, 255, 66, 0, 192, 52, 244, 191, 191, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 62, 0, 192, 57, 253, 31, 192, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 129, 0, 255, 61, 0, 184, 180, 7, 192, 63, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 129, 0, 255, 66, 0, 184 ),
@@ -113,16 +126,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 14 ),
+"material": SubResource( 15 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=16]
+[sub_resource type="SpatialMaterial" id=17]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=17]
+[sub_resource type="ArrayMesh" id=18]
 surfaces/0 = {
 "aabb": AABB( -0.500095, -1.5, -3, 1.00019, 3, 6.00001 ),
 "array_data": PoolByteArray( 60, 6, 0, 191, 0, 0, 192, 191, 0, 0, 64, 64, 136, 40, 0, 0, 0, 67, 0, 184, 60, 6, 0, 191, 0, 0, 192, 191, 0, 0, 64, 192, 136, 40, 0, 0, 128, 70, 0, 184, 64, 6, 0, 63, 0, 0, 192, 63, 0, 0, 64, 192, 136, 40, 0, 0, 128, 70, 0, 192, 64, 6, 0, 63, 0, 0, 192, 63, 0, 0, 64, 64, 136, 40, 0, 0, 0, 67, 0, 192 ),
@@ -130,16 +145,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 16 ),
+"material": SubResource( 17 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=18]
+[sub_resource type="SpatialMaterial" id=19]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=19]
+[sub_resource type="ArrayMesh" id=20]
 surfaces/0 = {
 "aabb": AABB( -1.99944, 0, -3, 3.99888, 1e-005, 6.00001 ),
 "array_data": PoolByteArray( 148, 237, 255, 191, 0, 0, 0, 0, 0, 0, 64, 64, 0, 127, 0, 0, 0, 195, 85, 64, 148, 237, 255, 191, 0, 0, 0, 0, 0, 0, 64, 192, 0, 127, 0, 0, 128, 198, 85, 64, 148, 237, 255, 63, 0, 0, 0, 0, 0, 0, 64, 192, 0, 127, 0, 0, 128, 198, 42, 68, 148, 237, 255, 63, 0, 0, 0, 0, 0, 0, 64, 64, 0, 127, 0, 0, 0, 195, 42, 68 ),
@@ -147,16 +164,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 18 ),
+"material": SubResource( 19 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=20]
+[sub_resource type="SpatialMaterial" id=21]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=21]
+[sub_resource type="ArrayMesh" id=22]
 surfaces/0 = {
 "aabb": AABB( -0.4995, -1.5, -3, 0.999011, 3.00001, 6 ),
 "array_data": PoolByteArray( 128, 190, 255, 62, 0, 0, 192, 63, 0, 0, 64, 192, 120, 216, 0, 0, 128, 198, 0, 192, 128, 190, 255, 190, 0, 0, 192, 191, 0, 0, 64, 192, 120, 216, 0, 0, 128, 198, 0, 184, 128, 190, 255, 190, 0, 0, 192, 191, 0, 0, 64, 64, 120, 216, 0, 0, 0, 195, 0, 184, 128, 190, 255, 62, 0, 0, 192, 63, 0, 0, 64, 64, 120, 216, 0, 0, 0, 195, 0, 192 ),
@@ -164,16 +183,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 20 ),
+"material": SubResource( 21 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=22]
+[sub_resource type="SpatialMaterial" id=23]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=23]
+[sub_resource type="ArrayMesh" id=24]
 surfaces/0 = {
 "aabb": AABB( -2.49983, -1.5, 0, 4.99907, 3, 1e-005 ),
 "array_data": PoolByteArray( 180, 7, 192, 63, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 127, 0, 255, 194, 0, 184, 57, 253, 31, 192, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 127, 0, 255, 189, 0, 184, 52, 244, 191, 191, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 190, 0, 192, 122, 243, 31, 64, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 127, 0, 255, 194, 0, 192 ),
@@ -181,19 +202,21 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 22 ),
+"material": SubResource( 23 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="ConvexPolygonShape" id=24]
+[sub_resource type="ConvexPolygonShape" id=25]
 points = PoolVector3Array( 2.49924, 1.5, -3, -1.49964, 1.5, -3, -2.49983, -1.5, -3, 1.50024, -1.5, -3, -2.49983, -1.5, 3, -2.49983, -1.5, -3, -1.49964, 1.5, -3, -1.49964, 1.5, 3, 1.50024, -1.5, 3, 1.50024, -1.5, -3, -2.49983, -1.5, -3, -2.49983, -1.5, 3, -1.49964, 1.5, 3, -1.49964, 1.5, -3, 2.49924, 1.5, -3, 2.49924, 1.5, 3, 2.49924, 1.5, -3, 1.50024, -1.5, -3, 1.50024, -1.5, 3, 2.49924, 1.5, 3, 1.50024, -1.5, 3, -2.49983, -1.5, 3, -1.49964, 1.5, 3, 2.49924, 1.5, 3 )
 
-[sub_resource type="SpatialMaterial" id=25]
+[sub_resource type="SpatialMaterial" id=26]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=26]
+[sub_resource type="ArrayMesh" id=27]
 surfaces/0 = {
 "aabb": AABB( -3.0001, -1.5, 0, 6.00034, 3.00001, 1e-005 ),
 "array_data": PoolByteArray( 92, 9, 128, 191, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 129, 0, 255, 61, 0, 195, 143, 1, 64, 192, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 129, 0, 255, 61, 0, 192, 124, 4, 128, 63, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 129, 0, 0, 67, 0, 192, 254, 3, 64, 64, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 67, 0, 195 ),
@@ -201,16 +224,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 25 ),
+"material": SubResource( 26 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=27]
+[sub_resource type="SpatialMaterial" id=28]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=28]
+[sub_resource type="ArrayMesh" id=29]
 surfaces/0 = {
 "aabb": AABB( -0.999905, -1.5, -3, 1.99982, 3.00001, 6.00001 ),
 "array_data": PoolByteArray( 192, 249, 127, 63, 0, 0, 192, 63, 0, 0, 64, 64, 151, 70, 0, 0, 0, 67, 0, 195, 196, 249, 127, 191, 0, 0, 192, 191, 0, 0, 64, 64, 151, 70, 0, 0, 0, 67, 0, 192, 196, 249, 127, 191, 0, 0, 192, 191, 0, 0, 64, 192, 151, 70, 0, 0, 128, 70, 0, 192, 192, 249, 127, 63, 0, 0, 192, 63, 0, 0, 64, 192, 151, 70, 0, 0, 128, 70, 0, 195 ),
@@ -218,16 +243,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 27 ),
+"material": SubResource( 28 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=29]
+[sub_resource type="SpatialMaterial" id=30]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=30]
+[sub_resource type="ArrayMesh" id=31]
 surfaces/0 = {
 "aabb": AABB( -2.00012, 0, -3, 4.00024, 1e-005, 6 ),
 "array_data": PoolByteArray( 230, 1, 0, 64, 0, 0, 0, 0, 0, 0, 64, 192, 0, 129, 0, 0, 128, 70, 42, 68, 231, 1, 0, 192, 0, 0, 0, 0, 0, 0, 64, 192, 0, 129, 0, 0, 128, 70, 85, 64, 231, 1, 0, 192, 0, 0, 0, 0, 0, 0, 64, 64, 0, 129, 0, 0, 0, 67, 85, 64, 230, 1, 0, 64, 0, 0, 0, 0, 0, 0, 64, 64, 0, 129, 0, 0, 0, 67, 42, 68 ),
@@ -235,16 +262,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 29 ),
+"material": SubResource( 30 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=31]
+[sub_resource type="SpatialMaterial" id=32]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=32]
+[sub_resource type="ArrayMesh" id=33]
 surfaces/0 = {
 "aabb": AABB( -2.00026, 0, -3, 4.00053, 1e-005, 6.00001 ),
 "array_data": PoolByteArray( 86, 4, 0, 192, 0, 0, 0, 0, 0, 0, 64, 64, 0, 127, 0, 0, 0, 195, 255, 61, 86, 4, 0, 192, 0, 0, 0, 0, 0, 0, 64, 192, 0, 127, 0, 0, 128, 198, 255, 61, 86, 4, 0, 64, 0, 0, 0, 0, 0, 0, 64, 192, 0, 127, 0, 0, 128, 198, 0, 67, 86, 4, 0, 64, 0, 0, 0, 0, 0, 0, 64, 64, 0, 127, 0, 0, 0, 195, 0, 67 ),
@@ -252,16 +281,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 31 ),
+"material": SubResource( 32 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=33]
+[sub_resource type="SpatialMaterial" id=34]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=34]
+[sub_resource type="ArrayMesh" id=35]
 surfaces/0 = {
 "aabb": AABB( -1.00005, -1.5, -3, 2.00012, 3.00001, 6 ),
 "array_data": PoolByteArray( 192, 1, 128, 63, 0, 0, 192, 63, 0, 0, 64, 192, 105, 186, 0, 0, 128, 198, 0, 195, 192, 1, 128, 191, 0, 0, 192, 191, 0, 0, 64, 192, 105, 186, 0, 0, 128, 198, 0, 192, 192, 1, 128, 191, 0, 0, 192, 191, 0, 0, 64, 64, 105, 186, 0, 0, 0, 195, 0, 192, 192, 1, 128, 63, 0, 0, 192, 63, 0, 0, 64, 64, 105, 186, 0, 0, 0, 195, 0, 195 ),
@@ -269,16 +300,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 33 ),
+"material": SubResource( 34 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=35]
+[sub_resource type="SpatialMaterial" id=36]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=36]
+[sub_resource type="ArrayMesh" id=37]
 surfaces/0 = {
 "aabb": AABB( -3.0001, -1.5, 0, 6.00035, 3.00001, 1e-005 ),
 "array_data": PoolByteArray( 254, 3, 64, 64, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 195, 0, 195, 124, 4, 128, 63, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 127, 0, 0, 195, 0, 192, 143, 1, 64, 192, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 127, 0, 255, 189, 0, 192, 92, 9, 128, 191, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 127, 0, 255, 189, 0, 195 ),
@@ -286,19 +319,21 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 35 ),
+"material": SubResource( 36 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="ConvexPolygonShape" id=37]
+[sub_resource type="ConvexPolygonShape" id=38]
 points = PoolVector3Array( -1.00029, 1.5, -3, -3.00009, -1.5, -3, 1.00014, -1.5, -3, 3.00024, 1.5, -3, -1.00029, 1.5, 3, -3.00009, -1.5, 3, -3.00009, -1.5, -3, -1.00029, 1.5, -3, 1.00014, -1.5, -3, -3.00009, -1.5, -3, -3.00009, -1.5, 3, 1.00014, -1.5, 3, -1.00029, 1.5, 3, -1.00029, 1.5, -3, 3.00024, 1.5, -3, 3.00024, 1.5, 3, 3.00024, 1.5, -3, 1.00014, -1.5, -3, 1.00014, -1.5, 3, 3.00024, 1.5, 3, 3.00024, 1.5, 3, 1.00014, -1.5, 3, -3.00009, -1.5, 3, -1.00029, 1.5, 3 )
 
-[sub_resource type="SpatialMaterial" id=38]
+[sub_resource type="SpatialMaterial" id=39]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=39]
+[sub_resource type="ArrayMesh" id=40]
 surfaces/0 = {
 "aabb": AABB( -3.5, -1, 0, 7, 2.00001, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 0, 191, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 190, 192, 202, 0, 0, 96, 192, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 129, 0, 0, 190, 64, 201, 16, 0, 0, 63, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 129, 0, 0, 56, 64, 201, 4, 0, 96, 64, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 56, 192, 202 ),
@@ -306,16 +341,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 38 ),
+"material": SubResource( 39 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=40]
+[sub_resource type="SpatialMaterial" id=41]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=41]
+[sub_resource type="ArrayMesh" id=42]
 surfaces/0 = {
 "aabb": AABB( -1.5, -1, -3, 3.00001, 2.00001, 6.00001 ),
 "array_data": PoolByteArray( 0, 0, 192, 63, 0, 0, 128, 63, 0, 0, 64, 64, 186, 105, 0, 0, 0, 67, 191, 201, 0, 0, 192, 191, 0, 0, 128, 191, 0, 0, 64, 64, 186, 105, 0, 0, 0, 67, 63, 200, 0, 0, 192, 191, 0, 0, 128, 191, 0, 0, 64, 192, 186, 105, 0, 0, 128, 70, 63, 200, 0, 0, 192, 63, 0, 0, 128, 63, 0, 0, 64, 192, 186, 105, 0, 0, 128, 70, 191, 201 ),
@@ -323,16 +360,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 40 ),
+"material": SubResource( 41 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=42]
+[sub_resource type="SpatialMaterial" id=43]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=43]
+[sub_resource type="ArrayMesh" id=44]
 surfaces/0 = {
 "aabb": AABB( -2, 0, -3, 4.00001, 1e-005, 6 ),
 "array_data": PoolByteArray( 4, 0, 0, 64, 0, 0, 0, 0, 0, 0, 64, 192, 0, 129, 0, 0, 128, 70, 128, 68, 0, 0, 0, 192, 0, 0, 0, 0, 0, 0, 64, 192, 0, 129, 0, 0, 128, 70, 0, 65, 0, 0, 0, 192, 0, 0, 0, 0, 0, 0, 64, 64, 0, 129, 0, 0, 0, 67, 0, 65, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 64, 64, 0, 129, 0, 0, 0, 67, 128, 68 ),
@@ -340,16 +379,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 42 ),
+"material": SubResource( 43 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=44]
+[sub_resource type="SpatialMaterial" id=45]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=45]
+[sub_resource type="ArrayMesh" id=46]
 surfaces/0 = {
 "aabb": AABB( -2, 0, -3, 4, 1e-005, 6.00001 ),
 "array_data": PoolByteArray( 0, 0, 0, 192, 0, 0, 0, 0, 0, 0, 64, 64, 0, 127, 0, 0, 0, 195, 0, 67, 0, 0, 0, 192, 0, 0, 0, 0, 0, 0, 64, 192, 0, 127, 0, 0, 128, 198, 0, 67, 4, 0, 0, 64, 0, 0, 0, 0, 0, 0, 64, 192, 0, 127, 0, 0, 128, 198, 128, 69, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 64, 64, 0, 127, 0, 0, 0, 195, 128, 69 ),
@@ -357,16 +398,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 44 ),
+"material": SubResource( 45 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=46]
+[sub_resource type="SpatialMaterial" id=47]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=47]
+[sub_resource type="ArrayMesh" id=48]
 surfaces/0 = {
 "aabb": AABB( -1.5, -1, -3, 3.00001, 2.00001, 6.00001 ),
 "array_data": PoolByteArray( 0, 0, 192, 63, 0, 0, 128, 63, 0, 0, 64, 64, 70, 151, 0, 0, 0, 195, 191, 202, 8, 0, 192, 63, 0, 0, 128, 63, 0, 0, 64, 192, 70, 151, 0, 0, 128, 198, 191, 202, 248, 255, 191, 191, 0, 0, 128, 191, 0, 0, 64, 192, 70, 151, 0, 0, 128, 198, 63, 201, 0, 0, 192, 191, 0, 0, 128, 191, 0, 0, 64, 64, 70, 151, 0, 0, 0, 195, 63, 201 ),
@@ -374,16 +417,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 46 ),
+"material": SubResource( 47 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=48]
+[sub_resource type="SpatialMaterial" id=49]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=49]
+[sub_resource type="ArrayMesh" id=50]
 surfaces/0 = {
 "aabb": AABB( -3.5, -1, 0, 7, 2, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 0, 63, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 127, 0, 0, 184, 64, 201, 0, 0, 96, 192, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 127, 0, 0, 62, 64, 201, 0, 0, 0, 191, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 62, 192, 202, 0, 0, 96, 64, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 184, 192, 202 ),
@@ -391,19 +436,21 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 48 ),
+"material": SubResource( 49 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="ConvexPolygonShape" id=50]
+[sub_resource type="ConvexPolygonShape" id=51]
 points = PoolVector3Array( -0.5, 1, -3, -3.5, -1, -3, 0.500001, -1, -3, 3.5, 1, -3, -0.5, 1, 3, -3.5, -1, 3, -3.5, -1, -3, -0.5, 1, -3, 0.500001, -1, -3, -3.5, -1, -3, -3.5, -1, 3, 0.5, -1, 3, -0.5, 1, 3, -0.5, 1, -3, 3.5, 1, -3, 3.5, 1, 3, 3.5, 1, 3, 3.5, 1, -3, 0.500001, -1, -3, 0.5, -1, 3, 0.5, -1, 3, -3.5, -1, 3, -0.5, 1, 3, 3.5, 1, 3 )
 
-[sub_resource type="SpatialMaterial" id=51]
+[sub_resource type="SpatialMaterial" id=52]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=52]
+[sub_resource type="ArrayMesh" id=53]
 surfaces/0 = {
 "aabb": AABB( -4.5, -0.666667, 0, 9, 2.00001, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 184, 170, 170, 63, 0, 0, 0, 0, 0, 0, 129, 0, 64, 199, 32, 204, 4, 0, 144, 192, 176, 170, 42, 191, 0, 0, 0, 0, 0, 0, 129, 0, 0, 197, 192, 202, 2, 0, 144, 64, 176, 170, 42, 191, 0, 0, 0, 0, 0, 0, 129, 0, 192, 200, 192, 202 ),
@@ -411,16 +458,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 3,
-"material": SubResource( 51 ),
+"material": SubResource( 52 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 3
 }
 
-[sub_resource type="SpatialMaterial" id=53]
+[sub_resource type="SpatialMaterial" id=54]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=54]
+[sub_resource type="ArrayMesh" id=55]
 surfaces/0 = {
 "aabb": AABB( -1.8, -0.800001, -3.6, 4.5, 2, 6.00001 ),
 "array_data": PoolByteArray( 112, 102, 230, 191, 224, 204, 76, 191, 152, 153, 25, 64, 205, 116, 0, 0, 0, 195, 89, 75, 120, 102, 230, 191, 224, 204, 76, 191, 152, 153, 25, 64, 205, 116, 0, 0, 0, 195, 89, 75, 96, 102, 230, 191, 224, 204, 76, 191, 104, 102, 102, 192, 205, 116, 0, 0, 128, 198, 89, 75, 216, 204, 44, 64, 160, 153, 153, 63, 104, 102, 102, 192, 205, 116, 0, 0, 128, 198, 23, 77, 204, 204, 44, 64, 160, 153, 153, 63, 152, 153, 25, 64, 205, 116, 0, 0, 0, 195, 23, 77 ),
@@ -428,16 +477,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 5,
-"material": SubResource( 53 ),
+"material": SubResource( 54 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 5
 }
 
-[sub_resource type="SpatialMaterial" id=55]
+[sub_resource type="SpatialMaterial" id=56]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=56]
+[sub_resource type="ArrayMesh" id=57]
 surfaces/0 = {
 "aabb": AABB( -3.6, 0, -3.6, 9.00001, 1e-005, 6.00001 ),
 "array_data": PoolByteArray( 206, 204, 172, 64, 0, 0, 0, 0, 152, 153, 25, 64, 0, 129, 0, 0, 0, 67, 71, 193, 210, 204, 172, 64, 0, 0, 0, 0, 104, 102, 102, 192, 0, 129, 0, 0, 128, 70, 71, 193, 104, 102, 102, 192, 0, 0, 0, 0, 104, 102, 102, 192, 0, 129, 0, 0, 128, 70, 32, 185, 116, 102, 102, 192, 0, 0, 0, 0, 152, 153, 25, 64, 0, 129, 0, 0, 0, 67, 31, 185, 112, 102, 102, 192, 0, 0, 0, 0, 152, 153, 25, 64, 0, 129, 0, 0, 0, 67, 31, 185 ),
@@ -445,16 +496,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 5,
-"material": SubResource( 55 ),
+"material": SubResource( 56 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 5
 }
 
-[sub_resource type="SpatialMaterial" id=57]
+[sub_resource type="SpatialMaterial" id=58]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=58]
+[sub_resource type="ArrayMesh" id=59]
 surfaces/0 = {
 "aabb": AABB( -2.25, -1, -3, 4.5, 2.00001, 6.00001 ),
 "array_data": PoolByteArray( 8, 0, 16, 192, 8, 0, 128, 63, 0, 0, 64, 64, 51, 116, 0, 0, 0, 67, 57, 198, 252, 255, 15, 192, 8, 0, 128, 63, 0, 0, 64, 192, 51, 116, 0, 0, 128, 70, 57, 198, 8, 0, 16, 64, 8, 0, 128, 191, 0, 0, 64, 192, 51, 116, 0, 0, 128, 70, 0, 190, 0, 0, 16, 64, 8, 0, 128, 191, 0, 0, 64, 64, 51, 116, 0, 0, 0, 67, 0, 190 ),
@@ -462,16 +515,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 57 ),
+"material": SubResource( 58 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=59]
+[sub_resource type="SpatialMaterial" id=60]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=60]
+[sub_resource type="ArrayMesh" id=61]
 surfaces/0 = {
 "aabb": AABB( -3.375, -0.5, 0, 9.00001, 2, 1e-005 ),
 "array_data": PoolByteArray( 4, 0, 180, 64, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 127, 0, 192, 72, 192, 202, 4, 0, 88, 192, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 127, 0, 255, 68, 192, 202, 8, 0, 88, 192, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 127, 0, 255, 68, 192, 202, 0, 0, 144, 63, 16, 0, 192, 63, 0, 0, 0, 0, 0, 0, 127, 0, 64, 71, 32, 204 ),
@@ -479,19 +534,21 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 59 ),
+"material": SubResource( 60 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="ConvexPolygonShape" id=61]
+[sub_resource type="ConvexPolygonShape" id=62]
 points = PoolVector3Array( 0.495001, 1.40667, -3.24, -4.005, -0.593333, -3.24, 4.995, -0.593333, -3.24, -4.005, -0.593333, 2.76, -4.005, -0.593333, 2.76, -4.005, -0.593333, -3.24, 0.495001, 1.40667, -3.24, 0.494998, 1.40667, 2.76, 4.995, -0.593333, 2.76, 4.995, -0.593333, -3.24, -4.005, -0.593333, -3.24, -4.005, -0.593333, 2.76, -4.005, -0.593333, 2.76, 0.494998, 1.40667, 2.76, 0.495001, 1.40667, -3.24, 4.995, -0.593333, -3.24, 4.995, -0.593333, 2.76, 4.995, -0.593333, 2.76, -4.005, -0.593333, 2.76, -4.005, -0.593333, 2.76, 0.494998, 1.40667, 2.76 )
 
-[sub_resource type="SpatialMaterial" id=62]
+[sub_resource type="SpatialMaterial" id=63]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=63]
+[sub_resource type="ArrayMesh" id=64]
 surfaces/0 = {
 "aabb": AABB( -3.4, -0.8, 0, 7, 2.00001, 1e-005 ),
 "array_data": PoolByteArray( 160, 153, 25, 63, 152, 153, 153, 63, 0, 0, 0, 0, 0, 0, 129, 0, 32, 204, 192, 202, 160, 153, 89, 192, 152, 153, 153, 63, 0, 0, 0, 0, 0, 0, 129, 0, 63, 203, 192, 202, 0, 205, 204, 190, 208, 204, 76, 191, 0, 0, 0, 0, 0, 0, 129, 0, 63, 203, 64, 201, 192, 204, 204, 190, 208, 204, 76, 191, 0, 0, 0, 0, 0, 0, 129, 0, 64, 203, 64, 201, 104, 102, 102, 64, 208, 204, 76, 191, 0, 0, 0, 0, 0, 0, 129, 0, 32, 204, 64, 201 ),
@@ -499,16 +556,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 5,
-"material": SubResource( 62 ),
+"material": SubResource( 63 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 5
 }
 
-[sub_resource type="SpatialMaterial" id=64]
+[sub_resource type="SpatialMaterial" id=65]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=65]
+[sub_resource type="ArrayMesh" id=66]
 surfaces/0 = {
 "aabb": AABB( -1.8, -0.8, -2.4, 3.00001, 2, 6.00001 ),
 "array_data": PoolByteArray( 152, 153, 153, 63, 208, 204, 76, 191, 104, 102, 102, 64, 186, 151, 0, 0, 0, 195, 127, 70, 152, 153, 153, 63, 208, 204, 76, 191, 152, 153, 25, 192, 186, 151, 0, 0, 128, 198, 127, 70, 136, 153, 153, 63, 208, 204, 76, 191, 152, 153, 25, 192, 186, 151, 0, 0, 128, 198, 127, 70, 120, 102, 230, 191, 152, 153, 153, 63, 152, 153, 25, 192, 186, 151, 0, 0, 128, 198, 255, 66, 112, 102, 230, 191, 152, 153, 153, 63, 104, 102, 102, 64, 186, 151, 0, 0, 0, 195, 255, 66 ),
@@ -516,16 +575,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 5,
-"material": SubResource( 64 ),
+"material": SubResource( 65 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 5
 }
 
-[sub_resource type="SpatialMaterial" id=66]
+[sub_resource type="SpatialMaterial" id=67]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=67]
+[sub_resource type="ArrayMesh" id=68]
 surfaces/0 = {
 "aabb": AABB( -1.6, 0, -2.4, 4.00001, 1e-005, 6 ),
 "array_data": PoolByteArray( 152, 153, 25, 64, 0, 0, 0, 0, 152, 153, 25, 192, 0, 129, 0, 0, 128, 70, 63, 202, 208, 204, 204, 191, 0, 0, 0, 0, 152, 153, 25, 192, 0, 129, 0, 0, 128, 70, 63, 201, 224, 204, 204, 191, 0, 0, 0, 0, 152, 153, 25, 192, 0, 129, 0, 0, 128, 70, 63, 201, 208, 204, 204, 191, 0, 0, 0, 0, 104, 102, 102, 64, 0, 129, 0, 0, 0, 67, 63, 201, 152, 153, 25, 64, 0, 0, 0, 0, 104, 102, 102, 64, 0, 129, 0, 0, 0, 67, 63, 202 ),
@@ -533,16 +594,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 5,
-"material": SubResource( 66 ),
+"material": SubResource( 67 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 5
 }
 
-[sub_resource type="SpatialMaterial" id=68]
+[sub_resource type="SpatialMaterial" id=69]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=69]
+[sub_resource type="ArrayMesh" id=70]
 surfaces/0 = {
 "aabb": AABB( -2, 0, -3, 4, 1e-005, 6.00001 ),
 "array_data": PoolByteArray( 0, 0, 0, 192, 0, 0, 0, 0, 0, 0, 64, 64, 0, 127, 0, 0, 0, 195, 63, 200, 4, 0, 0, 192, 0, 0, 0, 0, 0, 0, 64, 192, 0, 127, 0, 0, 128, 198, 63, 200, 4, 0, 0, 64, 0, 0, 0, 0, 0, 0, 64, 192, 0, 127, 0, 0, 128, 198, 63, 201, 4, 0, 0, 64, 0, 0, 0, 0, 0, 0, 64, 64, 0, 127, 0, 0, 0, 195, 63, 201 ),
@@ -550,16 +613,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 68 ),
+"material": SubResource( 69 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=70]
+[sub_resource type="SpatialMaterial" id=71]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=71]
+[sub_resource type="ArrayMesh" id=72]
 surfaces/0 = {
 "aabb": AABB( -1.5, -1, -3, 3, 2.00001, 6 ),
 "array_data": PoolByteArray( 0, 0, 192, 191, 0, 0, 128, 63, 0, 0, 64, 192, 70, 105, 0, 0, 128, 70, 127, 70, 0, 0, 192, 63, 0, 0, 128, 191, 0, 0, 64, 192, 70, 105, 0, 0, 128, 70, 191, 72, 0, 0, 192, 63, 0, 0, 128, 191, 0, 0, 64, 64, 70, 105, 0, 0, 0, 67, 191, 72, 0, 0, 192, 191, 0, 0, 128, 63, 0, 0, 64, 64, 70, 105, 0, 0, 0, 67, 127, 70 ),
@@ -567,16 +632,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 70 ),
+"material": SubResource( 71 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=72]
+[sub_resource type="SpatialMaterial" id=73]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=73]
+[sub_resource type="ArrayMesh" id=74]
 surfaces/0 = {
 "aabb": AABB( -3.5, -1, 0, 7.00001, 2, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 96, 64, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 127, 0, 32, 76, 64, 201, 0, 0, 0, 191, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 127, 0, 64, 75, 64, 201, 4, 0, 96, 192, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 127, 0, 64, 75, 192, 202, 0, 0, 0, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 127, 0, 32, 76, 192, 202 ),
@@ -584,19 +651,21 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 72 ),
+"material": SubResource( 73 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="ConvexPolygonShape" id=74]
+[sub_resource type="ConvexPolygonShape" id=75]
 points = PoolVector3Array( 0.533333, 1.06667, -2.8, -3.46667, 1.06667, -2.8, -0.466669, -0.933333, -2.8, -0.466667, -0.933333, -2.8, 3.53333, -0.933333, -2.8, -0.466667, -0.933333, 3.2, -0.466667, -0.933333, -2.8, -0.466669, -0.933333, -2.8, -3.46667, 1.06667, -2.8, -3.46667, 1.06667, 3.2, 3.53333, -0.933333, -2.8, -0.466667, -0.933333, -2.8, -0.466669, -0.933333, -2.8, -0.466667, -0.933333, 3.2, 3.53333, -0.933333, 3.2, -3.46667, 1.06667, 3.2, -3.46667, 1.06667, -2.8, 0.533333, 1.06667, -2.8, 0.533333, 1.06667, 3.2, 0.533333, 1.06667, -2.8, 3.53333, -0.933333, -2.8, 3.53333, -0.933333, 3.2, 0.533333, 1.06667, 3.2, 3.53333, -0.933333, 3.2, -0.466667, -0.933333, 3.2, -3.46667, 1.06667, 3.2, 0.533333, 1.06667, 3.2 )
 
-[sub_resource type="SpatialMaterial" id=75]
+[sub_resource type="SpatialMaterial" id=76]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=76]
+[sub_resource type="ArrayMesh" id=77]
 surfaces/0 = {
 "aabb": AABB( -3.00235, -1.5, 0, 6.00323, 3.00001, 1e-005 ),
 "array_data": PoolByteArray( 128, 38, 64, 192, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 129, 0, 191, 201, 0, 195, 0, 45, 128, 191, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 129, 0, 191, 201, 0, 192, 128, 14, 64, 64, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 129, 0, 192, 202, 0, 192, 0, 93, 128, 63, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 129, 0, 192, 202, 0, 195 ),
@@ -604,16 +673,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 75 ),
+"material": SubResource( 76 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=77]
+[sub_resource type="SpatialMaterial" id=78]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=78]
+[sub_resource type="ArrayMesh" id=79]
 surfaces/0 = {
 "aabb": AABB( -1.00049, -1.5, -3, 2.00099, 3, 6.00001 ),
 "array_data": PoolByteArray( 0, 16, 128, 63, 0, 0, 192, 191, 0, 0, 64, 64, 151, 186, 0, 0, 0, 195, 0, 192, 0, 16, 128, 63, 0, 0, 192, 191, 0, 0, 64, 192, 151, 186, 0, 0, 128, 198, 0, 192, 0, 16, 128, 191, 0, 0, 192, 63, 0, 0, 64, 192, 151, 186, 0, 0, 128, 198, 0, 195, 0, 16, 128, 191, 0, 0, 192, 63, 0, 0, 64, 64, 151, 186, 0, 0, 0, 195, 0, 195 ),
@@ -621,16 +692,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 77 ),
+"material": SubResource( 78 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=79]
+[sub_resource type="SpatialMaterial" id=80]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=80]
+[sub_resource type="ArrayMesh" id=81]
 surfaces/0 = {
 "aabb": AABB( -2.00113, 0, -3, 4.00227, 1e-005, 6 ),
 "array_data": PoolByteArray( 128, 18, 0, 64, 0, 0, 0, 0, 0, 0, 64, 192, 0, 129, 0, 0, 128, 70, 106, 202, 128, 18, 0, 192, 0, 0, 0, 0, 0, 0, 64, 192, 0, 129, 0, 0, 128, 70, 106, 201, 128, 18, 0, 192, 0, 0, 0, 0, 0, 0, 64, 64, 0, 129, 0, 0, 0, 67, 106, 201, 128, 18, 0, 64, 0, 0, 0, 0, 0, 0, 64, 64, 0, 129, 0, 0, 0, 67, 106, 202 ),
@@ -638,16 +711,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 79 ),
+"material": SubResource( 80 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=81]
+[sub_resource type="SpatialMaterial" id=82]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=82]
+[sub_resource type="ArrayMesh" id=83]
 surfaces/0 = {
 "aabb": AABB( -2.00259, 0, -3, 4.00519, 1e-005, 6.00001 ),
 "array_data": PoolByteArray( 128, 42, 0, 192, 0, 0, 0, 0, 0, 0, 64, 64, 0, 127, 0, 0, 0, 195, 191, 201, 128, 42, 0, 192, 0, 0, 0, 0, 0, 0, 64, 192, 0, 127, 0, 0, 128, 198, 191, 201, 128, 42, 0, 64, 0, 0, 0, 0, 0, 0, 64, 192, 0, 127, 0, 0, 128, 198, 192, 202, 128, 42, 0, 64, 0, 0, 0, 0, 0, 0, 64, 64, 0, 127, 0, 0, 0, 195, 192, 202 ),
@@ -655,16 +730,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 81 ),
+"material": SubResource( 82 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=83]
+[sub_resource type="SpatialMaterial" id=84]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=84]
+[sub_resource type="ArrayMesh" id=85]
 surfaces/0 = {
 "aabb": AABB( -0.999023, -1.5, -3, 1.99805, 3.00001, 6 ),
 "array_data": PoolByteArray( 0, 192, 127, 191, 0, 0, 192, 63, 0, 0, 64, 192, 105, 70, 0, 0, 128, 70, 0, 195, 0, 192, 127, 63, 0, 0, 192, 191, 0, 0, 64, 192, 105, 70, 0, 0, 128, 70, 0, 192, 0, 192, 127, 63, 0, 0, 192, 191, 0, 0, 64, 64, 105, 70, 0, 0, 0, 67, 0, 192, 0, 192, 127, 191, 0, 0, 192, 63, 0, 0, 64, 64, 105, 70, 0, 0, 0, 67, 0, 195 ),
@@ -672,16 +749,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 83 ),
+"material": SubResource( 84 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=85]
+[sub_resource type="SpatialMaterial" id=86]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=86]
+[sub_resource type="ArrayMesh" id=87]
 surfaces/0 = {
 "aabb": AABB( -3.00235, -1.5, 0, 6.00323, 3.00001, 1e-005 ),
 "array_data": PoolByteArray( 0, 93, 128, 63, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 127, 0, 192, 74, 0, 195, 128, 14, 64, 64, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 127, 0, 192, 74, 0, 192, 0, 45, 128, 191, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 127, 0, 191, 73, 0, 192, 128, 38, 64, 192, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 127, 0, 191, 73, 0, 195 ),
@@ -689,19 +768,21 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 85 ),
+"material": SubResource( 86 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="ConvexPolygonShape" id=87]
+[sub_resource type="ConvexPolygonShape" id=88]
 points = PoolVector3Array( -3.00235, 1.5, -3, -1.00137, -1.5, -3, 3.00089, -1.5, -3, 1.00284, 1.5, -3, -1.00137, -1.5, 3, -1.00137, -1.5, -3, -3.00235, 1.5, -3, -3.00235, 1.5, 3, 3.00089, -1.5, -3, -1.00137, -1.5, -3, -1.00137, -1.5, 3, 3.00089, -1.5, 3, -3.00235, 1.5, 3, -3.00235, 1.5, -3, 1.00284, 1.5, -3, 1.00284, 1.5, 3, 1.00284, 1.5, -3, 3.00089, -1.5, -3, 3.00089, -1.5, 3, 1.00284, 1.5, 3, 1.00284, 1.5, 3, 3.00089, -1.5, 3, -1.00137, -1.5, 3, -3.00235, 1.5, 3 )
 
-[sub_resource type="SpatialMaterial" id=88]
+[sub_resource type="SpatialMaterial" id=89]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=89]
+[sub_resource type="ArrayMesh" id=90]
 surfaces/0 = {
 "aabb": AABB( -2.49911, -1.5, 0, 4.9997, 3.00001, 1e-005 ),
 "array_data": PoolByteArray( 16, 211, 191, 63, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 129, 0, 63, 202, 0, 192, 128, 241, 31, 192, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 129, 0, 64, 201, 0, 192, 0, 3, 192, 191, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 129, 0, 64, 201, 0, 184, 136, 9, 32, 64, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 129, 0, 64, 202, 0, 184 ),
@@ -709,16 +790,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 88 ),
+"material": SubResource( 89 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=90]
+[sub_resource type="SpatialMaterial" id=91]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=91]
+[sub_resource type="ArrayMesh" id=92]
 surfaces/0 = {
 "aabb": AABB( -0.499512, -1.5, -3, 0.999033, 3, 6.00001 ),
 "array_data": PoolByteArray( 0, 192, 255, 62, 0, 0, 192, 191, 0, 0, 64, 64, 136, 216, 0, 0, 0, 195, 0, 184, 0, 192, 255, 62, 0, 0, 192, 191, 0, 0, 64, 192, 136, 216, 0, 0, 128, 198, 0, 184, 0, 192, 255, 190, 0, 0, 192, 63, 0, 0, 64, 192, 136, 216, 0, 0, 128, 198, 0, 192, 0, 192, 255, 190, 0, 0, 192, 63, 0, 0, 64, 64, 136, 216, 0, 0, 0, 195, 0, 192 ),
@@ -726,16 +809,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 90 ),
+"material": SubResource( 91 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=92]
+[sub_resource type="SpatialMaterial" id=93]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=93]
+[sub_resource type="ArrayMesh" id=94]
 surfaces/0 = {
 "aabb": AABB( -1.99887, 0, -3, 3.99774, 1e-005, 6.00001 ),
 "array_data": PoolByteArray( 0, 219, 255, 191, 0, 0, 0, 0, 0, 0, 64, 64, 0, 127, 0, 0, 0, 195, 234, 200, 0, 219, 255, 191, 0, 0, 0, 0, 0, 0, 64, 192, 0, 127, 0, 0, 128, 198, 234, 200, 16, 219, 255, 63, 0, 0, 0, 0, 0, 0, 64, 192, 0, 127, 0, 0, 128, 198, 234, 201, 16, 219, 255, 63, 0, 0, 0, 0, 0, 0, 64, 64, 0, 127, 0, 0, 0, 195, 234, 201 ),
@@ -743,16 +828,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 92 ),
+"material": SubResource( 93 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=94]
+[sub_resource type="SpatialMaterial" id=95]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=95]
+[sub_resource type="ArrayMesh" id=96]
 surfaces/0 = {
 "aabb": AABB( -0.500977, -1.5, -3, 1.00195, 3.00001, 6 ),
 "array_data": PoolByteArray( 0, 64, 0, 191, 0, 0, 192, 63, 0, 0, 64, 192, 120, 40, 0, 0, 128, 70, 0, 192, 0, 64, 0, 63, 0, 0, 192, 191, 0, 0, 64, 192, 120, 40, 0, 0, 128, 70, 0, 184, 0, 64, 0, 63, 0, 0, 192, 191, 0, 0, 64, 64, 120, 40, 0, 0, 0, 67, 0, 184, 0, 64, 0, 191, 0, 0, 192, 63, 0, 0, 64, 64, 120, 40, 0, 0, 0, 67, 0, 192 ),
@@ -760,16 +847,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 94 ),
+"material": SubResource( 95 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=96]
+[sub_resource type="SpatialMaterial" id=97]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=97]
+[sub_resource type="ArrayMesh" id=98]
 surfaces/0 = {
 "aabb": AABB( -2.49911, -1.5, 0, 4.99971, 3, 1e-005 ),
 "array_data": PoolByteArray( 136, 9, 32, 64, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 127, 0, 64, 74, 0, 184, 0, 3, 192, 191, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 127, 0, 64, 73, 0, 184, 128, 241, 31, 192, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 127, 0, 64, 73, 0, 192, 16, 211, 191, 63, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 127, 0, 63, 74, 0, 192 ),
@@ -777,19 +866,21 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 96 ),
+"material": SubResource( 97 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="ConvexPolygonShape" id=98]
+[sub_resource type="ConvexPolygonShape" id=99]
 points = PoolVector3Array( 1.49863, 1.5, -3, -2.49911, 1.5, -3, -1.50009, -1.5, -3, 2.50058, -1.5, -3, -1.50009, -1.5, 3, -1.50009, -1.5, -3, -2.49911, 1.5, -3, -2.49911, 1.5, 3, 2.50058, -1.5, 3, 2.50058, -1.5, -3, -1.50009, -1.5, -3, -1.50009, -1.5, 3, -2.49911, 1.5, 3, -2.49911, 1.5, -3, 1.49863, 1.5, -3, 1.49863, 1.5, 3, 1.49863, 1.5, -3, 2.50058, -1.5, -3, 2.50058, -1.5, 3, 1.49863, 1.5, 3, 2.50058, -1.5, 3, -1.50009, -1.5, 3, -2.49911, 1.5, 3, 1.49863, 1.5, 3 )
 
-[sub_resource type="SpatialMaterial" id=99]
+[sub_resource type="SpatialMaterial" id=100]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=100]
+[sub_resource type="ArrayMesh" id=101]
 surfaces/0 = {
 "aabb": AABB( -4, -1, 0, 8, 2.00001, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 128, 192, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 68, 0, 195, 0, 0, 128, 192, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 129, 0, 0, 68, 0, 193, 0, 0, 128, 64, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 129, 0, 0, 0, 0, 193, 0, 0, 128, 64, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 0, 0, 195 ),
@@ -797,16 +888,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 99 ),
+"material": SubResource( 100 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=101]
+[sub_resource type="SpatialMaterial" id=102]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=102]
+[sub_resource type="ArrayMesh" id=103]
 surfaces/0 = {
 "aabb": AABB( 0, -1, -4, 1e-005, 2, 8.00001 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 128, 191, 0, 0, 128, 64, 129, 0, 0, 0, 128, 72, 0, 193, 0, 0, 0, 0, 0, 0, 128, 191, 0, 0, 128, 192, 129, 0, 0, 0, 0, 69, 0, 193, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 192, 129, 0, 0, 0, 0, 69, 0, 195, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 64, 129, 0, 0, 0, 128, 72, 0, 195 ),
@@ -814,16 +907,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 101 ),
+"material": SubResource( 102 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=103]
+[sub_resource type="SpatialMaterial" id=104]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=104]
+[sub_resource type="ArrayMesh" id=105]
 surfaces/0 = {
 "aabb": AABB( -4, 0, -4, 8.00001, 1e-005, 8 ),
 "array_data": PoolByteArray( 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 128, 192, 0, 129, 0, 0, 0, 197, 0, 0, 0, 0, 128, 192, 0, 0, 0, 0, 0, 0, 128, 192, 0, 129, 0, 0, 0, 197, 0, 68, 0, 0, 128, 192, 0, 0, 0, 0, 0, 0, 128, 64, 0, 129, 0, 0, 128, 200, 0, 68, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 128, 64, 0, 129, 0, 0, 128, 200, 0, 0 ),
@@ -831,16 +926,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 103 ),
+"material": SubResource( 104 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=105]
+[sub_resource type="SpatialMaterial" id=106]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=106]
+[sub_resource type="ArrayMesh" id=107]
 surfaces/0 = {
 "aabb": AABB( -4, 0, -4, 8, 1e-005, 8.00001 ),
 "array_data": PoolByteArray( 0, 0, 128, 192, 0, 0, 0, 0, 0, 0, 128, 64, 0, 127, 0, 0, 128, 72, 0, 68, 0, 0, 128, 192, 0, 0, 0, 0, 0, 0, 128, 192, 0, 127, 0, 0, 0, 69, 0, 68, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 128, 192, 0, 127, 0, 0, 0, 69, 0, 0, 0, 0, 128, 64, 0, 0, 0, 0, 0, 0, 128, 64, 0, 127, 0, 0, 128, 72, 0, 0 ),
@@ -848,16 +945,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 105 ),
+"material": SubResource( 106 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=107]
+[sub_resource type="SpatialMaterial" id=108]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=108]
+[sub_resource type="ArrayMesh" id=109]
 surfaces/0 = {
 "aabb": AABB( 0, -1, -4, 1e-005, 2.00001, 8 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 192, 127, 0, 0, 0, 0, 197, 0, 195, 0, 0, 0, 0, 0, 0, 128, 191, 0, 0, 128, 192, 127, 0, 0, 0, 0, 197, 0, 193, 0, 0, 0, 0, 0, 0, 128, 191, 0, 0, 128, 64, 127, 0, 0, 0, 128, 200, 0, 193, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 64, 127, 0, 0, 0, 128, 200, 0, 195 ),
@@ -865,16 +964,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 107 ),
+"material": SubResource( 108 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=109]
+[sub_resource type="SpatialMaterial" id=110]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=110]
+[sub_resource type="ArrayMesh" id=111]
 surfaces/0 = {
 "aabb": AABB( -4, -1, 0, 8.00001, 2, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 128, 64, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 127, 0, 0, 0, 0, 193, 0, 0, 128, 192, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 127, 0, 0, 196, 0, 193, 0, 0, 128, 192, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 196, 0, 195, 0, 0, 128, 64, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 0, 0, 195 ),
@@ -882,19 +983,21 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 109 ),
+"material": SubResource( 110 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="ConvexPolygonShape" id=111]
+[sub_resource type="ConvexPolygonShape" id=112]
 points = PoolVector3Array( -4, 1, -4, -4, -1, -4, 4, -1, -4, 4, 1, -4, -4, -1, 4, -4, -1, -4, -4, 1, -4, -4, 1, 4, 4, -1, -4, -4, -1, -4, -4, -1, 4, 4, -1, 4, -4, 1, 4, -4, 1, -4, 4, 1, -4, 4, 1, 4, 4, 1, -4, 4, -1, -4, 4, -1, 4, 4, 1, 4, 4, -1, 4, -4, -1, 4, -4, 1, 4, 4, 1, 4 )
 
-[sub_resource type="SpatialMaterial" id=112]
+[sub_resource type="SpatialMaterial" id=113]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=113]
+[sub_resource type="ArrayMesh" id=114]
 surfaces/0 = {
 "aabb": AABB( -2, -0.5, -0.5, 4.00001, 1.00001, 1.00001 ),
 "array_data": PoolByteArray( 0, 0, 0, 64, 0, 0, 0, 63, 0, 0, 0, 63, 0, 89, 167, 0, 0, 69, 0, 0, 0, 0, 0, 192, 0, 0, 0, 63, 0, 0, 0, 63, 0, 89, 167, 0, 0, 69, 0, 64, 0, 0, 0, 192, 240, 255, 255, 190, 0, 0, 0, 191, 0, 89, 167, 0, 128, 68, 0, 64, 0, 0, 0, 64, 240, 255, 255, 190, 0, 0, 0, 191, 0, 89, 167, 0, 128, 68, 0, 0 ),
@@ -902,16 +1005,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 112 ),
+"material": SubResource( 113 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=114]
+[sub_resource type="SpatialMaterial" id=115]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=115]
+[sub_resource type="ArrayMesh" id=116]
 surfaces/0 = {
 "aabb": AABB( 0, -0.333333, -0.666667, 1e-005, 1, 1.00001 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 176, 170, 170, 190, 160, 170, 170, 62, 129, 0, 0, 0, 128, 69, 0, 195, 0, 0, 0, 0, 160, 170, 170, 190, 176, 170, 42, 191, 129, 0, 0, 0, 0, 69, 0, 195, 0, 0, 0, 0, 168, 170, 42, 63, 160, 170, 170, 62, 129, 0, 0, 0, 128, 69, 0, 196 ),
@@ -919,16 +1024,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 3,
-"material": SubResource( 114 ),
+"material": SubResource( 115 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 3
 }
 
-[sub_resource type="SpatialMaterial" id=116]
+[sub_resource type="SpatialMaterial" id=117]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=117]
+[sub_resource type="ArrayMesh" id=118]
 surfaces/0 = {
 "aabb": AABB( 0, -0.333333, -0.666667, 1e-005, 1.00001, 1.00001 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 168, 170, 42, 63, 160, 170, 170, 62, 127, 0, 0, 0, 128, 197, 0, 196, 0, 0, 0, 0, 160, 170, 170, 190, 176, 170, 42, 191, 127, 0, 0, 0, 0, 197, 0, 195, 0, 0, 0, 0, 176, 170, 170, 190, 160, 170, 170, 62, 127, 0, 0, 0, 128, 197, 0, 195 ),
@@ -936,19 +1043,21 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 3,
-"material": SubResource( 116 ),
+"material": SubResource( 117 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 3
 }
 
-[sub_resource type="ConvexPolygonShape" id=118]
+[sub_resource type="ConvexPolygonShape" id=119]
 points = PoolVector3Array( 2, 0.666667, 0.333333, -2, 0.666667, 0.333333, -2, -0.333333, -0.666667, 2, -0.333333, -0.666667, -2, -0.333333, 0.333333, -2, -0.333333, -0.666667, -2, 0.666667, 0.333333, 2, -0.333333, -0.666667, -2, -0.333333, -0.666667, -2, -0.333333, 0.333333, 2, -0.333333, 0.333333, 2, 0.666667, 0.333333, 2, -0.333333, -0.666667, 2, -0.333333, 0.333333, -2, -0.333333, 0.333333, -2, 0.666667, 0.333333, 2, 0.666667, 0.333333, 2, -0.333333, 0.333333 )
 
-[sub_resource type="SpatialMaterial" id=119]
+[sub_resource type="SpatialMaterial" id=120]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=120]
+[sub_resource type="ArrayMesh" id=121]
 surfaces/0 = {
 "aabb": AABB( -3.5, -3, -3.5001, 7, 6.00001, 7.0002 ),
 "array_data": PoolByteArray( 0, 0, 96, 192, 2, 0, 64, 64, 144, 1, 96, 64, 0, 96, 174, 0, 0, 0, 0, 186, 0, 0, 0, 191, 0, 0, 64, 192, 144, 1, 96, 192, 0, 96, 174, 0, 0, 0, 0, 182, 0, 0, 96, 64, 0, 0, 64, 192, 145, 1, 96, 192, 0, 96, 174, 0, 0, 180, 0, 182, 0, 0, 0, 63, 254, 255, 63, 64, 144, 1, 96, 64, 0, 96, 174, 0, 255, 179, 0, 186 ),
@@ -956,16 +1065,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 119 ),
+"material": SubResource( 120 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=121]
+[sub_resource type="SpatialMaterial" id=122]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=122]
+[sub_resource type="ArrayMesh" id=123]
 surfaces/0 = {
 "aabb": AABB( -1.5, -3, -3.99954, 3, 6.00001, 8.00001 ),
 "array_data": PoolByteArray( 0, 0, 192, 191, 0, 0, 64, 64, 206, 3, 128, 64, 143, 200, 0, 0, 255, 51, 0, 186, 0, 0, 192, 63, 0, 0, 64, 192, 232, 25, 64, 192, 143, 200, 0, 0, 254, 51, 0, 182, 0, 0, 192, 63, 0, 0, 64, 192, 104, 248, 127, 192, 143, 200, 0, 0, 255, 49, 0, 182, 0, 0, 192, 191, 2, 0, 64, 64, 184, 10, 64, 64, 143, 200, 0, 0, 0, 50, 0, 186 ),
@@ -973,16 +1084,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 121 ),
+"material": SubResource( 122 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=123]
+[sub_resource type="SpatialMaterial" id=124]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=124]
+[sub_resource type="ArrayMesh" id=125]
 surfaces/0 = {
 "aabb": AABB( -2, -4.76837e-007, -0.499905, 4.00001, 1e-005, 0.999819 ),
 "array_data": PoolByteArray( 253, 255, 255, 63, 0, 0, 0, 181, 128, 243, 255, 62, 0, 127, 0, 0, 255, 51, 128, 184, 0, 0, 0, 192, 0, 0, 0, 0, 160, 243, 255, 62, 0, 127, 0, 0, 255, 51, 0, 181, 0, 0, 0, 192, 0, 0, 0, 53, 128, 243, 255, 190, 0, 127, 0, 0, 0, 50, 0, 181, 0, 0, 0, 64, 0, 0, 0, 181, 128, 243, 255, 190, 0, 127, 0, 0, 0, 50, 128, 184 ),
@@ -990,16 +1103,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 123 ),
+"material": SubResource( 124 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=125]
+[sub_resource type="SpatialMaterial" id=126]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=126]
+[sub_resource type="ArrayMesh" id=127]
 surfaces/0 = {
 "aabb": AABB( -1.5, -3, -3.99954, 3, 6.00001, 8 ),
 "array_data": PoolByteArray( 255, 255, 191, 191, 254, 255, 63, 64, 184, 10, 64, 64, 113, 56, 0, 0, 0, 178, 0, 186, 1, 0, 192, 63, 0, 0, 64, 192, 105, 248, 127, 192, 113, 56, 0, 0, 255, 177, 0, 182, 255, 255, 191, 63, 0, 0, 64, 192, 232, 25, 64, 192, 113, 56, 0, 0, 254, 179, 0, 182, 2, 0, 192, 191, 254, 255, 63, 64, 204, 3, 128, 64, 113, 56, 0, 0, 255, 179, 0, 186 ),
@@ -1007,16 +1122,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 125 ),
+"material": SubResource( 126 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=127]
+[sub_resource type="SpatialMaterial" id=128]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=128]
+[sub_resource type="ArrayMesh" id=129]
 surfaces/0 = {
 "aabb": AABB( -3.5, -3, -3.50102, 7.00001, 6, 7.00205 ),
 "array_data": PoolByteArray( 0, 0, 96, 64, 0, 0, 64, 192, 192, 16, 96, 192, 0, 160, 82, 0, 255, 51, 0, 182, 250, 255, 255, 190, 0, 0, 64, 192, 192, 16, 96, 192, 0, 160, 82, 0, 0, 0, 0, 182, 255, 255, 95, 192, 0, 0, 64, 64, 196, 16, 96, 64, 0, 160, 82, 0, 0, 0, 0, 186, 248, 255, 255, 62, 254, 255, 63, 64, 192, 16, 96, 64, 0, 160, 82, 0, 255, 51, 0, 186 ),
@@ -1024,19 +1141,21 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 127 ),
+"material": SubResource( 128 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="ConvexPolygonShape" id=129]
+[sub_resource type="ConvexPolygonShape" id=130]
 points = PoolVector3Array( -3.5, 3, 3.00065, -0.5, -3, -3.99954, 3.5, -3, -3.99954, 0.5, 3, 3.00065, -3.5, 3, 4.00046, -0.5, -3, -3.00158, -0.5, -3, -3.99954, -3.5, 3, 3.00065, 3.5, -3, -3.99954, -0.5, -3, -3.99954, -0.5, -3, -3.00158, 3.5, -3, -3.00158, 0.5, 3, 4.00046, -3.5, 3, 4.00046, -3.5, 3, 3.00065, 0.5, 3, 3.00065, 0.5, 3, 3.00065, 3.5, -3, -3.99954, 3.5, -3, -3.00158, 0.5, 3, 4.00046, 3.5, -3, -3.00158, -0.5, -3, -3.00158, -3.5, 3, 4.00046, 0.5, 3, 4.00046 )
 
-[sub_resource type="SpatialMaterial" id=130]
+[sub_resource type="SpatialMaterial" id=131]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=131]
+[sub_resource type="ArrayMesh" id=132]
 surfaces/0 = {
 "aabb": AABB( -1, -2.5, 0, 2.00001, 5.00001, 1e-005 ),
 "array_data": PoolByteArray( 224, 255, 127, 63, 0, 0, 32, 64, 0, 0, 0, 0, 0, 0, 129, 0, 63, 206, 0, 198, 0, 0, 128, 191, 0, 0, 32, 64, 0, 0, 0, 0, 0, 0, 129, 0, 192, 205, 0, 198, 0, 0, 128, 191, 0, 0, 32, 192, 0, 0, 0, 0, 0, 0, 129, 0, 192, 205, 0, 188, 224, 255, 127, 63, 0, 0, 32, 192, 0, 0, 0, 0, 0, 0, 129, 0, 63, 206, 0, 188 ),
@@ -1044,16 +1163,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 130 ),
+"material": SubResource( 131 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=132]
+[sub_resource type="SpatialMaterial" id=133]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=133]
+[sub_resource type="ArrayMesh" id=134]
 surfaces/0 = {
 "aabb": AABB( -0.5, -2.5, -0.5, 1, 5, 1.00001 ),
 "array_data": PoolByteArray( 0, 0, 0, 191, 0, 0, 32, 192, 0, 0, 0, 63, 167, 0, 167, 0, 199, 207, 0, 188, 0, 0, 0, 63, 0, 0, 32, 192, 0, 0, 0, 191, 167, 0, 167, 0, 16, 208, 0, 188, 0, 0, 0, 63, 0, 0, 32, 64, 0, 0, 0, 191, 167, 0, 167, 0, 16, 208, 0, 198, 0, 0, 0, 191, 0, 0, 32, 64, 0, 0, 0, 63, 167, 0, 167, 0, 199, 207, 0, 198 ),
@@ -1061,16 +1182,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 132 ),
+"material": SubResource( 133 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=134]
+[sub_resource type="SpatialMaterial" id=135]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=135]
+[sub_resource type="ArrayMesh" id=136]
 surfaces/0 = {
 "aabb": AABB( -0.5, -2.5, -0.5, 1, 5.00001, 1 ),
 "array_data": PoolByteArray( 0, 0, 0, 191, 0, 0, 32, 64, 0, 0, 0, 191, 89, 0, 167, 0, 168, 189, 0, 198, 0, 0, 0, 191, 0, 0, 32, 192, 0, 0, 0, 191, 89, 0, 167, 0, 168, 189, 0, 188, 0, 0, 0, 63, 0, 0, 32, 192, 0, 0, 0, 63, 89, 0, 167, 0, 168, 193, 0, 188, 0, 0, 0, 63, 0, 0, 32, 64, 0, 0, 0, 63, 89, 0, 167, 0, 168, 193, 0, 198 ),
@@ -1078,16 +1201,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 134 ),
+"material": SubResource( 135 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=136]
+[sub_resource type="SpatialMaterial" id=137]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=137]
+[sub_resource type="ArrayMesh" id=138]
 surfaces/0 = {
 "aabb": AABB( 0, -2.5, -1, 1e-005, 5, 2.00001 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 32, 192, 192, 255, 127, 63, 129, 0, 0, 0, 0, 205, 0, 188, 0, 0, 0, 0, 0, 0, 32, 192, 0, 0, 128, 191, 129, 0, 0, 0, 128, 205, 0, 188, 0, 0, 0, 0, 0, 0, 32, 64, 0, 0, 128, 191, 129, 0, 0, 0, 128, 205, 0, 198, 0, 0, 0, 0, 0, 0, 32, 64, 192, 255, 127, 63, 129, 0, 0, 0, 0, 205, 0, 198 ),
@@ -1095,16 +1220,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 136 ),
+"material": SubResource( 137 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=138]
+[sub_resource type="SpatialMaterial" id=139]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=139]
+[sub_resource type="ArrayMesh" id=140]
 surfaces/0 = {
 "aabb": AABB( -2, 0, -2, 4, 1e-005, 4.00001 ),
 "array_data": PoolByteArray( 192, 255, 127, 191, 0, 0, 0, 0, 0, 0, 0, 64, 0, 127, 0, 0, 192, 204, 192, 205, 0, 0, 0, 192, 0, 0, 0, 0, 192, 255, 127, 63, 0, 127, 0, 0, 0, 205, 128, 205, 0, 0, 0, 192, 0, 0, 0, 0, 0, 0, 128, 191, 0, 127, 0, 0, 128, 205, 128, 205, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 0, 192, 0, 127, 0, 0, 192, 205, 192, 205, 224, 255, 127, 63, 0, 0, 0, 0, 0, 0, 0, 192, 0, 127, 0, 0, 192, 205, 63, 206, 240, 255, 255, 63, 0, 0, 0, 0, 0, 0, 128, 191, 0, 127, 0, 0, 128, 205, 127, 206, 240, 255, 255, 63, 0, 0, 0, 0, 16, 0, 128, 63, 0, 127, 0, 0, 255, 204, 127, 206, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 64, 0, 127, 0, 0, 192, 204, 64, 206 ),
@@ -1112,16 +1239,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 8,
-"material": SubResource( 138 ),
+"material": SubResource( 139 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 8
 }
 
-[sub_resource type="SpatialMaterial" id=140]
+[sub_resource type="SpatialMaterial" id=141]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=141]
+[sub_resource type="ArrayMesh" id=142]
 surfaces/0 = {
 "aabb": AABB( 0, -2.5, -1, 1e-005, 5.00001, 2 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 32, 64, 0, 0, 128, 191, 127, 0, 0, 0, 128, 77, 0, 198, 0, 0, 0, 0, 0, 0, 32, 192, 0, 0, 128, 191, 127, 0, 0, 0, 128, 77, 0, 188, 0, 0, 0, 0, 0, 0, 32, 192, 16, 0, 128, 63, 127, 0, 0, 0, 255, 76, 0, 188, 0, 0, 0, 0, 0, 0, 32, 64, 16, 0, 128, 63, 127, 0, 0, 0, 255, 76, 0, 198 ),
@@ -1129,16 +1258,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 140 ),
+"material": SubResource( 141 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=142]
+[sub_resource type="SpatialMaterial" id=143]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=143]
+[sub_resource type="ArrayMesh" id=144]
 surfaces/0 = {
 "aabb": AABB( -0.5, -2.5, -0.500002, 1.00001, 5.00001, 1.00001 ),
 "array_data": PoolByteArray( 64, 0, 0, 63, 0, 0, 32, 64, 32, 0, 0, 63, 167, 0, 89, 0, 168, 65, 0, 198, 64, 0, 0, 63, 0, 0, 32, 192, 32, 0, 0, 63, 167, 0, 89, 0, 168, 65, 0, 188, 0, 0, 0, 191, 0, 0, 32, 192, 32, 0, 0, 191, 167, 0, 89, 0, 168, 61, 0, 188, 0, 0, 0, 191, 0, 0, 32, 64, 32, 0, 0, 191, 167, 0, 89, 0, 168, 61, 0, 198 ),
@@ -1146,16 +1277,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 142 ),
+"material": SubResource( 143 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=144]
+[sub_resource type="SpatialMaterial" id=145]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=145]
+[sub_resource type="ArrayMesh" id=146]
 surfaces/0 = {
 "aabb": AABB( -0.5, -2.5, -0.499998, 1.00001, 5.00001, 0.999998 ),
 "array_data": PoolByteArray( 192, 255, 255, 62, 0, 0, 32, 64, 192, 255, 255, 190, 89, 0, 89, 0, 16, 80, 0, 198, 192, 255, 255, 62, 0, 0, 32, 192, 192, 255, 255, 190, 89, 0, 89, 0, 16, 80, 0, 188, 0, 0, 0, 191, 0, 0, 32, 192, 0, 0, 0, 63, 89, 0, 89, 0, 199, 79, 0, 188, 0, 0, 0, 191, 0, 0, 32, 64, 0, 0, 0, 63, 89, 0, 89, 0, 199, 79, 0, 198 ),
@@ -1163,16 +1296,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 144 ),
+"material": SubResource( 145 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=146]
+[sub_resource type="SpatialMaterial" id=147]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=147]
+[sub_resource type="ArrayMesh" id=148]
 surfaces/0 = {
 "aabb": AABB( -0.999998, -2.5, 0, 2.00001, 5, 1e-005 ),
 "array_data": PoolByteArray( 224, 255, 127, 63, 0, 0, 32, 192, 0, 0, 0, 0, 0, 0, 127, 0, 64, 78, 0, 188, 224, 255, 127, 191, 0, 0, 32, 192, 0, 0, 0, 0, 0, 0, 127, 0, 192, 77, 0, 188, 224, 255, 127, 191, 0, 0, 32, 64, 0, 0, 0, 0, 0, 0, 127, 0, 192, 77, 0, 198, 224, 255, 127, 63, 0, 0, 32, 64, 0, 0, 0, 0, 0, 0, 127, 0, 64, 78, 0, 198 ),
@@ -1180,19 +1315,21 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 146 ),
+"material": SubResource( 147 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="ConvexPolygonShape" id=148]
+[sub_resource type="ConvexPolygonShape" id=149]
 points = PoolVector3Array( 0.999998, 2.5, -2, -1, 2.5, -2, -1, -2.5, -2, 0.999998, -2.5, -2, -2, -2.5, -1, -1, -2.5, -2, -1, 2.5, -2, -2, 2.5, -1, 0.999998, 2.5, -2, 0.999998, -2.5, -2, 2, -2.5, -1, 2, 2.5, -1, -2, -2.5, 0.999996, -2, -2.5, -1, -2, 2.5, -1, -2, 2.5, 0.999996, 2, -2.5, 1, 2, -2.5, -1, 0.999998, -2.5, -2, -1, -2.5, -2, -2, -2.5, -1, -2, -2.5, 0.999996, -0.999996, -2.5, 2, 1, -2.5, 2, -0.999996, 2.5, 2, -2, 2.5, 0.999996, -2, 2.5, -1, -1, 2.5, -2, 0.999998, 2.5, -2, 2, 2.5, -1, 2, 2.5, 1, 1, 2.5, 2, 2, 2.5, -1, 2, -2.5, -1, 2, -2.5, 1, 2, 2.5, 1, -0.999996, 2.5, 2, -0.999996, -2.5, 2, -2, -2.5, 0.999996, -2, 2.5, 0.999996, 2, 2.5, 1, 2, -2.5, 1, 1, -2.5, 2, 1, 2.5, 2, 1, -2.5, 2, -0.999996, -2.5, 2, -0.999996, 2.5, 2, 1, 2.5, 2 )
 
-[sub_resource type="SpatialMaterial" id=149]
+[sub_resource type="SpatialMaterial" id=150]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=150]
+[sub_resource type="ArrayMesh" id=151]
 surfaces/0 = {
 "aabb": AABB( -1, -1, 0, 2, 2.00001, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 128, 191, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 0, 240, 195, 0, 0, 128, 191, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 129, 0, 0, 0, 224, 191, 0, 0, 128, 63, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 129, 0, 0, 192, 224, 191, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 192, 240, 195 ),
@@ -1200,16 +1337,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 149 ),
+"material": SubResource( 150 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=151]
+[sub_resource type="SpatialMaterial" id=152]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=152]
+[sub_resource type="ArrayMesh" id=153]
 surfaces/0 = {
 "aabb": AABB( 0, -1, -1, 1e-005, 2, 2.00001 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 128, 191, 0, 0, 128, 63, 129, 0, 0, 0, 192, 204, 224, 191, 0, 0, 0, 0, 0, 0, 128, 191, 0, 0, 128, 191, 129, 0, 0, 0, 64, 205, 224, 191, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 191, 129, 0, 0, 0, 64, 205, 240, 195, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 63, 129, 0, 0, 0, 192, 204, 240, 195 ),
@@ -1217,16 +1356,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 151 ),
+"material": SubResource( 152 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=153]
+[sub_resource type="SpatialMaterial" id=154]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=154]
+[sub_resource type="ArrayMesh" id=155]
 surfaces/0 = {
 "aabb": AABB( -1, 0, -1, 2.00001, 1e-005, 2 ),
 "array_data": PoolByteArray( 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 191, 0, 129, 0, 0, 64, 77, 0, 192, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 128, 191, 0, 129, 0, 0, 64, 77, 0, 0, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 128, 63, 0, 129, 0, 0, 192, 76, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 129, 0, 0, 192, 76, 0, 192 ),
@@ -1234,16 +1375,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 153 ),
+"material": SubResource( 154 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=155]
+[sub_resource type="SpatialMaterial" id=156]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=156]
+[sub_resource type="ArrayMesh" id=157]
 surfaces/0 = {
 "aabb": AABB( -1, 0, -1, 2, 1e-005, 2.00001 ),
 "array_data": PoolByteArray( 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 128, 63, 0, 127, 0, 0, 192, 204, 0, 0, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 128, 191, 0, 127, 0, 0, 64, 205, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 191, 0, 127, 0, 0, 64, 205, 0, 192, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 127, 0, 0, 192, 204, 0, 192 ),
@@ -1251,16 +1394,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 155 ),
+"material": SubResource( 156 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=157]
+[sub_resource type="SpatialMaterial" id=158]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=158]
+[sub_resource type="ArrayMesh" id=159]
 surfaces/0 = {
 "aabb": AABB( 0, -1, -1, 1e-005, 2.00001, 2 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 191, 127, 0, 0, 0, 64, 77, 240, 195, 0, 0, 0, 0, 0, 0, 128, 191, 0, 0, 128, 191, 127, 0, 0, 0, 64, 77, 224, 191, 0, 0, 0, 0, 0, 0, 128, 191, 0, 0, 128, 63, 127, 0, 0, 0, 192, 76, 224, 191, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 63, 127, 0, 0, 0, 192, 76, 240, 195 ),
@@ -1268,16 +1413,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 157 ),
+"material": SubResource( 158 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=159]
+[sub_resource type="SpatialMaterial" id=160]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=160]
+[sub_resource type="ArrayMesh" id=161]
 surfaces/0 = {
 "aabb": AABB( -1, -1, 0, 2.00001, 2, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 128, 63, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 127, 0, 0, 64, 224, 191, 0, 0, 128, 191, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 127, 0, 0, 0, 224, 191, 0, 0, 128, 191, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 0, 240, 195, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 64, 240, 195 ),
@@ -1285,19 +1432,21 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 159 ),
+"material": SubResource( 160 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="ConvexPolygonShape" id=161]
+[sub_resource type="ConvexPolygonShape" id=162]
 points = PoolVector3Array( -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, 1, -1, -1, -1, -1, -1, -1, -1, 1, 1, -1, 1, -1, 1, 1, -1, 1, -1, 1, 1, -1, 1, 1, 1, 1, 1, -1, 1, -1, -1, 1, -1, 1, 1, 1, 1, 1, -1, 1, -1, -1, 1, -1, 1, 1, 1, 1, 1 )
 
-[sub_resource type="SpatialMaterial" id=162]
+[sub_resource type="SpatialMaterial" id=163]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=163]
+[sub_resource type="ArrayMesh" id=164]
 surfaces/0 = {
 "aabb": AABB( -1, -1.5, 0, 2.00001, 3.00001, 1e-005 ),
 "array_data": PoolByteArray( 8, 0, 128, 63, 8, 0, 192, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 192, 0, 196, 8, 0, 128, 191, 8, 0, 192, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 0, 0, 196, 8, 0, 128, 191, 8, 0, 192, 191, 0, 0, 0, 54, 0, 0, 129, 0, 0, 0, 0, 188, 8, 0, 128, 63, 8, 0, 192, 191, 0, 0, 0, 54, 0, 0, 129, 0, 0, 192, 0, 188 ),
@@ -1305,16 +1454,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 162 ),
+"material": SubResource( 163 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=164]
+[sub_resource type="SpatialMaterial" id=165]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=165]
+[sub_resource type="ArrayMesh" id=166]
 surfaces/0 = {
 "aabb": AABB( -0.5, -1.9, -0.5, 0.999999, 3.5, 1.00001 ),
 "array_data": PoolByteArray( 239, 255, 255, 190, 58, 51, 243, 191, 192, 255, 255, 62, 167, 0, 167, 0, 108, 203, 0, 188, 237, 255, 255, 62, 58, 51, 243, 191, 192, 255, 255, 190, 167, 0, 167, 0, 16, 204, 0, 188, 237, 255, 255, 62, 214, 204, 140, 63, 0, 0, 0, 191, 167, 0, 167, 0, 16, 204, 0, 196, 0, 0, 128, 52, 198, 204, 204, 63, 0, 0, 0, 0, 167, 0, 167, 0, 199, 203, 128, 196, 241, 255, 255, 190, 210, 204, 140, 63, 192, 255, 255, 62, 167, 0, 167, 0, 108, 203, 0, 196 ),
@@ -1322,16 +1473,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 5,
-"material": SubResource( 164 ),
+"material": SubResource( 165 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 5
 }
 
-[sub_resource type="SpatialMaterial" id=166]
+[sub_resource type="SpatialMaterial" id=167]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=167]
+[sub_resource type="ArrayMesh" id=168]
 surfaces/0 = {
 "aabb": AABB( -1.71429, -0.499999, -0.5, 3, 1.00001, 1.00001 ),
 "array_data": PoolByteArray( 150, 36, 73, 63, 0, 0, 0, 63, 0, 0, 0, 63, 0, 89, 167, 0, 0, 192, 2, 74, 191, 109, 155, 191, 0, 0, 0, 63, 0, 0, 0, 63, 0, 89, 167, 0, 0, 0, 2, 74, 180, 109, 219, 191, 0, 0, 0, 181, 0, 0, 0, 0, 0, 89, 167, 0, 255, 55, 93, 74, 187, 109, 155, 191, 208, 255, 255, 190, 0, 0, 0, 191, 0, 89, 167, 0, 0, 0, 183, 74, 170, 36, 73, 63, 208, 255, 255, 190, 0, 0, 0, 191, 0, 89, 167, 0, 0, 192, 183, 74, 73, 146, 164, 63, 0, 0, 192, 181, 0, 0, 128, 182, 0, 89, 167, 0, 0, 193, 93, 74, 69, 146, 164, 63, 0, 0, 192, 181, 0, 0, 128, 182, 0, 89, 167, 0, 0, 193, 93, 74 ),
@@ -1339,16 +1492,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 7,
-"material": SubResource( 166 ),
+"material": SubResource( 167 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 7
 }
 
-[sub_resource type="SpatialMaterial" id=168]
+[sub_resource type="SpatialMaterial" id=169]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=169]
+[sub_resource type="ArrayMesh" id=170]
 surfaces/0 = {
 "aabb": AABB( -0.499999, -2.16667, -0.5, 1.00001, 3.5, 1.00001 ),
 "array_data": PoolByteArray( 240, 255, 255, 62, 80, 85, 85, 63, 0, 0, 0, 63, 89, 0, 167, 0, 183, 74, 255, 195, 0, 0, 0, 181, 162, 170, 170, 63, 0, 0, 128, 182, 89, 0, 167, 0, 18, 75, 127, 196, 0, 0, 128, 181, 162, 170, 170, 63, 0, 0, 128, 182, 89, 0, 167, 0, 18, 75, 127, 196, 224, 255, 255, 190, 116, 85, 85, 63, 0, 0, 0, 191, 89, 0, 167, 0, 108, 75, 0, 196, 224, 255, 255, 190, 171, 170, 10, 192, 192, 255, 255, 190, 89, 0, 167, 0, 108, 75, 0, 188, 0, 0, 0, 63, 171, 170, 10, 192, 0, 0, 0, 63, 89, 0, 167, 0, 183, 74, 0, 188 ),
@@ -1356,16 +1511,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 6,
-"material": SubResource( 168 ),
+"material": SubResource( 169 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 6
 }
 
-[sub_resource type="SpatialMaterial" id=170]
+[sub_resource type="SpatialMaterial" id=171]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=171]
+[sub_resource type="ArrayMesh" id=172]
 surfaces/0 = {
 "aabb": AABB( -0.749999, -0.749999, -0.916666, 1, 0.999999, 1.5 ),
 "array_data": PoolByteArray( 247, 255, 63, 191, 240, 255, 63, 191, 128, 85, 213, 190, 167, 89, 0, 0, 128, 205, 62, 192, 233, 255, 127, 190, 16, 0, 128, 190, 160, 170, 106, 191, 167, 89, 0, 0, 160, 205, 168, 193, 193, 255, 127, 62, 0, 0, 128, 62, 64, 85, 213, 190, 167, 89, 0, 0, 128, 205, 18, 195, 48, 0, 128, 62, 224, 255, 127, 62, 96, 85, 21, 63, 167, 89, 0, 0, 64, 205, 18, 195, 193, 255, 127, 62, 0, 0, 128, 62, 64, 85, 21, 63, 167, 89, 0, 0, 64, 205, 18, 195, 225, 255, 127, 62, 224, 255, 127, 62, 96, 85, 21, 63, 167, 89, 0, 0, 64, 205, 18, 195 ),
@@ -1373,16 +1530,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 6,
-"material": SubResource( 170 ),
+"material": SubResource( 171 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 6
 }
 
-[sub_resource type="SpatialMaterial" id=172]
+[sub_resource type="SpatialMaterial" id=173]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=173]
+[sub_resource type="ArrayMesh" id=174]
 surfaces/0 = {
 "aabb": AABB( -1, 0, -0.75, 2, 1e-005, 1.00001 ),
 "array_data": PoolByteArray( 241, 255, 127, 191, 0, 0, 0, 0, 0, 0, 128, 62, 0, 127, 0, 0, 64, 205, 0, 0, 4, 0, 128, 191, 0, 0, 0, 0, 0, 0, 128, 62, 0, 127, 0, 0, 64, 205, 0, 0, 8, 0, 128, 191, 0, 0, 0, 53, 128, 255, 127, 62, 0, 127, 0, 0, 64, 205, 0, 0, 8, 0, 128, 191, 0, 0, 0, 53, 0, 0, 64, 191, 0, 127, 0, 0, 128, 205, 0, 0, 2, 0, 128, 63, 0, 0, 0, 53, 0, 0, 64, 191, 0, 127, 0, 0, 128, 205, 0, 192, 2, 0, 128, 63, 0, 0, 0, 53, 0, 0, 128, 62, 0, 127, 0, 0, 64, 205, 0, 192, 252, 255, 127, 63, 0, 0, 0, 0, 0, 0, 128, 62, 0, 127, 0, 0, 64, 205, 0, 192, 4, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 62, 0, 127, 0, 0, 64, 205, 0, 192 ),
@@ -1390,16 +1549,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 8,
-"material": SubResource( 172 ),
+"material": SubResource( 173 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 8
 }
 
-[sub_resource type="SpatialMaterial" id=174]
+[sub_resource type="SpatialMaterial" id=175]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=175]
+[sub_resource type="ArrayMesh" id=176]
 surfaces/0 = {
 "aabb": AABB( -0.285715, -0.714286, -0.785719, 1, 1.00001, 1.50001 ),
 "array_data": PoolByteArray( 32, 73, 146, 190, 64, 73, 146, 62, 96, 219, 54, 63, 89, 89, 0, 0, 64, 77, 62, 192, 48, 73, 146, 190, 48, 73, 146, 62, 96, 219, 54, 63, 89, 89, 0, 0, 64, 77, 62, 192, 48, 73, 146, 190, 0, 73, 146, 62, 64, 219, 54, 63, 89, 89, 0, 0, 64, 77, 62, 192, 32, 73, 146, 190, 64, 73, 146, 62, 64, 73, 146, 190, 89, 89, 0, 0, 128, 77, 62, 192, 144, 109, 91, 62, 224, 109, 91, 190, 224, 36, 73, 191, 89, 89, 0, 0, 160, 77, 168, 189, 176, 109, 91, 62, 224, 109, 91, 190, 224, 36, 73, 191, 89, 89, 0, 0, 160, 77, 168, 189, 108, 219, 54, 63, 108, 219, 54, 191, 64, 73, 146, 190, 89, 89, 0, 0, 128, 77, 168, 185 ),
@@ -1407,16 +1568,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 7,
-"material": SubResource( 174 ),
+"material": SubResource( 175 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 7
 }
 
-[sub_resource type="SpatialMaterial" id=176]
+[sub_resource type="SpatialMaterial" id=177]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=177]
+[sub_resource type="ArrayMesh" id=178]
 surfaces/0 = {
 "aabb": AABB( -0.666667, -2.5, -0.666668, 1.00001, 4, 1.00001 ),
 "array_data": PoolByteArray( 181, 170, 170, 62, 1, 0, 32, 192, 192, 170, 170, 62, 167, 0, 89, 0, 108, 203, 0, 188, 170, 170, 42, 191, 1, 0, 32, 192, 192, 170, 42, 191, 167, 0, 89, 0, 16, 204, 0, 188, 171, 170, 42, 191, 20, 0, 0, 63, 192, 170, 42, 191, 167, 0, 89, 0, 16, 204, 0, 196, 120, 170, 170, 62, 2, 0, 192, 63, 128, 170, 170, 62, 167, 0, 89, 0, 108, 203, 0, 197, 181, 170, 170, 62, 254, 255, 191, 63, 192, 170, 170, 62, 167, 0, 89, 0, 108, 203, 0, 197, 200, 170, 170, 62, 254, 255, 191, 63, 192, 170, 170, 62, 167, 0, 89, 0, 108, 203, 0, 197 ),
@@ -1424,16 +1587,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 6,
-"material": SubResource( 176 ),
+"material": SubResource( 177 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 6
 }
 
-[sub_resource type="SpatialMaterial" id=178]
+[sub_resource type="SpatialMaterial" id=179]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=179]
+[sub_resource type="ArrayMesh" id=180]
 surfaces/0 = {
 "aabb": AABB( -0.333334, -2.5, -0.666666, 1, 4.00001, 1.00001 ),
 "array_data": PoolByteArray( 168, 170, 170, 190, 6, 0, 192, 63, 192, 170, 170, 62, 89, 0, 89, 0, 16, 76, 0, 197, 160, 170, 170, 190, 2, 0, 192, 63, 192, 170, 170, 62, 89, 0, 89, 0, 16, 76, 0, 197, 184, 170, 170, 190, 246, 255, 191, 63, 128, 170, 170, 62, 89, 0, 89, 0, 16, 76, 255, 196, 168, 170, 42, 63, 0, 0, 0, 63, 160, 170, 42, 191, 89, 0, 89, 0, 107, 76, 255, 195, 176, 170, 42, 63, 255, 255, 31, 192, 160, 170, 42, 191, 89, 0, 89, 0, 107, 76, 0, 188, 160, 170, 170, 190, 255, 255, 31, 192, 192, 170, 170, 62, 89, 0, 89, 0, 16, 76, 0, 188 ),
@@ -1441,16 +1606,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 6,
-"material": SubResource( 178 ),
+"material": SubResource( 179 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 6
 }
 
-[sub_resource type="SpatialMaterial" id=180]
+[sub_resource type="SpatialMaterial" id=181]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=181]
+[sub_resource type="ArrayMesh" id=182]
 surfaces/0 = {
 "aabb": AABB( -1, -3, -1.90735e-006, 2.00001, 4, 1.19073e-005 ),
 "array_data": PoolByteArray( 0, 0, 128, 63, 255, 255, 63, 192, 0, 0, 0, 0, 0, 0, 127, 0, 0, 64, 0, 188, 249, 255, 127, 191, 255, 255, 63, 192, 0, 0, 0, 0, 0, 0, 127, 0, 0, 0, 0, 188, 8, 0, 128, 191, 2, 0, 128, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 0, 0, 197, 249, 255, 127, 191, 2, 0, 128, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 0, 0, 197, 240, 255, 127, 191, 2, 0, 128, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 0, 0, 197, 244, 255, 127, 63, 2, 0, 128, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 64, 0, 197, 0, 0, 128, 63, 2, 0, 128, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 64, 0, 197, 244, 255, 127, 63, 236, 255, 127, 63, 0, 0, 0, 182, 0, 0, 127, 0, 0, 64, 255, 196 ),
@@ -1458,19 +1625,21 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 8,
-"material": SubResource( 180 ),
+"material": SubResource( 181 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 8
 }
 
-[sub_resource type="ConvexPolygonShape" id=182]
+[sub_resource type="ConvexPolygonShape" id=183]
 points = PoolVector3Array( 0.977274, 0.406279, -1.11688, -1.02273, 0.406279, -1.11688, -1.02273, -2.59372, -1.11688, 0.977274, -2.59372, -1.11688, -2.02273, -2.59372, -0.116886, -1.02273, -2.59372, -1.11688, -1.02273, 0.406279, -1.11688, -1.52273, 0.906277, -0.616884, -2.02273, 0.406278, -0.116886, 0.977273, 1.40628, -0.116884, -1.02273, 1.40628, -0.116884, -1.52273, 0.906277, -0.616884, -1.02273, 0.406279, -1.11688, 0.977274, 0.406279, -1.11688, 1.47727, 0.906276, -0.616888, 1.47727, 0.906276, -0.616888, 1.97727, 0.406276, -0.116884, 1.47727, 0.906276, -0.616888, 1.47727, 0.906276, -0.616888, 0.977274, 0.406279, -1.11688, 0.977274, -2.59372, -1.11688, 1.97727, -2.59372, -0.116884, -2.02273, 0.406278, -0.116886, -1.52273, 0.906277, -0.616884, -1.02273, 1.40628, -0.116884, -1.02273, 1.40628, 0.883116, -1.02273, 1.40628, 0.883114, -1.02273, 1.40628, 0.883116, 1.97727, -2.59372, -0.116884, 0.977274, -2.59372, -1.11688, -1.02273, -2.59372, -1.11688, -2.02273, -2.59372, -0.116886, -1.02273, -2.59372, 0.883116, 0.977273, -2.59372, 0.883116, -1.02273, 1.40628, 0.883116, -1.02273, 1.40628, 0.883116, -1.02273, 1.40628, 0.883114, -1.02273, 1.40628, -0.116884, 0.977273, 1.40628, -0.116884, 0.977273, 1.40628, 0.883116, 0.977272, 1.40628, 0.883116, 0.977273, 1.40628, 0.883116, 0.977273, 1.40628, 0.883116, 0.977272, 1.40628, 0.883116, 0.977272, 1.40628, 0.883114, 0.977273, 1.40628, -0.116884, 1.47727, 0.906276, -0.616888, 1.47727, 0.906276, -0.616888, 1.97727, 0.406276, -0.116884, -1.02273, -2.59372, 0.883116, -2.02273, -2.59372, -0.116886, -2.02273, 0.406278, -0.116886, -1.02273, 1.40628, 0.883114, -1.02273, 1.40628, 0.883116, -1.02273, 1.40628, 0.883116, 0.977273, 1.40628, 0.883116, 0.977273, 1.40628, 0.883116, 0.977272, 1.40628, 0.883114, 1.97727, 0.406276, -0.116884, 1.97727, -2.59372, -0.116884, 0.977273, -2.59372, 0.883116, 0.977273, -2.59372, 0.883116, -1.02273, -2.59372, 0.883116, -1.02273, 1.40628, 0.883116, -1.02273, 1.40628, 0.883116, -1.02273, 1.40628, 0.883116, 0.977272, 1.40628, 0.883116, 0.977273, 1.40628, 0.883116, 0.977272, 1.40628, 0.883114 )
 
-[sub_resource type="SpatialMaterial" id=183]
+[sub_resource type="SpatialMaterial" id=184]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=184]
+[sub_resource type="ArrayMesh" id=185]
 surfaces/0 = {
 "aabb": AABB( -1.14286, -2.85714, -1.90735e-006, 2.00001, 4.00001, 1.19073e-005 ),
 "array_data": PoolByteArray( 194, 109, 91, 63, 34, 73, 146, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 192, 0, 197, 178, 109, 91, 63, 34, 73, 146, 63, 0, 0, 0, 0, 0, 0, 129, 0, 255, 191, 0, 197, 190, 109, 91, 63, 50, 73, 146, 63, 0, 0, 0, 182, 0, 0, 129, 0, 0, 192, 0, 197, 33, 73, 146, 191, 34, 73, 146, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 0, 0, 197, 49, 73, 146, 191, 34, 73, 146, 63, 0, 0, 0, 182, 0, 0, 129, 0, 0, 0, 0, 197, 33, 73, 146, 191, 111, 219, 54, 192, 0, 0, 0, 0, 0, 0, 129, 0, 0, 0, 0, 188, 178, 109, 91, 63, 111, 219, 54, 192, 0, 0, 0, 0, 0, 0, 129, 0, 255, 191, 0, 188 ),
@@ -1478,16 +1647,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 7,
-"material": SubResource( 183 ),
+"material": SubResource( 184 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 7
 }
 
-[sub_resource type="SpatialMaterial" id=185]
+[sub_resource type="SpatialMaterial" id=186]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=186]
+[sub_resource type="ArrayMesh" id=187]
 surfaces/0 = {
 "aabb": AABB( -0.666667, -2.5, -0.333336, 1.00001, 4, 1 ),
 "array_data": PoolByteArray( 191, 170, 170, 62, 0, 0, 32, 192, 192, 170, 170, 190, 167, 0, 167, 0, 194, 202, 0, 188, 175, 170, 170, 62, 4, 0, 192, 63, 0, 171, 170, 190, 167, 0, 167, 0, 194, 202, 0, 197, 127, 170, 170, 62, 0, 0, 192, 63, 0, 171, 170, 190, 167, 0, 167, 0, 194, 202, 0, 197, 191, 170, 170, 62, 0, 0, 192, 63, 192, 170, 170, 190, 167, 0, 167, 0, 194, 202, 0, 197, 166, 170, 42, 191, 232, 255, 255, 62, 128, 170, 42, 63, 167, 0, 167, 0, 13, 202, 255, 195, 174, 170, 42, 191, 0, 0, 32, 192, 128, 170, 42, 63, 167, 0, 167, 0, 13, 202, 0, 188 ),
@@ -1495,16 +1666,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 6,
-"material": SubResource( 185 ),
+"material": SubResource( 186 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 6
 }
 
-[sub_resource type="SpatialMaterial" id=187]
+[sub_resource type="SpatialMaterial" id=188]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=188]
+[sub_resource type="ArrayMesh" id=189]
 surfaces/0 = {
 "aabb": AABB( -0.333334, -2.5, -0.333336, 1, 4.00001, 1 ),
 "array_data": PoolByteArray( 144, 170, 170, 190, 254, 255, 191, 63, 192, 170, 170, 190, 89, 0, 167, 0, 13, 74, 0, 197, 184, 170, 170, 190, 250, 255, 191, 63, 192, 170, 170, 190, 89, 0, 167, 0, 13, 74, 0, 197, 160, 170, 170, 190, 10, 0, 192, 63, 0, 171, 170, 190, 89, 0, 167, 0, 13, 74, 0, 197, 184, 170, 170, 190, 3, 0, 32, 192, 192, 170, 170, 190, 89, 0, 167, 0, 13, 74, 0, 188, 168, 170, 42, 63, 3, 0, 32, 192, 160, 170, 42, 63, 89, 0, 167, 0, 88, 73, 0, 188, 176, 170, 42, 63, 4, 0, 0, 63, 160, 170, 42, 63, 89, 0, 167, 0, 88, 73, 0, 196 ),
@@ -1512,16 +1685,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 6,
-"material": SubResource( 187 ),
+"material": SubResource( 188 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 6
 }
 
-[sub_resource type="SpatialMaterial" id=189]
+[sub_resource type="SpatialMaterial" id=190]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=190]
+[sub_resource type="ArrayMesh" id=191]
 surfaces/0 = {
 "aabb": AABB( -0.75, -0.750001, -0.583336, 1, 1, 1.5 ),
 "array_data": PoolByteArray( 254, 255, 63, 191, 12, 0, 64, 191, 0, 85, 213, 62, 167, 89, 0, 0, 136, 204, 62, 192, 162, 255, 127, 62, 0, 0, 128, 62, 128, 85, 21, 191, 167, 89, 0, 0, 200, 204, 18, 195, 1, 0, 128, 62, 16, 0, 128, 62, 128, 85, 21, 191, 167, 89, 0, 0, 200, 204, 18, 195, 17, 0, 128, 62, 0, 0, 128, 62, 96, 85, 21, 191, 167, 89, 0, 0, 200, 204, 18, 195, 1, 0, 128, 62, 16, 0, 128, 62, 0, 85, 213, 62, 167, 89, 0, 0, 136, 204, 18, 195, 214, 255, 127, 190, 16, 0, 128, 190, 160, 170, 106, 63, 167, 89, 0, 0, 104, 204, 168, 193 ),
@@ -1529,16 +1704,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 6,
-"material": SubResource( 189 ),
+"material": SubResource( 190 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 6
 }
 
-[sub_resource type="SpatialMaterial" id=191]
+[sub_resource type="SpatialMaterial" id=192]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=192]
+[sub_resource type="ArrayMesh" id=193]
 surfaces/0 = {
 "aabb": AABB( -1.14286, 0, -0.285717, 2.00001, 1.04768e-005, 1.00001 ),
 "array_data": PoolByteArray( 194, 109, 91, 63, 0, 0, 0, 53, 64, 219, 54, 63, 0, 127, 0, 0, 136, 204, 0, 192, 41, 73, 146, 191, 0, 0, 0, 53, 64, 219, 54, 63, 0, 127, 0, 0, 136, 204, 0, 0, 37, 73, 146, 191, 0, 0, 0, 0, 64, 73, 146, 190, 0, 127, 0, 0, 200, 204, 0, 0, 41, 73, 146, 191, 0, 0, 0, 53, 128, 73, 146, 190, 0, 127, 0, 0, 200, 204, 0, 0, 170, 109, 91, 63, 0, 0, 0, 0, 64, 73, 146, 190, 0, 127, 0, 0, 200, 204, 255, 191, 186, 109, 91, 63, 0, 0, 0, 0, 64, 73, 146, 190, 0, 127, 0, 0, 200, 204, 0, 192, 190, 109, 91, 63, 0, 0, 0, 53, 64, 73, 146, 190, 0, 127, 0, 0, 200, 204, 0, 192 ),
@@ -1546,16 +1723,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 7,
-"material": SubResource( 191 ),
+"material": SubResource( 192 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 7
 }
 
-[sub_resource type="SpatialMaterial" id=193]
+[sub_resource type="SpatialMaterial" id=194]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=194]
+[sub_resource type="ArrayMesh" id=195]
 surfaces/0 = {
 "aabb": AABB( -0.25, -0.75, -0.583336, 1, 1, 1.50001 ),
 "array_data": PoolByteArray( 224, 255, 127, 62, 0, 0, 128, 190, 128, 170, 106, 63, 89, 89, 0, 0, 88, 76, 168, 189, 208, 255, 127, 190, 0, 0, 128, 62, 0, 85, 213, 62, 89, 89, 0, 0, 120, 76, 62, 192, 0, 0, 128, 190, 48, 0, 128, 62, 128, 85, 21, 191, 89, 89, 0, 0, 184, 76, 62, 192, 224, 255, 127, 190, 0, 0, 128, 62, 96, 85, 21, 191, 89, 89, 0, 0, 184, 76, 62, 192, 240, 255, 127, 190, 224, 255, 127, 62, 96, 85, 21, 191, 89, 89, 0, 0, 184, 76, 62, 192, 0, 0, 64, 63, 248, 255, 63, 191, 64, 85, 213, 62, 89, 89, 0, 0, 120, 76, 168, 185 ),
@@ -1563,16 +1742,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 6,
-"material": SubResource( 193 ),
+"material": SubResource( 194 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 6
 }
 
-[sub_resource type="SpatialMaterial" id=195]
+[sub_resource type="SpatialMaterial" id=196]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=196]
+[sub_resource type="ArrayMesh" id=197]
 surfaces/0 = {
 "aabb": AABB( -0.500001, -1.9, -0.500002, 1.00001, 3.5, 1.00001 ),
 "array_data": PoolByteArray( 3, 0, 0, 63, 48, 51, 243, 191, 0, 0, 0, 63, 167, 0, 89, 0, 13, 202, 0, 188, 11, 0, 0, 191, 48, 51, 243, 191, 32, 0, 0, 191, 167, 0, 89, 0, 194, 202, 0, 188, 3, 0, 0, 191, 202, 204, 140, 63, 32, 0, 0, 191, 167, 0, 89, 0, 194, 202, 255, 195, 0, 0, 160, 52, 204, 204, 204, 63, 0, 0, 0, 0, 167, 0, 89, 0, 104, 202, 127, 196, 3, 0, 0, 63, 208, 204, 140, 63, 0, 0, 0, 63, 167, 0, 89, 0, 13, 202, 0, 196 ),
@@ -1580,16 +1761,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 5,
-"material": SubResource( 195 ),
+"material": SubResource( 196 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 5
 }
 
-[sub_resource type="SpatialMaterial" id=197]
+[sub_resource type="SpatialMaterial" id=198]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=198]
+[sub_resource type="ArrayMesh" id=199]
 surfaces/0 = {
 "aabb": AABB( -1.5, -0.5, -0.500002, 3, 1, 1.00001 ),
 "array_data": PoolByteArray( 251, 255, 127, 191, 8, 0, 0, 191, 0, 0, 0, 63, 0, 89, 89, 0, 0, 176, 108, 203, 252, 255, 191, 191, 0, 0, 128, 181, 0, 0, 0, 0, 0, 89, 89, 0, 255, 184, 199, 203, 2, 0, 128, 191, 0, 0, 0, 63, 32, 0, 0, 191, 0, 89, 89, 0, 0, 176, 16, 204, 8, 0, 128, 63, 0, 0, 0, 63, 32, 0, 0, 191, 0, 89, 89, 0, 128, 63, 16, 204, 254, 255, 191, 63, 0, 0, 0, 0, 0, 0, 0, 182, 0, 89, 89, 0, 191, 64, 199, 203, 231, 255, 127, 63, 224, 255, 255, 190, 192, 255, 255, 62, 0, 89, 89, 0, 127, 63, 108, 203 ),
@@ -1597,16 +1780,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 6,
-"material": SubResource( 197 ),
+"material": SubResource( 198 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 6
 }
 
-[sub_resource type="SpatialMaterial" id=199]
+[sub_resource type="SpatialMaterial" id=200]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=200]
+[sub_resource type="ArrayMesh" id=201]
 surfaces/0 = {
 "aabb": AABB( -0.500001, -1.9, -0.5, 1, 3.50001, 1 ),
 "array_data": PoolByteArray( 0, 0, 128, 52, 202, 204, 204, 63, 0, 0, 0, 182, 89, 0, 89, 0, 29, 75, 128, 196, 12, 0, 0, 63, 206, 204, 140, 63, 0, 0, 0, 191, 89, 0, 89, 0, 120, 75, 0, 196, 4, 0, 0, 63, 58, 51, 243, 191, 0, 0, 0, 191, 89, 0, 89, 0, 120, 75, 0, 188, 248, 255, 255, 190, 58, 51, 243, 191, 0, 0, 0, 63, 89, 0, 89, 0, 194, 74, 0, 188, 18, 0, 0, 191, 210, 204, 140, 63, 192, 255, 255, 62, 89, 0, 89, 0, 194, 74, 0, 196 ),
@@ -1614,16 +1799,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 5,
-"material": SubResource( 199 ),
+"material": SubResource( 200 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 5
 }
 
-[sub_resource type="SpatialMaterial" id=201]
+[sub_resource type="SpatialMaterial" id=202]
 albedo_texture = ExtResource( 4 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=202]
+[sub_resource type="ArrayMesh" id=203]
 surfaces/0 = {
 "aabb": AABB( -0.999999, -1.5, -1.90735e-006, 2.00001, 3, 1.19073e-005 ),
 "array_data": PoolByteArray( 1, 0, 128, 63, 4, 0, 192, 191, 0, 0, 0, 0, 0, 0, 127, 0, 255, 63, 0, 188, 246, 255, 127, 191, 4, 0, 192, 191, 0, 0, 0, 0, 0, 0, 127, 0, 0, 0, 0, 188, 246, 255, 127, 191, 252, 255, 191, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 0, 0, 196, 236, 255, 127, 63, 8, 0, 192, 63, 0, 0, 0, 182, 0, 0, 127, 0, 255, 63, 0, 196 ),
@@ -1631,19 +1818,21 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 201 ),
+"material": SubResource( 202 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="ConvexPolygonShape" id=203]
+[sub_resource type="ConvexPolygonShape" id=204]
 points = PoolVector3Array( 0.974027, 1.44026, -0.874458, 0.974026, 1.44026, -0.874458, 0.974026, 1.44026, -0.87446, -1.02597, 1.44026, -0.874458, -1.02598, 1.44026, -0.87446, -1.02597, -2.55974, -0.874458, 0.974026, -2.55974, -0.874458, -1.02597, -2.55974, -0.874458, -1.02597, 1.44026, -0.87446, -1.02598, 1.44026, -0.87446, -1.02597, 1.44026, -0.874458, -2.02597, 0.440259, 0.12554, -2.02597, -2.55974, 0.12554, 0.974027, 1.44026, -0.874458, 0.974026, 1.44026, -0.874458, 0.974026, 1.44026, -0.87446, 0.974026, -2.55974, -0.874458, 1.97403, -2.55974, 0.125542, 1.97403, 0.44026, 0.125542, -2.02597, 0.440259, 0.12554, -1.02598, 1.44026, -0.87446, -1.02597, 1.44026, -0.87446, -1.02597, 1.44026, -0.874458, -1.02597, 1.44026, 0.12554, -1.52597, 0.940259, 0.625542, 0.974026, -2.55974, 1.12554, 1.97403, -2.55974, 0.125542, 0.974026, -2.55974, -0.874458, -1.02597, -2.55974, -0.874458, -2.02597, -2.55974, 0.12554, -1.02597, -2.55974, 1.12554, 0.974027, 1.44026, 0.12554, -1.02597, 1.44026, 0.12554, -1.02597, 1.44026, -0.874458, -1.02597, 1.44026, -0.87446, 0.974026, 1.44026, -0.874458, 0.974027, 1.44026, -0.874458, 0.974027, 1.44026, -0.874458, 1.47403, 0.94026, 0.62554, 0.974027, 1.44026, 0.12554, 0.974026, 1.44026, -0.87446, 0.974027, 1.44026, -0.874458, 0.974027, 1.44026, -0.874458, 1.97403, 0.44026, 0.125542, -1.02597, -2.55974, 1.12554, -2.02597, -2.55974, 0.12554, -2.02597, 0.440259, 0.12554, -1.52597, 0.940259, 0.625542, -1.02597, 0.440259, 1.12554, -1.02597, 0.440259, 1.12554, -1.52597, 0.940259, 0.625542, -1.02597, 1.44026, 0.12554, 0.974027, 1.44026, 0.12554, 1.47403, 0.94026, 0.62554, 0.974025, 0.440261, 1.12554, 1.47403, 0.94026, 0.62554, 1.97403, 0.44026, 0.125542, 1.97403, -2.55974, 0.125542, 0.974026, -2.55974, 1.12554, 0.974025, 0.440261, 1.12554, 0.974026, -2.55974, 1.12554, -1.02597, -2.55974, 1.12554, -1.02597, 0.440259, 1.12554, 0.974025, 0.440261, 1.12554 )
 
-[sub_resource type="SpatialMaterial" id=204]
+[sub_resource type="SpatialMaterial" id=205]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=205]
+[sub_resource type="ArrayMesh" id=206]
 surfaces/0 = {
 "aabb": AABB( -0.5, -1.5, 0, 1, 3.00001, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 0, 191, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 64, 0, 192, 0, 0, 0, 191, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 129, 0, 0, 64, 0, 184, 0, 0, 0, 63, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 129, 0, 0, 62, 0, 184, 0, 0, 0, 63, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 62, 0, 192 ),
@@ -1651,16 +1840,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 204 ),
+"material": SubResource( 205 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=206]
+[sub_resource type="SpatialMaterial" id=207]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=207]
+[sub_resource type="ArrayMesh" id=208]
 surfaces/0 = {
 "aabb": AABB( 0, -1.5, -0.5, 1e-005, 3, 1.00001 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 192, 191, 0, 0, 0, 63, 129, 0, 0, 0, 0, 64, 0, 184, 0, 0, 0, 0, 0, 0, 192, 191, 0, 0, 0, 191, 129, 0, 0, 0, 0, 62, 0, 184, 0, 0, 0, 0, 0, 0, 192, 63, 0, 0, 0, 191, 129, 0, 0, 0, 0, 62, 0, 192, 0, 0, 0, 0, 0, 0, 192, 63, 0, 0, 0, 63, 129, 0, 0, 0, 0, 64, 0, 192 ),
@@ -1668,16 +1859,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 206 ),
+"material": SubResource( 207 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=208]
+[sub_resource type="SpatialMaterial" id=209]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=209]
+[sub_resource type="ArrayMesh" id=210]
 surfaces/0 = {
 "aabb": AABB( -0.5, 0, -0.5, 1, 1e-005, 1.00001 ),
 "array_data": PoolByteArray( 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 0, 63, 0, 127, 0, 0, 0, 64, 0, 64, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 0, 191, 0, 127, 0, 0, 0, 62, 0, 64, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 0, 191, 0, 127, 0, 0, 0, 62, 0, 62, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 0, 63, 0, 127, 0, 0, 0, 64, 0, 62 ),
@@ -1685,16 +1878,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 208 ),
+"material": SubResource( 209 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=210]
+[sub_resource type="SpatialMaterial" id=211]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=211]
+[sub_resource type="ArrayMesh" id=212]
 surfaces/0 = {
 "aabb": AABB( 0, -1.5, -0.5, 1e-005, 3.00001, 1 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 192, 63, 0, 0, 0, 191, 127, 0, 0, 0, 0, 190, 0, 192, 0, 0, 0, 0, 0, 0, 192, 191, 0, 0, 0, 191, 127, 0, 0, 0, 0, 190, 0, 184, 0, 0, 0, 0, 0, 0, 192, 191, 0, 0, 0, 63, 127, 0, 0, 0, 0, 192, 0, 184, 0, 0, 0, 0, 0, 0, 192, 63, 0, 0, 0, 63, 127, 0, 0, 0, 0, 192, 0, 192 ),
@@ -1702,16 +1897,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 210 ),
+"material": SubResource( 211 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=212]
+[sub_resource type="SpatialMaterial" id=213]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=213]
+[sub_resource type="ArrayMesh" id=214]
 surfaces/0 = {
 "aabb": AABB( -0.5, -1.5, 0, 1.00001, 3, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 0, 63, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 127, 0, 0, 190, 0, 184, 0, 0, 0, 191, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 127, 0, 0, 192, 0, 184, 0, 0, 0, 191, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 192, 0, 192, 0, 0, 0, 63, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 190, 0, 192 ),
@@ -1719,19 +1916,21 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 212 ),
+"material": SubResource( 213 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="ConvexPolygonShape" id=214]
+[sub_resource type="ConvexPolygonShape" id=215]
 points = PoolVector3Array( -0.5, 1.5, -0.5, -0.5, -1.5, -0.5, 0.5, -1.5, -0.5, 0.5, 1.5, -0.5, -0.5, -1.5, 0.5, -0.5, -1.5, -0.5, -0.5, 1.5, -0.5, -0.5, 1.5, 0.5, 0.5, -1.5, -0.5, -0.5, -1.5, -0.5, -0.5, -1.5, 0.5, 0.5, -1.5, 0.5, -0.5, 1.5, 0.5, -0.5, 1.5, -0.5, 0.5, 1.5, -0.5, 0.5, 1.5, 0.5, 0.5, 1.5, -0.5, 0.5, -1.5, -0.5, 0.5, -1.5, 0.5, 0.5, 1.5, 0.5, 0.5, -1.5, 0.5, -0.5, -1.5, 0.5, -0.5, 1.5, 0.5, 0.5, 1.5, 0.5 )
 
-[sub_resource type="SpatialMaterial" id=215]
+[sub_resource type="SpatialMaterial" id=216]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=216]
+[sub_resource type="ArrayMesh" id=217]
 surfaces/0 = {
 "aabb": AABB( -0.5, -0.5, 0, 1, 1.00001, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 0, 191, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 64, 0, 192, 0, 0, 0, 191, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 129, 0, 0, 64, 0, 190, 0, 0, 0, 63, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 129, 0, 0, 62, 0, 190, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 62, 0, 192 ),
@@ -1739,16 +1938,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 215 ),
+"material": SubResource( 216 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=217]
+[sub_resource type="SpatialMaterial" id=218]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=218]
+[sub_resource type="ArrayMesh" id=219]
 surfaces/0 = {
 "aabb": AABB( 0, -0.5, -13.5, 1e-005, 1.00001, 27 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 88, 65, 129, 0, 0, 0, 0, 62, 0, 192, 0, 0, 0, 0, 0, 0, 0, 191, 0, 0, 88, 65, 129, 0, 0, 0, 0, 62, 0, 190, 0, 0, 0, 0, 0, 0, 0, 191, 0, 0, 88, 193, 129, 0, 0, 0, 0, 202, 0, 190, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 88, 193, 129, 0, 0, 0, 0, 202, 0, 192 ),
@@ -1756,16 +1957,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 217 ),
+"material": SubResource( 218 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=219]
+[sub_resource type="SpatialMaterial" id=220]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=220]
+[sub_resource type="ArrayMesh" id=221]
 surfaces/0 = {
 "aabb": AABB( -0.5, 0, -13.5, 1.00001, 1e-005, 27 ),
 "array_data": PoolByteArray( 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 88, 193, 0, 129, 0, 0, 0, 74, 0, 62, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 88, 193, 0, 129, 0, 0, 0, 74, 0, 64, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 88, 65, 0, 129, 0, 0, 0, 190, 0, 64, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 88, 65, 0, 129, 0, 0, 0, 190, 0, 62 ),
@@ -1773,16 +1976,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 219 ),
+"material": SubResource( 220 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=221]
+[sub_resource type="SpatialMaterial" id=222]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=222]
+[sub_resource type="ArrayMesh" id=223]
 surfaces/0 = {
 "aabb": AABB( -0.5, 0, -13.5, 1.00001, 1e-005, 27 ),
 "array_data": PoolByteArray( 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 88, 65, 0, 127, 0, 0, 0, 62, 0, 62, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 88, 65, 0, 127, 0, 0, 0, 62, 0, 64, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 88, 193, 0, 127, 0, 0, 0, 202, 0, 64, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 88, 193, 0, 127, 0, 0, 0, 202, 0, 62 ),
@@ -1790,16 +1995,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 221 ),
+"material": SubResource( 222 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=223]
+[sub_resource type="SpatialMaterial" id=224]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=224]
+[sub_resource type="ArrayMesh" id=225]
 surfaces/0 = {
 "aabb": AABB( 0, -0.5, -13.5, 1e-005, 1.00001, 27 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 88, 193, 127, 0, 0, 0, 0, 74, 0, 192, 0, 0, 0, 0, 0, 0, 0, 191, 0, 0, 88, 193, 127, 0, 0, 0, 0, 74, 0, 190, 0, 0, 0, 0, 0, 0, 0, 191, 0, 0, 88, 65, 127, 0, 0, 0, 0, 190, 0, 190, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 88, 65, 127, 0, 0, 0, 0, 190, 0, 192 ),
@@ -1807,16 +2014,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 223 ),
+"material": SubResource( 224 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=225]
+[sub_resource type="SpatialMaterial" id=226]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=226]
+[sub_resource type="ArrayMesh" id=227]
 surfaces/0 = {
 "aabb": AABB( -0.5, -0.5, 0, 1.00001, 1, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 0, 63, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 127, 0, 0, 190, 0, 190, 0, 0, 0, 191, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 127, 0, 0, 192, 0, 190, 0, 0, 0, 191, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 192, 0, 192, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 190, 0, 192 ),
@@ -1824,19 +2033,21 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 225 ),
+"material": SubResource( 226 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="ConvexPolygonShape" id=227]
+[sub_resource type="ConvexPolygonShape" id=228]
 points = PoolVector3Array( -0.5, 0.5, -13.5, -0.5, -0.5, -13.5, 0.5, -0.5, -13.5, 0.5, 0.5, -13.5, -0.5, 0.5, 13.5, -0.5, -0.5, 13.5, -0.5, -0.5, -13.5, -0.5, 0.5, -13.5, 0.5, -0.5, -13.5, -0.5, -0.5, -13.5, -0.5, -0.5, 13.5, 0.5, -0.5, 13.5, 0.5, 0.5, 13.5, -0.5, 0.5, 13.5, -0.5, 0.5, -13.5, 0.5, 0.5, -13.5, 0.5, 0.5, -13.5, 0.5, -0.5, -13.5, 0.5, -0.5, 13.5, 0.5, 0.5, 13.5, 0.5, -0.5, 13.5, -0.5, -0.5, 13.5, -0.5, 0.5, 13.5, 0.5, 0.5, 13.5 )
 
-[sub_resource type="SpatialMaterial" id=228]
+[sub_resource type="SpatialMaterial" id=229]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=229]
+[sub_resource type="ArrayMesh" id=230]
 surfaces/0 = {
 "aabb": AABB( -15.5, -0.5, 0, 31, 1.00001, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 120, 65, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 203, 0, 192, 0, 0, 120, 193, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 62, 0, 192, 0, 0, 120, 193, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 129, 0, 0, 62, 0, 190, 0, 0, 120, 65, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 129, 0, 0, 203, 0, 190 ),
@@ -1844,16 +2055,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 228 ),
+"material": SubResource( 229 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=230]
+[sub_resource type="SpatialMaterial" id=231]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=231]
+[sub_resource type="ArrayMesh" id=232]
 surfaces/0 = {
 "aabb": AABB( 0, -0.5, -0.5, 1e-005, 1, 1.00001 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 191, 0, 0, 0, 63, 129, 0, 0, 0, 0, 202, 0, 190, 0, 0, 0, 0, 0, 0, 0, 191, 0, 0, 0, 191, 129, 0, 0, 0, 64, 202, 0, 190, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 0, 191, 129, 0, 0, 0, 64, 202, 0, 192, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 0, 63, 129, 0, 0, 0, 0, 202, 0, 192 ),
@@ -1861,16 +2074,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 230 ),
+"material": SubResource( 231 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=232]
+[sub_resource type="SpatialMaterial" id=233]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=233]
+[sub_resource type="ArrayMesh" id=234]
 surfaces/0 = {
 "aabb": AABB( -15.5, 0, -0.5, 31, 1e-005, 1 ),
 "array_data": PoolByteArray( 0, 0, 120, 65, 0, 0, 0, 0, 0, 0, 0, 191, 0, 129, 0, 0, 64, 74, 0, 203, 0, 0, 120, 193, 0, 0, 0, 0, 0, 0, 0, 191, 0, 129, 0, 0, 64, 74, 0, 62, 0, 0, 120, 193, 0, 0, 0, 0, 0, 0, 0, 63, 0, 129, 0, 0, 0, 74, 0, 62, 0, 0, 120, 65, 0, 0, 0, 0, 0, 0, 0, 63, 0, 129, 0, 0, 0, 74, 0, 203 ),
@@ -1878,16 +2093,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 232 ),
+"material": SubResource( 233 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=234]
+[sub_resource type="SpatialMaterial" id=235]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=235]
+[sub_resource type="ArrayMesh" id=236]
 surfaces/0 = {
 "aabb": AABB( -15.5, 0, -0.5, 31, 1e-005, 1.00001 ),
 "array_data": PoolByteArray( 0, 0, 120, 65, 0, 0, 0, 0, 0, 0, 0, 63, 0, 127, 0, 0, 0, 202, 0, 203, 0, 0, 120, 193, 0, 0, 0, 0, 0, 0, 0, 63, 0, 127, 0, 0, 0, 202, 0, 62, 0, 0, 120, 193, 0, 0, 0, 0, 0, 0, 0, 191, 0, 127, 0, 0, 64, 202, 0, 62, 0, 0, 120, 65, 0, 0, 0, 0, 0, 0, 0, 191, 0, 127, 0, 0, 64, 202, 0, 203 ),
@@ -1895,16 +2112,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 234 ),
+"material": SubResource( 235 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=236]
+[sub_resource type="SpatialMaterial" id=237]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=237]
+[sub_resource type="ArrayMesh" id=238]
 surfaces/0 = {
 "aabb": AABB( 0, -0.5, -0.5, 1e-005, 1.00001, 1 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 0, 191, 127, 0, 0, 0, 64, 74, 0, 192, 0, 0, 0, 0, 0, 0, 0, 191, 0, 0, 0, 191, 127, 0, 0, 0, 64, 74, 0, 190, 0, 0, 0, 0, 0, 0, 0, 191, 0, 0, 0, 63, 127, 0, 0, 0, 0, 74, 0, 190, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 0, 63, 127, 0, 0, 0, 0, 74, 0, 192 ),
@@ -1912,16 +2131,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 236 ),
+"material": SubResource( 237 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=238]
+[sub_resource type="SpatialMaterial" id=239]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=239]
+[sub_resource type="ArrayMesh" id=240]
 surfaces/0 = {
 "aabb": AABB( -15.5, -0.5, 0, 31, 1, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 120, 65, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 127, 0, 0, 75, 0, 190, 0, 0, 120, 193, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 127, 0, 0, 190, 0, 190, 0, 0, 120, 193, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 190, 0, 192, 0, 0, 120, 65, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 75, 0, 192 ),
@@ -1929,19 +2150,21 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 238 ),
+"material": SubResource( 239 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="ConvexPolygonShape" id=240]
+[sub_resource type="ConvexPolygonShape" id=241]
 points = PoolVector3Array( 15.5, 0.5, -0.5, -15.5, 0.5, -0.5, -15.5, -0.5, -0.5, 15.5, -0.5, -0.5, -15.5, -0.5, 0.5, -15.5, -0.5, -0.5, -15.5, 0.5, -0.5, -15.5, 0.5, 0.5, 15.5, -0.5, -0.5, -15.5, -0.5, -0.5, -15.5, -0.5, 0.5, 15.5, -0.5, 0.5, 15.5, 0.5, 0.5, -15.5, 0.5, 0.5, -15.5, 0.5, -0.5, 15.5, 0.5, -0.5, 15.5, 0.5, -0.5, 15.5, -0.5, -0.5, 15.5, -0.5, 0.5, 15.5, 0.5, 0.5, 15.5, -0.5, 0.5, -15.5, -0.5, 0.5, -15.5, 0.5, 0.5, 15.5, 0.5, 0.5 )
 
-[sub_resource type="SpatialMaterial" id=241]
+[sub_resource type="SpatialMaterial" id=242]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=242]
+[sub_resource type="ArrayMesh" id=243]
 surfaces/0 = {
 "aabb": AABB( -0.5, -1.5, 0, 1, 3.00001, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 0, 191, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 64, 0, 192, 0, 0, 0, 191, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 129, 0, 0, 64, 0, 184, 0, 0, 0, 63, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 129, 0, 0, 62, 0, 184, 0, 0, 0, 63, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 62, 0, 192 ),
@@ -1949,16 +2172,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 241 ),
+"material": SubResource( 242 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=243]
+[sub_resource type="SpatialMaterial" id=244]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=244]
+[sub_resource type="ArrayMesh" id=245]
 surfaces/0 = {
 "aabb": AABB( 0, -1.5, -0.5, 1e-005, 3, 1.00001 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 192, 191, 0, 0, 0, 63, 129, 0, 0, 0, 0, 202, 0, 184, 0, 0, 0, 0, 0, 0, 192, 191, 0, 0, 0, 191, 129, 0, 0, 0, 64, 202, 0, 184, 0, 0, 0, 0, 0, 0, 192, 63, 0, 0, 0, 191, 129, 0, 0, 0, 64, 202, 0, 192, 0, 0, 0, 0, 0, 0, 192, 63, 0, 0, 0, 63, 129, 0, 0, 0, 0, 202, 0, 192 ),
@@ -1966,16 +2191,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 243 ),
+"material": SubResource( 244 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=245]
+[sub_resource type="SpatialMaterial" id=246]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=246]
+[sub_resource type="ArrayMesh" id=247]
 surfaces/0 = {
 "aabb": AABB( -0.5, 0, -0.5, 1, 1e-005, 1.00001 ),
 "array_data": PoolByteArray( 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 0, 63, 0, 127, 0, 0, 0, 202, 0, 64, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 0, 191, 0, 127, 0, 0, 64, 202, 0, 64, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 0, 191, 0, 127, 0, 0, 64, 202, 0, 62, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 0, 63, 0, 127, 0, 0, 0, 202, 0, 62 ),
@@ -1983,16 +2210,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 245 ),
+"material": SubResource( 246 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=247]
+[sub_resource type="SpatialMaterial" id=248]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=248]
+[sub_resource type="ArrayMesh" id=249]
 surfaces/0 = {
 "aabb": AABB( 0, -1.5, -0.5, 1e-005, 3.00001, 1 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 192, 63, 0, 0, 0, 191, 127, 0, 0, 0, 64, 74, 0, 192, 0, 0, 0, 0, 0, 0, 192, 191, 0, 0, 0, 191, 127, 0, 0, 0, 64, 74, 0, 184, 0, 0, 0, 0, 0, 0, 192, 191, 0, 0, 0, 63, 127, 0, 0, 0, 0, 74, 0, 184, 0, 0, 0, 0, 0, 0, 192, 63, 0, 0, 0, 63, 127, 0, 0, 0, 0, 74, 0, 192 ),
@@ -2000,16 +2229,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 247 ),
+"material": SubResource( 248 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=249]
+[sub_resource type="SpatialMaterial" id=250]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=250]
+[sub_resource type="ArrayMesh" id=251]
 surfaces/0 = {
 "aabb": AABB( -0.5, -1.5, 0, 1.00001, 3, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 0, 63, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 127, 0, 0, 190, 0, 184, 0, 0, 0, 191, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 127, 0, 0, 192, 0, 184, 0, 0, 0, 191, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 192, 0, 192, 0, 0, 0, 63, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 190, 0, 192 ),
@@ -2017,19 +2248,21 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 249 ),
+"material": SubResource( 250 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="ConvexPolygonShape" id=251]
+[sub_resource type="ConvexPolygonShape" id=252]
 points = PoolVector3Array( -0.5, 1.5, -0.5, -0.5, -1.5, -0.5, 0.5, -1.5, -0.5, 0.5, 1.5, -0.5, -0.5, -1.5, 0.5, -0.5, -1.5, -0.5, -0.5, 1.5, -0.5, -0.5, 1.5, 0.5, 0.5, -1.5, -0.5, -0.5, -1.5, -0.5, -0.5, -1.5, 0.5, 0.5, -1.5, 0.5, -0.5, 1.5, 0.5, -0.5, 1.5, -0.5, 0.5, 1.5, -0.5, 0.5, 1.5, 0.5, 0.5, 1.5, -0.5, 0.5, -1.5, -0.5, 0.5, -1.5, 0.5, 0.5, 1.5, 0.5, 0.5, -1.5, 0.5, -0.5, -1.5, 0.5, -0.5, 1.5, 0.5, 0.5, 1.5, 0.5 )
 
-[sub_resource type="SpatialMaterial" id=252]
+[sub_resource type="SpatialMaterial" id=253]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=253]
+[sub_resource type="ArrayMesh" id=254]
 surfaces/0 = {
 "aabb": AABB( -0.5, -1.5, 0, 1, 3.00001, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 0, 191, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 203, 0, 192, 0, 0, 0, 191, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 129, 0, 0, 203, 0, 184, 0, 0, 0, 63, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 129, 0, 64, 203, 0, 184, 0, 0, 0, 63, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 129, 0, 64, 203, 0, 192 ),
@@ -2037,16 +2270,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 252 ),
+"material": SubResource( 253 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=254]
+[sub_resource type="SpatialMaterial" id=255]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=255]
+[sub_resource type="ArrayMesh" id=256]
 surfaces/0 = {
 "aabb": AABB( 0, -1.5, -0.5, 1e-005, 3, 1.00001 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 192, 191, 0, 0, 0, 63, 129, 0, 0, 0, 0, 202, 0, 184, 0, 0, 0, 0, 0, 0, 192, 191, 0, 0, 0, 191, 129, 0, 0, 0, 64, 202, 0, 184, 0, 0, 0, 0, 0, 0, 192, 63, 0, 0, 0, 191, 129, 0, 0, 0, 64, 202, 0, 192, 0, 0, 0, 0, 0, 0, 192, 63, 0, 0, 0, 63, 129, 0, 0, 0, 0, 202, 0, 192 ),
@@ -2054,16 +2289,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 254 ),
+"material": SubResource( 255 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=256]
+[sub_resource type="SpatialMaterial" id=257]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=257]
+[sub_resource type="ArrayMesh" id=258]
 surfaces/0 = {
 "aabb": AABB( -0.5, 0, -0.5, 1, 1e-005, 1.00001 ),
 "array_data": PoolByteArray( 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 0, 63, 0, 127, 0, 0, 0, 202, 0, 203, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 0, 191, 0, 127, 0, 0, 64, 202, 0, 203, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 0, 191, 0, 127, 0, 0, 64, 202, 64, 203, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 0, 63, 0, 127, 0, 0, 0, 202, 64, 203 ),
@@ -2071,16 +2308,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 256 ),
+"material": SubResource( 257 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=258]
+[sub_resource type="SpatialMaterial" id=259]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=259]
+[sub_resource type="ArrayMesh" id=260]
 surfaces/0 = {
 "aabb": AABB( 0, -1.5, -0.5, 1e-005, 3.00001, 1 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 192, 63, 0, 0, 0, 191, 127, 0, 0, 0, 64, 74, 0, 192, 0, 0, 0, 0, 0, 0, 192, 191, 0, 0, 0, 191, 127, 0, 0, 0, 64, 74, 0, 184, 0, 0, 0, 0, 0, 0, 192, 191, 0, 0, 0, 63, 127, 0, 0, 0, 0, 74, 0, 184, 0, 0, 0, 0, 0, 0, 192, 63, 0, 0, 0, 63, 127, 0, 0, 0, 0, 74, 0, 192 ),
@@ -2088,16 +2327,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 258 ),
+"material": SubResource( 259 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=260]
+[sub_resource type="SpatialMaterial" id=261]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=261]
+[sub_resource type="ArrayMesh" id=262]
 surfaces/0 = {
 "aabb": AABB( -0.5, -1.5, 0, 1.00001, 3, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 0, 63, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 127, 0, 64, 75, 0, 184, 0, 0, 0, 191, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 127, 0, 0, 75, 0, 184, 0, 0, 0, 191, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 75, 0, 192, 0, 0, 0, 63, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 127, 0, 64, 75, 0, 192 ),
@@ -2105,19 +2346,21 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 260 ),
+"material": SubResource( 261 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="ConvexPolygonShape" id=262]
+[sub_resource type="ConvexPolygonShape" id=263]
 points = PoolVector3Array( -0.5, 1.5, -0.5, -0.5, -1.5, -0.5, 0.5, -1.5, -0.5, 0.5, 1.5, -0.5, -0.5, -1.5, 0.5, -0.5, -1.5, -0.5, -0.5, 1.5, -0.5, -0.5, 1.5, 0.5, 0.5, -1.5, -0.5, -0.5, -1.5, -0.5, -0.5, -1.5, 0.5, 0.5, -1.5, 0.5, -0.5, 1.5, 0.5, -0.5, 1.5, -0.5, 0.5, 1.5, -0.5, 0.5, 1.5, 0.5, 0.5, 1.5, -0.5, 0.5, -1.5, -0.5, 0.5, -1.5, 0.5, 0.5, 1.5, 0.5, 0.5, -1.5, 0.5, -0.5, -1.5, 0.5, -0.5, 1.5, 0.5, 0.5, 1.5, 0.5 )
 
-[sub_resource type="SpatialMaterial" id=263]
+[sub_resource type="SpatialMaterial" id=264]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=264]
+[sub_resource type="ArrayMesh" id=265]
 surfaces/0 = {
 "aabb": AABB( -0.5, -0.5, 0, 1, 1.00001, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 0, 191, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 203, 0, 192, 0, 0, 0, 191, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 129, 0, 0, 203, 0, 190, 0, 0, 0, 63, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 129, 0, 64, 203, 0, 190, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 129, 0, 64, 203, 0, 192 ),
@@ -2125,16 +2368,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 263 ),
+"material": SubResource( 264 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=265]
+[sub_resource type="SpatialMaterial" id=266]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=266]
+[sub_resource type="ArrayMesh" id=267]
 surfaces/0 = {
 "aabb": AABB( 0, -0.5, -13.5, 1e-005, 1.00001, 27 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 88, 65, 129, 0, 0, 0, 0, 62, 0, 192, 0, 0, 0, 0, 0, 0, 0, 191, 0, 0, 88, 65, 129, 0, 0, 0, 0, 62, 0, 190, 0, 0, 0, 0, 0, 0, 0, 191, 0, 0, 88, 193, 129, 0, 0, 0, 0, 202, 0, 190, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 88, 193, 129, 0, 0, 0, 0, 202, 0, 192 ),
@@ -2142,16 +2387,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 265 ),
+"material": SubResource( 266 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=267]
+[sub_resource type="SpatialMaterial" id=268]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=268]
+[sub_resource type="ArrayMesh" id=269]
 surfaces/0 = {
 "aabb": AABB( -0.5, 0, -13.5, 1.00001, 1e-005, 27 ),
 "array_data": PoolByteArray( 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 88, 193, 0, 129, 0, 0, 0, 74, 64, 203, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 88, 193, 0, 129, 0, 0, 0, 74, 0, 203, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 88, 65, 0, 129, 0, 0, 0, 190, 0, 203, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 88, 65, 0, 129, 0, 0, 0, 190, 64, 203 ),
@@ -2159,16 +2406,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 267 ),
+"material": SubResource( 268 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=269]
+[sub_resource type="SpatialMaterial" id=270]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=270]
+[sub_resource type="ArrayMesh" id=271]
 surfaces/0 = {
 "aabb": AABB( -0.5, 0, -13.5, 1.00001, 1e-005, 27 ),
 "array_data": PoolByteArray( 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 88, 65, 0, 127, 0, 0, 0, 62, 64, 203, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 88, 65, 0, 127, 0, 0, 0, 62, 0, 203, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 88, 193, 0, 127, 0, 0, 0, 202, 0, 203, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 88, 193, 0, 127, 0, 0, 0, 202, 64, 203 ),
@@ -2176,16 +2425,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 269 ),
+"material": SubResource( 270 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=271]
+[sub_resource type="SpatialMaterial" id=272]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=272]
+[sub_resource type="ArrayMesh" id=273]
 surfaces/0 = {
 "aabb": AABB( 0, -0.5, -13.5, 1e-005, 1.00001, 27 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 88, 193, 127, 0, 0, 0, 0, 74, 0, 192, 0, 0, 0, 0, 0, 0, 0, 191, 0, 0, 88, 193, 127, 0, 0, 0, 0, 74, 0, 190, 0, 0, 0, 0, 0, 0, 0, 191, 0, 0, 88, 65, 127, 0, 0, 0, 0, 190, 0, 190, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 88, 65, 127, 0, 0, 0, 0, 190, 0, 192 ),
@@ -2193,16 +2444,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 271 ),
+"material": SubResource( 272 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=273]
+[sub_resource type="SpatialMaterial" id=274]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=274]
+[sub_resource type="ArrayMesh" id=275]
 surfaces/0 = {
 "aabb": AABB( -0.5, -0.5, 0, 1.00001, 1, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 0, 63, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 127, 0, 64, 75, 0, 190, 0, 0, 0, 191, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 127, 0, 0, 75, 0, 190, 0, 0, 0, 191, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 75, 0, 192, 0, 0, 0, 63, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 127, 0, 64, 75, 0, 192 ),
@@ -2210,19 +2463,21 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 273 ),
+"material": SubResource( 274 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="ConvexPolygonShape" id=275]
+[sub_resource type="ConvexPolygonShape" id=276]
 points = PoolVector3Array( -0.5, 0.5, -13.5, -0.5, -0.5, -13.5, 0.5, -0.5, -13.5, 0.5, 0.5, -13.5, -0.5, 0.5, 13.5, -0.5, -0.5, 13.5, -0.5, -0.5, -13.5, -0.5, 0.5, -13.5, 0.5, -0.5, -13.5, -0.5, -0.5, -13.5, -0.5, -0.5, 13.5, 0.5, -0.5, 13.5, 0.5, 0.5, 13.5, -0.5, 0.5, 13.5, -0.5, 0.5, -13.5, 0.5, 0.5, -13.5, 0.5, 0.5, -13.5, 0.5, -0.5, -13.5, 0.5, -0.5, 13.5, 0.5, 0.5, 13.5, 0.5, -0.5, 13.5, -0.5, -0.5, 13.5, -0.5, 0.5, 13.5, 0.5, 0.5, 13.5 )
 
-[sub_resource type="SpatialMaterial" id=276]
+[sub_resource type="SpatialMaterial" id=277]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=277]
+[sub_resource type="ArrayMesh" id=278]
 surfaces/0 = {
 "aabb": AABB( -0.5, -1.5, 0, 1, 3.00001, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 0, 191, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 203, 0, 192, 0, 0, 0, 191, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 129, 0, 0, 203, 0, 184, 0, 0, 0, 63, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 129, 0, 64, 203, 0, 184, 0, 0, 0, 63, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 129, 0, 64, 203, 0, 192 ),
@@ -2230,16 +2485,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 276 ),
+"material": SubResource( 277 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=278]
+[sub_resource type="SpatialMaterial" id=279]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=279]
+[sub_resource type="ArrayMesh" id=280]
 surfaces/0 = {
 "aabb": AABB( 0, -1.5, -0.5, 1e-005, 3, 1.00001 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 192, 191, 0, 0, 0, 63, 129, 0, 0, 0, 0, 64, 0, 184, 0, 0, 0, 0, 0, 0, 192, 191, 0, 0, 0, 191, 129, 0, 0, 0, 0, 62, 0, 184, 0, 0, 0, 0, 0, 0, 192, 63, 0, 0, 0, 191, 129, 0, 0, 0, 0, 62, 0, 192, 0, 0, 0, 0, 0, 0, 192, 63, 0, 0, 0, 63, 129, 0, 0, 0, 0, 64, 0, 192 ),
@@ -2247,16 +2504,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 278 ),
+"material": SubResource( 279 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=280]
+[sub_resource type="SpatialMaterial" id=281]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=281]
+[sub_resource type="ArrayMesh" id=282]
 surfaces/0 = {
 "aabb": AABB( -0.5, 0, -0.5, 1, 1e-005, 1.00001 ),
 "array_data": PoolByteArray( 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 0, 63, 0, 127, 0, 0, 0, 64, 0, 203, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 0, 191, 0, 127, 0, 0, 0, 62, 0, 203, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 0, 191, 0, 127, 0, 0, 0, 62, 64, 203, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 0, 63, 0, 127, 0, 0, 0, 64, 64, 203 ),
@@ -2264,16 +2523,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 280 ),
+"material": SubResource( 281 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=282]
+[sub_resource type="SpatialMaterial" id=283]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=283]
+[sub_resource type="ArrayMesh" id=284]
 surfaces/0 = {
 "aabb": AABB( 0, -1.5, -0.5, 1e-005, 3.00001, 1 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 192, 63, 0, 0, 0, 191, 127, 0, 0, 0, 0, 190, 0, 192, 0, 0, 0, 0, 0, 0, 192, 191, 0, 0, 0, 191, 127, 0, 0, 0, 0, 190, 0, 184, 0, 0, 0, 0, 0, 0, 192, 191, 0, 0, 0, 63, 127, 0, 0, 0, 0, 192, 0, 184, 0, 0, 0, 0, 0, 0, 192, 63, 0, 0, 0, 63, 127, 0, 0, 0, 0, 192, 0, 192 ),
@@ -2281,16 +2542,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 282 ),
+"material": SubResource( 283 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=284]
+[sub_resource type="SpatialMaterial" id=285]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=285]
+[sub_resource type="ArrayMesh" id=286]
 surfaces/0 = {
 "aabb": AABB( -0.5, -1.5, 0, 1.00001, 3, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 0, 63, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 127, 0, 64, 75, 0, 184, 0, 0, 0, 191, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 127, 0, 0, 75, 0, 184, 0, 0, 0, 191, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 75, 0, 192, 0, 0, 0, 63, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 127, 0, 64, 75, 0, 192 ),
@@ -2298,19 +2561,21 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 284 ),
+"material": SubResource( 285 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="ConvexPolygonShape" id=286]
+[sub_resource type="ConvexPolygonShape" id=287]
 points = PoolVector3Array( -0.5, 1.5, -0.5, -0.5, -1.5, -0.5, 0.5, -1.5, -0.5, 0.5, 1.5, -0.5, -0.5, -1.5, 0.5, -0.5, -1.5, -0.5, -0.5, 1.5, -0.5, -0.5, 1.5, 0.5, 0.5, -1.5, -0.5, -0.5, -1.5, -0.5, -0.5, -1.5, 0.5, 0.5, -1.5, 0.5, -0.5, 1.5, 0.5, -0.5, 1.5, -0.5, 0.5, 1.5, -0.5, 0.5, 1.5, 0.5, 0.5, 1.5, -0.5, 0.5, -1.5, -0.5, 0.5, -1.5, 0.5, 0.5, 1.5, 0.5, 0.5, -1.5, 0.5, -0.5, -1.5, 0.5, -0.5, 1.5, 0.5, 0.5, 1.5, 0.5 )
 
-[sub_resource type="SpatialMaterial" id=287]
+[sub_resource type="SpatialMaterial" id=288]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=288]
+[sub_resource type="ArrayMesh" id=289]
 surfaces/0 = {
 "aabb": AABB( -11, -0.5, 0, 22, 1.00001, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 48, 193, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 194, 0, 192, 0, 0, 48, 193, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 129, 0, 0, 194, 0, 190, 0, 0, 48, 65, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 129, 0, 0, 203, 0, 190, 0, 0, 48, 65, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 203, 0, 192 ),
@@ -2318,16 +2583,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 287 ),
+"material": SubResource( 288 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=289]
+[sub_resource type="SpatialMaterial" id=290]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=290]
+[sub_resource type="ArrayMesh" id=291]
 surfaces/0 = {
 "aabb": AABB( 0, -0.5, -0.5, 1e-005, 1, 1.00001 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 191, 0, 0, 0, 63, 129, 0, 0, 0, 0, 64, 0, 190, 0, 0, 0, 0, 0, 0, 0, 191, 0, 0, 0, 191, 129, 0, 0, 0, 0, 62, 0, 190, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 0, 191, 129, 0, 0, 0, 0, 62, 0, 192, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 0, 63, 129, 0, 0, 0, 0, 64, 0, 192 ),
@@ -2335,16 +2602,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 289 ),
+"material": SubResource( 290 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=291]
+[sub_resource type="SpatialMaterial" id=292]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=292]
+[sub_resource type="ArrayMesh" id=293]
 surfaces/0 = {
 "aabb": AABB( -11, 0, -0.5, 22, 1e-005, 1 ),
 "array_data": PoolByteArray( 0, 0, 48, 65, 0, 0, 0, 0, 0, 0, 0, 191, 0, 129, 0, 0, 0, 190, 0, 203, 0, 0, 48, 193, 0, 0, 0, 0, 0, 0, 0, 191, 0, 129, 0, 0, 0, 190, 0, 194, 0, 0, 48, 193, 0, 0, 0, 0, 0, 0, 0, 63, 0, 129, 0, 0, 0, 192, 0, 194, 0, 0, 48, 65, 0, 0, 0, 0, 0, 0, 0, 63, 0, 129, 0, 0, 0, 192, 0, 203 ),
@@ -2352,16 +2621,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 291 ),
+"material": SubResource( 292 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=293]
+[sub_resource type="SpatialMaterial" id=294]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=294]
+[sub_resource type="ArrayMesh" id=295]
 surfaces/0 = {
 "aabb": AABB( -11, 0, -0.5, 22, 1e-005, 1.00001 ),
 "array_data": PoolByteArray( 0, 0, 48, 193, 0, 0, 0, 0, 0, 0, 0, 63, 0, 127, 0, 0, 0, 64, 0, 194, 0, 0, 48, 193, 0, 0, 0, 0, 0, 0, 0, 191, 0, 127, 0, 0, 0, 62, 0, 194, 0, 0, 48, 65, 0, 0, 0, 0, 0, 0, 0, 191, 0, 127, 0, 0, 0, 62, 0, 203, 0, 0, 48, 65, 0, 0, 0, 0, 0, 0, 0, 63, 0, 127, 0, 0, 0, 64, 0, 203 ),
@@ -2369,16 +2640,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 293 ),
+"material": SubResource( 294 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=295]
+[sub_resource type="SpatialMaterial" id=296]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=296]
+[sub_resource type="ArrayMesh" id=297]
 surfaces/0 = {
 "aabb": AABB( 0, -0.5, -0.5, 1e-005, 1.00001, 1 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 0, 191, 127, 0, 0, 0, 0, 190, 0, 192, 0, 0, 0, 0, 0, 0, 0, 191, 0, 0, 0, 191, 127, 0, 0, 0, 0, 190, 0, 190, 0, 0, 0, 0, 0, 0, 0, 191, 0, 0, 0, 63, 127, 0, 0, 0, 0, 192, 0, 190, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 0, 63, 127, 0, 0, 0, 0, 192, 0, 192 ),
@@ -2386,16 +2659,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 295 ),
+"material": SubResource( 296 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=297]
+[sub_resource type="SpatialMaterial" id=298]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=298]
+[sub_resource type="ArrayMesh" id=299]
 surfaces/0 = {
 "aabb": AABB( -11, -0.5, 0, 22, 1, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 48, 65, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 127, 0, 0, 75, 0, 190, 0, 0, 48, 193, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 127, 0, 0, 66, 0, 190, 0, 0, 48, 193, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 66, 0, 192, 0, 0, 48, 65, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 75, 0, 192 ),
@@ -2403,19 +2678,21 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 297 ),
+"material": SubResource( 298 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="ConvexPolygonShape" id=299]
+[sub_resource type="ConvexPolygonShape" id=300]
 points = PoolVector3Array( -11, 0.5, -0.5, -11, -0.5, -0.5, 11, -0.5, -0.5, 11, 0.5, -0.5, -11, -0.5, 0.5, -11, -0.5, -0.5, -11, 0.5, -0.5, -11, 0.5, 0.5, 11, -0.5, -0.5, -11, -0.5, -0.5, -11, -0.5, 0.5, 11, -0.5, 0.5, -11, 0.5, 0.5, -11, 0.5, -0.5, 11, 0.5, -0.5, 11, 0.5, 0.5, 11, 0.5, -0.5, 11, -0.5, -0.5, 11, -0.5, 0.5, 11, 0.5, 0.5, 11, -0.5, 0.5, -11, -0.5, 0.5, -11, 0.5, 0.5, 11, 0.5, 0.5 )
 
-[sub_resource type="SpatialMaterial" id=300]
+[sub_resource type="SpatialMaterial" id=301]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=301]
+[sub_resource type="ArrayMesh" id=302]
 surfaces/0 = {
 "aabb": AABB( -0.5, -1.5, 0, 1, 3.00001, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 0, 191, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 193, 0, 192, 0, 0, 0, 191, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 129, 0, 0, 193, 0, 184, 0, 0, 0, 63, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 129, 0, 0, 194, 0, 184, 0, 0, 0, 63, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 129, 0, 0, 194, 0, 192 ),
@@ -2423,16 +2700,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 300 ),
+"material": SubResource( 301 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=302]
+[sub_resource type="SpatialMaterial" id=303]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=303]
+[sub_resource type="ArrayMesh" id=304]
 surfaces/0 = {
 "aabb": AABB( 0, -1.5, -0.5, 1e-005, 3, 1.00001 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 192, 191, 0, 0, 0, 63, 129, 0, 0, 0, 0, 64, 0, 184, 0, 0, 0, 0, 0, 0, 192, 191, 0, 0, 0, 191, 129, 0, 0, 0, 0, 62, 0, 184, 0, 0, 0, 0, 0, 0, 192, 63, 0, 0, 0, 191, 129, 0, 0, 0, 0, 62, 0, 192, 0, 0, 0, 0, 0, 0, 192, 63, 0, 0, 0, 63, 129, 0, 0, 0, 0, 64, 0, 192 ),
@@ -2440,16 +2719,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 302 ),
+"material": SubResource( 303 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=304]
+[sub_resource type="SpatialMaterial" id=305]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=305]
+[sub_resource type="ArrayMesh" id=306]
 surfaces/0 = {
 "aabb": AABB( -0.5, 0, -0.5, 1, 1e-005, 1.00001 ),
 "array_data": PoolByteArray( 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 0, 63, 0, 127, 0, 0, 0, 64, 0, 193, 0, 0, 0, 191, 0, 0, 0, 0, 0, 0, 0, 191, 0, 127, 0, 0, 0, 62, 0, 193, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 0, 191, 0, 127, 0, 0, 0, 62, 0, 194, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 0, 63, 0, 127, 0, 0, 0, 64, 0, 194 ),
@@ -2457,16 +2738,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 304 ),
+"material": SubResource( 305 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=306]
+[sub_resource type="SpatialMaterial" id=307]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=307]
+[sub_resource type="ArrayMesh" id=308]
 surfaces/0 = {
 "aabb": AABB( 0, -1.5, -0.5, 1e-005, 3.00001, 1 ),
 "array_data": PoolByteArray( 0, 0, 0, 0, 0, 0, 192, 63, 0, 0, 0, 191, 127, 0, 0, 0, 0, 190, 0, 192, 0, 0, 0, 0, 0, 0, 192, 191, 0, 0, 0, 191, 127, 0, 0, 0, 0, 190, 0, 184, 0, 0, 0, 0, 0, 0, 192, 191, 0, 0, 0, 63, 127, 0, 0, 0, 0, 192, 0, 184, 0, 0, 0, 0, 0, 0, 192, 63, 0, 0, 0, 63, 127, 0, 0, 0, 0, 192, 0, 192 ),
@@ -2474,16 +2757,18 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 306 ),
+"material": SubResource( 307 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="SpatialMaterial" id=308]
+[sub_resource type="SpatialMaterial" id=309]
 albedo_texture = ExtResource( 5 )
+metallic = 1.0
+metallic_specular = 0.0
 
-[sub_resource type="ArrayMesh" id=309]
+[sub_resource type="ArrayMesh" id=310]
 surfaces/0 = {
 "aabb": AABB( -0.5, -1.5, 0, 1.00001, 3, 1e-005 ),
 "array_data": PoolByteArray( 0, 0, 0, 63, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 127, 0, 0, 66, 0, 184, 0, 0, 0, 191, 0, 0, 192, 191, 0, 0, 0, 0, 0, 0, 127, 0, 0, 65, 0, 184, 0, 0, 0, 191, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 65, 0, 192, 0, 0, 0, 63, 0, 0, 192, 63, 0, 0, 0, 0, 0, 0, 127, 0, 0, 66, 0, 192 ),
@@ -2491,25 +2776,25 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97555,
 "index_count": 4,
-"material": SubResource( 308 ),
+"material": SubResource( 309 ),
 "primitive": 6,
 "skeleton_aabb": [  ],
 "vertex_count": 4
 }
 
-[sub_resource type="ConvexPolygonShape" id=310]
+[sub_resource type="ConvexPolygonShape" id=311]
 points = PoolVector3Array( -0.5, 1.5, -0.5, -0.5, -1.5, -0.5, 0.5, -1.5, -0.5, 0.5, 1.5, -0.5, -0.5, -1.5, 0.5, -0.5, -1.5, -0.5, -0.5, 1.5, -0.5, -0.5, 1.5, 0.5, 0.5, -1.5, -0.5, -0.5, -1.5, -0.5, -0.5, -1.5, 0.5, 0.5, -1.5, 0.5, -0.5, 1.5, 0.5, -0.5, 1.5, -0.5, 0.5, 1.5, -0.5, 0.5, 1.5, 0.5, 0.5, 1.5, -0.5, 0.5, -1.5, -0.5, 0.5, -1.5, 0.5, 0.5, 1.5, 0.5, 0.5, -1.5, 0.5, -0.5, -1.5, 0.5, -0.5, 1.5, 0.5, 0.5, 1.5, 0.5 )
 
-[sub_resource type="ConvexPolygonShape" id=311]
+[sub_resource type="ConvexPolygonShape" id=312]
 points = PoolVector3Array( -11.5, 8, -0.5, -11.5, -8, -0.5, 11.5, -8, -0.5, 11.5, 8, -0.5, -11.5, -8, 0.5, -11.5, -8, -0.5, -11.5, 8, -0.5, -11.5, 8, 0.5, 11.5, -8, -0.5, -11.5, -8, -0.5, -11.5, -8, 0.5, 11.5, -8, 0.5, -11.5, 8, 0.5, -11.5, 8, -0.5, 11.5, 8, -0.5, 11.5, 8, 0.5, 11.5, 8, -0.5, 11.5, -8, -0.5, 11.5, -8, 0.5, 11.5, 8, 0.5, 11.5, -8, 0.5, -11.5, -8, 0.5, -11.5, 8, 0.5, 11.5, 8, 0.5 )
 
-[sub_resource type="ConvexPolygonShape" id=312]
+[sub_resource type="ConvexPolygonShape" id=313]
 points = PoolVector3Array( -0.5, 8, -13.5, -0.5, -8, -13.5, 0.5, -8, -13.5, 0.5, 8, -13.5, -0.5, -8, 13.5, -0.5, -8, -13.5, -0.5, 8, -13.5, -0.5, 8, 13.5, 0.5, -8, -13.5, -0.5, -8, -13.5, -0.5, -8, 13.5, 0.5, -8, 13.5, 0.5, 8, 13.5, -0.5, 8, 13.5, -0.5, 8, -13.5, 0.5, 8, -13.5, 0.5, 8, -13.5, 0.5, -8, -13.5, 0.5, -8, 13.5, 0.5, 8, 13.5, 0.5, -8, 13.5, -0.5, -8, 13.5, -0.5, 8, 13.5, 0.5, 8, 13.5 )
 
-[sub_resource type="ConvexPolygonShape" id=313]
+[sub_resource type="ConvexPolygonShape" id=314]
 points = PoolVector3Array( -15.5, 8, -0.5, -15.5, -8, -0.5, 15.5, -8, -0.5, 15.5, 8, -0.5, -15.5, -8, 0.5, -15.5, -8, -0.5, -15.5, 8, -0.5, -15.5, 8, 0.5, 15.5, -8, -0.5, -15.5, -8, -0.5, -15.5, -8, 0.5, 15.5, -8, 0.5, 15.5, 8, 0.5, -15.5, 8, 0.5, -15.5, 8, -0.5, 15.5, 8, -0.5, 15.5, 8, -0.5, 15.5, -8, -0.5, 15.5, -8, 0.5, 15.5, 8, 0.5, 15.5, -8, 0.5, -15.5, -8, 0.5, -15.5, 8, 0.5, 15.5, 8, 0.5 )
 
-[sub_resource type="ConvexPolygonShape" id=314]
+[sub_resource type="ConvexPolygonShape" id=315]
 points = PoolVector3Array( -0.5, 8, -14, -0.5, -8, -14, 0.5, -8, -14, 0.5, 8, -14, -0.5, -8, 14, -0.5, -8, -14, -0.5, 8, -14, -0.5, 8, 14, 0.5, -8, 14, 0.5, -8, -14, -0.5, -8, -14, -0.5, -8, 14, -0.5, 8, 14, -0.5, 8, -14, 0.5, 8, -14, 0.5, 8, 14, 0.5, 8, 14, 0.5, 8, -14, 0.5, -8, -14, 0.5, -8, 14, 0.5, -8, 14, -0.5, -8, 14, -0.5, 8, 14, 0.5, 8, 14 )
 
 [node name="Node" type="Node"]
@@ -2541,6 +2826,22 @@ transform = Transform( 0.569839, -3.59201e-008, 0.821756, -0.821756, -2.49085e-0
 light_energy = 6.84
 spot_range = 12.7271
 spot_angle = 18.0385
+
+[node name="ReflectionProbes" type="Spatial" parent="Lighting"]
+editor/display_folded = true
+visible = false
+
+[node name="ReflectionProbe" type="ReflectionProbe" parent="Lighting/ReflectionProbes"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.9318, 4.55063, -10.453 )
+extents = Vector3( 6.74026, 4.87207, 19.5363 )
+
+[node name="ReflectionProbe2" type="ReflectionProbe" parent="Lighting/ReflectionProbes"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 23.9747, 8.85103, -10.3413 )
+extents = Vector3( 5.28127, 11.2203, 15.1821 )
+
+[node name="ReflectionProbe3" type="ReflectionProbe" parent="Lighting/ReflectionProbes"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.27827, 8.85103, -3.87941 )
+extents = Vector3( 8.54382, 11.2203, 23.6679 )
 
 [node name="PhysicsBalls" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 5, 0 )
@@ -2588,6 +2889,7 @@ shape = SubResource( 2 )
 [node name="Qodot Example" type="Spatial" parent="."]
 script = ExtResource( 1 )
 autoload_map_path = "res://scenes/qodot_example.map"
+default_material = SubResource( 3 )
 
 [node name="worldspawn" type="Spatial" parent="Qodot Example"]
 script = ExtResource( 2 )
@@ -2604,33 +2906,33 @@ script = ExtResource( 3 )
 
 [node name="Face0" type="MeshInstance" parent="Qodot Example/worldspawn/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -14.5 )
-mesh = SubResource( 4 )
+mesh = SubResource( 5 )
 material/0 = null
 
 [node name="Face1" type="MeshInstance" parent="Qodot Example/worldspawn/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 0, 0 )
-mesh = SubResource( 6 )
+mesh = SubResource( 7 )
 material/0 = null
 
 [node name="Face2" type="MeshInstance" parent="Qodot Example/worldspawn/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
-mesh = SubResource( 8 )
+mesh = SubResource( 9 )
 material/0 = null
 
 [node name="Face3" type="MeshInstance" parent="Qodot Example/worldspawn/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0, 0 )
-mesh = SubResource( 10 )
+mesh = SubResource( 11 )
 material/0 = null
 
 [node name="Face4" type="MeshInstance" parent="Qodot Example/worldspawn/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 14.5 )
-mesh = SubResource( 12 )
+mesh = SubResource( 13 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush0"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush0/StaticBody"]
-shape = SubResource( 13 )
+shape = SubResource( 14 )
 
 [node name="Brush1" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.49976, 2.5, -11 )
@@ -2638,33 +2940,33 @@ script = ExtResource( 3 )
 
 [node name="Face0" type="MeshInstance" parent="Qodot Example/worldspawn/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3 )
-mesh = SubResource( 15 )
+mesh = SubResource( 16 )
 material/0 = null
 
 [node name="Face1" type="MeshInstance" parent="Qodot Example/worldspawn/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.99974, 0, 0 )
-mesh = SubResource( 17 )
+mesh = SubResource( 18 )
 material/0 = null
 
 [node name="Face2" type="MeshInstance" parent="Qodot Example/worldspawn/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.499798, 1.5, 0 )
-mesh = SubResource( 19 )
+mesh = SubResource( 20 )
 material/0 = null
 
 [node name="Face3" type="MeshInstance" parent="Qodot Example/worldspawn/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.99974, 0, 0 )
-mesh = SubResource( 21 )
+mesh = SubResource( 22 )
 material/0 = null
 
 [node name="Face4" type="MeshInstance" parent="Qodot Example/worldspawn/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3 )
-mesh = SubResource( 23 )
+mesh = SubResource( 24 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush1"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush1/StaticBody"]
-shape = SubResource( 24 )
+shape = SubResource( 25 )
 
 [node name="Brush2" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.99997, 5.5, -11 )
@@ -2672,38 +2974,38 @@ script = ExtResource( 3 )
 
 [node name="Face0" type="MeshInstance" parent="Qodot Example/worldspawn/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.76837e-007, 0, -3 )
-mesh = SubResource( 26 )
+mesh = SubResource( 27 )
 material/0 = null
 
 [node name="Face1" type="MeshInstance" parent="Qodot Example/worldspawn/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.00019, 0, 0 )
-mesh = SubResource( 28 )
+mesh = SubResource( 29 )
 material/0 = null
 
 [node name="Face2" type="MeshInstance" parent="Qodot Example/worldspawn/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.999979, -1.5, 0 )
-mesh = SubResource( 30 )
+mesh = SubResource( 31 )
 material/0 = null
 
 [node name="Face3" type="MeshInstance" parent="Qodot Example/worldspawn/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.999979, 1.5, 0 )
-mesh = SubResource( 32 )
+mesh = SubResource( 33 )
 material/0 = null
 
 [node name="Face4" type="MeshInstance" parent="Qodot Example/worldspawn/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.00019, 0, 0 )
-mesh = SubResource( 34 )
+mesh = SubResource( 35 )
 material/0 = null
 
 [node name="Face5" type="MeshInstance" parent="Qodot Example/worldspawn/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.76837e-007, 0, 3 )
-mesh = SubResource( 36 )
+mesh = SubResource( 37 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush2"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush2/StaticBody"]
-shape = SubResource( 37 )
+shape = SubResource( 38 )
 
 [node name="Brush3" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 8, -11 )
@@ -2711,38 +3013,38 @@ script = ExtResource( 3 )
 
 [node name="Face0" type="MeshInstance" parent="Qodot Example/worldspawn/Brush3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3 )
-mesh = SubResource( 39 )
+mesh = SubResource( 40 )
 material/0 = null
 
 [node name="Face1" type="MeshInstance" parent="Qodot Example/worldspawn/Brush3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0 )
-mesh = SubResource( 41 )
+mesh = SubResource( 42 )
 material/0 = null
 
 [node name="Face2" type="MeshInstance" parent="Qodot Example/worldspawn/Brush3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -1, 0 )
-mesh = SubResource( 43 )
+mesh = SubResource( 44 )
 material/0 = null
 
 [node name="Face3" type="MeshInstance" parent="Qodot Example/worldspawn/Brush3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1, 0 )
-mesh = SubResource( 45 )
+mesh = SubResource( 46 )
 material/0 = null
 
 [node name="Face4" type="MeshInstance" parent="Qodot Example/worldspawn/Brush3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
-mesh = SubResource( 47 )
+mesh = SubResource( 48 )
 material/0 = null
 
 [node name="Face5" type="MeshInstance" parent="Qodot Example/worldspawn/Brush3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3 )
-mesh = SubResource( 49 )
+mesh = SubResource( 50 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush3"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush3/StaticBody"]
-shape = SubResource( 50 )
+shape = SubResource( 51 )
 
 [node name="Brush4" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13.005, 9.59333, -10.76 )
@@ -2750,33 +3052,33 @@ script = ExtResource( 3 )
 
 [node name="Face0" type="MeshInstance" parent="Qodot Example/worldspawn/Brush4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.495001, 0.0733337, -3.24 )
-mesh = SubResource( 52 )
+mesh = SubResource( 53 )
 material/0 = null
 
 [node name="Face1" type="MeshInstance" parent="Qodot Example/worldspawn/Brush4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.205, 0.206668, 0.360001 )
-mesh = SubResource( 54 )
+mesh = SubResource( 55 )
 material/0 = null
 
 [node name="Face2" type="MeshInstance" parent="Qodot Example/worldspawn/Brush4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.405001, -0.593333, 0.360001 )
-mesh = SubResource( 56 )
+mesh = SubResource( 57 )
 material/0 = null
 
 [node name="Face3" type="MeshInstance" parent="Qodot Example/worldspawn/Brush4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.745, 0.406668, -0.24 )
-mesh = SubResource( 58 )
+mesh = SubResource( 59 )
 material/0 = null
 
 [node name="Face4" type="MeshInstance" parent="Qodot Example/worldspawn/Brush4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.630002, -0.0933332, 2.76 )
-mesh = SubResource( 60 )
+mesh = SubResource( 61 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush4"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush4/StaticBody"]
-shape = SubResource( 61 )
+shape = SubResource( 62 )
 
 [node name="Brush5" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17.4667, 7.93333, -11.2 )
@@ -2784,38 +3086,38 @@ script = ExtResource( 3 )
 
 [node name="Face0" type="MeshInstance" parent="Qodot Example/worldspawn/Brush5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0666676, -0.133333, -2.8 )
-mesh = SubResource( 63 )
+mesh = SubResource( 64 )
 material/0 = null
 
 [node name="Face1" type="MeshInstance" parent="Qodot Example/worldspawn/Brush5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.66667, -0.133333, -0.400001 )
-mesh = SubResource( 65 )
+mesh = SubResource( 66 )
 material/0 = null
 
 [node name="Face2" type="MeshInstance" parent="Qodot Example/worldspawn/Brush5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.13333, -0.933333, -0.400001 )
-mesh = SubResource( 67 )
+mesh = SubResource( 68 )
 material/0 = null
 
 [node name="Face3" type="MeshInstance" parent="Qodot Example/worldspawn/Brush5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.46667, 1.06667, 0.2 )
-mesh = SubResource( 69 )
+mesh = SubResource( 70 )
 material/0 = null
 
 [node name="Face4" type="MeshInstance" parent="Qodot Example/worldspawn/Brush5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.03333, 0.0666671, 0.2 )
-mesh = SubResource( 71 )
+mesh = SubResource( 72 )
 material/0 = null
 
 [node name="Face5" type="MeshInstance" parent="Qodot Example/worldspawn/Brush5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0333328, 0.0666671, 3.2 )
-mesh = SubResource( 73 )
+mesh = SubResource( 74 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush5"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush5/StaticBody"]
-shape = SubResource( 74 )
+shape = SubResource( 75 )
 
 [node name="Brush6" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20.0004, 5.5, -11 )
@@ -2823,38 +3125,38 @@ script = ExtResource( 3 )
 
 [node name="Face0" type="MeshInstance" parent="Qodot Example/worldspawn/Brush6"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3 )
-mesh = SubResource( 76 )
+mesh = SubResource( 77 )
 material/0 = null
 
 [node name="Face1" type="MeshInstance" parent="Qodot Example/worldspawn/Brush6"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.00186, 0, 0 )
-mesh = SubResource( 78 )
+mesh = SubResource( 79 )
 material/0 = null
 
 [node name="Face2" type="MeshInstance" parent="Qodot Example/worldspawn/Brush6"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.999756, -1.5, 0 )
-mesh = SubResource( 80 )
+mesh = SubResource( 81 )
 material/0 = null
 
 [node name="Face3" type="MeshInstance" parent="Qodot Example/worldspawn/Brush6"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.999756, 1.5, 0 )
-mesh = SubResource( 82 )
+mesh = SubResource( 83 )
 material/0 = null
 
 [node name="Face4" type="MeshInstance" parent="Qodot Example/worldspawn/Brush6"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.00186, 0, 0 )
-mesh = SubResource( 84 )
+mesh = SubResource( 85 )
 material/0 = null
 
 [node name="Face5" type="MeshInstance" parent="Qodot Example/worldspawn/Brush6"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3 )
-mesh = SubResource( 86 )
+mesh = SubResource( 87 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush6"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush6/StaticBody"]
-shape = SubResource( 87 )
+shape = SubResource( 88 )
 
 [node name="Brush7" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.5001, 2.5, -11 )
@@ -2862,33 +3164,33 @@ script = ExtResource( 3 )
 
 [node name="Face0" type="MeshInstance" parent="Qodot Example/worldspawn/Brush7"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3 )
-mesh = SubResource( 89 )
+mesh = SubResource( 90 )
 material/0 = null
 
 [node name="Face1" type="MeshInstance" parent="Qodot Example/worldspawn/Brush7"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9996, 0, 0 )
-mesh = SubResource( 91 )
+mesh = SubResource( 92 )
 material/0 = null
 
 [node name="Face2" type="MeshInstance" parent="Qodot Example/worldspawn/Brush7"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.500244, 1.5, 0 )
-mesh = SubResource( 93 )
+mesh = SubResource( 94 )
 material/0 = null
 
 [node name="Face3" type="MeshInstance" parent="Qodot Example/worldspawn/Brush7"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.99961, 0, 0 )
-mesh = SubResource( 95 )
+mesh = SubResource( 96 )
 material/0 = null
 
 [node name="Face4" type="MeshInstance" parent="Qodot Example/worldspawn/Brush7"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3 )
-mesh = SubResource( 97 )
+mesh = SubResource( 98 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush7"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush7/StaticBody"]
-shape = SubResource( 98 )
+shape = SubResource( 99 )
 
 [node name="Brush8" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 7, 15 )
@@ -2896,38 +3198,38 @@ script = ExtResource( 3 )
 
 [node name="Face0" type="MeshInstance" parent="Qodot Example/worldspawn/Brush8"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4 )
-mesh = SubResource( 100 )
+mesh = SubResource( 101 )
 material/0 = null
 
 [node name="Face1" type="MeshInstance" parent="Qodot Example/worldspawn/Brush8"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0 )
-mesh = SubResource( 102 )
+mesh = SubResource( 103 )
 material/0 = null
 
 [node name="Face2" type="MeshInstance" parent="Qodot Example/worldspawn/Brush8"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
-mesh = SubResource( 104 )
+mesh = SubResource( 105 )
 material/0 = null
 
 [node name="Face3" type="MeshInstance" parent="Qodot Example/worldspawn/Brush8"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
-mesh = SubResource( 106 )
+mesh = SubResource( 107 )
 material/0 = null
 
 [node name="Face4" type="MeshInstance" parent="Qodot Example/worldspawn/Brush8"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0 )
-mesh = SubResource( 108 )
+mesh = SubResource( 109 )
 material/0 = null
 
 [node name="Face5" type="MeshInstance" parent="Qodot Example/worldspawn/Brush8"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4 )
-mesh = SubResource( 110 )
+mesh = SubResource( 111 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush8"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush8/StaticBody"]
-shape = SubResource( 111 )
+shape = SubResource( 112 )
 
 [node name="Brush9" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 7.33333, 10.6667 )
@@ -2935,23 +3237,23 @@ script = ExtResource( 3 )
 
 [node name="Face0" type="MeshInstance" parent="Qodot Example/worldspawn/Brush9"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.166667, -0.166667 )
-mesh = SubResource( 113 )
+mesh = SubResource( 114 )
 material/0 = null
 
 [node name="Face1" type="MeshInstance" parent="Qodot Example/worldspawn/Brush9"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0 )
-mesh = SubResource( 115 )
+mesh = SubResource( 116 )
 material/0 = null
 
 [node name="Face2" type="MeshInstance" parent="Qodot Example/worldspawn/Brush9"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
-mesh = SubResource( 117 )
+mesh = SubResource( 118 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush9"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush9/StaticBody"]
-shape = SubResource( 118 )
+shape = SubResource( 119 )
 
 [node name="Brush10" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 4, 6.99954 )
@@ -2959,33 +3261,33 @@ script = ExtResource( 3 )
 
 [node name="Face0" type="MeshInstance" parent="Qodot Example/worldspawn/Brush10"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.96046e-008, 0, -0.499441 )
-mesh = SubResource( 120 )
+mesh = SubResource( 121 )
 material/0 = null
 
 [node name="Face1" type="MeshInstance" parent="Qodot Example/worldspawn/Brush10"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0 )
-mesh = SubResource( 122 )
+mesh = SubResource( 123 )
 material/0 = null
 
 [node name="Face2" type="MeshInstance" parent="Qodot Example/worldspawn/Brush10"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 3, 3.50056 )
-mesh = SubResource( 124 )
+mesh = SubResource( 125 )
 material/0 = null
 
 [node name="Face3" type="MeshInstance" parent="Qodot Example/worldspawn/Brush10"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
-mesh = SubResource( 126 )
+mesh = SubResource( 127 )
 material/0 = null
 
 [node name="Face4" type="MeshInstance" parent="Qodot Example/worldspawn/Brush10"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19209e-007, 0, 0.499441 )
-mesh = SubResource( 128 )
+mesh = SubResource( 129 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush10"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush10/StaticBody"]
-shape = SubResource( 129 )
+shape = SubResource( 130 )
 
 [node name="Brush11" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 3.5, -21 )
@@ -2993,53 +3295,53 @@ script = ExtResource( 3 )
 
 [node name="Face0" type="MeshInstance" parent="Qodot Example/worldspawn/Brush11"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
-mesh = SubResource( 131 )
+mesh = SubResource( 132 )
 material/0 = null
 
 [node name="Face1" type="MeshInstance" parent="Qodot Example/worldspawn/Brush11"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, -1.5 )
-mesh = SubResource( 133 )
+mesh = SubResource( 134 )
 material/0 = null
 
 [node name="Face2" type="MeshInstance" parent="Qodot Example/worldspawn/Brush11"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, -1.5 )
-mesh = SubResource( 135 )
+mesh = SubResource( 136 )
 material/0 = null
 
 [node name="Face3" type="MeshInstance" parent="Qodot Example/worldspawn/Brush11"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0 )
-mesh = SubResource( 137 )
+mesh = SubResource( 138 )
 material/0 = null
 
 [node name="Face4" type="MeshInstance" parent="Qodot Example/worldspawn/Brush11"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0 )
-mesh = SubResource( 139 )
+mesh = SubResource( 140 )
 material/0 = null
 
 [node name="Face5" type="MeshInstance" parent="Qodot Example/worldspawn/Brush11"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
-mesh = SubResource( 141 )
+mesh = SubResource( 142 )
 material/0 = null
 
 [node name="Face6" type="MeshInstance" parent="Qodot Example/worldspawn/Brush11"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, 1.5 )
-mesh = SubResource( 143 )
+mesh = SubResource( 144 )
 material/0 = null
 
 [node name="Face7" type="MeshInstance" parent="Qodot Example/worldspawn/Brush11"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 1.5 )
-mesh = SubResource( 145 )
+mesh = SubResource( 146 )
 material/0 = null
 
 [node name="Face8" type="MeshInstance" parent="Qodot Example/worldspawn/Brush11"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.90735e-006, 0, 2 )
-mesh = SubResource( 147 )
+mesh = SubResource( 148 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush11"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush11/StaticBody"]
-shape = SubResource( 148 )
+shape = SubResource( 149 )
 
 [node name="Brush12" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 3, -20 )
@@ -3047,38 +3349,38 @@ script = ExtResource( 3 )
 
 [node name="Face0" type="MeshInstance" parent="Qodot Example/worldspawn/Brush12"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1 )
-mesh = SubResource( 150 )
+mesh = SubResource( 151 )
 material/0 = null
 
 [node name="Face1" type="MeshInstance" parent="Qodot Example/worldspawn/Brush12"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0 )
-mesh = SubResource( 152 )
+mesh = SubResource( 153 )
 material/0 = null
 
 [node name="Face2" type="MeshInstance" parent="Qodot Example/worldspawn/Brush12"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
-mesh = SubResource( 154 )
+mesh = SubResource( 155 )
 material/0 = null
 
 [node name="Face3" type="MeshInstance" parent="Qodot Example/worldspawn/Brush12"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
-mesh = SubResource( 156 )
+mesh = SubResource( 157 )
 material/0 = null
 
 [node name="Face4" type="MeshInstance" parent="Qodot Example/worldspawn/Brush12"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0 )
-mesh = SubResource( 158 )
+mesh = SubResource( 159 )
 material/0 = null
 
 [node name="Face5" type="MeshInstance" parent="Qodot Example/worldspawn/Brush12"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 )
-mesh = SubResource( 160 )
+mesh = SubResource( 161 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush12"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush12/StaticBody"]
-shape = SubResource( 161 )
+shape = SubResource( 162 )
 
 [node name="Brush13" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.02273, 3.59372, -21.8831 )
@@ -3086,58 +3388,58 @@ script = ExtResource( 3 )
 
 [node name="Face0" type="MeshInstance" parent="Qodot Example/worldspawn/Brush13"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0227271, -1.09372, -1.11688 )
-mesh = SubResource( 163 )
+mesh = SubResource( 164 )
 material/0 = null
 
 [node name="Face1" type="MeshInstance" parent="Qodot Example/worldspawn/Brush13"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.52273, -0.693722, -0.616884 )
-mesh = SubResource( 165 )
+mesh = SubResource( 166 )
 material/0 = null
 
 [node name="Face2" type="MeshInstance" parent="Qodot Example/worldspawn/Brush13"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.191558, 0.906277, -0.616884 )
-mesh = SubResource( 167 )
+mesh = SubResource( 168 )
 material/0 = null
 
 [node name="Face3" type="MeshInstance" parent="Qodot Example/worldspawn/Brush13"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.47727, -0.427057, -0.616884 )
-mesh = SubResource( 169 )
+mesh = SubResource( 170 )
 material/0 = null
 
 [node name="Face4" type="MeshInstance" parent="Qodot Example/worldspawn/Brush13"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.27273, 1.15628, 0.299782 )
-mesh = SubResource( 171 )
+mesh = SubResource( 172 )
 material/0 = null
 
 [node name="Face5" type="MeshInstance" parent="Qodot Example/worldspawn/Brush13"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0227276, 1.40628, 0.633116 )
-mesh = SubResource( 173 )
+mesh = SubResource( 174 )
 material/0 = null
 
 [node name="Face6" type="MeshInstance" parent="Qodot Example/worldspawn/Brush13"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.26299, 1.12056, 0.168831 )
-mesh = SubResource( 175 )
+mesh = SubResource( 176 )
 material/0 = null
 
 [node name="Face7" type="MeshInstance" parent="Qodot Example/worldspawn/Brush13"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.35606, -0.0937231, 0.549782 )
-mesh = SubResource( 177 )
+mesh = SubResource( 178 )
 material/0 = null
 
 [node name="Face8" type="MeshInstance" parent="Qodot Example/worldspawn/Brush13"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.31061, -0.0937235, 0.549782 )
-mesh = SubResource( 179 )
+mesh = SubResource( 180 )
 material/0 = null
 
 [node name="Face9" type="MeshInstance" parent="Qodot Example/worldspawn/Brush13"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0227271, 0.406276, 0.883116 )
-mesh = SubResource( 181 )
+mesh = SubResource( 182 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush13"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush13/StaticBody"]
-shape = SubResource( 182 )
+shape = SubResource( 183 )
 
 [node name="Brush14" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.02597, 3.55974, -18.1255 )
@@ -3145,58 +3447,58 @@ script = ExtResource( 3 )
 
 [node name="Face0" type="MeshInstance" parent="Qodot Example/worldspawn/Brush14"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.116883, 0.297403, -0.874458 )
-mesh = SubResource( 184 )
+mesh = SubResource( 185 )
 material/0 = null
 
 [node name="Face1" type="MeshInstance" parent="Qodot Example/worldspawn/Brush14"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.35931, -0.0597405, -0.541124 )
-mesh = SubResource( 186 )
+mesh = SubResource( 187 )
 material/0 = null
 
 [node name="Face2" type="MeshInstance" parent="Qodot Example/worldspawn/Brush14"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.30736, -0.0597398, -0.541124 )
-mesh = SubResource( 188 )
+mesh = SubResource( 189 )
 material/0 = null
 
 [node name="Face3" type="MeshInstance" parent="Qodot Example/worldspawn/Brush14"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.27597, 1.19026, -0.291124 )
-mesh = SubResource( 190 )
+mesh = SubResource( 191 )
 material/0 = null
 
 [node name="Face4" type="MeshInstance" parent="Qodot Example/worldspawn/Brush14"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.116884, 1.44026, -0.588743 )
-mesh = SubResource( 192 )
+mesh = SubResource( 193 )
 material/0 = null
 
 [node name="Face5" type="MeshInstance" parent="Qodot Example/worldspawn/Brush14"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.22403, 1.19026, -0.291124 )
-mesh = SubResource( 194 )
+mesh = SubResource( 195 )
 material/0 = null
 
 [node name="Face6" type="MeshInstance" parent="Qodot Example/worldspawn/Brush14"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.52597, -0.659741, 0.625542 )
-mesh = SubResource( 196 )
+mesh = SubResource( 197 )
 material/0 = null
 
 [node name="Face7" type="MeshInstance" parent="Qodot Example/worldspawn/Brush14"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0259739, 0.94026, 0.625542 )
-mesh = SubResource( 198 )
+mesh = SubResource( 199 )
 material/0 = null
 
 [node name="Face8" type="MeshInstance" parent="Qodot Example/worldspawn/Brush14"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.47403, -0.65974, 0.625542 )
-mesh = SubResource( 200 )
+mesh = SubResource( 201 )
 material/0 = null
 
 [node name="Face9" type="MeshInstance" parent="Qodot Example/worldspawn/Brush14"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0259742, -1.05974, 1.12554 )
-mesh = SubResource( 202 )
+mesh = SubResource( 203 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush14"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush14/StaticBody"]
-shape = SubResource( 203 )
+shape = SubResource( 204 )
 
 [node name="Brush15" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 2.5, 3.5 )
@@ -3204,33 +3506,33 @@ script = ExtResource( 3 )
 
 [node name="Face0" type="MeshInstance" parent="Qodot Example/worldspawn/Brush15"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
-mesh = SubResource( 205 )
+mesh = SubResource( 206 )
 material/0 = null
 
 [node name="Face1" type="MeshInstance" parent="Qodot Example/worldspawn/Brush15"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0 )
-mesh = SubResource( 207 )
+mesh = SubResource( 208 )
 material/0 = null
 
 [node name="Face2" type="MeshInstance" parent="Qodot Example/worldspawn/Brush15"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
-mesh = SubResource( 209 )
+mesh = SubResource( 210 )
 material/0 = null
 
 [node name="Face3" type="MeshInstance" parent="Qodot Example/worldspawn/Brush15"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0 )
-mesh = SubResource( 211 )
+mesh = SubResource( 212 )
 material/0 = null
 
 [node name="Face4" type="MeshInstance" parent="Qodot Example/worldspawn/Brush15"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5 )
-mesh = SubResource( 213 )
+mesh = SubResource( 214 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush15"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush15/StaticBody"]
-shape = SubResource( 214 )
+shape = SubResource( 215 )
 
 [node name="Brush16" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 3.5, -10.5 )
@@ -3238,38 +3540,38 @@ script = ExtResource( 3 )
 
 [node name="Face0" type="MeshInstance" parent="Qodot Example/worldspawn/Brush16"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -13.5 )
-mesh = SubResource( 216 )
+mesh = SubResource( 217 )
 material/0 = null
 
 [node name="Face1" type="MeshInstance" parent="Qodot Example/worldspawn/Brush16"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0 )
-mesh = SubResource( 218 )
+mesh = SubResource( 219 )
 material/0 = null
 
 [node name="Face2" type="MeshInstance" parent="Qodot Example/worldspawn/Brush16"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
-mesh = SubResource( 220 )
+mesh = SubResource( 221 )
 material/0 = null
 
 [node name="Face3" type="MeshInstance" parent="Qodot Example/worldspawn/Brush16"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
-mesh = SubResource( 222 )
+mesh = SubResource( 223 )
 material/0 = null
 
 [node name="Face4" type="MeshInstance" parent="Qodot Example/worldspawn/Brush16"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0 )
-mesh = SubResource( 224 )
+mesh = SubResource( 225 )
 material/0 = null
 
 [node name="Face5" type="MeshInstance" parent="Qodot Example/worldspawn/Brush16"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 13.5 )
-mesh = SubResource( 226 )
+mesh = SubResource( 227 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush16"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush16/StaticBody"]
-shape = SubResource( 227 )
+shape = SubResource( 228 )
 
 [node name="Brush17" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 3.5, -24.5 )
@@ -3277,38 +3579,38 @@ script = ExtResource( 3 )
 
 [node name="Face0" type="MeshInstance" parent="Qodot Example/worldspawn/Brush17"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
-mesh = SubResource( 229 )
+mesh = SubResource( 230 )
 material/0 = null
 
 [node name="Face1" type="MeshInstance" parent="Qodot Example/worldspawn/Brush17"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, 0, 0 )
-mesh = SubResource( 231 )
+mesh = SubResource( 232 )
 material/0 = null
 
 [node name="Face2" type="MeshInstance" parent="Qodot Example/worldspawn/Brush17"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
-mesh = SubResource( 233 )
+mesh = SubResource( 234 )
 material/0 = null
 
 [node name="Face3" type="MeshInstance" parent="Qodot Example/worldspawn/Brush17"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
-mesh = SubResource( 235 )
+mesh = SubResource( 236 )
 material/0 = null
 
 [node name="Face4" type="MeshInstance" parent="Qodot Example/worldspawn/Brush17"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15.5, 0, 0 )
-mesh = SubResource( 237 )
+mesh = SubResource( 238 )
 material/0 = null
 
 [node name="Face5" type="MeshInstance" parent="Qodot Example/worldspawn/Brush17"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5 )
-mesh = SubResource( 239 )
+mesh = SubResource( 240 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush17"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush17/StaticBody"]
-shape = SubResource( 240 )
+shape = SubResource( 241 )
 
 [node name="Brush18" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 2.5, -24.5 )
@@ -3316,33 +3618,33 @@ script = ExtResource( 3 )
 
 [node name="Face0" type="MeshInstance" parent="Qodot Example/worldspawn/Brush18"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
-mesh = SubResource( 242 )
+mesh = SubResource( 243 )
 material/0 = null
 
 [node name="Face1" type="MeshInstance" parent="Qodot Example/worldspawn/Brush18"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0 )
-mesh = SubResource( 244 )
+mesh = SubResource( 245 )
 material/0 = null
 
 [node name="Face2" type="MeshInstance" parent="Qodot Example/worldspawn/Brush18"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
-mesh = SubResource( 246 )
+mesh = SubResource( 247 )
 material/0 = null
 
 [node name="Face3" type="MeshInstance" parent="Qodot Example/worldspawn/Brush18"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0 )
-mesh = SubResource( 248 )
+mesh = SubResource( 249 )
 material/0 = null
 
 [node name="Face4" type="MeshInstance" parent="Qodot Example/worldspawn/Brush18"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5 )
-mesh = SubResource( 250 )
+mesh = SubResource( 251 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush18"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush18/StaticBody"]
-shape = SubResource( 251 )
+shape = SubResource( 252 )
 
 [node name="Brush19" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 2.5, -24.5 )
@@ -3350,33 +3652,33 @@ script = ExtResource( 3 )
 
 [node name="Face0" type="MeshInstance" parent="Qodot Example/worldspawn/Brush19"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
-mesh = SubResource( 253 )
+mesh = SubResource( 254 )
 material/0 = null
 
 [node name="Face1" type="MeshInstance" parent="Qodot Example/worldspawn/Brush19"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0 )
-mesh = SubResource( 255 )
+mesh = SubResource( 256 )
 material/0 = null
 
 [node name="Face2" type="MeshInstance" parent="Qodot Example/worldspawn/Brush19"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
-mesh = SubResource( 257 )
+mesh = SubResource( 258 )
 material/0 = null
 
 [node name="Face3" type="MeshInstance" parent="Qodot Example/worldspawn/Brush19"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0 )
-mesh = SubResource( 259 )
+mesh = SubResource( 260 )
 material/0 = null
 
 [node name="Face4" type="MeshInstance" parent="Qodot Example/worldspawn/Brush19"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5 )
-mesh = SubResource( 261 )
+mesh = SubResource( 262 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush19"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush19/StaticBody"]
-shape = SubResource( 262 )
+shape = SubResource( 263 )
 
 [node name="Brush20" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 3.5, -10.5 )
@@ -3384,38 +3686,38 @@ script = ExtResource( 3 )
 
 [node name="Face0" type="MeshInstance" parent="Qodot Example/worldspawn/Brush20"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -13.5 )
-mesh = SubResource( 264 )
+mesh = SubResource( 265 )
 material/0 = null
 
 [node name="Face1" type="MeshInstance" parent="Qodot Example/worldspawn/Brush20"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0 )
-mesh = SubResource( 266 )
+mesh = SubResource( 267 )
 material/0 = null
 
 [node name="Face2" type="MeshInstance" parent="Qodot Example/worldspawn/Brush20"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
-mesh = SubResource( 268 )
+mesh = SubResource( 269 )
 material/0 = null
 
 [node name="Face3" type="MeshInstance" parent="Qodot Example/worldspawn/Brush20"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
-mesh = SubResource( 270 )
+mesh = SubResource( 271 )
 material/0 = null
 
 [node name="Face4" type="MeshInstance" parent="Qodot Example/worldspawn/Brush20"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0 )
-mesh = SubResource( 272 )
+mesh = SubResource( 273 )
 material/0 = null
 
 [node name="Face5" type="MeshInstance" parent="Qodot Example/worldspawn/Brush20"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 13.5 )
-mesh = SubResource( 274 )
+mesh = SubResource( 275 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush20"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush20/StaticBody"]
-shape = SubResource( 275 )
+shape = SubResource( 276 )
 
 [node name="Brush21" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 2.5, 3.5 )
@@ -3423,33 +3725,33 @@ script = ExtResource( 3 )
 
 [node name="Face0" type="MeshInstance" parent="Qodot Example/worldspawn/Brush21"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
-mesh = SubResource( 277 )
+mesh = SubResource( 278 )
 material/0 = null
 
 [node name="Face1" type="MeshInstance" parent="Qodot Example/worldspawn/Brush21"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0 )
-mesh = SubResource( 279 )
+mesh = SubResource( 280 )
 material/0 = null
 
 [node name="Face2" type="MeshInstance" parent="Qodot Example/worldspawn/Brush21"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
-mesh = SubResource( 281 )
+mesh = SubResource( 282 )
 material/0 = null
 
 [node name="Face3" type="MeshInstance" parent="Qodot Example/worldspawn/Brush21"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0 )
-mesh = SubResource( 283 )
+mesh = SubResource( 284 )
 material/0 = null
 
 [node name="Face4" type="MeshInstance" parent="Qodot Example/worldspawn/Brush21"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5 )
-mesh = SubResource( 285 )
+mesh = SubResource( 286 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush21"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush21/StaticBody"]
-shape = SubResource( 286 )
+shape = SubResource( 287 )
 
 [node name="Brush22" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 3.5, 3.5 )
@@ -3457,38 +3759,38 @@ script = ExtResource( 3 )
 
 [node name="Face0" type="MeshInstance" parent="Qodot Example/worldspawn/Brush22"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
-mesh = SubResource( 288 )
+mesh = SubResource( 289 )
 material/0 = null
 
 [node name="Face1" type="MeshInstance" parent="Qodot Example/worldspawn/Brush22"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 0 )
-mesh = SubResource( 290 )
+mesh = SubResource( 291 )
 material/0 = null
 
 [node name="Face2" type="MeshInstance" parent="Qodot Example/worldspawn/Brush22"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
-mesh = SubResource( 292 )
+mesh = SubResource( 293 )
 material/0 = null
 
 [node name="Face3" type="MeshInstance" parent="Qodot Example/worldspawn/Brush22"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
-mesh = SubResource( 294 )
+mesh = SubResource( 295 )
 material/0 = null
 
 [node name="Face4" type="MeshInstance" parent="Qodot Example/worldspawn/Brush22"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 0 )
-mesh = SubResource( 296 )
+mesh = SubResource( 297 )
 material/0 = null
 
 [node name="Face5" type="MeshInstance" parent="Qodot Example/worldspawn/Brush22"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5 )
-mesh = SubResource( 298 )
+mesh = SubResource( 299 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush22"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush22/StaticBody"]
-shape = SubResource( 299 )
+shape = SubResource( 300 )
 
 [node name="Brush23" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 2.5, 3.5 )
@@ -3496,33 +3798,33 @@ script = ExtResource( 3 )
 
 [node name="Face0" type="MeshInstance" parent="Qodot Example/worldspawn/Brush23"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
-mesh = SubResource( 301 )
+mesh = SubResource( 302 )
 material/0 = null
 
 [node name="Face1" type="MeshInstance" parent="Qodot Example/worldspawn/Brush23"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0 )
-mesh = SubResource( 303 )
+mesh = SubResource( 304 )
 material/0 = null
 
 [node name="Face2" type="MeshInstance" parent="Qodot Example/worldspawn/Brush23"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
-mesh = SubResource( 305 )
+mesh = SubResource( 306 )
 material/0 = null
 
 [node name="Face3" type="MeshInstance" parent="Qodot Example/worldspawn/Brush23"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0 )
-mesh = SubResource( 307 )
+mesh = SubResource( 308 )
 material/0 = null
 
 [node name="Face4" type="MeshInstance" parent="Qodot Example/worldspawn/Brush23"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5 )
-mesh = SubResource( 309 )
+mesh = SubResource( 310 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush23"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush23/StaticBody"]
-shape = SubResource( 310 )
+shape = SubResource( 311 )
 
 [node name="Brush24" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 12, 3.5 )
@@ -3531,7 +3833,7 @@ script = ExtResource( 3 )
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush24"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush24/StaticBody"]
-shape = SubResource( 311 )
+shape = SubResource( 312 )
 
 [node name="Brush25" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 12, -10.5 )
@@ -3540,7 +3842,7 @@ script = ExtResource( 3 )
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush25"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush25/StaticBody"]
-shape = SubResource( 312 )
+shape = SubResource( 313 )
 
 [node name="Brush26" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 12, -24.5 )
@@ -3549,7 +3851,7 @@ script = ExtResource( 3 )
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush26"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush26/StaticBody"]
-shape = SubResource( 313 )
+shape = SubResource( 314 )
 
 [node name="Brush27" type="Spatial" parent="Qodot Example/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 12, -10 )
@@ -3558,4 +3860,4 @@ script = ExtResource( 3 )
 [node name="StaticBody" type="StaticBody" parent="Qodot Example/worldspawn/Brush27"]
 
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Example/worldspawn/Brush27/StaticBody"]
-shape = SubResource( 314 )
+shape = SubResource( 315 )
