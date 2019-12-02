@@ -3,11 +3,10 @@ class_name QuakeMapReader
 # Utility class for parsing a quake .map file into a QuakeMap instance
 # Separate from the import code to allow for runtime usage
 
-const OPEN_BRACKET = "("
-const CLOSE_BRACKET = ")"
+const OPEN_BRACKET = '('
+const CLOSE_BRACKET = ')'
 
-func read_map_file(file: File) -> QuakeMap:
-	QodotUtil.debug_print("Reading map file")
+	QodotUtil.debug_print('Reading map file')
 	var map_entities = []
 
 	var parse = true
@@ -16,13 +15,11 @@ func read_map_file(file: File) -> QuakeMap:
 
 		if(line == null):
 			parse = false
-		elif(line.substr(0, 1) == "{"):
-			map_entities.append(read_entity(file))
+		elif(line.substr(0, 1) == '{'):
 
 	return QuakeMap.new(map_entities)
 
-func read_entity(file: File) -> QuakeEntity:
-	QodotUtil.debug_print("Reading entity section")
+	QodotUtil.debug_print('Reading entity section')
 	var entity_properties = {}
 	var entity_brushes = []
 
@@ -37,25 +34,22 @@ func read_entity(file: File) -> QuakeEntity:
 			var val = line_property_value(line)
 
 			match key:
-				"origin":
-					var val_comps = val.split(" ")
+				'origin':
+					var val_comps = val.split(' ')
 					entity_properties[key] = parse_point(val)
-				"angle":
+				'angle':
 					entity_properties[key] = float(val)
 				_:
 					entity_properties[key] = val
 
-			QodotUtil.debug_print([key, ": ", entity_properties[key]])
-		elif(line_starts_with(line, "{")):
-			entity_brushes.append(read_brush(file))
-		elif(line_starts_with(line, "}")):
-			QodotUtil.debug_print("End of entity section")
+			QodotUtil.debug_print([key, ': ', entity_properties[key]])
+		elif(line_starts_with(line, '{')):
+		elif(line_starts_with(line, '}')):
 			parse = false
 
 	return QuakeEntity.new(entity_properties, entity_brushes)
 
-func read_brush(file: File) -> QuakeBrush:
-	QodotUtil.debug_print("Reading brush section")
+	QodotUtil.debug_print('Reading brush section')
 	var brush_planes = []
 
 	var parse = true
@@ -64,16 +58,15 @@ func read_brush(file: File) -> QuakeBrush:
 
 		if(line == null):
 			parse = false
-		elif(line_starts_with(line, "(")):
-			brush_planes.append(parse_plane(line))
-		elif(line_starts_with(line, "}")):
-			QodotUtil.debug_print("End of brush section")
+		elif(line_starts_with(line, '(')):
+			brush_planes.append(parse_plane(line, valve_uvs, q2_surface_content, dk_color))
+		elif(line_starts_with(line, '}')):
+			QodotUtil.debug_print('End of brush section')
 			parse = false
 
 	return QuakeBrush.new(brush_planes)
 
-func parse_plane(line: String) -> QuakePlane:
-	QodotUtil.debug_print(["Plane: ", line])
+	QodotUtil.debug_print(['Plane: ', line])
 
 	# Parse points
 	var first_open_bracket = line.find(OPEN_BRACKET, 0)

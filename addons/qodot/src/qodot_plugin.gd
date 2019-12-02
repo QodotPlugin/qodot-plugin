@@ -7,7 +7,7 @@ tool
 var map_import_plugin
 
 func _enter_tree():
-	map_import_plugin = preload("quake_map_import_plugin.gd").new()
+	map_import_plugin = preload('quake_map_import_plugin.gd').new()
 	add_import_plugin(map_import_plugin)
 
 func _exit_tree():

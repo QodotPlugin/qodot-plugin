@@ -7,19 +7,19 @@ tool
 enum Presets { PRESET_DEFAULT }
 
 func get_importer_name():
-	return "qodot.map"
+	return 'qodot.map'
 
 func get_visible_name():
-	return "Quake Map"
+	return 'Quake Map'
 
 func get_recognized_extensions():
-	return ["map"]
+	return ['map']
 
 func get_save_extension():
-	return "tres"
+	return 'tres'
 
 func get_resource_type():
-	return "QuakeMap"
+	return 'QuakeMap'
 
 func get_preset_count():
 	return Presets.size()

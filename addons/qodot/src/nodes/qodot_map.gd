@@ -4,7 +4,7 @@ tool
 
 ### Spatial node for rendering a QuakeMap resource into an entity/brush tree
 
-const TEXTURE_EMPTY = "__TB_empty"	# TrenchBroom empty texture string
+const TEXTURE_EMPTY = '__TB_empty'	# TrenchBroom empty texture string
 
 enum Mode {
 	PLANE_AXES, 	# Debug visualization of raw plane data
@@ -24,13 +24,13 @@ export(float) var inverse_scale_factor = 16.0 setget set_inverse_scale_factor
 
 # .map Resource to auto-load when updating the map from the editor
 # (Works around references being held and preventing refresh on reimport)
-export(String, FILE, "*.map") var autoload_map_path setget set_autoload_map_path
+export(String, FILE, '*.map') var autoload_map_path setget set_autoload_map_path
 
 # Base search path for textures specified in the .map file
-export(String, DIR) var base_texture_path = "res://textures" setget set_base_texture_path
+export(String, DIR) var base_texture_path = 'res://textures' setget set_base_texture_path
 
 # File extension appended to textures specified in the .map file
-export(String) var texture_extension = ".png"
+export(String) var texture_extension = '.png'
 
 export(Script) var entity_mapper = QodotEntityMapper
 
@@ -44,7 +44,7 @@ var _winding_basis = Vector3.ZERO
 
 # Determine whether the given .map classname should create a mesh
 func should_spawn_brush_mesh(classname: String) -> bool:
-	return classname.find("trigger") == -1
+	return classname.find('trigger') == -1
 
 # Determine whether the given .map classname should create a collision object
 func should_spawn_brush_collision(classname: String) -> bool:
@@ -54,7 +54,7 @@ func should_spawn_brush_collision(classname: String) -> bool:
 func spawn_brush_collision_object(classname: String) -> CollisionObject:
 	var node = null
 
-	if(classname.find("trigger") > -1):
+	if(classname.find('trigger') > -1):
 		node = Area.new()
 	else:
 		node = StaticBody.new()
@@ -110,8 +110,8 @@ func set_map(map: QuakeMap):
 
 		if(map.entities.size() > 0):
 			var worldspawn = map.entities[0]
-			if("message" in worldspawn.properties):
-				name = worldspawn.properties["message"]
+			if('message' in worldspawn.properties):
+				name = worldspawn.properties['message']
 		for entity in map.entities:
 			create_entity(self, entity)
 
@@ -126,8 +126,8 @@ func clear_map():
 func create_entity(parent, entity):
 	var entity_node = QodotUtil.add_child_editor(parent, QodotEntity.new())
 
-	if("classname" in entity.properties):
-		var classname = entity.properties["classname"]
+	if('classname' in entity.properties):
+		var classname = entity.properties['classname']
 		entity_node.name = classname
 
 		if(entity_mapper != null):
@@ -135,13 +135,13 @@ func create_entity(parent, entity):
 			if(entity_spawned_node != null):
 				QodotUtil.add_child_editor(entity_node, entity_spawned_node)
 
-	if("origin" in entity.properties):
-		entity_node.translation = entity.properties["origin"] / inverse_scale_factor
+	if('origin' in entity.properties):
+		entity_node.translation = entity.properties['origin'] / inverse_scale_factor
 
-	if("angle" in entity.properties):
-		entity_node.rotation.y = deg2rad(180 + entity.properties["angle"])
+	if('angle' in entity.properties):
+		entity_node.rotation.y = deg2rad(180 + entity.properties['angle'])
 
-	if("properties" in entity_node):
+	if('properties' in entity_node):
 		entity_node.properties = entity.properties
 
 	for brush in entity.brushes:
@@ -165,12 +165,12 @@ func create_brush(parent, brush, properties):
 	match mode:
 		Mode.PLANE_AXES:
 			var brush_node = QodotUtil.add_child_editor(parent, QodotSpatial.new())
-			brush_node.name = "Brush0"
+			brush_node.name = 'Brush0'
 			brush_node.translation = brush_center
 
 			for plane in planes:
 				var plane_axes = QodotUtil.add_child_editor(brush_node, QuakePlaneAxes.new())
-				plane_axes.name = "Plane0"
+				plane_axes.name = 'Plane0'
 				plane_axes.translation = (plane.points[0] / inverse_scale_factor) - brush_center
 
 				plane_axes.point_set = []
@@ -179,30 +179,30 @@ func create_brush(parent, brush, properties):
 
 		Mode.FACE_POINTS:
 			var brush_node = QodotUtil.add_child_editor(parent, QodotSpatial.new())
-			brush_node.name = "Brush0"
+			brush_node.name = 'Brush0'
 			brush_node.translation = brush_center
 
 			for plane_idx in sorted_local_face_vertices:
 				var points = sorted_local_face_vertices[plane_idx]
 				var plane_spatial = QodotUtil.add_child_editor(brush_node, QodotSpatial.new())
-				plane_spatial.name = "Plane0"
+				plane_spatial.name = 'Plane0'
 				plane_spatial.translation = face_centers[plane_idx] - brush_center
 
 				for point in points:
 					var point_node = QodotUtil.add_child_editor(plane_spatial, Position3D.new())
-					point_node.name = "Point0"
+					point_node.name = 'Point0'
 					point_node.translation = point
 
 		Mode.BRUSH_MESHES:
 			var classname = null
-			if("classname" in properties):
-				classname = properties["classname"]
+			if('classname' in properties):
+				classname = properties['classname']
 
 			var brush_node = null
 
 			if(should_spawn_brush_mesh(classname)):
 				brush_node = QodotUtil.add_child_editor(parent, MeshInstance.new())
-				brush_node.name = "Brush0"
+				brush_node.name = 'Brush0'
 				brush_node.translation = brush_center
 
 				# Create mesh
@@ -222,7 +222,7 @@ func create_brush(parent, brush, properties):
 
 					var texture = null
 					if(plane.texture != TEXTURE_EMPTY):
-						var texturePath = base_texture_path + "/" + plane.texture + texture_extension
+						var texturePath = base_texture_path + '/' + plane.texture + texture_extension
 						texture = load(texturePath)
 
 						if(texture != null):
@@ -269,7 +269,7 @@ func create_brush(parent, brush, properties):
 					brush_collision_object = QodotUtil.add_child_editor(brush_node, spawn_brush_collision_object(classname))
 				else:
 					brush_collision_object = QodotUtil.add_child_editor(parent, spawn_brush_collision_object(classname))
-					brush_collision_object.name = "Brush0"
+					brush_collision_object.name = 'Brush0'
 					brush_collision_object.translation = brush_center
 
 				var brush_collision_shape = QodotUtil.add_child_editor(brush_collision_object, CollisionShape.new())
@@ -359,7 +359,7 @@ func sort_local_face_vertices(local_face_vertices, face_normals):
 
 		_winding_normal = normal
 		_winding_basis = vertices[0]
-		vertices.sort_custom(self, "sort_local_face_vertices_internal")
+		vertices.sort_custom(self, 'sort_local_face_vertices_internal')
 
 		sorted_face_vertices[face_idx] = vertices
 

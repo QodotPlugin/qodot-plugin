@@ -4,4 +4,4 @@ extends QodotSpatial
 export(Dictionary) var properties
 
 func get_class():
-	return "QodotEntity"
+	return 'QodotEntity'
