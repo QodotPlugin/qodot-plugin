@@ -68,9 +68,9 @@ Thanks to years of community support, classic Quake is still alive, kicking, and
 
 ## Implementation
 
-### QuakeMapNode
+### QodotMap
 
-QuakeMapNode is the main user-facing element of Qodot- it takes a QuakeMapFile object imported from a *.map* file and turns it into usable level geometry.
+QodotMap is the main user-facing element of Qodot- it takes a QuakeMapFile object imported from a *.map* file and turns it into usable level geometry and entity nodes.
 
 #### Properties
 
@@ -112,6 +112,16 @@ The file extension appended to quake-format texture names. Plain image formats a
 
 ex: *.png*, *.jpg* or *.tres*
 
+##### Entity Mapper
+
+A script reference to the QodotEntityMapper-derived class used to spawn custom nodes.
+
+### QodotEntityMapper
+
+QodotEntityMapper is assigned to QodotMap as a Script reference, and used to spawn custom nodes for map entities.
+
+The default behaviour returns a Position3D node for anything that isn't the worldspawn or a classname containing 'trigger'.
+
 ## Extending Qodot
 
 By default, Qodot provides basic conversion of brushes into StaticBody and Area nodes based on the presence of 'trigger' in their *.map* classname.
@@ -142,9 +152,7 @@ Controls the spawning of collision objects for brushes with the given classname.
 
 ### QodotEntityMapper Inheritance Interface
 
-QodotEntityMapper is assigned to QodotMap as a Script reference, and used to spawn custom nodes for map entities.
-
-The default behaviour returns a Position3D node for anything that isn't the worldspawn or a classname containing 'trigger'.
+QodotEntityMapper's inheritance interface governs the type of node spawned for each entity processed by QodotMap.
 
 #### Methods
 
