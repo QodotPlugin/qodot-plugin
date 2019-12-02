@@ -38,9 +38,9 @@ Once added to a project, enable it in Project Settings and you'll be ready to bu
 
 Qodot's primary use case is as a bridge to an external map editor, allowing the user to iterate on a *.map* file outside of Godot, then come back and see the changes immediately.
 
-To bring a *.map* file into the editor, add it to your Godot project and it will be imported automatically. Then, add a QuakeMapNode (or derived class) to a scene and and point it to your *.map* file and texture directory, and the geometry will be generated automatically.
+To bring a *.map* file into the editor, add it to your Godot project and it will be imported automatically. Then, add a QodotMap (or derived class) to a scene and and point it to your *.map* file and texture directory, and the geometry will be generated automatically.
 
-To update the map geometry following an asset reimport, click the *Reload* property of the QuakeMapNode.
+To update the map geometry following an asset reimport, click the *Reload* property of the QodotMap.
 
 Any Quake-compatible map editor can be used to generate *.map* files, but [TrenchBroom](#trenchbroom) is recommended and directly supported.
 
@@ -50,7 +50,7 @@ Qodot can also be used to generate maps at runtime, allowing an exported game to
 
 To load a map at runtime, create an instance of the QuakeMapReader class from GDScript and call its read_map_file(file) method, which takes a File object pointing at the *.map* file you wish to load and returns a QuakeMap instance.
 
-To convert the QuakeMap instance into usable level geometry, pass it into the set_map(map) method of a QuakeMapNode.
+To convert the QuakeMap instance into usable level geometry, pass it into the set_map(map) method of a QodotMap.
 
 ## Example Content
 
