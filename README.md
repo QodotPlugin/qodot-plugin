@@ -26,7 +26,11 @@ Qodot extends the Godot editor to import Quake *.map* files, and provides an ext
 
 ## Installation
 
-To add Qodot to a project, copy *addons/qodot/* into your *res://addons/* directory, then enable it in Project Settings.
+You can download Qodotfrom the [Godot Asset Library](https://godotengine.org/asset-library/asset/446), either via web browser or directly through the editor.
+
+Qodot can also be added to a project manually by copying *addons/qodot/* from the git repository into your *res://addons/* directory.
+
+Once added to a project, enable it in Project Settings and you'll be ready to build maps.
 
 ## Usage
 
