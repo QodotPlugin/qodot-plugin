@@ -2548,7 +2548,6 @@ radius = 0.4
 shape = SubResource( 2 )
 
 [node name="Qodot Example" type="Spatial" parent="."]
-editor/display_folded = true
 script = ExtResource( 1 )
 autoload_map_path = "res://scenes/qodot_example.map"
 

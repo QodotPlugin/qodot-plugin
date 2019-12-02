@@ -120,15 +120,13 @@ All entities outside of triggers and the default *worldspawn* node used to hold 
 
 Lights are unsupported out of the box, and lighting levels using the Godot editor is recommended due to the disparity between its rendering model and that of a Quake level editor.
 
-In order to extend Qodot with game-specific entities, you can extend the QuakeMapNode class and override the functions that form its inheritance interface.
+In order to extend Qodot with game-specific entities, you can extend its internal classes and override the functions that form their inheritance interface.
 
-### QuakeMapNode Inheritance Interface
+### QodotMap Inheritance Interface
+
+QodotMap's inheritance interface governs whether visual and collision meshes should be generated for a given classname, and provides a way to customize the type of CollisionObject generated when the map is constructed.
 
 #### Methods
-
-##### *spawn_entity_node(classname: String) -> Node*
-
-Controls the spawning of entity nodes based on their classname. A typical implementation would be a match statement that enumerates the various game-specific classnames, then instantiates one as appropriate and returns it.
 
 ##### *should_spawn_brush_mesh(classname: String) -> bool*
 
@@ -141,6 +139,18 @@ Controls the spawning of a CollisionObject for brushes with the given classname.
 ##### *spawn_brush_collision_object(classname: String) -> CollisionObject*
 
 Controls the spawning of collision objects for brushes with the given classname. Typically used to differentiate between solid geometry and triggers.
+
+### QodotEntityMapper Inheritance Interface
+
+QodotEntityMapper is assigned to QodotMap as a Script reference, and used to spawn custom nodes for map entities.
+
+The default behaviour returns a Position3D node for anything that isn't the worldspawn or a classname containing 'trigger'.
+
+#### Methods
+
+##### *spawn_node_for_entity(entity: QuakeEntity) -> Node*
+
+Controls the spawning of a custom node for a given entity. The returned node will be added as a child of the respective entity node during map construction.
 
 ## *.map* files
 

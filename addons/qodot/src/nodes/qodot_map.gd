@@ -127,13 +127,7 @@ func create_entity(parent, entity):
 	var entity_node = QodotUtil.add_child_editor(parent, QodotEntity.new())
 
 	if('classname' in entity.properties):
-		var classname = entity.properties['classname']
-		entity_node.name = classname
-
-		if(entity_mapper != null):
-			var entity_spawned_node = entity_mapper.spawn_node_for_classname(classname)
-			if(entity_spawned_node != null):
-				QodotUtil.add_child_editor(entity_node, entity_spawned_node)
+		entity_node.name = entity.properties['classname']
 
 	if('origin' in entity.properties):
 		entity_node.translation = entity.properties['origin'] / inverse_scale_factor
@@ -143,6 +137,11 @@ func create_entity(parent, entity):
 
 	if('properties' in entity_node):
 		entity_node.properties = entity.properties
+
+	if(entity_mapper != null):
+		var entity_spawned_node = entity_mapper.spawn_node_for_entity(entity)
+		if(entity_spawned_node != null):
+			QodotUtil.add_child_editor(entity_node, entity_spawned_node)
 
 	for brush in entity.brushes:
 		create_brush(entity_node, brush, entity.properties)
