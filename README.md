@@ -220,10 +220,26 @@ The Qodot profile can be copied for use as the basis of a game-specific profile,
 
 TrenchBroom will create an 'autosaves' folder containing map backups alongside any maps you edit with it, so make sure to create a .gdignore file within to prevent Godot from repeatedly importing several versions of the same map.
 
+## Qodot Elsewhere
+
+[Qodot - Discord](https://discord.gg/xy25t7)
+
+[Qodot - Reddit](https://www.reddit.com/r/godot/comments/e41ldk/qodot_quake_map_file_support_for_godot/)
+
+[Qodot - Godot Forums](https://godotforums.org/discussion/comment/30450#Comment_30450)
+
+[Qodot - Godot Asset Library](https://godotengine.org/asset-library/asset/446)
+
+[Shifty's Twitter](https://twitter.com/ShiftyAxel)
+
 ## Credits
 
-Kristian Duske - For creating TrenchBroom and inspiring the creation of Qodot
+[Kristian Duske](https://twitter.com/kristianduske) - For creating TrenchBroom and inspiring the creation of Qodot
 
 Arkii - For example code and handy documentation of the Valve 220 format
 
 therektafire - For bits and bobs on Valve 220, SKIP/CLIP, and occlusion culling
+
+[Calinou](https://github.com/Calinou) - For making Qodot work on case-sensitive systems
+
+FreePBR.com - For royalty-free PBR example textures
