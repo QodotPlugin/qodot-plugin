@@ -64,20 +64,25 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/qodot/src/qodot_util.gd"
 }, {
-"base": "Resource",
+"base": "Reference",
 "class": "QuakeBrush",
 "language": "GDScript",
 "path": "res://addons/qodot/src/resources/quake_brush.gd"
 }, {
-"base": "Resource",
+"base": "Reference",
 "class": "QuakeEntity",
 "language": "GDScript",
 "path": "res://addons/qodot/src/resources/quake_entity.gd"
 }, {
-"base": "Resource",
+"base": "Reference",
 "class": "QuakeMap",
 "language": "GDScript",
 "path": "res://addons/qodot/src/resources/quake_map.gd"
+}, {
+"base": "Resource",
+"class": "QuakeMapFile",
+"language": "GDScript",
+"path": "res://addons/qodot/src/resources/quake_map_file.gd"
 }, {
 "base": "EditorImportPlugin",
 "class": "QuakeMapImportPlugin",
@@ -89,7 +94,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/qodot/src/quake_map_reader.gd"
 }, {
-"base": "Resource",
+"base": "Reference",
 "class": "QuakePlane",
 "language": "GDScript",
 "path": "res://addons/qodot/src/resources/quake_plane.gd"
@@ -114,6 +119,7 @@ _global_script_class_icons={
 "QuakeBrush": "",
 "QuakeEntity": "",
 "QuakeMap": "",
+"QuakeMapFile": "",
 "QuakeMapImportPlugin": "",
 "QuakeMapReader": "",
 "QuakePlane": "",
@@ -129,6 +135,10 @@ config/icon="res://icon.png"
 [editor_plugins]
 
 enabled=PoolStringArray( "qodot" )
+
+[memory]
+
+limits/message_queue/max_size_kb=4096
 
 [rendering]
 

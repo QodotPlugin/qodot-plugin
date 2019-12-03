@@ -6,17 +6,14 @@ tool
 
 const TEXTURE_EMPTY = '__TB_empty'	# TrenchBroom empty texture string
 
-enum Mode {
-	FACE_AXES, 		# Debug visualization of raw plane data
-	FACE_VERTICES,	# Debug visualization of intersecting plane vertices
-	BRUSH_MESHES	# Full mesh representation with collision
-}
-
 # Pseudo-button for forcing a refresh after asset reimport
 export(bool) var reload setget set_reload
 
+# Map file format
+export(QodotEnums.MapFormat) var map_format = QodotEnums.MapFormat.STANDARD setget set_map_format
+
 # Rendering mode
-export(Mode) var mode = Mode.BRUSH_MESHES setget set_mode
+export(QodotEnums.MapMode) var mode = QodotEnums.MapMode.BRUSH_MESHES setget set_mode
 
 # Factor to scale the .map file's quake units down by
 # (16 is a best-effort conversion from Quake 3 units to metric)
@@ -24,7 +21,7 @@ export(float) var inverse_scale_factor = 16.0 setget set_inverse_scale_factor
 
 # .map Resource to auto-load when updating the map from the editor
 # (Works around references being held and preventing refresh on reimport)
-export(String, FILE, '*.map') var autoload_map_path setget set_autoload_map_path
+export(String, FILE, '*.map') var map_file setget set_map_file
 
 # Base search path for textures specified in the .map file
 export(String, DIR) var base_texture_path = 'res://textures' setget set_base_texture_path
@@ -60,63 +57,87 @@ func set_reload(new_reload):
 func set_mode(new_mode):
 	if(mode != new_mode):
 		mode = new_mode
-		update_map()
+
+func set_map_format(new_map_format):
+	if(map_format != new_map_format):
+		map_format = new_map_format
 
 func set_inverse_scale_factor(new_inverse_scale_factor):
 	if(inverse_scale_factor != new_inverse_scale_factor):
 		inverse_scale_factor = new_inverse_scale_factor
-		update_map()
 
-func set_autoload_map_path(new_autoload_map_path):
-	if(autoload_map_path != new_autoload_map_path):
-		autoload_map_path = new_autoload_map_path
-		update_map()
+func set_map_file(new_map_file):
+	if(map_file != new_map_file):
+		map_file = new_map_file
 
 func set_base_texture_path(new_base_texture_path):
 	if(base_texture_path != new_base_texture_path):
 		base_texture_path = new_base_texture_path
-		update_map()
 
 func set_material_extension(new_material_extension):
 	if(material_extension != new_material_extension):
 		material_extension = new_material_extension
-		update_map()
 
 func set_texture_extension(new_texture_extension):
 	if(texture_extension != new_texture_extension):
 		texture_extension = new_texture_extension
-		update_map()
 
 func set_default_material(new_default_material):
 	if(default_material != new_default_material):
 		default_material = new_default_material
-		update_map()
 
-## Map autoload handler
+## Map load handling
+
+# Clears the map, loads the .map file from disk, parses it, and begins geometry generation
 func update_map():
 	if(Engine.is_editor_hint()):
-		var autoload_map := load(autoload_map_path) as QuakeMap
-		set_map(autoload_map)
-
-## Built-in overrides
-func _ready():
-	update_map()
-
-## Business logic
-# Clears any existing children,
-# then renders the provided QuakeMap into an entity/brush tree
-func set_map(map: QuakeMap):
-	if(map != null):
 		clear_map()
 
-		if(map.entities.size() > 0):
-			var worldspawn = map.entities[0]
-			if('message' in worldspawn.properties):
-				name = worldspawn.properties['message']
+		var map_file_obj = File.new()
 
-		for entity in map.entities:
-			create_entity(self, entity)
+		var err = map_file_obj.open(map_file, File.READ)
+		if err != OK:
+			QodotUtil.debug_print(['Error opening file: ', err])
+			return err
 
+		print("Beginning .map file read")
+		var map_reader = QuakeMapReader.new()
+		var map = map_reader.read_map_file(map_file_obj, get_valve_uvs(map_format), get_bitmask_format(map_format))
+		print(".map file read complete")
+
+		map_file_obj.close()
+
+		if(map != null):
+			if(map.entities.size() > 0):
+				var worldspawn = map.entities[0]
+				if('message' in worldspawn.properties):
+					name = worldspawn.properties['message']
+
+			print("Spawning entities...")
+			for entity in map.entities:
+				create_entity(self, entity)
+
+# Returns whether a given format uses Valve-style UVs
+func get_valve_uvs(map_format: int):
+	return map_format == QodotEnums.MapFormat.VALVE
+
+# Returns the bimask format for a given map format
+func get_bitmask_format(map_format: int):
+	match(map_format):
+		QodotEnums.MapFormat.QUAKE_2:
+			return QodotEnums.BitmaskFormat.QUAKE_2
+		QodotEnums.MapFormat.QUAKE_3:
+			return QodotEnums.BitmaskFormat.QUAKE_2
+		QodotEnums.MapFormat.QUAKE_3_LEGACY:
+			return QodotEnums.BitmaskFormat.QUAKE_2
+		QodotEnums.MapFormat.HEXEN_2:
+			return QodotEnums.BitmaskFormat.HEXEN_2
+		QodotEnums.MapFormat.DAIKATANA:
+			return QodotEnums.BitmaskFormat.DAIKATANA
+
+	return QodotEnums.BitmaskFormat.NONE
+
+## Business logic
 # Clears any existing children
 func clear_map():
 	for child in get_children():
@@ -168,7 +189,7 @@ func create_brush(parent_entity_node, brush, parent_entity):
 	brush_node.translation = brush_center
 
 	match mode:
-		Mode.FACE_AXES:
+		QodotEnums.MapMode.FACE_AXES:
 			for plane in planes:
 				var face_axes = QodotUtil.add_child_editor(brush_node, QuakePlaneAxes.new())
 				face_axes.name = 'Plane0'
@@ -178,7 +199,7 @@ func create_brush(parent_entity_node, brush, parent_entity):
 				for vertex in plane.vertices:
 					face_axes.vertex_set.append((vertex - plane.vertices[0]) / inverse_scale_factor)
 
-		Mode.FACE_VERTICES:
+		QodotEnums.MapMode.FACE_VERTICES:
 			for plane_idx in sorted_local_face_vertices:
 				var vertices = sorted_local_face_vertices[plane_idx]
 				var plane_spatial = QodotUtil.add_child_editor(brush_node, QodotSpatial.new())
@@ -190,7 +211,7 @@ func create_brush(parent_entity_node, brush, parent_entity):
 					vertex_node.name = 'Point0'
 					vertex_node.translation = vertex
 
-		Mode.BRUSH_MESHES:
+		QodotEnums.MapMode.BRUSH_MESHES:
 			var classname = null
 			if('classname' in parent_entity.properties):
 				classname = parent_entity.properties['classname']

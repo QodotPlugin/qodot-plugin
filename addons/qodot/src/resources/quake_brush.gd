@@ -1,9 +1,8 @@
 class_name QuakeBrush
-extends Resource
 
 # Resource representation of a .map file brush
 
-export(Array) var planes = []
+var planes = []
 
 func _init(planes):
 	self.planes = planes

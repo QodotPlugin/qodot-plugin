@@ -1,17 +1,16 @@
 class_name QuakePlane
-extends Resource
 
 # Resource representation of a .map file brush plane
 
-export(PoolVector3Array) var vertices = [Vector3.ZERO, Vector3.RIGHT, Vector3.DOWN]
-export(String) var texture
-export(PoolRealArray) var uv
-export(float) var rotation
-export(Vector2) var scale
-export(int) var surface
-export(int) var content
-export(int) var color
-export(int) var hexen_2_param
+var vertices = [Vector3.ZERO, Vector3.RIGHT, Vector3.DOWN]
+var texture
+var uv
+var rotation
+var scale
+var surface
+var content
+var color
+var hexen_2_param
 
 func _init(
 	vertices: PoolVector3Array,

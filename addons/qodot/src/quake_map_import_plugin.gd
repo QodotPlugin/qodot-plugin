@@ -19,97 +19,23 @@ func get_save_extension():
 func get_resource_type():
 	return 'QuakeMap'
 
-func get_preset_count():
-	return QodotEnums.Presets.size()
-
-func get_preset_name(preset):
-	match preset:
-		QodotEnums.Presets.PRESET_STANDARD:
-			return 'Standard'
-		QodotEnums.Presets.PRESET_VALVE:
-			return 'Valve'
-		QodotEnums.Presets.PRESET_QUAKE_2:
-			return 'Quake 2'
-		QodotEnums.Presets.PRESET_QUAKE_3:
-			return 'Quake 3'
-		QodotEnums.Presets.PRESET_QUAKE_3_LEGACY:
-			return 'Quake 3 (Legacy)'
-		QodotEnums.Presets.PRESET_HEXEN_2:
-			return 'Hexen 2'
-		QodotEnums.Presets.PRESET_DAIKATANA:
-			return 'Daikatana'
-		_:
-			return 'Unknown'
-
 func get_import_options(preset):
-	var valve_uvs = false
-	var bitmask_format = QodotEnums.BitmaskFormat.NONE
+	return []
 
-	match preset:
-		QodotEnums.Presets.PRESET_VALVE:
-			valve_uvs = true
-		QodotEnums.Presets.PRESET_QUAKE_2:
-			bitmask_format = QodotEnums.BitmaskFormat.QUAKE_2
-		QodotEnums.Presets.PRESET_QUAKE_3:
-			bitmask_format = QodotEnums.BitmaskFormat.QUAKE_2
-		QodotEnums.Presets.PRESET_QUAKE_3_LEGACY:
-			bitmask_format = QodotEnums.BitmaskFormat.QUAKE_2
-		QodotEnums.Presets.PRESET_HEXEN_2:
-			bitmask_format = QodotEnums.BitmaskFormat.HEXEN_2
-		QodotEnums.Presets.PRESET_DAIKATANA:
-			bitmask_format = QodotEnums.BitmaskFormat.DAIKATANA
-
-	return [
-		{
-			'name': 'valve_texture_coordinates',
-			'default_value': valve_uvs
-		},
-		{
-			'name': 'bitmask_format',
-			'default_value': bitmask_format,
-			'property_hint': PROPERTY_HINT_ENUM,
-			'hint_string': "None,Quake 2,Hexen 2,Daikatana"
-		}
-	]
-
-func get_option_visibility(option, options):
-	return true
+func get_preset_count():
+	return 0
 
 func import(source_file, save_path, options, r_platform_variants, r_gen_files):
-
-	print('Importing ', source_file, ' to be saved in ', save_path, ' with options ', options)
-	var file = File.new()
-	QodotUtil.debug_print('Opening file')
-	var err = file.open(source_file, File.READ)
-	if err != OK:
-		QodotUtil.debug_print(['Error opening file: ', err])
-		return err
-
-	var valve_uvs = options['valve_texture_coordinates']
-	var bitmask_format = options['bitmask_format']
-
-	var quake_map_reader = QuakeMapReader.new()
-	var quake_map: QuakeMap = quake_map_reader.read_map_file(file, valve_uvs, bitmask_format)
-
-	if(QodotUtil.DEBUG):
-		for entity in quake_map.entities:
-			QodotUtil.debug_print(entity)
-			for brush in entity.brushes:
-				QodotUtil.debug_print(['\t', brush])
-				for plane in brush.planes:
-					QodotUtil.debug_print(['\t\t', plane])
-
-	file.close()
-
 	var save_path_str = '%s.%s' % [save_path, get_save_extension()]
 
-	print(['Saving ', quake_map, ' to ', save_path_str])
+	var map_resource = null
 
-	var save_result = ResourceSaver.save(save_path_str, quake_map)
-
-	if(save_result == OK):
-		print('Save complete')
+	var existing_resource := load(save_path_str) as QuakeMapFile
+	if(existing_resource != null):
+		print("Existing resource, revision ", existing_resource.revision)
+		map_resource = existing_resource
+		map_resource.revision += 1
 	else:
-		print('Save error: ', save_result)
+		map_resource = QuakeMapFile.new()
 
-	return save_result
+	return ResourceSaver.save(save_path_str, map_resource)

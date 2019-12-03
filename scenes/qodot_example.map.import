@@ -11,5 +11,3 @@ dest_files=[ "res://.import/qodot_example.map-b0f967c295899e762b401c55cb6193f8.t
 
 [params]
 
-valve_texture_coordinates=true
-bitmask_format=0

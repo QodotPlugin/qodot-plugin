@@ -1,19 +1,19 @@
 class_name QodotEnums
 
-enum Mode {
-	FACE_AXES, 	# Debug visualization of raw plane data
+enum MapMode {
+	FACE_AXES, 		# Debug visualization of raw plane data
 	FACE_VERTICES,	# Debug visualization of intersecting plane vertices
 	BRUSH_MESHES	# Full mesh representation with collision
 }
 
-enum Presets {
-	PRESET_STANDARD,
-	PRESET_VALVE,
-	PRESET_QUAKE_2,
-	PRESET_QUAKE_3,
-	PRESET_QUAKE_3_LEGACY,
-	PRESET_HEXEN_2,
-	PRESET_DAIKATANA,
+enum MapFormat {
+	STANDARD,
+	VALVE,
+	QUAKE_2,
+	QUAKE_3,
+	QUAKE_3_LEGACY,
+	HEXEN_2,
+	DAIKATANA,
 }
 
 enum BitmaskFormat {
