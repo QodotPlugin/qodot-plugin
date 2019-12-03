@@ -104,10 +104,12 @@ func import(source_file, save_path, options, r_platform_variants, r_gen_files):
 	var save_path_str = '%s.%s' % [save_path, get_save_extension()]
 
 	print(['Saving ', quake_map, ' to ', save_path_str])
-	var result = ResourceSaver.save(save_path_str, quake_map)
 
-	# Attempt to forcefully reload the map asset
-	quake_map = null
-	quake_map = load(save_path_str)
+	var save_result = ResourceSaver.save(save_path_str, quake_map)
 
-	return result
+	if(save_result == OK):
+		print('Save complete')
+	else:
+		print('Save error: ', save_result)
+
+	return save_result
