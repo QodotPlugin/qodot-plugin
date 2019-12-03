@@ -30,6 +30,7 @@ export(String, FILE, '*.map') var autoload_map_path setget set_autoload_map_path
 export(String, DIR) var base_texture_path = 'res://textures' setget set_base_texture_path
 
 # File extension appended to textures specified in the .map file
+export(String) var material_extension = '.tres' setget set_material_extension
 export(String) var texture_extension = '.png' setget set_texture_extension
 
 # Materials
@@ -43,6 +44,13 @@ export(Script) var face_mapper = QodotFaceMapper
 # Internal variables for calculating vertex winding
 var _winding_normal = Vector3.ZERO
 var _winding_basis = Vector3.ZERO
+
+# Texture directory accessor
+var texture_directory = Directory.new()
+
+# Material and texture caches
+var material_dict = {}
+var texture_dict = {}
 
 ## Setters
 func set_reload(new_reload):
@@ -67,6 +75,11 @@ func set_autoload_map_path(new_autoload_map_path):
 func set_base_texture_path(new_base_texture_path):
 	if(base_texture_path != new_base_texture_path):
 		base_texture_path = new_base_texture_path
+		update_map()
+
+func set_material_extension(new_material_extension):
+	if(material_extension != new_material_extension):
+		material_extension = new_material_extension
 		update_map()
 
 func set_texture_extension(new_texture_extension):
@@ -100,6 +113,7 @@ func set_map(map: QuakeMap):
 			var worldspawn = map.entities[0]
 			if('message' in worldspawn.properties):
 				name = worldspawn.properties['message']
+
 		for entity in map.entities:
 			create_entity(self, entity)
 
@@ -201,18 +215,65 @@ func create_brush(parent_entity_node, brush, parent_entity):
 							surface_tool.add_tangent(get_valve_tangent(normal, plane.uv))
 
 						var texture = null
-						if(plane.texture != TEXTURE_EMPTY):
-							var texturePath = base_texture_path + '/' + plane.texture + texture_extension
-							texture = load(texturePath)
+						texture_directory.change_dir(base_texture_path)
 
-							if(texture != null):
-								var spatial_material = null
-								if(default_material != null):
-									spatial_material = default_material.duplicate()
-								else:
-									spatial_material = SpatialMaterial.new()
-								spatial_material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, texture)
-								surface_tool.set_material(spatial_material)
+						if(plane.texture != TEXTURE_EMPTY):
+							var texture_path = base_texture_path + '/' + plane.texture + texture_extension
+							if(!texture_path in texture_dict && texture_directory.file_exists(texture_path)):
+								var loaded_texture: Texture = load(texture_path)
+								texture_dict[texture_path] = loaded_texture
+
+							if(texture_path in texture_dict):
+								texture = texture_dict[texture_path]
+
+							var material_path = base_texture_path + '/' + plane.texture + material_extension
+
+							if(!material_path in material_dict && texture_directory.file_exists(material_path)):
+								var loaded_material: SpatialMaterial = load(material_path)
+								material_dict[material_path] = loaded_material
+
+							if(material_path in material_dict):
+								surface_tool.set_material(material_dict[material_path])
+							else:
+								if(texture != null):
+									var spatial_material = null
+									if(default_material != null):
+										spatial_material = default_material.duplicate()
+									else:
+										spatial_material = SpatialMaterial.new()
+
+									spatial_material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, texture)
+
+									var normal_tex = get_pbr_texture(plane.texture, 'normal')
+									if(normal_tex):
+										spatial_material.normal_enabled = true
+										spatial_material.set_texture(SpatialMaterial.TEXTURE_NORMAL, normal_tex)
+
+									var metallic_tex = get_pbr_texture(plane.texture, 'metallic')
+									if(metallic_tex):
+										spatial_material.set_texture(SpatialMaterial.TEXTURE_METALLIC, metallic_tex)
+
+									var roughness_tex = get_pbr_texture(plane.texture, 'roughness')
+									if(roughness_tex):
+										spatial_material.set_texture(SpatialMaterial.TEXTURE_ROUGHNESS, roughness_tex)
+
+									var emissive_tex = get_pbr_texture(plane.texture, 'emissive')
+									if(emissive_tex):
+										spatial_material.emission_enabled = true
+										spatial_material.set_texture(SpatialMaterial.TEXTURE_EMISSION, emissive_tex)
+
+									var ao_tex = get_pbr_texture(plane.texture, 'ao')
+									if(ao_tex):
+										spatial_material.ao_enabled = true
+										spatial_material.set_texture(SpatialMaterial.TEXTURE_AMBIENT_OCCLUSION, ao_tex)
+
+									var depth_tex = get_pbr_texture(plane.texture, 'depth')
+									if(depth_tex):
+										spatial_material.depth_enabled = true
+										spatial_material.set_texture(SpatialMaterial.TEXTURE_DEPTH, depth_tex)
+
+									material_dict[material_path] = spatial_material
+									surface_tool.set_material(spatial_material)
 
 						var vertex_idx = 0
 						for vertex in vertices:
@@ -433,3 +494,22 @@ func get_standard_tangent(normal: Vector3) -> Plane:
 
 func get_valve_tangent(normal, uv: PoolRealArray) -> Plane:
 	return Plane(normal.cross(Vector3.UP).normalized(), 0.0)
+
+# PBR texture fetching
+func get_pbr_texture(texture, suffix):
+	var texture_comps = texture.split('/')
+	var texture_group = texture_comps[0]
+	var texture_name = texture_comps[1]
+	var path = base_texture_path + '/' + texture_group + '/' + texture_name + '/' + texture_name + '_' + suffix + texture_extension
+
+	if(path in texture_dict):
+		return texture_dict[path]
+	else:
+		texture_directory.change_dir(base_texture_path)
+		if(texture_directory.file_exists(path)):
+			var tex = load(path)
+			if(tex):
+				texture_dict[path] = tex
+				return tex
+
+	return null
