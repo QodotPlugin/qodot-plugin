@@ -344,6 +344,7 @@ func create_brush(parent_entity_node, brush, parent_entity):
 					for vertex in vertices:
 						var global_vertex = face_centers[plane_idx] + vertex
 						var local_vertex = global_vertex - brush_center
+						if(!collision_vertices.has(local_vertex)):
 						collision_vertices.append(local_vertex)
 
 				var brush_collision_object = QodotUtil.add_child_editor(brush_node, brush_mapper.spawn_brush_collision_object(brush, parent_entity))
