@@ -9,3 +9,4 @@ export_presets.cfg
 # Qodot-specific ignores
 export/
 scenes/test_maps
+*/autosave/
