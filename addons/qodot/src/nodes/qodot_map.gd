@@ -34,7 +34,7 @@ export(String) var material_extension = '.tres' setget set_material_extension
 export(String) var texture_extension = '.png' setget set_texture_extension
 
 # Materials
-export (SpatialMaterial) var default_material setget set_default_material
+export (SpatialMaterial) var default_material = null setget set_default_material
 
 # Mappers used to control tree population
 export(Script) var entity_mapper = QodotEntityMapper
