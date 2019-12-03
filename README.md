@@ -222,7 +222,7 @@ TrenchBroom will create an 'autosaves' folder containing map backups alongside a
 
 ## Qodot Elsewhere
 
-[Discord - Qodot](https://discord.gg/xy25t7)
+[Discord - Qodot](https://discord.gg/c72WBuG)
 
 [Reddit - Qodot](https://www.reddit.com/r/godot/comments/e41ldk/qodot_quake_map_file_support_for_godot/)
 
