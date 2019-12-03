@@ -64,7 +64,7 @@ func read_entity(file: File, valve_uvs: bool, bitmask_format: int) -> QuakeEntit
 			QodotUtil.debug_print('End of entity section')
 			parse = false
 
-	print(entity_properties)
+	QodotUtil.debug_print(entity_properties)
 
 	return QuakeEntity.new(entity_properties, entity_brushes)
 
