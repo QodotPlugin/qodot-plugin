@@ -238,7 +238,7 @@ TrenchBroom will create an 'autosaves' folder containing map backups alongside a
 
 Arkii - For example code and handy documentation of the Valve 220 format
 
-therektafire - For bits and bobs on Valve 220, SKIP/CLIP, and occlusion culling
+[TheRektafire](https://github.com/TheRektafire) - For a variety of useful tidbits on the .map format
 
 [Calinou](https://github.com/Calinou) - For making Qodot work on case-sensitive systems
 
