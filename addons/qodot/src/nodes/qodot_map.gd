@@ -31,7 +31,7 @@ export(String) var material_extension = '.tres' setget set_material_extension
 export(String) var texture_extension = '.png' setget set_texture_extension
 
 # Materials
-export (SpatialMaterial) var default_material = null setget set_default_material
+export (SpatialMaterial) var default_material setget set_default_material
 
 # Mappers used to control tree population
 export(Script) var entity_mapper = QodotEntityMapper
@@ -42,6 +42,9 @@ export(Script) var face_mapper = QodotFaceMapper
 var _winding_normal = Vector3.ZERO
 var _winding_basis = Vector3.ZERO
 
+# Threads
+var entity_threads = []
+
 # Texture directory accessor
 var texture_directory = Directory.new()
 
@@ -49,10 +52,16 @@ var texture_directory = Directory.new()
 var material_dict = {}
 var texture_dict = {}
 
+# Last generated map MD5
+export(String) var last_md5 = null
+
 ## Setters
 func set_reload(new_reload):
 	if(reload != new_reload):
 		update_map()
+
+func set_status(new_status):
+	pass
 
 func set_mode(new_mode):
 	if(mode != new_mode):
@@ -87,12 +96,9 @@ func set_default_material(new_default_material):
 		default_material = new_default_material
 
 ## Map load handling
-
 # Clears the map, loads the .map file from disk, parses it, and begins geometry generation
 func update_map():
 	if(Engine.is_editor_hint()):
-		clear_map()
-
 		var map_file_obj = File.new()
 
 		var err = map_file_obj.open(map_file, File.READ)
@@ -100,22 +106,33 @@ func update_map():
 			QodotUtil.debug_print(['Error opening file: ', err])
 			return err
 
-		print("Beginning .map file read")
-		var map_reader = QuakeMapReader.new()
-		var map = map_reader.read_map_file(map_file_obj, get_valve_uvs(map_format), get_bitmask_format(map_format))
-		print(".map file read complete")
+		var file_md5 = map_file_obj.get_md5(map_file)
+		if(last_md5 == file_md5):
+			print("File unchanged, nothing to do.")
+		else:
+			clear_map()
+
+			print(file_md5)
+			last_md5 = file_md5
+
+			print("Beginning .map file read")
+			var map_reader = QuakeMapReader.new()
+			var map = map_reader.read_map_file(map_file_obj, get_valve_uvs(map_format), get_bitmask_format(map_format))
+			print(".map file read complete")
+
+			if(map != null):
+				if(map.entities.size() > 0):
+					var worldspawn = map.entities[0]
+					if('message' in worldspawn.properties):
+						name = worldspawn.properties['message']
+
+				print("Spawning entities...")
+				for entity in map.entities:
+					var entity_thread = Thread.new()
+					entity_threads.append(entity_thread)
+					entity_thread.start(self, "create_entity", [entity, entity_thread])
 
 		map_file_obj.close()
-
-		if(map != null):
-			if(map.entities.size() > 0):
-				var worldspawn = map.entities[0]
-				if('message' in worldspawn.properties):
-					name = worldspawn.properties['message']
-
-			print("Spawning entities...")
-			for entity in map.entities:
-				create_entity(self, entity)
 
 # Returns whether a given format uses Valve-style UVs
 func get_valve_uvs(map_format: int):
@@ -138,6 +155,10 @@ func get_bitmask_format(map_format: int):
 	return QodotEnums.BitmaskFormat.NONE
 
 ## Business logic
+func _exit_tree() -> void:
+	for thread in entity_threads:
+		thread.wait_to_finish()
+
 # Clears any existing children
 func clear_map():
 	for child in get_children():
@@ -146,8 +167,14 @@ func clear_map():
 			child.queue_free()
 
 # Creates a node representation of an entity and its child brushes
-func create_entity(parent_map_node, entity):
-	var entity_node = QodotUtil.add_child_editor(parent_map_node, QodotEntity.new())
+func create_entity(userdata):
+	var entity = userdata[0]
+	var thread = userdata[1]
+
+	var parent_map_node = self
+
+	var entity_node = QodotEntity.new()
+	call_deferred("add_child", entity_node)
 
 	if('classname' in entity.properties):
 		entity_node.name = entity.properties['classname']
@@ -164,13 +191,36 @@ func create_entity(parent_map_node, entity):
 	if(entity_mapper != null):
 		var entity_spawned_node = entity_mapper.spawn_node_for_entity(entity)
 		if(entity_spawned_node != null):
-			QodotUtil.add_child_editor(entity_node, entity_spawned_node)
+			entity_node.call_deferred("add_child", entity_spawned_node)
 
 	for brush in entity.brushes:
-		create_brush(entity_node, brush, entity)
+		create_brush([entity_node, brush, entity])
+
+	entity_threads.remove(entity_threads.find(thread))
+
+	if(entity_threads.size() == 0):
+		self.call_deferred("entities_complete")
+
+func entities_complete():
+	if(is_inside_tree()):
+		var tree = get_tree()
+		if(tree != null):
+			var edited_scene_root = tree.get_edited_scene_root()
+			if(edited_scene_root != null):
+				for child in get_children():
+					recursive_add_editor(child, edited_scene_root)
+
+func recursive_add_editor(node, edited_scene_root):
+	node.set_owner(edited_scene_root)
+	for child in node.get_children():
+		recursive_add_editor(child, edited_scene_root)
 
 # Creates a node representation of a brush
-func create_brush(parent_entity_node, brush, parent_entity):
+func create_brush(userdata):
+	var parent_entity_node = userdata[0]
+	var brush = userdata[1]
+	var parent_entity = userdata[2]
+
 	var planes = brush.planes
 	var face_vertices = find_face_vertices(planes)
 	var face_normals = find_face_normals(planes)
@@ -184,14 +234,16 @@ func create_brush(parent_entity_node, brush, parent_entity):
 		brush_center += center
 	brush_center /= face_centers.size()
 
-	var brush_node = QodotUtil.add_child_editor(parent_entity_node, QodotBrush.new())
+	var brush_node = QodotBrush.new()
+	parent_entity_node.call_deferred("add_child", brush_node)
 	brush_node.name = 'Brush0'
 	brush_node.translation = brush_center
 
 	match mode:
 		QodotEnums.MapMode.FACE_AXES:
 			for plane in planes:
-				var face_axes = QodotUtil.add_child_editor(brush_node, QuakePlaneAxes.new())
+				var face_axes = QuakePlaneAxes.new()
+				brush_node.call_deferred("add_child", face_axes)
 				face_axes.name = 'Plane0'
 				face_axes.translation = (plane.vertices[0] / inverse_scale_factor) - brush_center
 
@@ -202,12 +254,14 @@ func create_brush(parent_entity_node, brush, parent_entity):
 		QodotEnums.MapMode.FACE_VERTICES:
 			for plane_idx in sorted_local_face_vertices:
 				var vertices = sorted_local_face_vertices[plane_idx]
-				var plane_spatial = QodotUtil.add_child_editor(brush_node, QodotSpatial.new())
+				var plane_spatial = QodotSpatial.new()
+				brush_node.call_deferred("add_child", plane_spatial)
 				plane_spatial.name = 'Face0'
 				plane_spatial.translation = face_centers[plane_idx] - brush_center
 
 				for vertex in vertices:
-					var vertex_node = QodotUtil.add_child_editor(plane_spatial, Position3D.new())
+					var vertex_node = Position3D.new()
+					plane_spatial.call_deferred("add_child", vertex_node)
 					vertex_node.name = 'Point0'
 					vertex_node.translation = vertex
 
@@ -221,6 +275,7 @@ func create_brush(parent_entity_node, brush, parent_entity):
 					var plane = planes[plane_idx]
 					if(face_mapper.should_spawn_face_mesh(plane, brush, parent_entity)):
 						var vertices = sorted_local_face_vertices[plane_idx]
+						print(vertices.size())
 
 						var surface_tool = SurfaceTool.new()
 						surface_tool.begin(Mesh.PRIMITIVE_TRIANGLE_FAN)
@@ -331,7 +386,8 @@ func create_brush(parent_entity_node, brush, parent_entity):
 							surface_tool.add_vertex(local_vertex)
 							vertex_idx += 1
 
-						var face_mesh_node = QodotUtil.add_child_editor(brush_node, MeshInstance.new())
+						var face_mesh_node = MeshInstance.new()
+						brush_node.call_deferred("add_child", face_mesh_node)
 						face_mesh_node.name = 'Face0'
 						face_mesh_node.translation = face_centers[plane_idx] - brush_center
 						face_mesh_node.set_mesh(surface_tool.commit())
@@ -344,11 +400,15 @@ func create_brush(parent_entity_node, brush, parent_entity):
 					for vertex in vertices:
 						var global_vertex = face_centers[plane_idx] + vertex
 						var local_vertex = global_vertex - brush_center
-						collision_vertices.append(local_vertex)
+						if(!collision_vertices.has(local_vertex)):
+							collision_vertices.append(local_vertex)
 
-				var brush_collision_object = QodotUtil.add_child_editor(brush_node, brush_mapper.spawn_brush_collision_object(brush, parent_entity))
+				var brush_collision_object = brush_mapper.spawn_brush_collision_object(brush, parent_entity)
+				brush_node.call_deferred("add_child", brush_collision_object)
 
-				var brush_collision_shape = QodotUtil.add_child_editor(brush_collision_object, CollisionShape.new())
+				var brush_collision_shape = CollisionShape.new()
+				brush_collision_object.call_deferred("add_child", brush_collision_shape)
+
 				var brush_convex_collision = ConvexPolygonShape.new()
 				brush_convex_collision.set_points(collision_vertices)
 
