@@ -193,6 +193,12 @@ func create_brush(parent_entity_node, brush, parent_entity):
 						var normal = face_normals[plane_idx]
 						surface_tool.add_normal(normal)
 
+						if(plane.uv.size() == 2):
+							# Standard format tangents
+							surface_tool.add_tangent(get_standard_tangent(normal))
+						elif(plane.uv.size() == 8):
+							# Valve format tangents
+							surface_tool.add_tangent(get_valve_tangent(normal, plane.uv))
 
 						var texture = null
 						if(plane.texture != TEXTURE_EMPTY):
@@ -418,3 +424,12 @@ func get_valve_uv(
 	uv_out += Vector2(u_shift, v_shift) / texture_size
 
 	return uv_out
+
+# Tangent functions to work around broken auto-generated ones
+# Also incorrect for now,
+# but prevents materials with depth mapping from crashing the graphics driver
+func get_standard_tangent(normal: Vector3) -> Plane:
+	return Plane(normal.cross(Vector3.UP).normalized(), 0.0)
+
+func get_valve_tangent(normal, uv: PoolRealArray) -> Plane:
+	return Plane(normal.cross(Vector3.UP).normalized(), 0.0)
