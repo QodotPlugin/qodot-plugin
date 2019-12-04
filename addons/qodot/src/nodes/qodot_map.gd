@@ -38,10 +38,6 @@ export(Script) var entity_mapper = QodotEntityMapper
 export(Script) var brush_mapper = QodotBrushMapper
 export(Script) var face_mapper = QodotFaceMapper
 
-# Internal variables for calculating vertex winding
-var _winding_normal = Vector3.ZERO
-var _winding_basis = Vector3.ZERO
-
 # Texture directory accessor
 var texture_directory = Directory.new()
 
@@ -171,17 +167,12 @@ func create_entity(parent_map_node, entity):
 # Creates a node representation of a brush
 func create_brush(parent_entity_node, brush, parent_entity):
 	var planes = brush.planes
-	var face_vertices = find_face_vertices(planes)
+	var brush_center = brush.center / inverse_scale_factor
+
+	var face_vertices = find_face_vertices(brush)
 	var face_normals = find_face_normals(planes)
 	var face_centers = find_face_centers(face_vertices)
-	var local_face_vertices = find_local_face_vertices(face_vertices, face_centers)
-	var sorted_local_face_vertices = sort_local_face_vertices(local_face_vertices, face_normals)
-
-	var brush_center = Vector3.ZERO
-	for center_idx in face_centers:
-		var center = face_centers[center_idx]
-		brush_center += center
-	brush_center /= face_centers.size()
+	var sorted_local_face_vertices = sort_local_face_vertices(face_vertices, face_centers, face_normals)
 
 	var brush_node = QodotUtil.add_child_editor(parent_entity_node, QodotBrush.new())
 	brush_node.name = 'Brush0'
@@ -192,23 +183,23 @@ func create_brush(parent_entity_node, brush, parent_entity):
 			for plane in planes:
 				var face_axes = QodotUtil.add_child_editor(brush_node, QuakePlaneAxes.new())
 				face_axes.name = 'Plane0'
-				face_axes.translation = (plane.vertices[0] / inverse_scale_factor) - brush_center
+				face_axes.translation = (plane.vertices[0] / inverse_scale_factor)
 
 				face_axes.vertex_set = []
 				for vertex in plane.vertices:
 					face_axes.vertex_set.append((vertex - plane.vertices[0]) / inverse_scale_factor)
 
 		QodotEnums.MapMode.FACE_VERTICES:
-			for plane_idx in sorted_local_face_vertices:
+			for plane_idx in face_vertices:
 				var vertices = sorted_local_face_vertices[plane_idx]
 				var plane_spatial = QodotUtil.add_child_editor(brush_node, QodotSpatial.new())
 				plane_spatial.name = 'Face0'
-				plane_spatial.translation = face_centers[plane_idx] - brush_center
+				plane_spatial.translation = face_centers[plane_idx]
 
 				for vertex in vertices:
 					var vertex_node = QodotUtil.add_child_editor(plane_spatial, Position3D.new())
 					vertex_node.name = 'Point0'
-					vertex_node.translation = vertex
+					vertex_node.translation = vertex - plane_spatial.translation
 
 		QodotEnums.MapMode.BRUSH_MESHES:
 			var classname = null
@@ -299,7 +290,7 @@ func create_brush(parent_entity_node, brush, parent_entity):
 						for vertex in vertices:
 							surface_tool.add_index(vertex_idx)
 
-							var global_vertex = face_centers[plane_idx] + vertex
+							var global_vertex = vertex + brush_center
 
 							if(texture != null):
 								var uv = null
@@ -326,13 +317,12 @@ func create_brush(parent_entity_node, brush, parent_entity):
 								if(uv != null):
 									surface_tool.add_uv(uv)
 
-							var local_vertex = global_vertex - face_centers[plane_idx]
-							surface_tool.add_vertex(local_vertex)
+							surface_tool.add_vertex(vertex - face_centers[plane_idx])
 							vertex_idx += 1
 
 						var face_mesh_node = QodotUtil.add_child_editor(brush_node, MeshInstance.new())
 						face_mesh_node.name = 'Face0'
-						face_mesh_node.translation = face_centers[plane_idx] - brush_center
+						face_mesh_node.translation = face_centers[plane_idx]
 						face_mesh_node.set_mesh(surface_tool.commit())
 
 			# Create collision
@@ -341,10 +331,8 @@ func create_brush(parent_entity_node, brush, parent_entity):
 				for plane_idx in sorted_local_face_vertices:
 					var vertices = sorted_local_face_vertices[plane_idx]
 					for vertex in vertices:
-						var global_vertex = face_centers[plane_idx] + vertex
-						var local_vertex = global_vertex - brush_center
-						if(!collision_vertices.has(local_vertex)):
-							collision_vertices.append(local_vertex)
+						if(!collision_vertices.has(vertex)):
+							collision_vertices.append(vertex)
 
 				var brush_collision_object = QodotUtil.add_child_editor(brush_node, brush_mapper.spawn_brush_collision_object(brush, parent_entity))
 
@@ -355,7 +343,14 @@ func create_brush(parent_entity_node, brush, parent_entity):
 				brush_collision_shape.set_shape(brush_convex_collision)
 
 # Utility
-func find_face_vertices(planes):
+func find_face_vertices(brush):
+	var planes = brush.planes
+
+	for plane in planes:
+		plane.vertices[0] -= brush.center
+		plane.vertices[1] -= brush.center
+		plane.vertices[2] -= brush.center
+
 	var vertex_dict = {}
 
 	var idx = 0
@@ -374,14 +369,14 @@ func find_face_vertices(planes):
 				if(vertex != null && QuakeBrush.vertex_in_hull(planes, vertex)):
 					vertex /= inverse_scale_factor
 
-					if(!vertex_dict[idx1].has(vertex)):
+					var vertex_exists = false
+
+					for comp_vertex in vertex_dict[idx1]:
+						if((comp_vertex - vertex).length() < 0.0001):
+							vertex_exists = true
+
+					if not vertex_exists:
 						vertex_dict[idx1].append(vertex)
-
-					if(!vertex_dict[idx2].has(vertex)):
-						vertex_dict[idx2].append(vertex)
-
-					if(!vertex_dict[idx3].has(vertex)):
-						vertex_dict[idx3].append(vertex)
 
 				idx3 += 1
 			idx2 += 1
@@ -426,15 +421,18 @@ func find_local_face_vertices(face_vertices, face_centers):
 
 	return local_face_vertices
 
-func sort_local_face_vertices(local_face_vertices, face_normals):
+var _winding_center = Vector3.ZERO
+var _winding_normal = Vector3.ZERO
+var _winding_basis = Vector3.ZERO
+func sort_local_face_vertices(local_face_vertices, face_centers, face_normals):
 	var sorted_face_vertices = {}
 
 	for face_idx in local_face_vertices:
 		var vertices = local_face_vertices[face_idx]
-		var normal = face_normals[face_idx]
 
-		_winding_normal = normal
-		_winding_basis = vertices[0]
+		_winding_center = face_centers[face_idx]
+		_winding_normal = face_normals[face_idx]
+		_winding_basis = vertices[1] - vertices[0]
 		vertices.sort_custom(self, 'sort_local_face_vertices_internal')
 
 		sorted_face_vertices[face_idx] = vertices
@@ -442,16 +440,23 @@ func sort_local_face_vertices(local_face_vertices, face_normals):
 	return sorted_face_vertices
 
 func sort_local_face_vertices_internal(a, b):
-	return get_winding_rotation(a) < get_winding_rotation(b)
+	return get_winding_rotation(a) > get_winding_rotation(b)
+
+func get_face_coords(vertex):
+	var local_vertex = vertex - _winding_center
+
+	var u = _winding_basis.normalized()
+	var v = u.cross(_winding_normal).normalized()
+
+	var pu = -local_vertex.dot(u)
+	var pv = local_vertex.dot(v)
+
+	return Vector2(pu, pv)
 
 func get_winding_rotation(vertex):
-	var u = _winding_basis
-	var v = _winding_basis.normalized().cross(_winding_normal)
-
-	var pu = vertex.dot(u)
-	var pv = vertex.dot(v)
-
-	return cartesian2polar(pu, pv).y
+	var vertex_uv = get_face_coords(vertex)
+	var angle = vertex_uv.angle()
+	return angle
 
 func get_standard_uv(
 	global_vertex: Vector3,
