@@ -60,6 +60,11 @@ _global_script_classes=[ {
 "path": "res://addons/qodot/src/nodes/qodot_spatial.gd"
 }, {
 "base": "Reference",
+"class": "QodotThreadPool",
+"language": "GDScript",
+"path": "res://addons/qodot/src/qodot_thread_pool.gd"
+}, {
+"base": "Reference",
 "class": "QodotUtil",
 "language": "GDScript",
 "path": "res://addons/qodot/src/qodot_util.gd"
@@ -73,6 +78,11 @@ _global_script_classes=[ {
 "class": "QuakeEntity",
 "language": "GDScript",
 "path": "res://addons/qodot/src/data/quake_entity.gd"
+}, {
+"base": "Reference",
+"class": "QuakeFace",
+"language": "GDScript",
+"path": "res://addons/qodot/src/data/quake_face.gd"
 }, {
 "base": "Reference",
 "class": "QuakeMap",
@@ -94,11 +104,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/qodot/src/quake_map_reader.gd"
 }, {
-"base": "Reference",
-"class": "QuakePlane",
-"language": "GDScript",
-"path": "res://addons/qodot/src/data/quake_plane.gd"
-}, {
 "base": "ImmediateGeometry",
 "class": "QuakePlaneAxes",
 "language": "GDScript",
@@ -115,15 +120,16 @@ _global_script_class_icons={
 "QodotNode": "res://addons/qodot/icons/icon_qodot_node.svg",
 "QodotPlugin": "",
 "QodotSpatial": "res://addons/qodot/icons/icon_qodot_spatial.svg",
+"QodotThreadPool": "",
 "QodotUtil": "",
 "QuakeBrush": "",
 "QuakeEntity": "",
+"QuakeFace": "",
 "QuakeMap": "",
 "QuakeMapFile": "",
 "QuakeMapImportPlugin": "",
 "QuakeMapReader": "",
-"QuakePlane": "",
-"QuakePlaneAxes": "res://addons/Qodot/Icons/icon_qodot_spatial.svg"
+"QuakePlaneAxes": "res://addons/qodot/icons/icon_qodot_spatial.svg"
 }
 
 [application]
@@ -142,4 +148,5 @@ limits/message_queue/max_size_kb=4096
 
 [rendering]
 
+threads/thread_model=2
 environment/default_environment="res://default_env.tres"
