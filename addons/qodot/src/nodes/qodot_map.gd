@@ -31,12 +31,17 @@ export(String) var material_extension = '.tres' setget set_material_extension
 export(String) var texture_extension = '.png' setget set_texture_extension
 
 # Materials
-export (SpatialMaterial) var default_material = null setget set_default_material
+export (SpatialMaterial) var default_material setget set_default_material
 
 # Mappers used to control tree population
 export(Script) var entity_mapper = QodotEntityMapper
 export(Script) var brush_mapper = QodotBrushMapper
 export(Script) var face_mapper = QodotFaceMapper
+
+# Threads
+export(int) var max_build_threads = 4 setget set_max_build_threads
+
+var thread_pool = QodotThreadPool.new()
 
 # Texture directory accessor
 var texture_directory = Directory.new()
@@ -82,12 +87,18 @@ func set_default_material(new_default_material):
 	if(default_material != new_default_material):
 		default_material = new_default_material
 
-## Map load handling
+func set_max_build_threads(new_max_build_threads):
+	if(max_build_threads != new_max_build_threads):
+		max_build_threads = new_max_build_threads
 
+		thread_pool.set_max_threads(max_build_threads)
+
+## Map load handling
 # Clears the map, loads the .map file from disk, parses it, and begins geometry generation
 func update_map():
 	if(Engine.is_editor_hint()):
-		clear_map()
+		if(thread_pool.jobs_running() > 0 || thread_pool.jobs_pending() > 0):
+			return
 
 		var map_file_obj = File.new()
 
@@ -96,12 +107,12 @@ func update_map():
 			QodotUtil.debug_print(['Error opening file: ', err])
 			return err
 
+		clear_map()
+
 		print("Beginning .map file read")
 		var map_reader = QuakeMapReader.new()
 		var map = map_reader.read_map_file(map_file_obj, get_valve_uvs(map_format), get_bitmask_format(map_format))
 		print(".map file read complete")
-
-		map_file_obj.close()
 
 		if(map != null):
 			if(map.entities.size() > 0):
@@ -110,8 +121,11 @@ func update_map():
 					name = worldspawn.properties['message']
 
 			print("Spawning entities...")
+			thread_pool.connect("jobs_complete", self, "entities_complete")
 			for entity in map.entities:
-				create_entity(self, entity)
+				thread_pool.add_thread_job([self, "create_entity", [entity]])
+
+		map_file_obj.close()
 
 # Returns whether a given format uses Valve-style UVs
 func get_valve_uvs(map_format: int):
@@ -134,6 +148,9 @@ func get_bitmask_format(map_format: int):
 	return QodotEnums.BitmaskFormat.NONE
 
 ## Business logic
+func _exit_tree() -> void:
+	thread_pool.wait_to_finish()
+
 # Clears any existing children
 func clear_map():
 	for child in get_children():
@@ -142,8 +159,13 @@ func clear_map():
 			child.queue_free()
 
 # Creates a node representation of an entity and its child brushes
-func create_entity(parent_map_node, entity):
-	var entity_node = QodotUtil.add_child_editor(parent_map_node, QodotEntity.new())
+func create_entity(userdata):
+	var entity = userdata[0]
+	var thread = userdata[1]
+
+	var parent_map_node = self
+
+	var entity_node = QodotEntity.new()
 
 	if('classname' in entity.properties):
 		entity_node.name = entity.properties['classname']
@@ -157,49 +179,84 @@ func create_entity(parent_map_node, entity):
 	if(entity_mapper != null):
 		var entity_spawned_node = entity_mapper.spawn_node_for_entity(entity)
 		if(entity_spawned_node != null):
-			QodotUtil.add_child_editor(entity_node, entity_spawned_node)
+			entity_node.add_child(entity_spawned_node)
 			if('angle' in entity.properties):
 				entity_spawned_node.rotation.y = deg2rad(180 + entity.properties['angle'])
 
+	self.call_deferred("add_child", entity_node)
+
 	for brush in entity.brushes:
-		create_brush(entity_node, brush, entity)
+		create_brush([entity_node, brush, entity])
+
+	thread_pool.call_deferred("finish_thread_job", thread)
+
+func entities_complete():
+	print("entities complete")
+	if(is_inside_tree()):
+		var tree = get_tree()
+		if(tree != null):
+			var edited_scene_root = tree.get_edited_scene_root()
+			if(edited_scene_root != null):
+				for child in get_children():
+					self.recursive_add_editor(child, edited_scene_root)
+
+func recursive_add_editor(node, edited_scene_root):
+	node.set_owner(edited_scene_root)
+	for child in node.get_children():
+		self.recursive_add_editor(child, edited_scene_root)
 
 # Creates a node representation of a brush
-func create_brush(parent_entity_node, brush, parent_entity):
-	var planes = brush.planes
-	var brush_center = brush.center / inverse_scale_factor
+func create_brush(userdata):
+	var parent_entity_node = userdata[0]
+	var brush = userdata[1]
+	var parent_entity = userdata[2]
+
+	var faces = brush.faces
 
 	var face_vertices = find_face_vertices(brush)
-	var face_normals = find_face_normals(planes)
+	var face_normals = find_face_normals(faces)
 	var face_centers = find_face_centers(face_vertices)
 	var sorted_local_face_vertices = sort_local_face_vertices(face_vertices, face_centers, face_normals)
 
-	var brush_node = QodotUtil.add_child_editor(parent_entity_node, QodotBrush.new())
+	var brush_center = Vector3.ZERO
+	var vertex_count = 0
+	for face in face_vertices:
+		for vertex in face_vertices[face]:
+			brush_center += vertex
+			vertex_count += 1
+	brush_center /= vertex_count
+
+	var brush_node = QodotBrush.new()
 	brush_node.name = 'Brush0'
 	brush_node.translation = brush_center
 
 	match mode:
 		QodotEnums.MapMode.FACE_AXES:
-			for plane in planes:
-				var face_axes = QodotUtil.add_child_editor(brush_node, QuakePlaneAxes.new())
+			for face in faces:
+				var face_axes = QuakePlaneAxes.new()
 				face_axes.name = 'Plane0'
-				face_axes.translation = (plane.vertices[0] / inverse_scale_factor)
+				face_axes.translation = (face.vertices[0] / inverse_scale_factor) - brush_center
 
 				face_axes.vertex_set = []
-				for vertex in plane.vertices:
-					face_axes.vertex_set.append((vertex - plane.vertices[0]) / inverse_scale_factor)
+				for vertex in face.vertices:
+					face_axes.vertex_set.append(((vertex - face.vertices[0]) / inverse_scale_factor))
+
+				brush_node.add_child(face_axes)
 
 		QodotEnums.MapMode.FACE_VERTICES:
-			for plane_idx in face_vertices:
-				var vertices = sorted_local_face_vertices[plane_idx]
-				var plane_spatial = QodotUtil.add_child_editor(brush_node, QodotSpatial.new())
+			for face_idx in face_vertices:
+				var vertices = sorted_local_face_vertices[face_idx]
+				var plane_spatial = QodotSpatial.new()
 				plane_spatial.name = 'Face0'
-				plane_spatial.translation = face_centers[plane_idx]
+				plane_spatial.translation = face_centers[face_idx] - brush_center
 
 				for vertex in vertices:
-					var vertex_node = QodotUtil.add_child_editor(plane_spatial, Position3D.new())
+					var vertex_node = Position3D.new()
 					vertex_node.name = 'Point0'
-					vertex_node.translation = vertex - plane_spatial.translation
+					vertex_node.translation = vertex - face_centers[face_idx]
+					plane_spatial.add_child(vertex_node)
+
+				brush_node.add_child(plane_spatial)
 
 		QodotEnums.MapMode.BRUSH_MESHES:
 			var classname = null
@@ -207,29 +264,33 @@ func create_brush(parent_entity_node, brush, parent_entity):
 				classname = parent_entity.properties['classname']
 
 			if(brush_mapper.should_spawn_brush_mesh(brush, parent_entity)):
-				for plane_idx in sorted_local_face_vertices:
-					var plane = planes[plane_idx]
-					if(face_mapper.should_spawn_face_mesh(plane, brush, parent_entity)):
-						var vertices = sorted_local_face_vertices[plane_idx]
+				for face_idx in sorted_local_face_vertices:
+					var face = faces[face_idx]
+					var face_center = face_centers[face_idx]
+
+					if(face_mapper.should_spawn_face_mesh(face, brush, parent_entity)):
+						var vertices = sorted_local_face_vertices[face_idx]
 
 						var surface_tool = SurfaceTool.new()
 						surface_tool.begin(Mesh.PRIMITIVE_TRIANGLE_FAN)
 
-						var normal = face_normals[plane_idx]
+						var normal = face_normals[face_idx]
 						surface_tool.add_normal(normal)
 
-						if(plane.uv.size() == 2):
+						if(face.uv.size() == 2):
 							# Standard format tangents
 							surface_tool.add_tangent(get_standard_tangent(normal))
-						elif(plane.uv.size() == 8):
+						elif(face.uv.size() == 8):
 							# Valve format tangents
-							surface_tool.add_tangent(get_valve_tangent(normal, plane.uv))
+							surface_tool.add_tangent(get_valve_tangent(normal))
+						else:
+							print("Error: UV size unknown")
 
 						var texture = null
 						texture_directory.change_dir(base_texture_path)
 
-						if(plane.texture != TEXTURE_EMPTY):
-							var texture_path = base_texture_path + '/' + plane.texture + texture_extension
+						if(face.texture != TEXTURE_EMPTY):
+							var texture_path = base_texture_path + '/' + face.texture + texture_extension
 							if(!texture_path in texture_dict && texture_directory.file_exists(texture_path)):
 								var loaded_texture: Texture = load(texture_path)
 								texture_dict[texture_path] = loaded_texture
@@ -237,7 +298,7 @@ func create_brush(parent_entity_node, brush, parent_entity):
 							if(texture_path in texture_dict):
 								texture = texture_dict[texture_path]
 
-							var material_path = base_texture_path + '/' + plane.texture + material_extension
+							var material_path = base_texture_path + '/' + face.texture + material_extension
 
 							if(!material_path in material_dict && texture_directory.file_exists(material_path)):
 								var loaded_material: SpatialMaterial = load(material_path)
@@ -255,30 +316,30 @@ func create_brush(parent_entity_node, brush, parent_entity):
 
 									spatial_material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, texture)
 
-									var normal_tex = get_pbr_texture(plane.texture, 'normal')
+									var normal_tex = get_pbr_texture(face.texture, 'normal')
 									if(normal_tex):
 										spatial_material.normal_enabled = true
 										spatial_material.set_texture(SpatialMaterial.TEXTURE_NORMAL, normal_tex)
 
-									var metallic_tex = get_pbr_texture(plane.texture, 'metallic')
+									var metallic_tex = get_pbr_texture(face.texture, 'metallic')
 									if(metallic_tex):
 										spatial_material.set_texture(SpatialMaterial.TEXTURE_METALLIC, metallic_tex)
 
-									var roughness_tex = get_pbr_texture(plane.texture, 'roughness')
+									var roughness_tex = get_pbr_texture(face.texture, 'roughness')
 									if(roughness_tex):
 										spatial_material.set_texture(SpatialMaterial.TEXTURE_ROUGHNESS, roughness_tex)
 
-									var emissive_tex = get_pbr_texture(plane.texture, 'emissive')
+									var emissive_tex = get_pbr_texture(face.texture, 'emissive')
 									if(emissive_tex):
 										spatial_material.emission_enabled = true
 										spatial_material.set_texture(SpatialMaterial.TEXTURE_EMISSION, emissive_tex)
 
-									var ao_tex = get_pbr_texture(plane.texture, 'ao')
+									var ao_tex = get_pbr_texture(face.texture, 'ao')
 									if(ao_tex):
 										spatial_material.ao_enabled = true
 										spatial_material.set_texture(SpatialMaterial.TEXTURE_AMBIENT_OCCLUSION, ao_tex)
 
-									var depth_tex = get_pbr_texture(plane.texture, 'depth')
+									var depth_tex = get_pbr_texture(face.texture, 'depth')
 									if(depth_tex):
 										spatial_material.depth_enabled = true
 										spatial_material.set_texture(SpatialMaterial.TEXTURE_DEPTH, depth_tex)
@@ -290,40 +351,43 @@ func create_brush(parent_entity_node, brush, parent_entity):
 						for vertex in vertices:
 							surface_tool.add_index(vertex_idx)
 
-							var global_vertex = vertex + brush_center
+							var global_vertex = vertex
 
 							if(texture != null):
 								var uv = null
 
-								if(plane.uv.size() == 2):
+								if(face.uv.size() == 2):
 									uv = get_standard_uv(
 											global_vertex,
 											normal,
 											texture,
-											plane.uv,
-											plane.rotation,
-											plane.scale
+											face.uv,
+											face.rotation,
+											face.scale
 										)
-								elif(plane.uv.size() == 8):
+								elif(face.uv.size() == 8):
 									uv = get_valve_uv(
 											global_vertex,
 											normal,
 											texture,
-											plane.uv,
-											plane.rotation,
-											plane.scale
+											face.uv,
+											face.rotation,
+											face.scale
 										)
 
 								if(uv != null):
 									surface_tool.add_uv(uv)
+									surface_tool.add_uv2(uv)
 
-							surface_tool.add_vertex(vertex - face_centers[plane_idx])
+							surface_tool.add_vertex(vertex - face_center)
 							vertex_idx += 1
 
-						var face_mesh_node = QodotUtil.add_child_editor(brush_node, MeshInstance.new())
+						var face_mesh_node = MeshInstance.new()
 						face_mesh_node.name = 'Face0'
-						face_mesh_node.translation = face_centers[plane_idx]
+						face_mesh_node.translation = face_center - brush_center
+
 						face_mesh_node.set_mesh(surface_tool.commit())
+						brush_node.add_child(face_mesh_node)
 
 			# Create collision
 			if(brush_mapper.should_spawn_brush_collision(brush, parent_entity)):
@@ -331,25 +395,32 @@ func create_brush(parent_entity_node, brush, parent_entity):
 				for plane_idx in sorted_local_face_vertices:
 					var vertices = sorted_local_face_vertices[plane_idx]
 					for vertex in vertices:
-						if(!collision_vertices.has(vertex)):
-							collision_vertices.append(vertex)
 
-				var brush_collision_object = QodotUtil.add_child_editor(brush_node, brush_mapper.spawn_brush_collision_object(brush, parent_entity))
+						var vertex_present = false
+						for collision_vertex in collision_vertices:
+							if((vertex - collision_vertex).length() < 0.001):
+								vertex_present = true
 
-				var brush_collision_shape = QodotUtil.add_child_editor(brush_collision_object, CollisionShape.new())
+						if(!vertex_present):
+							collision_vertices.append(vertex - brush_center)
+
+				var brush_collision_object = brush_mapper.spawn_brush_collision_object(brush, parent_entity)
+
+
 				var brush_convex_collision = ConvexPolygonShape.new()
 				brush_convex_collision.set_points(collision_vertices)
 
+				var brush_collision_shape = CollisionShape.new()
 				brush_collision_shape.set_shape(brush_convex_collision)
+				brush_collision_object.add_child(brush_collision_shape)
+
+				brush_node.add_child(brush_collision_object)
+
+	parent_entity_node.call_deferred("add_child", brush_node)
 
 # Utility
 func find_face_vertices(brush):
-	var planes = brush.planes
-
-	for plane in planes:
-		plane.vertices[0] -= brush.center
-		plane.vertices[1] -= brush.center
-		plane.vertices[2] -= brush.center
+	var planes = brush.faces
 
 	var vertex_dict = {}
 
@@ -359,24 +430,25 @@ func find_face_vertices(brush):
 		idx += 1
 
 	var idx1 = 0
-	for plane1 in planes:
+	for face1 in planes:
 		var idx2 = 0
-		for plane2 in planes:
+		for face2 in planes:
 			var idx3 = 0
-			for plane3 in planes:
-				var vertex = QuakePlane.intersect_planes(plane1, plane2, plane3)
+			for face3 in planes:
+				var vertex = face1.intersect_faces(face2, face3)
 
-				if(vertex != null && QuakeBrush.vertex_in_hull(planes, vertex)):
-					vertex /= inverse_scale_factor
+				if(vertex != null):
+					if(brush.vertex_in_hull(vertex)):
+						vertex /= inverse_scale_factor
 
-					var vertex_exists = false
+						var vertex_exists = false
 
-					for comp_vertex in vertex_dict[idx1]:
-						if((comp_vertex - vertex).length() < 0.0001):
-							vertex_exists = true
+						for comp_vertex in vertex_dict[idx1]:
+							if((comp_vertex - vertex).length() < 0.0001):
+								vertex_exists= true
 
-					if not vertex_exists:
-						vertex_dict[idx1].append(vertex)
+						if not vertex_exists:
+							vertex_dict[idx1].append(vertex)
 
 				idx3 += 1
 			idx2 += 1
@@ -398,12 +470,12 @@ func find_face_centers(face_vertices):
 
 	return face_centers
 
-func find_face_normals(planes):
+func find_face_normals(faces):
 	var face_normals = {}
 
-	for plane_idx in range(0, planes.size()):
-		var plane = planes[plane_idx]
-		face_normals[plane_idx] = QuakePlane.get_normal(plane)
+	for face_idx in range(0, faces.size()):
+		var face = faces[face_idx]
+		face_normals[face_idx] = face.get_normal()
 
 	return face_normals
 
@@ -421,40 +493,46 @@ func find_local_face_vertices(face_vertices, face_centers):
 
 	return local_face_vertices
 
-var _winding_center = Vector3.ZERO
-var _winding_normal = Vector3.ZERO
-var _winding_basis = Vector3.ZERO
 func sort_local_face_vertices(local_face_vertices, face_centers, face_normals):
 	var sorted_face_vertices = {}
 
 	for face_idx in local_face_vertices:
 		var vertices = local_face_vertices[face_idx]
 
-		_winding_center = face_centers[face_idx]
-		_winding_normal = face_normals[face_idx]
-		_winding_basis = vertices[1] - vertices[0]
-		vertices.sort_custom(self, 'sort_local_face_vertices_internal')
+		var face_center = face_centers[face_idx]
+		var face_normal = face_normals[face_idx]
+		var face_basis = vertices[1] - vertices[0]
 
-		sorted_face_vertices[face_idx] = vertices
+		var pre_sort_vertices = []
+		for vertex in vertices:
+			var face_local_vertex = vertex - face_center
+			var winding_rotation = get_winding_rotation(face_local_vertex, face_normal, face_basis)
+			pre_sort_vertices.append([vertex, winding_rotation])
+
+		pre_sort_vertices.sort_custom(self, 'sort_vertices_by_winding')
+
+		var sorted_vertices = []
+		for sorted_vertex in pre_sort_vertices:
+			sorted_vertices.append(sorted_vertex[0])
+
+		sorted_face_vertices[face_idx] = sorted_vertices
 
 	return sorted_face_vertices
 
-func sort_local_face_vertices_internal(a, b):
-	return get_winding_rotation(a) > get_winding_rotation(b)
+func sort_vertices_by_winding(a, b):
+	return a[1] > b[1]
 
-func get_face_coords(vertex):
-	var local_vertex = vertex - _winding_center
+func get_face_coords(face_local_vertex, face_normal, face_basis):
+	var u = face_basis.normalized()
+	var v = u.cross(face_normal).normalized()
 
-	var u = _winding_basis.normalized()
-	var v = u.cross(_winding_normal).normalized()
-
-	var pu = -local_vertex.dot(u)
-	var pv = local_vertex.dot(v)
+	var pu = -face_local_vertex.dot(u)
+	var pv = face_local_vertex.dot(v)
 
 	return Vector2(pu, pv)
 
-func get_winding_rotation(vertex):
-	var vertex_uv = get_face_coords(vertex)
+func get_winding_rotation(face_local_vertex, face_normal, face_basis):
+	var vertex_uv = get_face_coords(face_local_vertex, face_normal, face_basis)
 	var angle = vertex_uv.angle()
 	return angle
 
@@ -518,7 +596,7 @@ func get_valve_uv(
 func get_standard_tangent(normal: Vector3) -> Plane:
 	return Plane(normal.cross(Vector3.UP).normalized(), 0.0)
 
-func get_valve_tangent(normal, uv: PoolRealArray) -> Plane:
+func get_valve_tangent(normal) -> Plane:
 	return Plane(normal.cross(Vector3.UP).normalized(), 0.0)
 
 # PBR texture fetching

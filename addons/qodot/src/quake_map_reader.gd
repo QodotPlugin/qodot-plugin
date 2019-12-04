@@ -79,15 +79,15 @@ func read_brush(file: File, valve_uvs: bool, bitmask_format: int) -> QuakeBrush:
 		if(line == null):
 			parse = false
 		elif(line_starts_with(line, '(')):
-			brush_planes.append(parse_plane(line, valve_uvs, bitmask_format))
+			brush_planes.append(parse_face(line, valve_uvs, bitmask_format))
 		elif(line_starts_with(line, '}')):
 			QodotUtil.debug_print('End of brush section')
 			parse = false
 
 	return QuakeBrush.new(brush_planes)
 
-func parse_plane(line: String, valve_uvs: bool, bitmask_format: int) -> QuakePlane:
-	QodotUtil.debug_print(['Plane: ', line])
+func parse_face(line: String, valve_uvs: bool, bitmask_format: int) -> QuakeFace:
+	QodotUtil.debug_print(['Face: ', line])
 
 	# Parse vertices
 	var first_open_bracket = line.find(OPEN_BRACKET, 0)
@@ -178,7 +178,7 @@ func parse_plane(line: String, valve_uvs: bool, bitmask_format: int) -> QuakePla
 				color = int(loose_params.pop_front())
 				QodotUtil.debug_print(['Color: ', color])
 
-	return QuakePlane.new(vertices, texture, uv, rotation, scale, surface, content, color, hexen_2_param)
+	return QuakeFace.new(vertices, texture, uv, rotation, scale, surface, content, color, hexen_2_param)
 
 func parse_vertex(vertex_substr: String) -> Vector3:
 	var comps = vertex_substr.split(' ')

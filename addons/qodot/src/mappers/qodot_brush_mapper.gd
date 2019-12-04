@@ -4,8 +4,8 @@ class_name QodotBrushMapper
 static func should_spawn_brush_mesh(brush: QuakeBrush, parent_entity: QuakeEntity) -> bool:
 	# Don't spawn collision if the brush is textured entirely with CLIP
 	var is_clip = true
-	for plane in brush.planes:
-		if(plane.texture.find('clip') == -1):
+	for face in brush.faces:
+		if(face.texture.find('clip') == -1):
 			is_clip = false
 
 	if(is_clip):
