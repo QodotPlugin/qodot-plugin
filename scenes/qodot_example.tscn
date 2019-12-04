@@ -2213,7 +2213,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.84406, 7.62939e-006, -0.948
 script = ExtResource( 1 )
 map_format = 1
 map_file = "res://scenes/qodot_example.map"
-last_md5 = "6d8f330fc3760dc8eae76013ff6c8ac8"
 
 [node name="worldspawn" type="Spatial" parent="QodotExample"]
 script = ExtResource( 2 )

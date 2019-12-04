@@ -55,9 +55,6 @@ func set_reload(new_reload):
 	if(reload != new_reload):
 		update_map()
 
-func set_status(new_status):
-	pass
-
 func set_mode(new_mode):
 	if(mode != new_mode):
 		mode = new_mode
