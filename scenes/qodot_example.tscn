@@ -2124,10 +2124,8 @@ points = PoolVector3Array( -2, 0.666667, 0.333333, -2, -0.333333, -0.666667, 2, 
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 0.672458, -0.530207, 0.516412, 0, 0.697726, 0.716365, -0.740136, -0.481725, 0.469191, 26.9858, 19.8478, 13.808 )
-visible = false
 
 [node name="Lighting" type="Spatial" parent="."]
-visible = false
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Lighting"]
 environment = SubResource( 1 )
@@ -2154,7 +2152,6 @@ spot_angle = 18.0385
 
 [node name="ReflectionProbes" type="Spatial" parent="Lighting"]
 editor/display_folded = true
-visible = false
 
 [node name="ReflectionProbe" type="ReflectionProbe" parent="Lighting/ReflectionProbes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.9318, 4.55063, -10.453 )
@@ -2170,7 +2167,6 @@ extents = Vector3( 8.54382, 11.2203, 23.6679 )
 
 [node name="PhysicsBalls" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 5, 0 )
-visible = false
 
 [node name="RigidBody" type="RigidBody" parent="PhysicsBalls"]
 editor/display_folded = true
@@ -2212,14 +2208,14 @@ radius = 0.4
 [node name="CollisionShape" type="CollisionShape" parent="PhysicsBalls/RigidBody4"]
 shape = SubResource( 2 )
 
-[node name="the Slipgate Complex" type="Spatial" parent="."]
+[node name="QodotExample" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.84406, 7.62939e-006, -0.948532 )
 script = ExtResource( 1 )
 map_format = 1
 map_file = "res://scenes/qodot_example.map"
 last_md5 = "6d8f330fc3760dc8eae76013ff6c8ac8"
 
-[node name="worldspawn" type="Spatial" parent="the Slipgate Complex"]
+[node name="worldspawn" type="Spatial" parent="QodotExample"]
 script = ExtResource( 2 )
 properties = {
 "_tb_def": "builtin:Qodot.fgd",
@@ -2228,95 +2224,95 @@ properties = {
 "mapversion": "220"
 }
 
-[node name="Brush0" type="Spatial" parent="the Slipgate Complex/worldspawn"]
+[node name="Brush0" type="Spatial" parent="QodotExample/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 0, -10.5 )
 script = ExtResource( 3 )
 
-[node name="Face0" type="MeshInstance" parent="the Slipgate Complex/worldspawn/Brush0"]
+[node name="Face0" type="MeshInstance" parent="QodotExample/worldspawn/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -14.5 )
 mesh = SubResource( 70 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="the Slipgate Complex/worldspawn/Brush0"]
+[node name="Face1" type="MeshInstance" parent="QodotExample/worldspawn/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 0, 0 )
 mesh = SubResource( 71 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="the Slipgate Complex/worldspawn/Brush0"]
+[node name="Face2" type="MeshInstance" parent="QodotExample/worldspawn/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 mesh = SubResource( 72 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="the Slipgate Complex/worldspawn/Brush0"]
+[node name="Face3" type="MeshInstance" parent="QodotExample/worldspawn/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0, 0 )
 mesh = SubResource( 73 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="the Slipgate Complex/worldspawn/Brush0"]
+[node name="Face4" type="MeshInstance" parent="QodotExample/worldspawn/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 14.5 )
 mesh = SubResource( 74 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/worldspawn/Brush0"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/worldspawn/Brush0"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/worldspawn/Brush0/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/worldspawn/Brush0/StaticBody"]
 shape = SubResource( 75 )
 
-[node name="Brush1" type="Spatial" parent="the Slipgate Complex/worldspawn"]
+[node name="Brush1" type="Spatial" parent="QodotExample/worldspawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 3.5, -21 )
 script = ExtResource( 3 )
 
-[node name="Face0" type="MeshInstance" parent="the Slipgate Complex/worldspawn/Brush1"]
+[node name="Face0" type="MeshInstance" parent="QodotExample/worldspawn/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
 mesh = SubResource( 76 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="the Slipgate Complex/worldspawn/Brush1"]
+[node name="Face1" type="MeshInstance" parent="QodotExample/worldspawn/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, -1.5 )
 mesh = SubResource( 77 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="the Slipgate Complex/worldspawn/Brush1"]
+[node name="Face2" type="MeshInstance" parent="QodotExample/worldspawn/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, -1.5 )
 mesh = SubResource( 78 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="the Slipgate Complex/worldspawn/Brush1"]
+[node name="Face3" type="MeshInstance" parent="QodotExample/worldspawn/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0 )
 mesh = SubResource( 79 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="the Slipgate Complex/worldspawn/Brush1"]
+[node name="Face4" type="MeshInstance" parent="QodotExample/worldspawn/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0 )
 mesh = SubResource( 80 )
 material/0 = null
 
-[node name="Face5" type="MeshInstance" parent="the Slipgate Complex/worldspawn/Brush1"]
+[node name="Face5" type="MeshInstance" parent="QodotExample/worldspawn/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
 mesh = SubResource( 81 )
 material/0 = null
 
-[node name="Face6" type="MeshInstance" parent="the Slipgate Complex/worldspawn/Brush1"]
+[node name="Face6" type="MeshInstance" parent="QodotExample/worldspawn/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, 1.5 )
 mesh = SubResource( 82 )
 material/0 = null
 
-[node name="Face7" type="MeshInstance" parent="the Slipgate Complex/worldspawn/Brush1"]
+[node name="Face7" type="MeshInstance" parent="QodotExample/worldspawn/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 1.5 )
 mesh = SubResource( 83 )
 material/0 = null
 
-[node name="Face8" type="MeshInstance" parent="the Slipgate Complex/worldspawn/Brush1"]
+[node name="Face8" type="MeshInstance" parent="QodotExample/worldspawn/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.90735e-006, 0, 2 )
 mesh = SubResource( 84 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/worldspawn/Brush1"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/worldspawn/Brush1"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/worldspawn/Brush1/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/worldspawn/Brush1/StaticBody"]
 shape = SubResource( 85 )
 
-[node name="func_group" type="Spatial" parent="the Slipgate Complex"]
+[node name="func_group" type="Spatial" parent="QodotExample"]
 script = ExtResource( 2 )
 properties = {
 "_tb_id": "9",
@@ -2325,277 +2321,277 @@ properties = {
 "classname": "func_group"
 }
 
-[node name="Position3D" type="Position3D" parent="the Slipgate Complex/func_group"]
+[node name="Position3D" type="Position3D" parent="QodotExample/func_group"]
 
-[node name="Brush0" type="Spatial" parent="the Slipgate Complex/func_group"]
+[node name="Brush0" type="Spatial" parent="QodotExample/func_group"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.5, 2.5, -11 )
 script = ExtResource( 3 )
 
-[node name="Face0" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush0"]
+[node name="Face0" type="MeshInstance" parent="QodotExample/func_group/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8147e-006, 0, -3 )
 mesh = SubResource( 86 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush0"]
+[node name="Face1" type="MeshInstance" parent="QodotExample/func_group/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.00001, 0, 0 )
 mesh = SubResource( 87 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush0"]
+[node name="Face2" type="MeshInstance" parent="QodotExample/func_group/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.499996, -1.5, 0 )
 mesh = SubResource( 88 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush0"]
+[node name="Face3" type="MeshInstance" parent="QodotExample/func_group/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.499989, 1.5, 0 )
 mesh = SubResource( 89 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush0"]
+[node name="Face4" type="MeshInstance" parent="QodotExample/func_group/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.00002, 0, 0 )
 mesh = SubResource( 90 )
 material/0 = null
 
-[node name="Face5" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush0"]
+[node name="Face5" type="MeshInstance" parent="QodotExample/func_group/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8147e-006, 0, 3 )
 mesh = SubResource( 91 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group/Brush0"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group/Brush0"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group/Brush0/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group/Brush0/StaticBody"]
 shape = SubResource( 92 )
 
-[node name="Brush1" type="Spatial" parent="the Slipgate Complex/func_group"]
+[node name="Brush1" type="Spatial" parent="QodotExample/func_group"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 5.5, -11 )
 script = ExtResource( 3 )
 
-[node name="Face0" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush1"]
+[node name="Face0" type="MeshInstance" parent="QodotExample/func_group/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90735e-006, 0, -3 )
 mesh = SubResource( 93 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush1"]
+[node name="Face1" type="MeshInstance" parent="QodotExample/func_group/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.99994, 0, 0 )
 mesh = SubResource( 94 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush1"]
+[node name="Face2" type="MeshInstance" parent="QodotExample/func_group/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.00001, -1.5, 0 )
 mesh = SubResource( 95 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush1"]
+[node name="Face3" type="MeshInstance" parent="QodotExample/func_group/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.00001, 1.5, 0 )
 mesh = SubResource( 96 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush1"]
+[node name="Face4" type="MeshInstance" parent="QodotExample/func_group/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.99994, 0, 0 )
 mesh = SubResource( 97 )
 material/0 = null
 
-[node name="Face5" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush1"]
+[node name="Face5" type="MeshInstance" parent="QodotExample/func_group/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90735e-006, 0, 3 )
 mesh = SubResource( 98 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group/Brush1"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group/Brush1"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group/Brush1/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group/Brush1/StaticBody"]
 shape = SubResource( 99 )
 
-[node name="Brush2" type="Spatial" parent="the Slipgate Complex/func_group"]
+[node name="Brush2" type="Spatial" parent="QodotExample/func_group"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17.5, 8, -11 )
 script = ExtResource( 3 )
 
-[node name="Face0" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush2"]
+[node name="Face0" type="MeshInstance" parent="QodotExample/func_group/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3 )
 mesh = SubResource( 100 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush2"]
+[node name="Face1" type="MeshInstance" parent="QodotExample/func_group/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0 )
 mesh = SubResource( 101 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush2"]
+[node name="Face2" type="MeshInstance" parent="QodotExample/func_group/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, -1, 0 )
 mesh = SubResource( 102 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush2"]
+[node name="Face3" type="MeshInstance" parent="QodotExample/func_group/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 1, 0 )
 mesh = SubResource( 103 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush2"]
+[node name="Face4" type="MeshInstance" parent="QodotExample/func_group/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
 mesh = SubResource( 104 )
 material/0 = null
 
-[node name="Face5" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush2"]
+[node name="Face5" type="MeshInstance" parent="QodotExample/func_group/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3 )
 mesh = SubResource( 105 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group/Brush2"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group/Brush2"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group/Brush2/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group/Brush2/StaticBody"]
 shape = SubResource( 106 )
 
-[node name="Brush3" type="Spatial" parent="the Slipgate Complex/func_group"]
+[node name="Brush3" type="Spatial" parent="QodotExample/func_group"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 9.66667, -11 )
 script = ExtResource( 3 )
 
-[node name="Face0" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush3"]
+[node name="Face0" type="MeshInstance" parent="QodotExample/func_group/Brush3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3 )
 mesh = SubResource( 107 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush3"]
+[node name="Face1" type="MeshInstance" parent="QodotExample/func_group/Brush3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.25, 0.333333, 0 )
 mesh = SubResource( 108 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush3"]
+[node name="Face2" type="MeshInstance" parent="QodotExample/func_group/Brush3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.666667, 0 )
 mesh = SubResource( 109 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush3"]
+[node name="Face3" type="MeshInstance" parent="QodotExample/func_group/Brush3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.25, 0.333333, 0 )
 mesh = SubResource( 110 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush3"]
+[node name="Face4" type="MeshInstance" parent="QodotExample/func_group/Brush3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3 )
 mesh = SubResource( 111 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group/Brush3"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group/Brush3"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group/Brush3/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group/Brush3/StaticBody"]
 shape = SubResource( 112 )
 
-[node name="Brush4" type="Spatial" parent="the Slipgate Complex/func_group"]
+[node name="Brush4" type="Spatial" parent="QodotExample/func_group"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 8, -11 )
 script = ExtResource( 3 )
 
-[node name="Face0" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush4"]
+[node name="Face0" type="MeshInstance" parent="QodotExample/func_group/Brush4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3 )
 mesh = SubResource( 113 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush4"]
+[node name="Face1" type="MeshInstance" parent="QodotExample/func_group/Brush4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0 )
 mesh = SubResource( 114 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush4"]
+[node name="Face2" type="MeshInstance" parent="QodotExample/func_group/Brush4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -1, 0 )
 mesh = SubResource( 115 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush4"]
+[node name="Face3" type="MeshInstance" parent="QodotExample/func_group/Brush4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1, 0 )
 mesh = SubResource( 116 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush4"]
+[node name="Face4" type="MeshInstance" parent="QodotExample/func_group/Brush4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
 mesh = SubResource( 117 )
 material/0 = null
 
-[node name="Face5" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush4"]
+[node name="Face5" type="MeshInstance" parent="QodotExample/func_group/Brush4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3 )
 mesh = SubResource( 118 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group/Brush4"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group/Brush4"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group/Brush4/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group/Brush4/StaticBody"]
 shape = SubResource( 119 )
 
-[node name="Brush5" type="Spatial" parent="the Slipgate Complex/func_group"]
+[node name="Brush5" type="Spatial" parent="QodotExample/func_group"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.99999, 5.5, -11 )
 script = ExtResource( 3 )
 
-[node name="Face0" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush5"]
+[node name="Face0" type="MeshInstance" parent="QodotExample/func_group/Brush5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.53674e-007, 0, -3 )
 mesh = SubResource( 120 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush5"]
+[node name="Face1" type="MeshInstance" parent="QodotExample/func_group/Brush5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0 )
 mesh = SubResource( 121 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush5"]
+[node name="Face2" type="MeshInstance" parent="QodotExample/func_group/Brush5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.999996, -1.5, 0 )
 mesh = SubResource( 122 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush5"]
+[node name="Face3" type="MeshInstance" parent="QodotExample/func_group/Brush5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.999997, 1.5, 0 )
 mesh = SubResource( 123 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush5"]
+[node name="Face4" type="MeshInstance" parent="QodotExample/func_group/Brush5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
 mesh = SubResource( 124 )
 material/0 = null
 
-[node name="Face5" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush5"]
+[node name="Face5" type="MeshInstance" parent="QodotExample/func_group/Brush5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.53674e-007, 0, 3 )
 mesh = SubResource( 125 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group/Brush5"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group/Brush5"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group/Brush5/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group/Brush5/StaticBody"]
 shape = SubResource( 126 )
 
-[node name="Brush6" type="Spatial" parent="the Slipgate Complex/func_group"]
+[node name="Brush6" type="Spatial" parent="QodotExample/func_group"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 2.5, -11 )
 script = ExtResource( 3 )
 
-[node name="Face0" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush6"]
+[node name="Face0" type="MeshInstance" parent="QodotExample/func_group/Brush6"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3 )
 mesh = SubResource( 127 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush6"]
+[node name="Face1" type="MeshInstance" parent="QodotExample/func_group/Brush6"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0 )
 mesh = SubResource( 128 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush6"]
+[node name="Face2" type="MeshInstance" parent="QodotExample/func_group/Brush6"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.500004, -1.5, 0 )
 mesh = SubResource( 129 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush6"]
+[node name="Face3" type="MeshInstance" parent="QodotExample/func_group/Brush6"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.500004, 1.5, 0 )
 mesh = SubResource( 130 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush6"]
+[node name="Face4" type="MeshInstance" parent="QodotExample/func_group/Brush6"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
 mesh = SubResource( 131 )
 material/0 = null
 
-[node name="Face5" type="MeshInstance" parent="the Slipgate Complex/func_group/Brush6"]
+[node name="Face5" type="MeshInstance" parent="QodotExample/func_group/Brush6"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3 )
 mesh = SubResource( 132 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group/Brush6"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group/Brush6"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group/Brush6/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group/Brush6/StaticBody"]
 shape = SubResource( 133 )
 
-[node name="func_group2" type="Spatial" parent="the Slipgate Complex"]
+[node name="func_group2" type="Spatial" parent="QodotExample"]
 script = ExtResource( 2 )
 properties = {
 "_tb_id": "10",
@@ -2604,335 +2600,335 @@ properties = {
 "classname": "func_group"
 }
 
-[node name="Position3D" type="Position3D" parent="the Slipgate Complex/func_group2"]
+[node name="Position3D" type="Position3D" parent="QodotExample/func_group2"]
 
-[node name="Brush0" type="Spatial" parent="the Slipgate Complex/func_group2"]
+[node name="Brush0" type="Spatial" parent="QodotExample/func_group2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 2.5, -24.5 )
 script = ExtResource( 3 )
 
-[node name="Face0" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush0"]
+[node name="Face0" type="MeshInstance" parent="QodotExample/func_group2/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
 mesh = SubResource( 134 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush0"]
+[node name="Face1" type="MeshInstance" parent="QodotExample/func_group2/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0 )
 mesh = SubResource( 135 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush0"]
+[node name="Face2" type="MeshInstance" parent="QodotExample/func_group2/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
 mesh = SubResource( 136 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush0"]
+[node name="Face3" type="MeshInstance" parent="QodotExample/func_group2/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0 )
 mesh = SubResource( 137 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush0"]
+[node name="Face4" type="MeshInstance" parent="QodotExample/func_group2/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5 )
 mesh = SubResource( 138 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group2/Brush0"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group2/Brush0"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group2/Brush0/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group2/Brush0/StaticBody"]
 shape = SubResource( 139 )
 
-[node name="Brush1" type="Spatial" parent="the Slipgate Complex/func_group2"]
+[node name="Brush1" type="Spatial" parent="QodotExample/func_group2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 3.5, -24.5 )
 script = ExtResource( 3 )
 
-[node name="Face0" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush1"]
+[node name="Face0" type="MeshInstance" parent="QodotExample/func_group2/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
 mesh = SubResource( 140 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush1"]
+[node name="Face1" type="MeshInstance" parent="QodotExample/func_group2/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, 0, 0 )
 mesh = SubResource( 141 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush1"]
+[node name="Face2" type="MeshInstance" parent="QodotExample/func_group2/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
 mesh = SubResource( 142 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush1"]
+[node name="Face3" type="MeshInstance" parent="QodotExample/func_group2/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
 mesh = SubResource( 143 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush1"]
+[node name="Face4" type="MeshInstance" parent="QodotExample/func_group2/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15.5, 0, 0 )
 mesh = SubResource( 144 )
 material/0 = null
 
-[node name="Face5" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush1"]
+[node name="Face5" type="MeshInstance" parent="QodotExample/func_group2/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5 )
 mesh = SubResource( 145 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group2/Brush1"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group2/Brush1"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group2/Brush1/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group2/Brush1/StaticBody"]
 shape = SubResource( 146 )
 
-[node name="Brush2" type="Spatial" parent="the Slipgate Complex/func_group2"]
+[node name="Brush2" type="Spatial" parent="QodotExample/func_group2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 3.5, -10.5 )
 script = ExtResource( 3 )
 
-[node name="Face0" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush2"]
+[node name="Face0" type="MeshInstance" parent="QodotExample/func_group2/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -13.5 )
 mesh = SubResource( 147 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush2"]
+[node name="Face1" type="MeshInstance" parent="QodotExample/func_group2/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0 )
 mesh = SubResource( 148 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush2"]
+[node name="Face2" type="MeshInstance" parent="QodotExample/func_group2/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
 mesh = SubResource( 149 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush2"]
+[node name="Face3" type="MeshInstance" parent="QodotExample/func_group2/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
 mesh = SubResource( 150 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush2"]
+[node name="Face4" type="MeshInstance" parent="QodotExample/func_group2/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0 )
 mesh = SubResource( 151 )
 material/0 = null
 
-[node name="Face5" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush2"]
+[node name="Face5" type="MeshInstance" parent="QodotExample/func_group2/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 13.5 )
 mesh = SubResource( 152 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group2/Brush2"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group2/Brush2"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group2/Brush2/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group2/Brush2/StaticBody"]
 shape = SubResource( 153 )
 
-[node name="Brush3" type="Spatial" parent="the Slipgate Complex/func_group2"]
+[node name="Brush3" type="Spatial" parent="QodotExample/func_group2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 2.5, 3.5 )
 script = ExtResource( 3 )
 
-[node name="Face0" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush3"]
+[node name="Face0" type="MeshInstance" parent="QodotExample/func_group2/Brush3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
 mesh = SubResource( 154 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush3"]
+[node name="Face1" type="MeshInstance" parent="QodotExample/func_group2/Brush3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0 )
 mesh = SubResource( 155 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush3"]
+[node name="Face2" type="MeshInstance" parent="QodotExample/func_group2/Brush3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
 mesh = SubResource( 156 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush3"]
+[node name="Face3" type="MeshInstance" parent="QodotExample/func_group2/Brush3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0 )
 mesh = SubResource( 157 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush3"]
+[node name="Face4" type="MeshInstance" parent="QodotExample/func_group2/Brush3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5 )
 mesh = SubResource( 158 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group2/Brush3"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group2/Brush3"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group2/Brush3/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group2/Brush3/StaticBody"]
 shape = SubResource( 159 )
 
-[node name="Brush4" type="Spatial" parent="the Slipgate Complex/func_group2"]
+[node name="Brush4" type="Spatial" parent="QodotExample/func_group2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 2.5, -24.5 )
 script = ExtResource( 3 )
 
-[node name="Face0" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush4"]
+[node name="Face0" type="MeshInstance" parent="QodotExample/func_group2/Brush4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
 mesh = SubResource( 160 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush4"]
+[node name="Face1" type="MeshInstance" parent="QodotExample/func_group2/Brush4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0 )
 mesh = SubResource( 161 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush4"]
+[node name="Face2" type="MeshInstance" parent="QodotExample/func_group2/Brush4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
 mesh = SubResource( 162 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush4"]
+[node name="Face3" type="MeshInstance" parent="QodotExample/func_group2/Brush4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0 )
 mesh = SubResource( 163 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush4"]
+[node name="Face4" type="MeshInstance" parent="QodotExample/func_group2/Brush4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5 )
 mesh = SubResource( 164 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group2/Brush4"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group2/Brush4"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group2/Brush4/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group2/Brush4/StaticBody"]
 shape = SubResource( 165 )
 
-[node name="Brush5" type="Spatial" parent="the Slipgate Complex/func_group2"]
+[node name="Brush5" type="Spatial" parent="QodotExample/func_group2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 3.5, -10.5 )
 script = ExtResource( 3 )
 
-[node name="Face0" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush5"]
+[node name="Face0" type="MeshInstance" parent="QodotExample/func_group2/Brush5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -13.5 )
 mesh = SubResource( 166 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush5"]
+[node name="Face1" type="MeshInstance" parent="QodotExample/func_group2/Brush5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0 )
 mesh = SubResource( 167 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush5"]
+[node name="Face2" type="MeshInstance" parent="QodotExample/func_group2/Brush5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
 mesh = SubResource( 168 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush5"]
+[node name="Face3" type="MeshInstance" parent="QodotExample/func_group2/Brush5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
 mesh = SubResource( 169 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush5"]
+[node name="Face4" type="MeshInstance" parent="QodotExample/func_group2/Brush5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0 )
 mesh = SubResource( 170 )
 material/0 = null
 
-[node name="Face5" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush5"]
+[node name="Face5" type="MeshInstance" parent="QodotExample/func_group2/Brush5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 13.5 )
 mesh = SubResource( 171 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group2/Brush5"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group2/Brush5"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group2/Brush5/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group2/Brush5/StaticBody"]
 shape = SubResource( 172 )
 
-[node name="Brush6" type="Spatial" parent="the Slipgate Complex/func_group2"]
+[node name="Brush6" type="Spatial" parent="QodotExample/func_group2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 2.5, 3.5 )
 script = ExtResource( 3 )
 
-[node name="Face0" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush6"]
+[node name="Face0" type="MeshInstance" parent="QodotExample/func_group2/Brush6"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
 mesh = SubResource( 173 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush6"]
+[node name="Face1" type="MeshInstance" parent="QodotExample/func_group2/Brush6"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0 )
 mesh = SubResource( 174 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush6"]
+[node name="Face2" type="MeshInstance" parent="QodotExample/func_group2/Brush6"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
 mesh = SubResource( 175 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush6"]
+[node name="Face3" type="MeshInstance" parent="QodotExample/func_group2/Brush6"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0 )
 mesh = SubResource( 176 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush6"]
+[node name="Face4" type="MeshInstance" parent="QodotExample/func_group2/Brush6"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5 )
 mesh = SubResource( 177 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group2/Brush6"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group2/Brush6"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group2/Brush6/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group2/Brush6/StaticBody"]
 shape = SubResource( 178 )
 
-[node name="Brush7" type="Spatial" parent="the Slipgate Complex/func_group2"]
+[node name="Brush7" type="Spatial" parent="QodotExample/func_group2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 3.5, 3.5 )
 script = ExtResource( 3 )
 
-[node name="Face0" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush7"]
+[node name="Face0" type="MeshInstance" parent="QodotExample/func_group2/Brush7"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
 mesh = SubResource( 179 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush7"]
+[node name="Face1" type="MeshInstance" parent="QodotExample/func_group2/Brush7"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 0 )
 mesh = SubResource( 180 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush7"]
+[node name="Face2" type="MeshInstance" parent="QodotExample/func_group2/Brush7"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
 mesh = SubResource( 181 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush7"]
+[node name="Face3" type="MeshInstance" parent="QodotExample/func_group2/Brush7"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
 mesh = SubResource( 182 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush7"]
+[node name="Face4" type="MeshInstance" parent="QodotExample/func_group2/Brush7"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 0 )
 mesh = SubResource( 183 )
 material/0 = null
 
-[node name="Face5" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush7"]
+[node name="Face5" type="MeshInstance" parent="QodotExample/func_group2/Brush7"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5 )
 mesh = SubResource( 184 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group2/Brush7"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group2/Brush7"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group2/Brush7/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group2/Brush7/StaticBody"]
 shape = SubResource( 185 )
 
-[node name="Brush8" type="Spatial" parent="the Slipgate Complex/func_group2"]
+[node name="Brush8" type="Spatial" parent="QodotExample/func_group2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 2.5, 3.5 )
 script = ExtResource( 3 )
 
-[node name="Face0" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush8"]
+[node name="Face0" type="MeshInstance" parent="QodotExample/func_group2/Brush8"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
 mesh = SubResource( 186 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush8"]
+[node name="Face1" type="MeshInstance" parent="QodotExample/func_group2/Brush8"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0 )
 mesh = SubResource( 187 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush8"]
+[node name="Face2" type="MeshInstance" parent="QodotExample/func_group2/Brush8"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
 mesh = SubResource( 188 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush8"]
+[node name="Face3" type="MeshInstance" parent="QodotExample/func_group2/Brush8"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0 )
 mesh = SubResource( 189 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="the Slipgate Complex/func_group2/Brush8"]
+[node name="Face4" type="MeshInstance" parent="QodotExample/func_group2/Brush8"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5 )
 mesh = SubResource( 190 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group2/Brush8"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group2/Brush8"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group2/Brush8/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group2/Brush8/StaticBody"]
 shape = SubResource( 191 )
 
-[node name="func_group3" type="Spatial" parent="the Slipgate Complex"]
+[node name="func_group3" type="Spatial" parent="QodotExample"]
 script = ExtResource( 2 )
 properties = {
 "_tb_id": "11",
@@ -2941,166 +2937,166 @@ properties = {
 "classname": "func_group"
 }
 
-[node name="Position3D" type="Position3D" parent="the Slipgate Complex/func_group3"]
+[node name="Position3D" type="Position3D" parent="QodotExample/func_group3"]
 
-[node name="Brush0" type="Spatial" parent="the Slipgate Complex/func_group3"]
+[node name="Brush0" type="Spatial" parent="QodotExample/func_group3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 3.26, -17.98 )
 script = ExtResource( 3 )
 
-[node name="Face0" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush0"]
+[node name="Face0" type="MeshInstance" parent="QodotExample/func_group3/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.13249e-006, -0.26, -1.02 )
 mesh = SubResource( 192 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush0"]
+[node name="Face1" type="MeshInstance" parent="QodotExample/func_group3/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -0.51, -0.52 )
 mesh = SubResource( 193 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush0"]
+[node name="Face2" type="MeshInstance" parent="QodotExample/func_group3/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, -0.51, -0.52 )
 mesh = SubResource( 194 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush0"]
+[node name="Face3" type="MeshInstance" parent="QodotExample/func_group3/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.375, 1.365, -0.145 )
 mesh = SubResource( 195 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush0"]
+[node name="Face4" type="MeshInstance" parent="QodotExample/func_group3/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19209e-007, 1.74, -0.52 )
 mesh = SubResource( 196 )
 material/0 = null
 
-[node name="Face5" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush0"]
+[node name="Face5" type="MeshInstance" parent="QodotExample/func_group3/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.375, 1.365, -0.145 )
 mesh = SubResource( 197 )
 material/0 = null
 
-[node name="Face6" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush0"]
+[node name="Face6" type="MeshInstance" parent="QodotExample/func_group3/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -0.36, 0.48 )
 mesh = SubResource( 198 )
 material/0 = null
 
-[node name="Face7" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush0"]
+[node name="Face7" type="MeshInstance" parent="QodotExample/func_group3/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.98023e-007, 1.24, 0.48 )
 mesh = SubResource( 199 )
 material/0 = null
 
-[node name="Face8" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush0"]
+[node name="Face8" type="MeshInstance" parent="QodotExample/func_group3/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, -0.36, 0.48 )
 mesh = SubResource( 200 )
 material/0 = null
 
-[node name="Face9" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush0"]
+[node name="Face9" type="MeshInstance" parent="QodotExample/func_group3/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.78814e-007, -0.76, 0.98 )
 mesh = SubResource( 201 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group3/Brush0"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group3/Brush0"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group3/Brush0/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group3/Brush0/StaticBody"]
 shape = SubResource( 202 )
 
-[node name="Brush1" type="Spatial" parent="the Slipgate Complex/func_group3"]
+[node name="Brush1" type="Spatial" parent="QodotExample/func_group3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 3, -20 )
 script = ExtResource( 3 )
 
-[node name="Face0" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush1"]
+[node name="Face0" type="MeshInstance" parent="QodotExample/func_group3/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1 )
 mesh = SubResource( 203 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush1"]
+[node name="Face1" type="MeshInstance" parent="QodotExample/func_group3/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0 )
 mesh = SubResource( 204 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush1"]
+[node name="Face2" type="MeshInstance" parent="QodotExample/func_group3/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
 mesh = SubResource( 205 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush1"]
+[node name="Face3" type="MeshInstance" parent="QodotExample/func_group3/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 mesh = SubResource( 206 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush1"]
+[node name="Face4" type="MeshInstance" parent="QodotExample/func_group3/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0 )
 mesh = SubResource( 207 )
 material/0 = null
 
-[node name="Face5" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush1"]
+[node name="Face5" type="MeshInstance" parent="QodotExample/func_group3/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 )
 mesh = SubResource( 208 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group3/Brush1"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group3/Brush1"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group3/Brush1/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group3/Brush1/StaticBody"]
 shape = SubResource( 209 )
 
-[node name="Brush2" type="Spatial" parent="the Slipgate Complex/func_group3"]
+[node name="Brush2" type="Spatial" parent="QodotExample/func_group3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 3.26, -22.02 )
 script = ExtResource( 3 )
 
-[node name="Face0" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush2"]
+[node name="Face0" type="MeshInstance" parent="QodotExample/func_group3/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.78814e-007, -0.76, -0.98 )
 mesh = SubResource( 210 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush2"]
+[node name="Face1" type="MeshInstance" parent="QodotExample/func_group3/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -0.36, -0.48 )
 mesh = SubResource( 211 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush2"]
+[node name="Face2" type="MeshInstance" parent="QodotExample/func_group3/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19209e-007, 1.24, -0.48 )
 mesh = SubResource( 212 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush2"]
+[node name="Face3" type="MeshInstance" parent="QodotExample/func_group3/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, -0.36, -0.48 )
 mesh = SubResource( 213 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush2"]
+[node name="Face4" type="MeshInstance" parent="QodotExample/func_group3/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.375, 1.365, 0.145 )
 mesh = SubResource( 214 )
 material/0 = null
 
-[node name="Face5" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush2"]
+[node name="Face5" type="MeshInstance" parent="QodotExample/func_group3/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.74, 0.52 )
 mesh = SubResource( 215 )
 material/0 = null
 
-[node name="Face6" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush2"]
+[node name="Face6" type="MeshInstance" parent="QodotExample/func_group3/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.375, 1.365, 0.145 )
 mesh = SubResource( 216 )
 material/0 = null
 
-[node name="Face7" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush2"]
+[node name="Face7" type="MeshInstance" parent="QodotExample/func_group3/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, -0.51, 0.52 )
 mesh = SubResource( 217 )
 material/0 = null
 
-[node name="Face8" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush2"]
+[node name="Face8" type="MeshInstance" parent="QodotExample/func_group3/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, -0.51, 0.52 )
 mesh = SubResource( 218 )
 material/0 = null
 
-[node name="Face9" type="MeshInstance" parent="the Slipgate Complex/func_group3/Brush2"]
+[node name="Face9" type="MeshInstance" parent="QodotExample/func_group3/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.19209e-007, -0.26, 1.02 )
 mesh = SubResource( 219 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group3/Brush2"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group3/Brush2"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group3/Brush2/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group3/Brush2/StaticBody"]
 shape = SubResource( 220 )
 
-[node name="func_group4" type="Spatial" parent="the Slipgate Complex"]
+[node name="func_group4" type="Spatial" parent="QodotExample"]
 script = ExtResource( 2 )
 properties = {
 "_tb_id": "12",
@@ -3109,45 +3105,45 @@ properties = {
 "classname": "func_group"
 }
 
-[node name="Position3D" type="Position3D" parent="the Slipgate Complex/func_group4"]
+[node name="Position3D" type="Position3D" parent="QodotExample/func_group4"]
 
-[node name="Brush0" type="Spatial" parent="the Slipgate Complex/func_group4"]
+[node name="Brush0" type="Spatial" parent="QodotExample/func_group4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 12, 3.5 )
 script = ExtResource( 3 )
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group4/Brush0"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group4/Brush0"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group4/Brush0/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group4/Brush0/StaticBody"]
 shape = SubResource( 221 )
 
-[node name="Brush1" type="Spatial" parent="the Slipgate Complex/func_group4"]
+[node name="Brush1" type="Spatial" parent="QodotExample/func_group4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 12, -10.5 )
 script = ExtResource( 3 )
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group4/Brush1"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group4/Brush1"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group4/Brush1/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group4/Brush1/StaticBody"]
 shape = SubResource( 222 )
 
-[node name="Brush2" type="Spatial" parent="the Slipgate Complex/func_group4"]
+[node name="Brush2" type="Spatial" parent="QodotExample/func_group4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 12, -24.5 )
 script = ExtResource( 3 )
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group4/Brush2"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group4/Brush2"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group4/Brush2/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group4/Brush2/StaticBody"]
 shape = SubResource( 223 )
 
-[node name="Brush3" type="Spatial" parent="the Slipgate Complex/func_group4"]
+[node name="Brush3" type="Spatial" parent="QodotExample/func_group4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 12, -10 )
 script = ExtResource( 3 )
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group4/Brush3"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group4/Brush3"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group4/Brush3/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group4/Brush3/StaticBody"]
 shape = SubResource( 224 )
 
-[node name="func_group5" type="Spatial" parent="the Slipgate Complex"]
+[node name="func_group5" type="Spatial" parent="QodotExample"]
 script = ExtResource( 2 )
 properties = {
 "_tb_id": "13",
@@ -3156,101 +3152,101 @@ properties = {
 "classname": "func_group"
 }
 
-[node name="Position3D" type="Position3D" parent="the Slipgate Complex/func_group5"]
+[node name="Position3D" type="Position3D" parent="QodotExample/func_group5"]
 
-[node name="Brush0" type="Spatial" parent="the Slipgate Complex/func_group5"]
+[node name="Brush0" type="Spatial" parent="QodotExample/func_group5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 7, 15 )
 script = ExtResource( 3 )
 
-[node name="Face0" type="MeshInstance" parent="the Slipgate Complex/func_group5/Brush0"]
+[node name="Face0" type="MeshInstance" parent="QodotExample/func_group5/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4 )
 mesh = SubResource( 225 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="the Slipgate Complex/func_group5/Brush0"]
+[node name="Face1" type="MeshInstance" parent="QodotExample/func_group5/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0 )
 mesh = SubResource( 226 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="the Slipgate Complex/func_group5/Brush0"]
+[node name="Face2" type="MeshInstance" parent="QodotExample/func_group5/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
 mesh = SubResource( 227 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="the Slipgate Complex/func_group5/Brush0"]
+[node name="Face3" type="MeshInstance" parent="QodotExample/func_group5/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 mesh = SubResource( 228 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="the Slipgate Complex/func_group5/Brush0"]
+[node name="Face4" type="MeshInstance" parent="QodotExample/func_group5/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0 )
 mesh = SubResource( 229 )
 material/0 = null
 
-[node name="Face5" type="MeshInstance" parent="the Slipgate Complex/func_group5/Brush0"]
+[node name="Face5" type="MeshInstance" parent="QodotExample/func_group5/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4 )
 mesh = SubResource( 230 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group5/Brush0"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group5/Brush0"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group5/Brush0/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group5/Brush0/StaticBody"]
 shape = SubResource( 231 )
 
-[node name="Brush1" type="Spatial" parent="the Slipgate Complex/func_group5"]
+[node name="Brush1" type="Spatial" parent="QodotExample/func_group5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 4, 6.99999 )
 script = ExtResource( 3 )
 
-[node name="Face0" type="MeshInstance" parent="the Slipgate Complex/func_group5/Brush1"]
+[node name="Face0" type="MeshInstance" parent="QodotExample/func_group5/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.49999 )
 mesh = SubResource( 232 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="the Slipgate Complex/func_group5/Brush1"]
+[node name="Face1" type="MeshInstance" parent="QodotExample/func_group5/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0 )
 mesh = SubResource( 233 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="the Slipgate Complex/func_group5/Brush1"]
+[node name="Face2" type="MeshInstance" parent="QodotExample/func_group5/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 3, 3.50001 )
 mesh = SubResource( 234 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="the Slipgate Complex/func_group5/Brush1"]
+[node name="Face3" type="MeshInstance" parent="QodotExample/func_group5/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
 mesh = SubResource( 235 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="the Slipgate Complex/func_group5/Brush1"]
+[node name="Face4" type="MeshInstance" parent="QodotExample/func_group5/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.96046e-008, 0, 0.49999 )
 mesh = SubResource( 236 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group5/Brush1"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group5/Brush1"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group5/Brush1/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group5/Brush1/StaticBody"]
 shape = SubResource( 237 )
 
-[node name="Brush2" type="Spatial" parent="the Slipgate Complex/func_group5"]
+[node name="Brush2" type="Spatial" parent="QodotExample/func_group5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 7.33333, 10.6667 )
 script = ExtResource( 3 )
 
-[node name="Face0" type="MeshInstance" parent="the Slipgate Complex/func_group5/Brush2"]
+[node name="Face0" type="MeshInstance" parent="QodotExample/func_group5/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.166667, -0.166667 )
 mesh = SubResource( 238 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="the Slipgate Complex/func_group5/Brush2"]
+[node name="Face1" type="MeshInstance" parent="QodotExample/func_group5/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0 )
 mesh = SubResource( 239 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="the Slipgate Complex/func_group5/Brush2"]
+[node name="Face2" type="MeshInstance" parent="QodotExample/func_group5/Brush2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
 mesh = SubResource( 240 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="the Slipgate Complex/func_group5/Brush2"]
+[node name="StaticBody" type="StaticBody" parent="QodotExample/func_group5/Brush2"]
 
-[node name="CollisionShape" type="CollisionShape" parent="the Slipgate Complex/func_group5/Brush2/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="QodotExample/func_group5/Brush2/StaticBody"]
 shape = SubResource( 241 )
