@@ -50,9 +50,6 @@ var texture_directory = Directory.new()
 var material_dict = {}
 var texture_dict = {}
 
-# Last generated map MD5
-export(String) var last_md5 = null
-
 ## Setters
 func set_reload(new_reload):
 	if(reload != new_reload):
@@ -112,7 +109,6 @@ func update_map():
 		if err != OK:
 			QodotUtil.debug_print(['Error opening file: ', err])
 			return err
-
 
 		clear_map()
 
