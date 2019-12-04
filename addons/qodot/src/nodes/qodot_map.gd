@@ -155,9 +155,6 @@ func create_entity(parent_map_node, entity):
 	if('origin' in entity.properties):
 		entity_node.translation = entity.properties['origin'] / inverse_scale_factor
 
-	if('angle' in entity.properties):
-		entity_node.rotation.y = deg2rad(180 + entity.properties['angle'])
-
 	if('properties' in entity_node):
 		entity_node.properties = entity.properties
 
@@ -165,6 +162,8 @@ func create_entity(parent_map_node, entity):
 		var entity_spawned_node = entity_mapper.spawn_node_for_entity(entity)
 		if(entity_spawned_node != null):
 			QodotUtil.add_child_editor(entity_node, entity_spawned_node)
+			if('angle' in entity.properties):
+				entity_spawned_node.rotation.y = deg2rad(180 + entity.properties['angle'])
 
 	for brush in entity.brushes:
 		create_brush(entity_node, brush, entity)
