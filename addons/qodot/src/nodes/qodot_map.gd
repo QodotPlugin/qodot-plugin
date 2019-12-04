@@ -113,16 +113,8 @@ func update_map():
 			QodotUtil.debug_print(['Error opening file: ', err])
 			return err
 
-		var file_md5 = map_file_obj.get_md5(map_file)
-		if(last_md5 == file_md5):
-			print("File unchanged, nothing to do.")
-		else:
-			print("File changed")
 
 		clear_map()
-
-		print(file_md5)
-		last_md5 = file_md5
 
 		print("Beginning .map file read")
 		var map_reader = QuakeMapReader.new()
