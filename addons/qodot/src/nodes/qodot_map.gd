@@ -100,14 +100,14 @@ func update_map():
 		if(thread_pool.jobs_running() > 0 || thread_pool.jobs_pending() > 0):
 			return
 
+		clear_map()
+
 		var map_file_obj = File.new()
 
 		var err = map_file_obj.open(map_file, File.READ)
 		if err != OK:
 			QodotUtil.debug_print(['Error opening file: ', err])
 			return err
-
-		clear_map()
 
 		print("Beginning .map file read")
 		var map_reader = QuakeMapReader.new()
