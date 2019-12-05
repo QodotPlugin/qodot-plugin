@@ -1,0 +1,16 @@
+# Exclude all top-level files and directories (except addons) from ZIP downloads.
+# This makes installing through the AssetLib easier, because no files and folders
+# need to be unchecked.
+
+/extras/ export-ignore
+/scenes/ export-ignore
+/textures/ export-ignore
+
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/default_env.tres export-ignore
+/icon.png export-ignore
+/icon.png.import export-ignore
+/LICENSE export-ignore
+/project.godot export-ignore
+/README.md export-ignore
