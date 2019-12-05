@@ -1,4 +1,5 @@
 class_name QuakeMapReader
+extends File
 
 # Utility class for parsing a quake .map file into a QuakeMap instance
 # Separate from the import code to allow for runtime usage
@@ -6,41 +7,50 @@ class_name QuakeMapReader
 const OPEN_BRACKET = '('
 const CLOSE_BRACKET = ')'
 
-func read_map_file(file: File, valve_uvs: bool = false, bitmask_format: int = 0) -> QuakeMap:
-	QodotUtil.debug_print('Reading map file')
+func read_map_file(map_path: String, valve_uvs: bool = false, bitmask_format: int = 0) -> QuakeMap:
+	print("Opening .map file...")
+
+	var err = open(map_path, File.READ)
+	if err != OK:
+		QodotUtil.debug_print(['Error opening .map file: ', err])
+		return null
+
+	print('Reading map file')
 
 	if(valve_uvs):
-		QodotUtil.debug_print('Using Valve 220 UV format')
+		print('Using Valve 220 UV format')
 
 	match bitmask_format:
 		QodotEnums.BitmaskFormat.QUAKE_2:
-			QodotUtil.debug_print('Using Quake 2 bitmask format')
+			print('Using Quake 2 bitmask format')
 		QodotEnums.BitmaskFormat.HEXEN_2:
-			QodotUtil.debug_print('Using Hexen 2 bitmask format')
+			print('Using Hexen 2 bitmask format')
 		QodotEnums.BitmaskFormat.DAIKATANA:
-			QodotUtil.debug_print('Using Daikatana bitmask format')
+			print('Using Daikatana bitmask format')
 
 	var map_entities = []
 
 	var parse = true
 	while(parse):
-		var line = read_line(file)
+		var line = read_line()
 
 		if(line == null):
 			parse = false
 		elif(line.substr(0, 1) == '{'):
-			map_entities.append(read_entity(file, valve_uvs, bitmask_format))
+			map_entities.append(read_entity(valve_uvs, bitmask_format))
+
+	close()
 
 	return QuakeMap.new(map_entities)
 
-func read_entity(file: File, valve_uvs: bool, bitmask_format: int) -> QuakeEntity:
+func read_entity(valve_uvs: bool, bitmask_format: int) -> QuakeEntity:
 	QodotUtil.debug_print('Reading entity section')
 	var entity_properties = {}
 	var entity_brushes = []
 
 	var parse = true
 	while(parse):
-		var line = read_line(file)
+		var line = read_line()
 
 		if(line == null):
 			parse = false
@@ -59,7 +69,7 @@ func read_entity(file: File, valve_uvs: bool, bitmask_format: int) -> QuakeEntit
 
 			QodotUtil.debug_print([key, ': ', entity_properties[key]])
 		elif(line_starts_with(line, '{')):
-			entity_brushes.append(read_brush(file, valve_uvs, bitmask_format))
+			entity_brushes.append(read_brush(valve_uvs, bitmask_format))
 		elif(line_starts_with(line, '}')):
 			QodotUtil.debug_print('End of entity section')
 			parse = false
@@ -68,13 +78,13 @@ func read_entity(file: File, valve_uvs: bool, bitmask_format: int) -> QuakeEntit
 
 	return QuakeEntity.new(entity_properties, entity_brushes)
 
-func read_brush(file: File, valve_uvs: bool, bitmask_format: int) -> QuakeBrush:
+func read_brush(valve_uvs: bool, bitmask_format: int) -> QuakeBrush:
 	QodotUtil.debug_print('Reading brush section')
 	var brush_planes = []
 
 	var parse = true
 	while(parse):
-		var line = read_line(file)
+		var line = read_line()
 
 		if(line == null):
 			parse = false
@@ -184,15 +194,15 @@ func parse_vertex(vertex_substr: String) -> Vector3:
 	var comps = vertex_substr.split(' ')
 	return Vector3(comps[1], comps[2], comps[0])
 
-func read_line(file: File):
-	if(file.eof_reached()):
+func read_line():
+	if(eof_reached()):
 		QodotUtil.debug_print('EOF Reached')
 		return null
 
-	var line = file.get_line()
+	var line = get_line()
 	QodotUtil.debug_print(line)
 	if(line.substr(0, 2) == '//'):
-		return read_line(file)
+		return read_line()
 	return line
 
 func line_starts_with(line: String, prefix: String):

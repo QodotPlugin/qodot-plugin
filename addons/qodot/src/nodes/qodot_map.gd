@@ -39,57 +39,29 @@ export(Script) var face_mapper = QodotFaceMapper
 # Threads
 export(int) var max_build_threads = 4 setget set_max_build_threads
 
+# Instances
+var map_reader = QuakeMapReader.new()
 var thread_pool = QodotThreadPool.new()
-
-# Texture mapper
 var texture_mapper = QodotTextureMapper.new()
 
 ## Setters
 func set_reload(new_reload):
-	if(reload != new_reload):
-		update_map()
+	if reload != new_reload:
+		if Engine.is_editor_hint():
+			clear_map()
+
+			var map = map_reader.read_map_file(map_file, get_valve_uvs(map_format), get_bitmask_format(map_format))
+			if not map_file:
+				print("Error: Invalid map file")
+				return
+
+			build_map(map)
 
 func set_max_build_threads(new_max_build_threads):
-	if(max_build_threads != new_max_build_threads):
+	if max_build_threads != new_max_build_threads:
 		max_build_threads = new_max_build_threads
 
 		thread_pool.set_max_threads(max_build_threads)
-
-## Map load handling
-# Clears the map, loads the .map file from disk, parses it, and begins geometry generation
-func update_map():
-	if(Engine.is_editor_hint()):
-		if(thread_pool.jobs_running() > 0 || thread_pool.jobs_pending() > 0):
-			return
-
-		clear_map()
-
-		var map_file_obj = File.new()
-
-		var err = map_file_obj.open(map_file, File.READ)
-		if err != OK:
-			QodotUtil.debug_print(['Error opening file: ', err])
-			return err
-
-		print("Beginning .map file read")
-		var map_reader = QuakeMapReader.new()
-		var map = map_reader.read_map_file(map_file_obj, get_valve_uvs(map_format), get_bitmask_format(map_format))
-		print(".map file read complete")
-
-		if(map != null):
-			if(map.entities.size() > 0):
-				var worldspawn = map.entities[0]
-				if('message' in worldspawn.properties):
-					name = worldspawn.properties['message']
-
-			if not thread_pool.is_connected("jobs_complete", self, "entities_complete"):
-				thread_pool.connect("jobs_complete", self, "entities_complete")
-
-			print("Spawning entities...")
-			for entity in map.entities:
-				thread_pool.add_thread_job([self, "create_entity", [entity]])
-
-		map_file_obj.close()
 
 # Returns whether a given format uses Valve-style UVs
 func get_valve_uvs(map_format: int):
@@ -97,7 +69,7 @@ func get_valve_uvs(map_format: int):
 
 # Returns the bimask format for a given map format
 func get_bitmask_format(map_format: int):
-	match(map_format):
+	match map_format:
 		QodotEnums.MapFormat.QUAKE_2:
 			return QodotEnums.BitmaskFormat.QUAKE_2
 		QodotEnums.MapFormat.QUAKE_3:
@@ -111,67 +83,58 @@ func get_bitmask_format(map_format: int):
 
 	return QodotEnums.BitmaskFormat.NONE
 
-## Business logic
-func _exit_tree() -> void:
-	thread_pool.wait_to_finish()
-
-# Clears any existing children
+# Clears any existing QodotEntity children
 func clear_map():
 	for child in get_children():
-		if(child.get_script() == QodotEntity):
+		if child.get_script() == QodotEntity:
 			remove_child(child)
 			child.queue_free()
 
+# Kicks off the map building process
+func build_map(map: QuakeMap):
+	if thread_pool.jobs_running() > 0 || thread_pool.jobs_pending() > 0:
+		print("Skipping build: Already in progress")
+		return
+
+	if not map:
+		print('Skipping build: Invalid .map file')
+		return
+
+	print("Building map...")
+
+	if map.entities.size() > 0:
+		var worldspawn = map.entities[0]
+		if 'message' in worldspawn.properties:
+			name = worldspawn.properties['message']
+
+	if not thread_pool.is_connected("jobs_complete", self, "entities_complete"):
+		thread_pool.connect("jobs_complete", self, "entities_complete")
+
+	print("Queueing ", map.entities.size(), " entities for building")
+	for entity_idx in range(0, map.entities.size()):
+		var entity = map.entities[entity_idx]
+		thread_pool.add_thread_job([self, "build_entity", [entity_idx, map]])
+
 # Creates a node representation of an entity and its child brushes
-func create_entity(userdata):
-	var entity = userdata[0]
-	var thread = userdata[1]
+func build_entity(userdata):
+	var entity_idx = userdata[0]
+	var map = userdata[1]
 
-	var parent_map_node = self
+	var entity = map.entities[entity_idx]
 
-	var entity_node = QodotEntity.new()
+	print("Building entity ", entity_idx + 1, " of ", map.entities.size())
 
-	if('classname' in entity.properties):
-		entity_node.name = entity.properties['classname']
+	if entity_mapper != null:
+		var entity_node = entity_mapper.spawn_entity(entity, inverse_scale_factor)
+		self.call_deferred("add_child", entity_node)
 
-	if('origin' in entity.properties):
-		entity_node.translation = entity.properties['origin'] / inverse_scale_factor
-
-	if('properties' in entity_node):
-		entity_node.properties = entity.properties
-
-	if(entity_mapper != null):
-		var entity_spawned_node = entity_mapper.spawn_node_for_entity(entity)
-		if(entity_spawned_node != null):
-			entity_node.add_child(entity_spawned_node)
-			if('angle' in entity.properties):
-				entity_spawned_node.rotation.y = deg2rad(180 + entity.properties['angle'])
-
-	self.call_deferred("add_child", entity_node)
-
-	for brush in entity.brushes:
-		create_brush([entity_node, entity, brush])
-
-	thread_pool.call_deferred("finish_thread_job", thread)
-
-func entities_complete():
-	print("entities complete")
-	if(is_inside_tree()):
-		var tree = get_tree()
-		if(tree != null):
-			var edited_scene_root = tree.get_edited_scene_root()
-			if(edited_scene_root != null):
-				for child in get_children():
-					self.recursive_add_editor(child, edited_scene_root)
-
-func recursive_add_editor(node, edited_scene_root):
-	node.set_owner(edited_scene_root)
-	for child in node.get_children():
-		self.recursive_add_editor(child, edited_scene_root)
+		for brush_idx in range(0, entity.brushes.size()):
+			var brush = entity.brushes[brush_idx]
+			build_brush([entity_node, entity, brush])
 
 # Creates a node representation of a brush
-func create_brush(userdata):
-	var parent_entity_node = userdata[0]
+func build_brush(userdata):
+	var entity_node = userdata[0]
 	var entity = userdata[1]
 	var brush = userdata[2]
 
@@ -181,84 +144,44 @@ func create_brush(userdata):
 
 	match mode:
 		QodotEnums.MapMode.FACE_AXES:
-			var face_axes_nodes = create_face_axes(brush)
+			var face_axes_nodes = face_mapper.create_face_axes(brush)
 			for face_axes_node in face_axes_nodes:
 				brush_node.add_child(face_axes_node)
 
 		QodotEnums.MapMode.FACE_VERTICES:
-			var face_nodes = create_face_vertices(brush)
+			var face_nodes = face_mapper.create_face_vertices(brush)
 			for face_node in face_nodes:
 				brush_node.add_child(face_node)
 
 		QodotEnums.MapMode.BRUSH_MESHES:
-			if(brush_mapper.should_spawn_brush_mesh(entity, brush)):
-				var face_meshes = create_brush_meshes(entity, brush)
+			if brush_mapper.should_spawn_brush_mesh(entity, brush):
+				var face_meshes = brush_mapper.create_brush_meshes(entity, brush, face_mapper, texture_mapper, base_texture_path, material_extension, texture_extension, default_material, inverse_scale_factor)
 				for face_mesh in face_meshes:
 					brush_node.add_child(face_mesh)
 
-			if(brush_mapper.should_spawn_brush_collision(entity, brush)):
-				var brush_collision_objects = create_brush_collision_objects(entity, brush)
+			if brush_mapper.should_spawn_brush_collision(entity, brush):
+				var brush_collision_objects = brush_mapper.create_brush_collision_objects(entity, brush, inverse_scale_factor)
 				for collision_object in brush_collision_objects:
 					brush_node.add_child(collision_object)
 
-	parent_entity_node.call_deferred("add_child", brush_node)
+	entity_node.add_child(brush_node)
 
+# Build completion event, recursively adds child nodes to the editor tree
+func entities_complete():
+	print("Build complete, populating editor tree...")
+	if is_inside_tree():
+		var tree = get_tree()
+		if tree:
+			var edited_scene_root = tree.get_edited_scene_root()
+			if edited_scene_root:
+				for child in get_children():
+					self.recursive_set_owner(child, edited_scene_root)
 
-func create_face_axes(brush: QuakeBrush):
-	var face_axes = []
+func recursive_set_owner(node, new_owner):
+	node.set_owner(new_owner)
+	for child in node.get_children():
+		self.recursive_set_owner(child, new_owner)
 
-	for face in brush.faces:
-		var face_axes_node = QuakePlaneAxes.new()
-		face_axes_node.name = 'Plane0'
-		face_axes_node.translation = (face.plane_vertices[0] - brush.center) / inverse_scale_factor
-
-		face_axes_node.vertex_set = []
-		for vertex in face.plane_vertices:
-			face_axes_node.vertex_set.append(((vertex - face.plane_vertices[0]) / inverse_scale_factor))
-
-		face_axes.append(face_axes_node)
-
-	return face_axes
-
-func create_face_vertices(brush: QuakeBrush):
-	var face_nodes = []
-
-	for face in brush.faces:
-		var vertices = face.face_vertices
-		var face_spatial = QodotSpatial.new()
-		face_spatial.name = 'Face0'
-		face_spatial.translation = (face.center - brush.center) / inverse_scale_factor
-		face_nodes.append(face_spatial)
-
-		for vertex in vertices:
-			var vertex_node = Position3D.new()
-			vertex_node.name = 'Point0'
-			vertex_node.translation = vertex / inverse_scale_factor
-			face_spatial.add_child(vertex_node)
-
-	return face_nodes
-
-func create_brush_meshes(entity: QuakeEntity, brush: QuakeBrush) -> Array:
-	var brush_meshes = []
-
-	for face in brush.faces:
-		var spatial_material = texture_mapper.get_spatial_material(face, base_texture_path, material_extension, texture_extension, default_material)
-		if(face_mapper.should_spawn_face_mesh(entity, brush, face)):
-			var face_mesh_node = face_mapper.spawn_face_mesh(brush, face, texture_mapper, base_texture_path, material_extension, texture_extension, default_material, inverse_scale_factor)
-			brush_meshes.append(face_mesh_node)
-
-	return brush_meshes
-
-func create_brush_collision_objects(entity: QuakeEntity, brush: QuakeBrush) -> Array:
-	var collision_vertices = brush_mapper.get_brush_collision_vertices(entity, brush)
-
-	var scaled_collision_vertices = PoolVector3Array()
-	for collision_vertex in collision_vertices:
-		scaled_collision_vertices.append(collision_vertex / inverse_scale_factor)
-
-	var brush_collision_shape = brush_mapper.spawn_brush_collision_shape(entity, brush, scaled_collision_vertices)
-
-	var brush_collision_object = brush_mapper.spawn_brush_collision_object(entity, brush)
-	brush_collision_object.add_child(brush_collision_shape)
-
-	return [brush_collision_object]
+# Cleanup
+func _exit_tree() -> void:
+	thread_pool.wait_to_finish()

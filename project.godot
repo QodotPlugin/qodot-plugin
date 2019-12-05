@@ -104,7 +104,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/qodot/src/quake_map_import_plugin.gd"
 }, {
-"base": "Reference",
+"base": "File",
 "class": "QuakeMapReader",
 "language": "GDScript",
 "path": "res://addons/qodot/src/quake_map_reader.gd"

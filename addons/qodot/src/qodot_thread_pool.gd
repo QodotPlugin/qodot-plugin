@@ -39,13 +39,23 @@ func start_thread_job():
 		if(free_threads.size() > 0):
 			var job = pending_jobs.pop_front()
 			var thread = free_threads.pop_front()
-			var params = job[2]
-			params.append(thread)
-			thread.start(job[0], job[1], params)
+			job.append(thread)
+			thread.start(self, "run_thread_job", job)
 			busy_threads.append(thread)
 
+func run_thread_job(userdata):
+	var thread = userdata[-1]
+
+	var target = userdata[0]
+	var func_name = userdata[1]
+	var params = userdata[2]
+
+	var result = target.call(func_name, params)
+	call_deferred("finish_thread_job", thread)
+	return result
+
 func finish_thread_job(thread):
-	thread.wait_to_finish()
+	var result = thread.wait_to_finish()
 	busy_threads.remove(busy_threads.find(thread))
 
 	if(free_threads.size() < max_threads):
