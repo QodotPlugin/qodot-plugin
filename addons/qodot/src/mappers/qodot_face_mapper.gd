@@ -39,30 +39,33 @@ static func spawn_face_mesh(brush: QuakeBrush, face: QuakeFace, texture_mapper: 
 	return face_mesh_node
 
 static func get_uv(face: QuakeFace, vertex: Vector3, spatial_material: SpatialMaterial, inverse_scale_factor: float):
-	var texture = spatial_material.get_texture(SpatialMaterial.TEXTURE_ALBEDO)
-	if(texture != null):
-		if(face.uv.size() == 2):
-			return get_standard_uv(
-					vertex,
-					face.normal,
-					texture,
-					face.uv,
-					face.rotation,
-					face.scale,
-					inverse_scale_factor
-				)
-		elif(face.uv.size() == 8):
-			return get_valve_uv(
-					vertex,
-					face.normal,
-					texture,
-					face.uv,
-					face.rotation,
-					face.scale,
-					inverse_scale_factor
-				)
+	if spatial_material:
+		var texture = spatial_material.get_texture(SpatialMaterial.TEXTURE_ALBEDO)
+		if texture:
+			if(face.uv.size() == 2):
+				return get_standard_uv(
+						vertex,
+						face.normal,
+						texture,
+						face.uv,
+						face.rotation,
+						face.scale,
+						inverse_scale_factor
+					)
+			elif(face.uv.size() == 8):
+				return get_valve_uv(
+						vertex,
+						face.normal,
+						texture,
+						face.uv,
+						face.rotation,
+						face.scale,
+						inverse_scale_factor
+					)
+			else:
+				print('Error: Unknown UV format')
+				return null
 
-	print('Error: Unknown UV format')
 	return null
 
 static func get_standard_uv(
