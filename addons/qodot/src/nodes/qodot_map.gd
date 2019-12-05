@@ -10,28 +10,28 @@ const TEXTURE_EMPTY = '__TB_empty'	# TrenchBroom empty texture string
 export(bool) var reload setget set_reload
 
 # Map file format
-export(QodotEnums.MapFormat) var map_format = QodotEnums.MapFormat.STANDARD setget set_map_format
+export(QodotEnums.MapFormat) var map_format = QodotEnums.MapFormat.STANDARD
 
 # Rendering mode
-export(QodotEnums.MapMode) var mode = QodotEnums.MapMode.BRUSH_MESHES setget set_mode
+export(QodotEnums.MapMode) var mode = QodotEnums.MapMode.BRUSH_MESHES
 
 # Factor to scale the .map file's quake units down by
 # (16 is a best-effort conversion from Quake 3 units to metric)
-export(float) var inverse_scale_factor = 16.0 setget set_inverse_scale_factor
+export(float) var inverse_scale_factor = 16.0
 
 # .map Resource to auto-load when updating the map from the editor
 # (Works around references being held and preventing refresh on reimport)
-export(String, FILE, '*.map') var map_file setget set_map_file
+export(String, FILE, '*.map') var map_file
 
 # Base search path for textures specified in the .map file
-export(String, DIR) var base_texture_path = 'res://textures' setget set_base_texture_path
+export(String, DIR) var base_texture_path = 'res://textures'
 
 # File extension appended to textures specified in the .map file
-export(String) var material_extension = '.tres' setget set_material_extension
-export(String) var texture_extension = '.png' setget set_texture_extension
+export(String) var material_extension = '.tres'
+export(String) var texture_extension = '.png'
 
 # Materials
-export (SpatialMaterial) var default_material setget set_default_material
+export (SpatialMaterial) var default_material
 
 # Mappers used to control tree population
 export(Script) var entity_mapper = QodotEntityMapper
@@ -54,38 +54,6 @@ var texture_dict = {}
 func set_reload(new_reload):
 	if(reload != new_reload):
 		update_map()
-
-func set_mode(new_mode):
-	if(mode != new_mode):
-		mode = new_mode
-
-func set_map_format(new_map_format):
-	if(map_format != new_map_format):
-		map_format = new_map_format
-
-func set_inverse_scale_factor(new_inverse_scale_factor):
-	if(inverse_scale_factor != new_inverse_scale_factor):
-		inverse_scale_factor = new_inverse_scale_factor
-
-func set_map_file(new_map_file):
-	if(map_file != new_map_file):
-		map_file = new_map_file
-
-func set_base_texture_path(new_base_texture_path):
-	if(base_texture_path != new_base_texture_path):
-		base_texture_path = new_base_texture_path
-
-func set_material_extension(new_material_extension):
-	if(material_extension != new_material_extension):
-		material_extension = new_material_extension
-
-func set_texture_extension(new_texture_extension):
-	if(texture_extension != new_texture_extension):
-		texture_extension = new_texture_extension
-
-func set_default_material(new_default_material):
-	if(default_material != new_default_material):
-		default_material = new_default_material
 
 func set_max_build_threads(new_max_build_threads):
 	if(max_build_threads != new_max_build_threads):
