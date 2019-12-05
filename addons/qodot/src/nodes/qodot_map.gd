@@ -24,7 +24,7 @@ export(String, FILE, '*.map') var map_file
 # Base search path for textures specified in the .map file
 export(String, DIR) var base_texture_path = 'res://textures'
 
-# File extension appended to textures specified in the .map file
+# File extensions appended to textures specified in the .map file
 export(String) var material_extension = '.tres'
 export(String) var texture_extension = '.png'
 
@@ -60,7 +60,6 @@ func set_reload(new_reload):
 func set_max_build_threads(new_max_build_threads):
 	if max_build_threads != new_max_build_threads:
 		max_build_threads = new_max_build_threads
-
 		thread_pool.set_max_threads(max_build_threads)
 
 # Returns whether a given format uses Valve-style UVs
