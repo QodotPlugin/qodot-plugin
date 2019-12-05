@@ -24,7 +24,7 @@ Qodot extends the Godot editor to import Quake *.map* files, and provides an ext
   - Includes a simple Qodot game preset
   - Can be built upon with game-specific entities and brush properties
   
-## Reasoning
+## Thesis
 
 Qodot was created to solve a long-standing problem with modern game engines: The lack of simple, accessible level editing functionality for users without 3D modeling expertise.
 
