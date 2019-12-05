@@ -4,8 +4,6 @@ tool
 
 ### Spatial node for rendering a QuakeMap resource into an entity/brush tree
 
-const TEXTURE_EMPTY = '__TB_empty'	# TrenchBroom empty texture string
-
 # Pseudo-button for forcing a refresh after asset reimport
 export(bool) var reload setget set_reload
 
@@ -43,12 +41,8 @@ export(int) var max_build_threads = 4 setget set_max_build_threads
 
 var thread_pool = QodotThreadPool.new()
 
-# Texture directory accessor
-var texture_directory = Directory.new()
-
-# Material and texture caches
-var material_dict = {}
-var texture_dict = {}
+# Texture mapper
+var texture_mapper = QodotTextureMapper.new()
 
 ## Setters
 func set_reload(new_reload):
@@ -88,8 +82,10 @@ func update_map():
 				if('message' in worldspawn.properties):
 					name = worldspawn.properties['message']
 
+			if not thread_pool.is_connected("jobs_complete", self, "entities_complete"):
+				thread_pool.connect("jobs_complete", self, "entities_complete")
+
 			print("Spawning entities...")
-			thread_pool.connect("jobs_complete", self, "entities_complete")
 			for entity in map.entities:
 				thread_pool.add_thread_job([self, "create_entity", [entity]])
 
@@ -154,7 +150,7 @@ func create_entity(userdata):
 	self.call_deferred("add_child", entity_node)
 
 	for brush in entity.brushes:
-		create_brush([entity_node, brush, entity])
+		create_brush([entity_node, entity, brush])
 
 	thread_pool.call_deferred("finish_thread_job", thread)
 
@@ -176,392 +172,93 @@ func recursive_add_editor(node, edited_scene_root):
 # Creates a node representation of a brush
 func create_brush(userdata):
 	var parent_entity_node = userdata[0]
-	var brush = userdata[1]
-	var parent_entity = userdata[2]
-
-	var faces = brush.faces
-
-	var face_vertices = find_face_vertices(brush)
-	var face_normals = find_face_normals(faces)
-	var face_centers = find_face_centers(face_vertices)
-	var sorted_local_face_vertices = sort_local_face_vertices(face_vertices, face_centers, face_normals)
-
-	var brush_center = Vector3.ZERO
-	var vertex_count = 0
-	for face in face_vertices:
-		for vertex in face_vertices[face]:
-			brush_center += vertex
-			vertex_count += 1
-	brush_center /= vertex_count
+	var entity = userdata[1]
+	var brush = userdata[2]
 
 	var brush_node = QodotBrush.new()
 	brush_node.name = 'Brush0'
-	brush_node.translation = brush_center
+	brush_node.translation = brush.center / inverse_scale_factor
 
 	match mode:
 		QodotEnums.MapMode.FACE_AXES:
-			for face in faces:
-				var face_axes = QuakePlaneAxes.new()
-				face_axes.name = 'Plane0'
-				face_axes.translation = (face.vertices[0] / inverse_scale_factor) - brush_center
-
-				face_axes.vertex_set = []
-				for vertex in face.vertices:
-					face_axes.vertex_set.append(((vertex - face.vertices[0]) / inverse_scale_factor))
-
-				brush_node.add_child(face_axes)
+			var face_axes_nodes = create_face_axes(brush)
+			for face_axes_node in face_axes_nodes:
+				brush_node.add_child(face_axes_node)
 
 		QodotEnums.MapMode.FACE_VERTICES:
-			for face_idx in face_vertices:
-				var vertices = sorted_local_face_vertices[face_idx]
-				var plane_spatial = QodotSpatial.new()
-				plane_spatial.name = 'Face0'
-				plane_spatial.translation = face_centers[face_idx] - brush_center
-
-				for vertex in vertices:
-					var vertex_node = Position3D.new()
-					vertex_node.name = 'Point0'
-					vertex_node.translation = vertex - face_centers[face_idx]
-					plane_spatial.add_child(vertex_node)
-
-				brush_node.add_child(plane_spatial)
+			var face_nodes = create_face_vertices(brush)
+			for face_node in face_nodes:
+				brush_node.add_child(face_node)
 
 		QodotEnums.MapMode.BRUSH_MESHES:
-			var classname = null
-			if('classname' in parent_entity.properties):
-				classname = parent_entity.properties['classname']
+			if(brush_mapper.should_spawn_brush_mesh(entity, brush)):
+				var face_meshes = create_brush_meshes(entity, brush)
+				for face_mesh in face_meshes:
+					brush_node.add_child(face_mesh)
 
-			if(brush_mapper.should_spawn_brush_mesh(brush, parent_entity)):
-				for face_idx in sorted_local_face_vertices:
-					var face = faces[face_idx]
-					var face_center = face_centers[face_idx]
-
-					if(face_mapper.should_spawn_face_mesh(face, brush, parent_entity)):
-						var vertices = sorted_local_face_vertices[face_idx]
-
-						var surface_tool = SurfaceTool.new()
-						surface_tool.begin(Mesh.PRIMITIVE_TRIANGLE_FAN)
-
-						var normal = face_normals[face_idx]
-						surface_tool.add_normal(normal)
-
-						if(face.uv.size() == 2):
-							# Standard format tangents
-							surface_tool.add_tangent(get_standard_tangent(normal))
-						elif(face.uv.size() == 8):
-							# Valve format tangents
-							surface_tool.add_tangent(get_valve_tangent(normal))
-						else:
-							print("Error: UV size unknown")
-
-						var texture = null
-						texture_directory.change_dir(base_texture_path)
-
-						if(face.texture != TEXTURE_EMPTY):
-							var texture_path = base_texture_path + '/' + face.texture + texture_extension
-							if(!texture_path in texture_dict && texture_directory.file_exists(texture_path)):
-								var loaded_texture: Texture = load(texture_path)
-								texture_dict[texture_path] = loaded_texture
-
-							if(texture_path in texture_dict):
-								texture = texture_dict[texture_path]
-
-							var material_path = base_texture_path + '/' + face.texture + material_extension
-
-							if(!material_path in material_dict && texture_directory.file_exists(material_path)):
-								var loaded_material: SpatialMaterial = load(material_path)
-								material_dict[material_path] = loaded_material
-
-							if(material_path in material_dict):
-								surface_tool.set_material(material_dict[material_path])
-							else:
-								if(texture != null):
-									var spatial_material = null
-									if(default_material != null):
-										spatial_material = default_material.duplicate()
-									else:
-										spatial_material = SpatialMaterial.new()
-
-									spatial_material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, texture)
-
-									var normal_tex = get_pbr_texture(face.texture, 'normal')
-									if(normal_tex):
-										spatial_material.normal_enabled = true
-										spatial_material.set_texture(SpatialMaterial.TEXTURE_NORMAL, normal_tex)
-
-									var metallic_tex = get_pbr_texture(face.texture, 'metallic')
-									if(metallic_tex):
-										spatial_material.set_texture(SpatialMaterial.TEXTURE_METALLIC, metallic_tex)
-
-									var roughness_tex = get_pbr_texture(face.texture, 'roughness')
-									if(roughness_tex):
-										spatial_material.set_texture(SpatialMaterial.TEXTURE_ROUGHNESS, roughness_tex)
-
-									var emissive_tex = get_pbr_texture(face.texture, 'emissive')
-									if(emissive_tex):
-										spatial_material.emission_enabled = true
-										spatial_material.set_texture(SpatialMaterial.TEXTURE_EMISSION, emissive_tex)
-
-									var ao_tex = get_pbr_texture(face.texture, 'ao')
-									if(ao_tex):
-										spatial_material.ao_enabled = true
-										spatial_material.set_texture(SpatialMaterial.TEXTURE_AMBIENT_OCCLUSION, ao_tex)
-
-									var depth_tex = get_pbr_texture(face.texture, 'depth')
-									if(depth_tex):
-										spatial_material.depth_enabled = true
-										spatial_material.set_texture(SpatialMaterial.TEXTURE_DEPTH, depth_tex)
-
-									material_dict[material_path] = spatial_material
-									surface_tool.set_material(spatial_material)
-
-						var vertex_idx = 0
-						for vertex in vertices:
-							surface_tool.add_index(vertex_idx)
-
-							var global_vertex = vertex
-
-							if(texture != null):
-								var uv = null
-
-								if(face.uv.size() == 2):
-									uv = get_standard_uv(
-											global_vertex,
-											normal,
-											texture,
-											face.uv,
-											face.rotation,
-											face.scale
-										)
-								elif(face.uv.size() == 8):
-									uv = get_valve_uv(
-											global_vertex,
-											normal,
-											texture,
-											face.uv,
-											face.rotation,
-											face.scale
-										)
-
-								if(uv != null):
-									surface_tool.add_uv(uv)
-									surface_tool.add_uv2(uv)
-
-							surface_tool.add_vertex(vertex - face_center)
-							vertex_idx += 1
-
-						var face_mesh_node = MeshInstance.new()
-						face_mesh_node.name = 'Face0'
-						face_mesh_node.translation = face_center - brush_center
-
-						face_mesh_node.set_mesh(surface_tool.commit())
-						brush_node.add_child(face_mesh_node)
-
-			# Create collision
-			if(brush_mapper.should_spawn_brush_collision(brush, parent_entity)):
-				var brush_collision_object = brush_mapper.spawn_brush_collision_object(brush, parent_entity)
-				var brush_collision_shape = brush_mapper.spawn_brush_collision_shape(sorted_local_face_vertices, brush_center, brush, parent_entity)
-				brush_collision_object.add_child(brush_collision_shape)
-				brush_node.add_child(brush_collision_object)
+			if(brush_mapper.should_spawn_brush_collision(entity, brush)):
+				var brush_collision_objects = create_brush_collision_objects(entity, brush)
+				for collision_object in brush_collision_objects:
+					brush_node.add_child(collision_object)
 
 	parent_entity_node.call_deferred("add_child", brush_node)
 
-# Utility
-func find_face_vertices(brush):
-	var planes = brush.faces
 
-	var vertex_dict = {}
+func create_face_axes(brush: QuakeBrush):
+	var face_axes = []
 
-	var idx = 0
-	for plane in planes:
-		vertex_dict[idx] = []
-		idx += 1
+	for face in brush.faces:
+		var face_axes_node = QuakePlaneAxes.new()
+		face_axes_node.name = 'Plane0'
+		face_axes_node.translation = (face.plane_vertices[0] - brush.center) / inverse_scale_factor
 
-	var idx1 = 0
-	for face1 in planes:
-		var idx2 = 0
-		for face2 in planes:
-			var idx3 = 0
-			for face3 in planes:
-				var vertex = face1.intersect_faces(face2, face3)
+		face_axes_node.vertex_set = []
+		for vertex in face.plane_vertices:
+			face_axes_node.vertex_set.append(((vertex - face.plane_vertices[0]) / inverse_scale_factor))
 
-				if(vertex != null):
-					if(brush.vertex_in_hull(vertex)):
-						vertex /= inverse_scale_factor
+		face_axes.append(face_axes_node)
 
-						var vertex_exists = false
+	return face_axes
 
-						for comp_vertex in vertex_dict[idx1]:
-							if((comp_vertex - vertex).length() < 0.0001):
-								vertex_exists= true
+func create_face_vertices(brush: QuakeBrush):
+	var face_nodes = []
 
-						if not vertex_exists:
-							vertex_dict[idx1].append(vertex)
-
-				idx3 += 1
-			idx2 += 1
-		idx1 += 1
-
-	return vertex_dict
-
-func find_face_centers(face_vertices):
-	var face_centers = {}
-
-	for face_idx in face_vertices:
-		var vertices = face_vertices[face_idx]
-
-		var center = Vector3.ZERO
-		for vertex in vertices:
-			center += vertex
-
-		face_centers[face_idx] = center / vertices.size()
-
-	return face_centers
-
-func find_face_normals(faces):
-	var face_normals = {}
-
-	for face_idx in range(0, faces.size()):
-		var face = faces[face_idx]
-		face_normals[face_idx] = face.get_normal()
-
-	return face_normals
-
-func find_local_face_vertices(face_vertices, face_centers):
-	var local_face_vertices = {}
-
-	for face_idx in face_vertices:
-		var vertices = face_vertices[face_idx]
+	for face in brush.faces:
+		var vertices = face.face_vertices
+		var face_spatial = QodotSpatial.new()
+		face_spatial.name = 'Face0'
+		face_spatial.translation = (face.center - brush.center) / inverse_scale_factor
+		face_nodes.append(face_spatial)
 
 		for vertex in vertices:
-			if(!face_idx in local_face_vertices):
-				local_face_vertices[face_idx] = []
+			var vertex_node = Position3D.new()
+			vertex_node.name = 'Point0'
+			vertex_node.translation = vertex / inverse_scale_factor
+			face_spatial.add_child(vertex_node)
 
-			local_face_vertices[face_idx].append(vertex - face_centers[face_idx])
+	return face_nodes
 
-	return local_face_vertices
+func create_brush_meshes(entity: QuakeEntity, brush: QuakeBrush) -> Array:
+	var brush_meshes = []
 
-func sort_local_face_vertices(local_face_vertices, face_centers, face_normals):
-	var sorted_face_vertices = {}
+	for face in brush.faces:
+		var spatial_material = texture_mapper.get_spatial_material(face, base_texture_path, material_extension, texture_extension, default_material)
+		if(face_mapper.should_spawn_face_mesh(entity, brush, face)):
+			var face_mesh_node = face_mapper.spawn_face_mesh(brush, face, texture_mapper, base_texture_path, material_extension, texture_extension, default_material, inverse_scale_factor)
+			brush_meshes.append(face_mesh_node)
 
-	for face_idx in local_face_vertices:
-		var vertices = local_face_vertices[face_idx]
+	return brush_meshes
 
-		var face_center = face_centers[face_idx]
-		var face_normal = face_normals[face_idx]
-		var face_basis = vertices[1] - vertices[0]
+func create_brush_collision_objects(entity: QuakeEntity, brush: QuakeBrush) -> Array:
+	var collision_vertices = brush_mapper.get_brush_collision_vertices(entity, brush)
 
-		var pre_sort_vertices = []
-		for vertex in vertices:
-			var face_local_vertex = vertex - face_center
-			var winding_rotation = get_winding_rotation(face_local_vertex, face_normal, face_basis)
-			pre_sort_vertices.append([vertex, winding_rotation])
+	var scaled_collision_vertices = PoolVector3Array()
+	for collision_vertex in collision_vertices:
+		scaled_collision_vertices.append(collision_vertex / inverse_scale_factor)
 
-		pre_sort_vertices.sort_custom(self, 'sort_vertices_by_winding')
+	var brush_collision_shape = brush_mapper.spawn_brush_collision_shape(entity, brush, scaled_collision_vertices)
 
-		var sorted_vertices = []
-		for sorted_vertex in pre_sort_vertices:
-			sorted_vertices.append(sorted_vertex[0])
+	var brush_collision_object = brush_mapper.spawn_brush_collision_object(entity, brush)
+	brush_collision_object.add_child(brush_collision_shape)
 
-		sorted_face_vertices[face_idx] = sorted_vertices
-
-	return sorted_face_vertices
-
-func sort_vertices_by_winding(a, b):
-	return a[1] > b[1]
-
-func get_face_coords(face_local_vertex, face_normal, face_basis):
-	var u = face_basis.normalized()
-	var v = u.cross(face_normal).normalized()
-
-	var pu = -face_local_vertex.dot(u)
-	var pv = face_local_vertex.dot(v)
-
-	return Vector2(pu, pv)
-
-func get_winding_rotation(face_local_vertex, face_normal, face_basis):
-	var vertex_uv = get_face_coords(face_local_vertex, face_normal, face_basis)
-	var angle = vertex_uv.angle()
-	return angle
-
-func get_standard_uv(
-	global_vertex: Vector3,
-	normal: Vector3,
-	texture: Texture,
-	uv: PoolRealArray,
-	rotation: float,
-	scale: Vector2) -> Vector2:
-	var uv_out = Vector2.ZERO
-
-	var du = abs(normal.dot(Vector3.UP))
-	var dr = abs(normal.dot(Vector3.RIGHT))
-	var df = abs(normal.dot(Vector3.BACK))
-
-	if(du >= dr && du >= df):
-		uv_out = Vector2(global_vertex.z, -global_vertex.x)
-	elif(dr >= du && dr >= df):
-		uv_out = Vector2(global_vertex.z, -global_vertex.y)
-	elif(df >= du && df >= dr):
-		uv_out = Vector2(global_vertex.x, -global_vertex.y)
-
-	uv_out /=  texture.get_size() / inverse_scale_factor
-
-	uv_out = uv_out.rotated(deg2rad(rotation))
-	uv_out /= scale
-	uv_out += Vector2(uv[0], uv[1]) / texture.get_size()
-
-	return uv_out
-
-
-func get_valve_uv(
-	global_vertex: Vector3,
-	normal: Vector3,
-	texture: Texture,
-	uv: PoolRealArray,
-	rotation: float,
-	scale: Vector2) -> Vector2:
-	var uv_out = Vector2.ZERO
-
-	var u_axis = Vector3(uv[1], uv[2], uv[0])
-	var u_shift = uv[3]
-	var v_axis = Vector3(uv[5], uv[6], uv[4])
-	var v_shift = uv[7]
-
-	uv_out.x = u_axis.dot(global_vertex)
-	uv_out.y = v_axis.dot(global_vertex)
-
-	var texture_size = texture.get_size()
-
-	uv_out /=  texture_size / inverse_scale_factor
-	uv_out /= scale
-	uv_out += Vector2(u_shift, v_shift) / texture_size
-
-	return uv_out
-
-# Tangent functions to work around broken auto-generated ones
-# Also incorrect for now,
-# but prevents materials with depth mapping from crashing the graphics driver
-func get_standard_tangent(normal: Vector3) -> Plane:
-	return Plane(normal.cross(Vector3.UP).normalized(), 0.0)
-
-func get_valve_tangent(normal) -> Plane:
-	return Plane(normal.cross(Vector3.UP).normalized(), 0.0)
-
-# PBR texture fetching
-func get_pbr_texture(texture, suffix):
-	var texture_comps = texture.split('/')
-	var texture_group = texture_comps[0]
-	var texture_name = texture_comps[1]
-	var path = base_texture_path + '/' + texture_group + '/' + texture_name + '/' + texture_name + '_' + suffix + texture_extension
-
-	if(path in texture_dict):
-		return texture_dict[path]
-	else:
-		texture_directory.change_dir(base_texture_path)
-		if(texture_directory.file_exists(path)):
-			var tex = load(path)
-			if(tex):
-				texture_dict[path] = tex
-				return tex
-
-	return null
+	return [brush_collision_object]

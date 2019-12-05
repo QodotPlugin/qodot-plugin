@@ -43,7 +43,6 @@ func start_thread_job():
 			params.append(thread)
 			thread.start(job[0], job[1], params)
 			busy_threads.append(thread)
-			print("started thread job ", free_threads.size(), " / ", busy_threads.size())
 
 func finish_thread_job(thread):
 	thread.wait_to_finish()
