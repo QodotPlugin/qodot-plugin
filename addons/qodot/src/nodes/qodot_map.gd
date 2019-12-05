@@ -391,29 +391,9 @@ func create_brush(userdata):
 
 			# Create collision
 			if(brush_mapper.should_spawn_brush_collision(brush, parent_entity)):
-				var collision_vertices = []
-				for plane_idx in sorted_local_face_vertices:
-					var vertices = sorted_local_face_vertices[plane_idx]
-					for vertex in vertices:
-
-						var vertex_present = false
-						for collision_vertex in collision_vertices:
-							if((vertex - collision_vertex).length() < 0.001):
-								vertex_present = true
-
-						if(!vertex_present):
-							collision_vertices.append(vertex - brush_center)
-
 				var brush_collision_object = brush_mapper.spawn_brush_collision_object(brush, parent_entity)
-
-
-				var brush_convex_collision = ConvexPolygonShape.new()
-				brush_convex_collision.set_points(collision_vertices)
-
-				var brush_collision_shape = CollisionShape.new()
-				brush_collision_shape.set_shape(brush_convex_collision)
+				var brush_collision_shape = brush_mapper.spawn_brush_collision_shape(sorted_local_face_vertices, brush_center, brush, parent_entity)
 				brush_collision_object.add_child(brush_collision_shape)
-
 				brush_node.add_child(brush_collision_object)
 
 	parent_entity_node.call_deferred("add_child", brush_node)

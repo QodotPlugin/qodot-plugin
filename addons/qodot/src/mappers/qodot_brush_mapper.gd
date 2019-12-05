@@ -33,3 +33,26 @@ static func spawn_brush_collision_object(brush: QuakeBrush, parent_entity: Quake
 			return Area.new()
 
 	return StaticBody.new()
+
+static func spawn_brush_collision_shape(sorted_local_face_vertices: Dictionary, brush_center: Vector3, brush: QuakeBrush, parent_entity: QuakeEntity) -> CollisionShape:
+	var collision_vertices = []
+
+	for plane_idx in sorted_local_face_vertices:
+		var vertices = sorted_local_face_vertices[plane_idx]
+		for vertex in vertices:
+
+			var vertex_present = false
+			for collision_vertex in collision_vertices:
+				if((vertex - collision_vertex).length() < 0.001):
+					vertex_present = true
+
+			if(!vertex_present):
+				collision_vertices.append(vertex - brush_center)
+
+	var brush_convex_collision = ConvexPolygonShape.new()
+	brush_convex_collision.set_points(collision_vertices)
+
+	var brush_collision_shape = CollisionShape.new()
+	brush_collision_shape.set_shape(brush_convex_collision)
+
+	return brush_collision_shape
