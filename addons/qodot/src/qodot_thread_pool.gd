@@ -13,6 +13,55 @@ signal jobs_complete
 
 var job_counter = 0
 
+class PoolThread extends Thread:
+	var semaphore: Semaphore = null
+	var job_bucket: Array = []
+	var results: Dictionary = {}
+	var _running = true
+
+	signal jobs_finished(thread, results)
+
+	func _init():
+		semaphore = Semaphore.new()
+		start(self, "_run_thread")
+
+	func _run_thread(userdata):
+		while true:
+			semaphore.wait()
+
+			if not _running:
+				return
+
+			results.clear()
+			while self.job_bucket.size() > 0:
+				var job: Job = job_bucket.pop_front()
+				results[job.id] = job.run()
+
+			call_deferred("_jobs_finished")
+
+	func _jobs_finished():
+		emit_signal("jobs_finished", self, results)
+
+	func finish():
+		_running = false
+		semaphore.post()
+		wait_to_finish()
+
+class Job:
+	var id: int
+	var target: Object
+	var func_name: String
+	var params
+
+	func _init(id: int, target: Object, func_name: String, params):
+		self.id = id
+		self.target = target
+		self.func_name = func_name
+		self.params = params
+
+	func run():
+		return self.target.call(self.func_name, self.params)
+
 # Setters
 func set_max_threads(new_max_threads):
 	if(max_threads != new_max_threads):
@@ -30,16 +79,18 @@ func set_bucket_size(new_bucket_size):
 
 # Interface
 func add_thread():
-	free_threads.append(Thread.new())
+	free_threads.append(PoolThread.new())
 
 func remove_thread():
-	free_threads.pop_back()
+	if(free_threads.size() > 0):
+		var thread = free_threads.pop_back()
+		thread.finish()
 
 func add_thread_job(target, func_name, params):
 	var job_id = job_counter
 	job_counter += 1
 
-	pending_jobs.append([job_id, target, func_name, params])
+	pending_jobs.append(Job.new(job_id, target, func_name, params))
 
 	if(free_threads.size() == 0 && free_threads.size() + busy_threads.size() < max_threads):
 		add_thread()
@@ -50,12 +101,11 @@ func start_thread_jobs():
 	while pending_jobs.size() > 0 && free_threads.size() > 0:
 		var thread = free_threads.pop_front()
 
-		var job_bucket = []
-		while job_bucket.size() < bucket_size && pending_jobs.size() > 0:
-			var job = pending_jobs.pop_front()
-			job_bucket.append(job)
+		while thread.job_bucket.size() < bucket_size && pending_jobs.size() > 0:
+			thread.job_bucket.append(pending_jobs.pop_front())
 
-		thread.start(self, "run_thread_jobs", [thread, job_bucket])
+		thread.connect("jobs_finished", self, "finish_thread_jobs")
+		thread.semaphore.post()
 		busy_threads.append(thread)
 
 func run_thread_jobs(userdata):
@@ -65,27 +115,24 @@ func run_thread_jobs(userdata):
 	var results = {}
 
 	for job in job_bucket:
-		var job_id = job[0]
-		var target = job[1]
-		var func_name = job[2]
-		var params = job[3]
-
-		results[job_id] = target.call(func_name, params)
+		results[job.id] = job.run()
 
 	call_deferred("finish_thread_jobs", thread)
 
 	return results
 
-func finish_thread_jobs(thread):
-	var results = thread.wait_to_finish()
-
+func finish_thread_jobs(thread, results):
 	for job_id in results:
 		emit_signal("job_complete", job_id, results[job_id])
+
+	thread.disconnect("jobs_finished", self, "finish_thread_jobs")
 
 	busy_threads.remove(busy_threads.find(thread))
 
 	if(free_threads.size() < max_threads):
 		free_threads.append(thread)
+	else:
+		thread.finish()
 
 	if(busy_threads.size() == 0 && pending_jobs.size() == 0):
 		emit_signal("jobs_complete")
@@ -101,4 +148,4 @@ func jobs_pending():
 
 func wait_to_finish():
 	for thread in busy_threads:
-		thread.wait_to_finish()
+		thread.finish()
