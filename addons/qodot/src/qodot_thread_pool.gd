@@ -8,10 +8,10 @@ var free_threads = []
 var busy_threads = []
 var pending_jobs = []
 
-signal job_complete(job_id, job_result)
-signal jobs_complete
+signal jobs_complete(results)
 
 var job_counter = 0
+var job_results = {}
 
 class PoolThread extends Thread:
 	var semaphore: Semaphore = null
@@ -123,7 +123,7 @@ func run_thread_jobs(userdata):
 
 func finish_thread_jobs(thread, results):
 	for job_id in results:
-		emit_signal("job_complete", job_id, results[job_id])
+		job_results[job_id] = results[job_id]
 
 	thread.disconnect("jobs_finished", self, "finish_thread_jobs")
 
@@ -135,7 +135,8 @@ func finish_thread_jobs(thread, results):
 		thread.finish()
 
 	if(busy_threads.size() == 0 && pending_jobs.size() == 0):
-		emit_signal("jobs_complete")
+		emit_signal("jobs_complete", job_results)
+		job_results.clear()
 		job_counter = 0
 	else:
 		start_thread_jobs()
