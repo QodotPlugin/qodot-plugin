@@ -60,7 +60,7 @@ In order to open the example map in TrenchBroom, it will need access to the Qodo
 
 [Kristian Duske](https://twitter.com/kristianduske) - For creating TrenchBroom and inspiring the creation of Qodot
 
-Arkii - For example code and handy documentation of the Valve 220 format
+[Arkii](https://github.com/GoomiChan) - For example code and handy documentation of the Valve 220 format
 
 [TheRektafire](https://github.com/TheRektafire) - For a variety of useful tidbits on the .map format
 
