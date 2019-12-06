@@ -4,8 +4,8 @@ tool
 
 # ImmediateGeometry  node for rendering the three-vertex representation of a QuakePlane
 
-export(PoolVector3Array) var vertex_set = [Vector3.ZERO, Vector3.UP, Vector3.RIGHT]
-export(PoolIntArray) var indices = [0, 1, 2]
+export(Array) var vertex_set = [Vector3.ZERO, Vector3.UP, Vector3.RIGHT]
+export(Array) var indices = [0, 1, 2]
 var material = SpatialMaterial.new()
 
 func _ready():

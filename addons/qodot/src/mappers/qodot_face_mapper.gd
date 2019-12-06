@@ -132,36 +132,3 @@ static func get_valve_uv(
 
 	return uv_out
 
-static func create_face_axes(brush: QuakeBrush, inverse_scale_factor: float):
-	var face_axes = []
-
-	for face in brush.faces:
-		var face_axes_node = QuakePlaneAxes.new()
-		face_axes_node.name = 'Plane0'
-		face_axes_node.translation = (face.plane_vertices[0] - brush.center) / inverse_scale_factor
-
-		face_axes_node.vertex_set = []
-		for vertex in face.plane_vertices:
-			face_axes_node.vertex_set.append(((vertex - face.plane_vertices[0]) / inverse_scale_factor))
-
-		face_axes.append(face_axes_node)
-
-	return face_axes
-
-static func create_face_vertices(brush: QuakeBrush, inverse_scale_factor: float):
-	var face_nodes = []
-
-	for face in brush.faces:
-		var vertices = face.face_vertices
-		var face_spatial = QodotSpatial.new()
-		face_spatial.name = 'Face0'
-		face_spatial.translation = (face.center - brush.center) / inverse_scale_factor
-		face_nodes.append(face_spatial)
-
-		for vertex in vertices:
-			var vertex_node = Position3D.new()
-			vertex_node.name = 'Point0'
-			vertex_node.translation = vertex / inverse_scale_factor
-			face_spatial.add_child(vertex_node)
-
-	return face_nodes

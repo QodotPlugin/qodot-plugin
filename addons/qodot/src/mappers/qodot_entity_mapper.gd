@@ -1,31 +1,27 @@
 class_name QodotEntityMapper
 
-static func spawn_entity(entity: QuakeEntity, inverse_scale_factor: float) -> QodotEntity:
+static func spawn_entity(properties: Dictionary, inverse_scale_factor: float) -> QodotEntity:
 	var entity_node = QodotEntity.new()
+	entity_node.properties = properties
 
-	if 'classname' in entity.properties:
-		entity_node.name = entity.properties['classname']
+	if 'classname' in entity_node.properties:
+		entity_node.name = entity_node.properties['classname']
 
-	if 'origin' in entity.properties:
-		entity_node.translation = entity.properties['origin'] / inverse_scale_factor
-
-	if 'properties' in entity_node:
-		entity_node.properties = entity.properties
-
-	var entity_spawned_node = spawn_node_for_entity(entity)
-	if(entity_spawned_node != null):
-		entity_node.add_child(entity_spawned_node)
-		if('angle' in entity.properties):
-			entity_spawned_node.rotation.y = deg2rad(180 + entity.properties['angle'])
+	if 'origin' in entity_node.properties:
+		entity_node.translation = entity_node.properties['origin'] / inverse_scale_factor
 
 	return entity_node
 
-static func spawn_node_for_entity(entity: QuakeEntity) -> Node:
-	if('classname' in entity.properties):
-		match entity.properties['classname']:
-			'worldspawn':
-				return null
-			'trigger':
-				return null
+static func spawn_node_for_entity(properties: Dictionary) -> Node:
+	var node = null
 
-	return Position3D.new()
+	if('classname' in properties):
+		var classname = properties['classname']
+		if classname.substr(0, 5) != 'func_' and classname != 'worldspawn' and classname != 'trigger' and classname != 'func_group':
+			node = Position3D.new()
+
+	if node:
+		if 'angle' in properties:
+			node.rotation.y = deg2rad(180 + properties['angle'])
+
+	return node
