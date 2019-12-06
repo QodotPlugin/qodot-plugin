@@ -33,7 +33,7 @@ func get_entity_count() -> int:
 
 func get_brush_count() -> int:
 	var total = 0
-	for entity_idx in line_numbers:
+	for entity_idx in range(0, line_numbers.size()):
 		total += get_entity_brush_count(entity_idx)
 	return total
 
