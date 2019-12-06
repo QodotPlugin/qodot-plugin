@@ -122,11 +122,97 @@ func build_map():
 
 	print("Queued ", entity_count, " entities for building.")
 
-	if not thread_pool.is_connected("jobs_complete", self, "entities_complete"):
-		thread_pool.connect("jobs_complete", self, "entities_complete")
-
 	print("Building entities...")
 	thread_pool.start_thread_jobs()
+	yield(thread_pool, "jobs_complete")
+	print("Entities complete.")
+
+	var queued_brushes = 0
+	for entity_idx in range(0, get_child_count()):
+		var entity_node = get_child(entity_idx)
+		var brush_count = map_reader.get_entity_brush_count(entity_idx)
+		for brush_idx in range(0, brush_count):
+			thread_pool.add_thread_job(self, "build_brush", [entity_node, entity_idx, brush_idx])
+			queued_brushes += 1
+
+	print("Queued ", queued_brushes, " brushes for building.")
+
+	print("Building brushes...")
+	thread_pool.start_thread_jobs()
+	yield(thread_pool, "jobs_complete")
+	print("Brushes complete.")
+
+	queued_brushes = 0
+	for entity_idx in range(0, get_child_count()):
+		var entity_node = get_child(entity_idx)
+		var entity_properties = map_reader.read_entity_properties(entity_idx)
+		var brush_idx = 0
+		for child_idx in range(0, entity_node.get_child_count()):
+			var child_node = entity_node.get_child(child_idx)
+			if child_node.get_script() == QodotBrush:
+				var brush = map_reader.read_entity_brush(entity_idx, brush_idx, get_valve_uvs(map_format), get_bitmask_format(map_format))
+				if brush_mapper.should_spawn_brush_collision(entity_properties, brush):
+					thread_pool.add_thread_job(self, "build_brush_collision", [child_node, entity_idx, brush_idx])
+					queued_brushes += 1
+				brush_idx += 1
+
+	print("Queued ", queued_brushes, " brushes for collision building.")
+
+	print("Building collision...")
+	thread_pool.start_thread_jobs()
+	yield(thread_pool, "jobs_complete")
+	print("Collision build complete.")
+
+	queued_brushes = 0
+	for entity_idx in range(0, get_child_count()):
+		var entity_properties = map_reader.read_entity_properties(entity_idx)
+		var entity_node = get_child(entity_idx)
+		var brush_idx = 0
+		for child_idx in range(0, entity_node.get_child_count()):
+			var child_node = entity_node.get_child(child_idx)
+			if child_node.get_script() == QodotBrush:
+				var brush = map_reader.read_entity_brush(entity_idx, brush_idx, get_valve_uvs(map_format), get_bitmask_format(map_format))
+				if brush_mapper.should_spawn_brush_mesh(entity_properties, brush):
+					thread_pool.add_thread_job(self, "build_brush_visuals", [child_node, entity_idx, brush_idx])
+					queued_brushes += 1
+				brush_idx += 1
+
+	print("Queued ", queued_brushes, " brushes for visual building.")
+
+	print("Building visuals...")
+	thread_pool.start_thread_jobs()
+	yield(thread_pool, "jobs_complete")
+	print("Visual build complete.")
+
+	print("Adding nodes to editor tree...")
+	var edited_scene_root = get_tree().get_edited_scene_root()
+
+	thread_pool.add_thread_job(self, "add_children_to_editor", edited_scene_root)
+	thread_pool.start_thread_jobs()
+	yield(thread_pool, "jobs_complete")
+
+	print("Cleaning up...")
+	map_reader.close_map()
+
+	var build_end_timestamp = OS.get_ticks_msec()
+	var build_duration = build_end_timestamp - build_start_timestamp
+	print("Build complete after ", build_duration * 0.001, " seconds.")
+
+func add_children_to_editor(edited_scene_root):
+	for child in get_children():
+		recursive_set_owner(child, edited_scene_root)
+
+func recursive_set_owner(node, new_owner):
+	node.set_owner(new_owner)
+	for child in node.get_children():
+		self.recursive_set_owner(child, new_owner)
+
+# Cleanup
+func _exit_tree() -> void:
+	thread_pool.wait_to_finish()
+
+
+
 
 # Creates a node representation of an entity and its child brushes
 func build_entity(userdata):
@@ -144,28 +230,6 @@ func build_entity(userdata):
 
 		parent_node.call_deferred("add_child", entity_node)
 
-# Build completion event, recursively adds child nodes to the editor tree
-func entities_complete():
-	thread_pool.disconnect("jobs_complete", self, "entities_complete")
-
-	print("Entities complete.")
-
-	var queued_brushes = 0
-	for entity_idx in range(0, get_child_count()):
-		var entity_node = get_child(entity_idx)
-		var brush_count = map_reader.get_entity_brush_count(entity_idx)
-		for brush_idx in range(0, brush_count):
-			thread_pool.add_thread_job(self, "build_brush", [entity_node, entity_idx, brush_idx])
-			queued_brushes += 1
-
-	print("Queued ", queued_brushes, " brushes for building.")
-
-	if not thread_pool.is_connected("jobs_complete", self, "brushes_complete"):
-		thread_pool.connect("jobs_complete", self, "brushes_complete")
-
-	print("Building brushes...")
-	thread_pool.start_thread_jobs()
-
 # Creates a node representation of a brush
 func build_brush(userdata):
 	var entity_node = userdata[0]
@@ -180,33 +244,6 @@ func build_brush(userdata):
 
 	entity_node.call_deferred("add_child", brush_node)
 
-func brushes_complete():
-	thread_pool.disconnect("jobs_complete", self, "brushes_complete")
-
-	print("Brushes complete.")
-
-	var queued_brushes = 0
-	for entity_idx in range(0, get_child_count()):
-		var entity_node = get_child(entity_idx)
-		var entity_properties = map_reader.read_entity_properties(entity_idx)
-		var brush_idx = 0
-		for child_idx in range(0, entity_node.get_child_count()):
-			var child_node = entity_node.get_child(child_idx)
-			if child_node.get_script() == QodotBrush:
-				var brush = map_reader.read_entity_brush(entity_idx, brush_idx, get_valve_uvs(map_format), get_bitmask_format(map_format))
-				if brush_mapper.should_spawn_brush_collision(entity_properties, brush):
-					thread_pool.add_thread_job(self, "build_brush_collision", [child_node, entity_idx, brush_idx])
-					queued_brushes += 1
-				brush_idx += 1
-
-	print("Queued ", queued_brushes, " brushes for collision building.")
-
-	if not thread_pool.is_connected("jobs_complete", self, "brush_collision_complete"):
-		thread_pool.connect("jobs_complete", self, "brush_collision_complete")
-
-	print("Building collision...")
-	thread_pool.start_thread_jobs()
-
 func build_brush_collision(userdata):
 	var brush_node = userdata[0]
 	var entity_idx = userdata[1]
@@ -219,33 +256,6 @@ func build_brush_collision(userdata):
 
 	for collision_object in brush_collision_objects:
 		brush_node.call_deferred("add_child", collision_object)
-
-func brush_collision_complete():
-	thread_pool.disconnect("jobs_complete", self, "brush_collision_complete")
-
-	print("Collision build complete.")
-
-	var queued_brushes = 0
-	for entity_idx in range(0, get_child_count()):
-		var entity_properties = map_reader.read_entity_properties(entity_idx)
-		var entity_node = get_child(entity_idx)
-		var brush_idx = 0
-		for child_idx in range(0, entity_node.get_child_count()):
-			var child_node = entity_node.get_child(child_idx)
-			if child_node.get_script() == QodotBrush:
-				var brush = map_reader.read_entity_brush(entity_idx, brush_idx, get_valve_uvs(map_format), get_bitmask_format(map_format))
-				if brush_mapper.should_spawn_brush_mesh(entity_properties, brush):
-					thread_pool.add_thread_job(self, "build_brush_visuals", [child_node, entity_idx, brush_idx])
-					queued_brushes += 1
-				brush_idx += 1
-
-	print("Queued ", queued_brushes, " brushes for visual building.")
-
-	if not thread_pool.is_connected("jobs_complete", self, "brush_visuals_complete"):
-		thread_pool.connect("jobs_complete", self, "brush_visuals_complete")
-
-	print("Building visuals...")
-	thread_pool.start_thread_jobs()
 
 func build_brush_visuals(userdata):
 	var brush_node = userdata[0]
@@ -273,33 +283,3 @@ func build_brush_visuals(userdata):
 
 	for subnode in brush_subnodes:
 		brush_node.call_deferred("add_child", subnode)
-
-func brush_visuals_complete():
-	thread_pool.disconnect("jobs_complete", self, "brush_visuals_complete")
-
-	print("Visual build complete.")
-
-	build_complete()
-
-func build_complete():
-	print("Adding nodes to editor tree...")
-	var edited_scene_root = get_tree().get_edited_scene_root()
-	for child in get_children():
-		recursive_set_owner(child, edited_scene_root)
-
-	print("Cleaning up...")
-	map_reader.close_map()
-
-	var build_end_timestamp = OS.get_ticks_msec()
-	var build_duration = build_end_timestamp - build_start_timestamp
-	print("Build complete after ", build_duration * 0.001, " seconds.")
-
-
-func recursive_set_owner(node, new_owner):
-	node.set_owner(new_owner)
-	for child in node.get_children():
-		self.recursive_set_owner(child, new_owner)
-
-# Cleanup
-func _exit_tree() -> void:
-	thread_pool.wait_to_finish()
