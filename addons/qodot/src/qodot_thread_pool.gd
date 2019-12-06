@@ -146,6 +146,9 @@ func jobs_running():
 func jobs_pending():
 	return pending_jobs.size()
 
-func wait_to_finish():
+func finish():
+	for thread in free_threads:
+		thread.finish()
+
 	for thread in busy_threads:
 		thread.finish()
