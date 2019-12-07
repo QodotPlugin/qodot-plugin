@@ -144,7 +144,7 @@ enabled=PoolStringArray( "qodot" )
 
 [memory]
 
-limits/message_queue/max_size_kb=8192
+limits/message_queue/max_size_kb=81920
 
 [rendering]
 

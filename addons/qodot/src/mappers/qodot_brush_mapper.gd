@@ -31,7 +31,7 @@ static func create_brush_meshes(entity_properties: Dictionary, brush: QuakeBrush
 	return brush_meshes
 
 # Determine whether the given .map classname should create a collision object
-static func should_spawn_brush_collision(entity_properties: Dictionary, brush: QuakeBrush) -> bool:
+static func should_spawn_brush_collision(entity_properties: Dictionary) -> bool:
 	if('classname' in entity_properties):
 		return entity_properties['classname'] != 'func_illusionary'
 

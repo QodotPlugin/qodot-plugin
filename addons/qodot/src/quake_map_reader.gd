@@ -9,7 +9,7 @@ const CLOSE_BRACKET = ')'
 var map_string: PoolStringArray
 var line_numbers: Array
 
-func open_map(map_path: String):
+func parse_map(map_path: String):
 	var file = File.new()
 	var err = file.open(map_path, File.READ)
 
@@ -17,31 +17,70 @@ func open_map(map_path: String):
 		print(['Error opening .map file: ', err])
 		return false
 
+	var map_lines = []
 	while not file.eof_reached():
-		map_string.append(file.get_line())
+		var line = file.get_line()
+		if not line.begins_with('//'):
+			map_lines.append(line)
 
-	line_numbers = read_indices()
+	var line_numbers = find_line_numbers(map_lines)
 
-	return true
+	var parsed_entities = []
+	var parsed_brushes = {}
 
-func close_map():
-	map_string.resize(0)
-	line_numbers.resize(0)
-
-func get_entity_count() -> int:
-	return line_numbers.size()
-
-func get_brush_count() -> int:
-	var total = 0
 	for entity_idx in range(0, line_numbers.size()):
-		total += get_entity_brush_count(entity_idx)
-	return total
+		var current_entity = line_numbers[entity_idx]
+		var next_entity = line_numbers[entity_idx + 1] if entity_idx < line_numbers.size() - 1 else null
 
-func get_entity_brush_count(entity_idx: int) -> int:
-	return line_numbers[entity_idx][1].size()
+		var entity_start = current_entity[0]
+		var entity_end = line_numbers.size()
 
-func read_indices():
-	var indices = []
+		if next_entity:
+			entity_end = next_entity[0]
+
+		var entity_lines = []
+		for line_idx in range(entity_start - 1, entity_end - 1):
+			entity_lines.append(map_lines[line_idx])
+
+		parsed_entities.append(entity_lines)
+		parsed_brushes[entity_idx] = {}
+
+		var brush_line_numbers = line_numbers[entity_idx][1]
+
+		for brush_idx in range(0, brush_line_numbers.size()):
+			var current_brush = brush_line_numbers[brush_idx]
+			var next_brush = brush_line_numbers[brush_idx + 1] if brush_idx < brush_line_numbers.size() - 1 else null
+
+			var brush_start = current_brush
+			var brush_end = brush_line_numbers.size()
+
+			if next_brush:
+				brush_end = next_brush
+			else:
+				brush_end = entity_end - 1
+
+			var brush_lines = []
+			for line_idx in range(brush_start, brush_end - 2):
+				brush_lines.append(map_lines[line_idx])
+
+			parsed_brushes[entity_idx][brush_idx] = brush_lines
+
+	var entity_properties = []
+	for parsed_entity in parsed_entities:
+		entity_properties.append(read_entity_properties(parsed_entity))
+
+	return [entity_properties, parsed_brushes]
+
+func parse_brush(brush_lines: Array, valve_uvs: bool, bitmask_format: bool):
+	var brush_planes = []
+
+	for brush_line in brush_lines:
+		brush_planes.append(parse_face(brush_line, valve_uvs, bitmask_format))
+
+	return QuakeBrush.new(brush_planes)
+
+func find_line_numbers(map_string: Array):
+	var line_numbers = []
 
 	var is_inside_entity = false
 	var is_inside_brush = false
@@ -53,7 +92,7 @@ func read_indices():
 		if not is_inside_entity and not is_inside_brush:
 			if first_char == "{":
 				is_inside_entity = true
-				indices.append([line_number, []])
+				line_numbers.append([line_number, []])
 			elif first_char == "}":
 				print("Error: Closing brace encountered outside entity")
 				return null
@@ -66,22 +105,28 @@ func read_indices():
 		elif is_inside_entity:
 			if first_char == "{":
 				is_inside_brush = true
-				indices[-1][1].append(line_number)
+				line_numbers[-1][1].append(line_number)
 			elif first_char == "}":
 				is_inside_entity = false
 
 		line_number += 1
 
-	return indices
+	return line_numbers
 
-func read_entity_properties(entity_idx: int) -> Dictionary:
+func read_entity_properties(entity_lines: Array) -> Dictionary:
 	var properties = {}
 
-	var line_number = line_numbers[entity_idx][0]
+	var line_number = 0
 
-	var parse = true
-	while parse:
-		var line = map_string[line_number]
+	while true:
+		if(line_number >= entity_lines.size()):
+			break
+
+		var line = entity_lines[line_number]
+
+		if line.substr(0, 1) == "}":
+			break
+
 		if line_is_property(line):
 			var key = line_property_key(line)
 			var value = line_property_value(line)
@@ -92,33 +137,10 @@ func read_entity_properties(entity_idx: int) -> Dictionary:
 					properties[key] = float(value)
 				_:
 					properties[key] = value
-		else:
-			parse = false
 
 		line_number += 1
 
 	return properties
-
-func read_entity_brush(entity_idx: int, brush_idx: int, valve_uvs: bool, bitmask_format: bool):
-	var line_number = line_numbers[entity_idx][1][brush_idx]
-
-	var brush_planes = []
-
-	var parse = true
-	while(parse):
-		var line = map_string[line_number]
-
-		if(line == null):
-			parse = false
-		elif(line_starts_with(line, '(')):
-			brush_planes.append(parse_face(line, valve_uvs, bitmask_format))
-		elif(line_starts_with(line, '}')):
-			QodotUtil.debug_print('End of brush section')
-			parse = false
-
-		line_number += 1
-
-	return QuakeBrush.new(brush_planes)
 
 func parse_face(line: String, valve_uvs: bool, bitmask_format: int) -> QuakeFace:
 	QodotUtil.debug_print(['Face: ', line])
