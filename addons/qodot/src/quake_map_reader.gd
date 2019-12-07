@@ -6,85 +6,141 @@ class_name QuakeMapReader
 const OPEN_BRACKET = '('
 const CLOSE_BRACKET = ')'
 
-func read_map_file(file: File, valve_uvs: bool = false, bitmask_format: int = 0) -> QuakeMap:
-	QodotUtil.debug_print('Reading map file')
+var map_string: PoolStringArray
+var line_numbers: Array
 
-	if(valve_uvs):
-		QodotUtil.debug_print('Using Valve 220 UV format')
+func parse_map(map_path: String):
+	var file = File.new()
+	var err = file.open(map_path, File.READ)
 
-	match bitmask_format:
-		QodotEnums.BitmaskFormat.QUAKE_2:
-			QodotUtil.debug_print('Using Quake 2 bitmask format')
-		QodotEnums.BitmaskFormat.HEXEN_2:
-			QodotUtil.debug_print('Using Hexen 2 bitmask format')
-		QodotEnums.BitmaskFormat.DAIKATANA:
-			QodotUtil.debug_print('Using Daikatana bitmask format')
+	if err != OK:
+		print(['Error opening .map file: ', err])
+		return false
 
-	var map_entities = []
+	var map_lines = []
+	while not file.eof_reached():
+		var line = file.get_line()
+		if not line.begins_with('//'):
+			map_lines.append(line)
 
-	var parse = true
-	while(parse):
-		var line = read_line(file)
+	var line_numbers = find_line_numbers(map_lines)
 
-		if(line == null):
-			parse = false
-		elif(line.substr(0, 1) == '{'):
-			map_entities.append(read_entity(file, valve_uvs, bitmask_format))
+	var parsed_entities = []
+	var parsed_brushes = {}
 
-	return QuakeMap.new(map_entities)
+	for entity_idx in range(0, line_numbers.size()):
+		var current_entity = line_numbers[entity_idx]
+		var next_entity = line_numbers[entity_idx + 1] if entity_idx < line_numbers.size() - 1 else null
 
-func read_entity(file: File, valve_uvs: bool, bitmask_format: int) -> QuakeEntity:
-	QodotUtil.debug_print('Reading entity section')
-	var entity_properties = {}
-	var entity_brushes = []
+		var entity_start = current_entity[0]
+		var entity_end = line_numbers.size()
 
-	var parse = true
-	while(parse):
-		var line = read_line(file)
+		if next_entity:
+			entity_end = next_entity[0]
 
-		if(line == null):
-			parse = false
-		elif(line_is_property(line)):
-			var key = line_property_key(line)
-			var val = line_property_value(line)
+		var entity_lines = []
+		for line_idx in range(entity_start - 1, entity_end - 1):
+			entity_lines.append(map_lines[line_idx])
 
-			match key:
-				'origin':
-					var val_comps = val.split(' ')
-					entity_properties[key] = parse_vertex(val)
-				'angle':
-					entity_properties[key] = float(val)
-				_:
-					entity_properties[key] = val
+		parsed_entities.append(entity_lines)
+		parsed_brushes[entity_idx] = {}
 
-			QodotUtil.debug_print([key, ': ', entity_properties[key]])
-		elif(line_starts_with(line, '{')):
-			entity_brushes.append(read_brush(file, valve_uvs, bitmask_format))
-		elif(line_starts_with(line, '}')):
-			QodotUtil.debug_print('End of entity section')
-			parse = false
+		var brush_line_numbers = line_numbers[entity_idx][1]
 
-	QodotUtil.debug_print(entity_properties)
+		for brush_idx in range(0, brush_line_numbers.size()):
+			var current_brush = brush_line_numbers[brush_idx]
+			var next_brush = brush_line_numbers[brush_idx + 1] if brush_idx < brush_line_numbers.size() - 1 else null
 
-	return QuakeEntity.new(entity_properties, entity_brushes)
+			var brush_start = current_brush
+			var brush_end = brush_line_numbers.size()
 
-func read_brush(file: File, valve_uvs: bool, bitmask_format: int) -> QuakeBrush:
-	QodotUtil.debug_print('Reading brush section')
+			if next_brush:
+				brush_end = next_brush
+			else:
+				brush_end = entity_end - 1
+
+			var brush_lines = []
+			for line_idx in range(brush_start, brush_end - 2):
+				brush_lines.append(map_lines[line_idx])
+
+			parsed_brushes[entity_idx][brush_idx] = brush_lines
+
+	var entity_properties = []
+	for parsed_entity in parsed_entities:
+		entity_properties.append(read_entity_properties(parsed_entity))
+
+	return [entity_properties, parsed_brushes]
+
+func parse_brush(brush_lines: Array, valve_uvs: bool, bitmask_format: bool):
 	var brush_planes = []
 
-	var parse = true
-	while(parse):
-		var line = read_line(file)
-
-		if(line == null):
-			parse = false
-		elif(line_starts_with(line, '(')):
-			brush_planes.append(parse_face(line, valve_uvs, bitmask_format))
-		elif(line_starts_with(line, '}')):
-			QodotUtil.debug_print('End of brush section')
-			parse = false
+	for brush_line in brush_lines:
+		brush_planes.append(parse_face(brush_line, valve_uvs, bitmask_format))
 
 	return QuakeBrush.new(brush_planes)
+
+func find_line_numbers(map_string: Array):
+	var line_numbers = []
+
+	var is_inside_entity = false
+	var is_inside_brush = false
+
+	var line_number = 1
+	for line in map_string:
+		var first_char = line.substr(0, 1)
+
+		if not is_inside_entity and not is_inside_brush:
+			if first_char == "{":
+				is_inside_entity = true
+				line_numbers.append([line_number, []])
+			elif first_char == "}":
+				print("Error: Closing brace encountered outside entity")
+				return null
+		elif is_inside_brush:
+			if first_char == "{":
+				print("Error: Opening brance encountered inside brush")
+				return null
+			elif first_char == "}":
+				is_inside_brush = false
+		elif is_inside_entity:
+			if first_char == "{":
+				is_inside_brush = true
+				line_numbers[-1][1].append(line_number)
+			elif first_char == "}":
+				is_inside_entity = false
+
+		line_number += 1
+
+	return line_numbers
+
+func read_entity_properties(entity_lines: Array) -> Dictionary:
+	var properties = {}
+
+	var line_number = 0
+
+	while true:
+		if(line_number >= entity_lines.size()):
+			break
+
+		var line = entity_lines[line_number]
+
+		if line.substr(0, 1) == "}":
+			break
+
+		if line_is_property(line):
+			var key = line_property_key(line)
+			var value = line_property_value(line)
+			match key:
+				'origin':
+					properties[key] = parse_vertex(value)
+				'angle':
+					properties[key] = float(value)
+				_:
+					properties[key] = value
+
+		line_number += 1
+
+	return properties
 
 func parse_face(line: String, valve_uvs: bool, bitmask_format: int) -> QuakeFace:
 	QodotUtil.debug_print(['Face: ', line])
@@ -184,22 +240,8 @@ func parse_vertex(vertex_substr: String) -> Vector3:
 	var comps = vertex_substr.split(' ')
 	return Vector3(comps[1], comps[2], comps[0])
 
-func read_line(file: File):
-	if(file.eof_reached()):
-		QodotUtil.debug_print('EOF Reached')
-		return null
-
-	var line = file.get_line()
-	QodotUtil.debug_print(line)
-	if(line.substr(0, 2) == '//'):
-		return read_line(file)
-	return line
-
 func line_starts_with(line: String, prefix: String):
 	return line.substr(0, prefix.length()) == prefix
-
-func escape_property_name(property_name):
-	return '"' + property_name + '"'
 
 func line_is_property(line):
 	return line_starts_with(line, '"')

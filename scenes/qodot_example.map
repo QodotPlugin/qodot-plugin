@@ -6,6 +6,7 @@
 "mapversion" "220"
 "_tb_textures" "textures/base;textures/pbr;textures/special"
 "_tb_def" "builtin:Qodot.fgd"
+"message" "Qodot Test Map"
 // brush 0
 {
 ( -400 -64 -16 ) ( -400 -63 -16 ) ( -400 -64 -15 ) base/checkerboard [ 0 -1 0 -0 ] [ 0 0 -1 -0 ] -0 0.0625 0.0625

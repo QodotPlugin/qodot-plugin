@@ -17,7 +17,7 @@ func get_save_extension():
 	return 'tres'
 
 func get_resource_type():
-	return 'QuakeMap'
+	return 'QuakeMapFile'
 
 func get_import_options(preset):
 	return []
@@ -32,7 +32,6 @@ func import(source_file, save_path, options, r_platform_variants, r_gen_files):
 
 	var existing_resource := load(save_path_str) as QuakeMapFile
 	if(existing_resource != null):
-		print("Existing resource, revision ", existing_resource.revision)
 		map_resource = existing_resource
 		map_resource.revision += 1
 	else:

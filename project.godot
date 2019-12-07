@@ -60,6 +60,11 @@ _global_script_classes=[ {
 "path": "res://addons/qodot/src/nodes/qodot_spatial.gd"
 }, {
 "base": "Reference",
+"class": "QodotTextureMapper",
+"language": "GDScript",
+"path": "res://addons/qodot/src/mappers/qodot_texture_mapper.gd"
+}, {
+"base": "Reference",
 "class": "QodotThreadPool",
 "language": "GDScript",
 "path": "res://addons/qodot/src/qodot_thread_pool.gd"
@@ -83,11 +88,6 @@ _global_script_classes=[ {
 "class": "QuakeFace",
 "language": "GDScript",
 "path": "res://addons/qodot/src/data/quake_face.gd"
-}, {
-"base": "Reference",
-"class": "QuakeMap",
-"language": "GDScript",
-"path": "res://addons/qodot/src/data/quake_map.gd"
 }, {
 "base": "Resource",
 "class": "QuakeMapFile",
@@ -120,12 +120,12 @@ _global_script_class_icons={
 "QodotNode": "res://addons/qodot/icons/icon_qodot_node.svg",
 "QodotPlugin": "",
 "QodotSpatial": "res://addons/qodot/icons/icon_qodot_spatial.svg",
+"QodotTextureMapper": "",
 "QodotThreadPool": "",
 "QodotUtil": "",
 "QuakeBrush": "",
 "QuakeEntity": "",
 "QuakeFace": "",
-"QuakeMap": "",
 "QuakeMapFile": "",
 "QuakeMapImportPlugin": "",
 "QuakeMapReader": "",
@@ -144,9 +144,8 @@ enabled=PoolStringArray( "qodot" )
 
 [memory]
 
-limits/message_queue/max_size_kb=4096
+limits/message_queue/max_size_kb=81920
 
 [rendering]
 
-threads/thread_model=2
 environment/default_environment="res://default_env.tres"
