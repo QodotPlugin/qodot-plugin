@@ -68,4 +68,4 @@ In order to open the example map in TrenchBroom, it will need access to the Qodo
 
 [Redhacker2](https://github.com/donovan1212) - For stress-testing Qodot to within an inch of its life and motivating me to improve it
 
-FreePBR.com - For royalty-free PBR example textures
+[FreePBR.com](should_spawn_brush_collision) - For royalty-free PBR example textures
