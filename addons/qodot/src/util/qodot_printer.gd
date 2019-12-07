@@ -13,7 +13,7 @@ static func _to_str(msg, indent = ""):
 	elif msg is Dictionary:
 		msg_str = _to_str_dict(msg, indent)
 	else:
-		msg_str = msg
+		msg_str = String(msg)
 
 	return msg_str
 
