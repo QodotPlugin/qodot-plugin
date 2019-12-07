@@ -66,6 +66,6 @@ In order to open the example map in TrenchBroom, it will need access to the Qodo
 
 [Calinou](https://github.com/Calinou) - For making Qodot work on case-sensitive systems
 
-[Redhacker2](https://github.com/donovan1212) - For stress-testing Qodot within and inch of its life and motivating me to import it
+[Redhacker2](https://github.com/donovan1212) - For stress-testing Qodot to within an inch of its life and motivating me to improve it
 
 FreePBR.com - For royalty-free PBR example textures
