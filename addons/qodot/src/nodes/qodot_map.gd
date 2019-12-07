@@ -107,16 +107,16 @@ func build_map(map_file: String):
 	thread_pool.set_bucket_size(build_bucket_size)
 
 	var map_reader = QuakeMapReader.new()
-	var parsed_map = map_reader.parse_map(map_file)
+	var parsed_map = map_reader.parse_map(map_file, get_valve_uvs(map_format), get_bitmask_format(map_format))
 	var entity_properties_array = parsed_map[0]
-	var brush_lines_dict = parsed_map[1]
+	var brush_data_dict = parsed_map[1]
 
 	var worldspawn_properties = entity_properties_array[0]
 	var entity_count = entity_properties_array.size()
 
 	var brush_count = 0
-	for entity_idx in brush_lines_dict:
-		brush_count += brush_lines_dict[entity_idx].size()
+	for entity_idx in brush_data_dict:
+		brush_count += brush_data_dict[entity_idx].size()
 
 	if 'message' in worldspawn_properties:
 		call_deferred("set_name", worldspawn_properties['message'])
@@ -150,9 +150,9 @@ func build_map(map_file: String):
 
 	var queued_brushes = 0
 	for entity_idx in entity_node_dict:
-		for brush_idx in range(0, brush_lines_dict[entity_idx].size()):
-			var brush_lines = brush_lines_dict[entity_idx][brush_idx]
-			thread_pool.add_thread_job(self, "build_brush", [entity_idx, brush_idx, brush_lines])
+		for brush_idx in range(0, brush_data_dict[entity_idx].size()):
+			var brush_data = brush_data_dict[entity_idx][brush_idx]
+			thread_pool.add_thread_job(self, "build_brush", [entity_idx, brush_idx, brush_data])
 			queued_brushes += 1
 
 	print("Queued ", queued_brushes, " brushes for building.")
@@ -173,9 +173,9 @@ func build_map(map_file: String):
 	for entity_idx in entity_node_dict:
 		var entity_properties = entity_properties_array[entity_idx]
 		for brush_idx in brush_node_dict[entity_idx]:
-			var brush_lines = brush_lines_dict[entity_idx][brush_idx]
+			var brush_data = brush_data_dict[entity_idx][brush_idx]
 			if brush_mapper.should_spawn_brush_collision(entity_properties):
-				thread_pool.add_thread_job(self, "build_brush_collision", [entity_idx, brush_idx, entity_properties, brush_lines])
+				thread_pool.add_thread_job(self, "build_brush_collision", [entity_idx, brush_idx, entity_properties, brush_data])
 				queued_brushes += 1
 
 	print("Queued ", queued_brushes, " brushes for collision building.")
@@ -197,8 +197,8 @@ func build_map(map_file: String):
 		var entity_node = entity_node_dict[entity_idx]
 		var entity_properties = entity_properties_array[entity_idx]
 		for brush_idx in brush_node_dict[entity_idx]:
-			var brush_lines = brush_lines_dict[entity_idx][brush_idx]
-			thread_pool.add_thread_job(self, "build_brush_visuals", [entity_idx, brush_idx, entity_properties, brush_lines])
+			var brush_data = brush_data_dict[entity_idx][brush_idx]
+			thread_pool.add_thread_job(self, "build_brush_visuals", [entity_idx, brush_idx, entity_properties, brush_data])
 			queued_brushes += 1
 
 	print("Queued ", queued_brushes, " brushes for visual building.")
@@ -279,10 +279,10 @@ func build_entity(userdata):
 func build_brush(userdata):
 	var entity_idx = userdata[0]
 	var brush_idx = userdata[1]
-	var brush_lines = userdata[2]
+	var brush_data = userdata[2]
 
 	var map_reader = QuakeMapReader.new()
-	var brush = map_reader.parse_brush(brush_lines, get_valve_uvs(map_format), get_bitmask_format(map_format))
+	var brush = map_reader.parse_brush(brush_data)
 
 	var brush_node = QodotBrush.new()
 	brush_node.name = 'Brush0'
@@ -294,10 +294,10 @@ func build_brush_collision(userdata):
 	var entity_idx = userdata[0]
 	var brush_idx = userdata[1]
 	var entity_properties = userdata[2]
-	var brush_lines = userdata[3]
+	var brush_data = userdata[3]
 
 	var map_reader = QuakeMapReader.new()
-	var brush = map_reader.parse_brush(brush_lines, get_valve_uvs(map_format), get_bitmask_format(map_format))
+	var brush = map_reader.parse_brush(brush_data)
 
 	var brush_collision_objects = brush_mapper.create_brush_collision_objects(entity_properties, brush, inverse_scale_factor)
 
@@ -307,10 +307,10 @@ func build_brush_visuals(userdata):
 	var entity_idx = userdata[0]
 	var brush_idx = userdata[1]
 	var entity_properties = userdata[2]
-	var brush_lines = userdata[3]
+	var brush_data = userdata[3]
 
 	var map_reader = QuakeMapReader.new()
-	var brush = map_reader.parse_brush(brush_lines, get_valve_uvs(map_format), get_bitmask_format(map_format))
+	var brush = map_reader.parse_brush(brush_data)
 
 	if not brush_mapper.should_spawn_brush_mesh(entity_properties, brush):
 		return null

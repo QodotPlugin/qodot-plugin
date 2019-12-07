@@ -21,17 +21,17 @@ var content: int
 var color: int
 var hexen_2_param: int
 
-func _init(
-	plane_vertices: PoolVector3Array,
-	texture: String,
-	uv: PoolRealArray,
-	rotation: float,
-	scale: Vector2,
-	surface: int,
-	content: int,
-	color: int,
-	hexen_2_param: int
-	):
+func _init(face_data: Array):
+	var plane_vertices: PoolVector3Array = face_data[0]
+	var texture: String = face_data[1]
+	var uv: PoolRealArray = face_data[2]
+	var rotation: float = face_data[3]
+	var scale: Vector2 = face_data[4]
+	var surface: int = face_data[5]
+	var content: int = face_data[6]
+	var color: int = face_data[7]
+	var hexen_2_param: int = face_data[8]
+
 	self.plane_vertices = plane_vertices
 	self.plane = Plane(plane_vertices[0], plane_vertices[1], plane_vertices[2])
 	self.normal = self.plane.normal

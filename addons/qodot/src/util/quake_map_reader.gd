@@ -9,7 +9,7 @@ const CLOSE_BRACKET = ')'
 var map_string: PoolStringArray
 var line_numbers: Array
 
-func parse_map(map_path: String):
+func parse_map(map_path: String, valve_uvs: bool, bitmask_format: int):
 	var file = File.new()
 	var err = file.open(map_path, File.READ)
 
@@ -69,15 +69,23 @@ func parse_map(map_path: String):
 	for parsed_entity in parsed_entities:
 		entity_properties.append(read_entity_properties(parsed_entity))
 
+	for entity_idx in parsed_brushes:
+		var entity_brushes = parsed_brushes[entity_idx]
+		for brush_idx in entity_brushes:
+			var parsed_brush = entity_brushes[brush_idx]
+			for face_idx in range(0, parsed_brush.size()):
+				var face_line = parsed_brush[face_idx]
+				parsed_brushes[entity_idx][brush_idx][face_idx] = parse_face(face_line, valve_uvs, bitmask_format)
+
 	return [entity_properties, parsed_brushes]
 
-func parse_brush(brush_lines: Array, valve_uvs: bool, bitmask_format: bool):
-	var brush_planes = []
+func parse_brush(face_data: Array):
+	var brush_faces = []
 
-	for brush_line in brush_lines:
-		brush_planes.append(parse_face(brush_line, valve_uvs, bitmask_format))
+	for face in face_data:
+		brush_faces.append(QuakeFace.new(face))
 
-	return QuakeBrush.new(brush_planes)
+	return QuakeBrush.new(brush_faces)
 
 func find_line_numbers(map_string: Array):
 	var line_numbers = []
@@ -142,7 +150,7 @@ func read_entity_properties(entity_lines: Array) -> Dictionary:
 
 	return properties
 
-func parse_face(line: String, valve_uvs: bool, bitmask_format: int) -> QuakeFace:
+func parse_face(line: String, valve_uvs: bool, bitmask_format: int) -> Array:
 	QodotUtil.debug_print(['Face: ', line])
 
 	# Parse vertices
@@ -158,7 +166,7 @@ func parse_face(line: String, valve_uvs: bool, bitmask_format: int) -> QuakeFace
 	var second_vertex = parse_vertex(line.substr(second_open_bracket + 2, second_close_bracket - second_open_bracket - 2))
 	var third_vertex = parse_vertex(line.substr(third_open_bracket + 2, third_close_bracket - third_open_bracket - 2))
 
-	var vertices = [first_vertex, second_vertex, third_vertex]
+	var vertices = PoolVector3Array([first_vertex, second_vertex, third_vertex])
 	QodotUtil.debug_print(['Vertices: ', vertices])
 
 	# Parse other stuff
@@ -234,7 +242,7 @@ func parse_face(line: String, valve_uvs: bool, bitmask_format: int) -> QuakeFace
 				color = int(loose_params.pop_front())
 				QodotUtil.debug_print(['Color: ', color])
 
-	return QuakeFace.new(vertices, texture, uv, rotation, scale, surface, content, color, hexen_2_param)
+	return [vertices, texture, uv, rotation, scale, surface, content, color, hexen_2_param]
 
 func parse_vertex(vertex_substr: String) -> Vector3:
 	var comps = vertex_substr.split(' ')
