@@ -1,4 +1,4 @@
-[gd_scene load_steps=180 format=2]
+[gd_scene load_steps=183 format=2]
 
 [ext_resource path="res://addons/qodot/src/nodes/qodot_map.gd" type="Script" id=1]
 [ext_resource path="res://addons/qodot/src/nodes/qodot_entity.gd" type="Script" id=2]
@@ -2076,6 +2076,49 @@ surfaces/0 = {
 }
 
 [sub_resource type="ConvexPolygonShape" id=173]
+points = PoolVector3Array( -2, 0.666667, 0.333333, -2, -0.333333, -0.666667, 2, -0.333333, -0.666667, 2, 0.666667, 0.333333, -2, -0.333333, 0.333333, -2, -0.333333, -0.666667, -2, 0.666667, 0.333333, 2, -0.333333, -0.666667, -2, -0.333333, -0.666667, -2, -0.333333, 0.333333, 2, -0.333333, 0.333333, 2, 0.666667, 0.333333, 2, -0.333333, -0.666667, 2, -0.333333, 0.333333, 2, -0.333333, 0.333333, -2, -0.333333, 0.333333, -2, 0.666667, 0.333333, 2, 0.666667, 0.333333 )
+
+[sub_resource type="ArrayMesh" id=174]
+surfaces/0 = {
+"aabb": AABB( -2, -0.5, -0.5, 4, 1.00001, 1.00001 ),
+"array_data": PoolByteArray( 0, 0, 0, 192, 0, 0, 0, 63, 0, 0, 0, 63, 0, 89, 167, 0, 127, 0, 0, 127, 0, 69, 0, 64, 0, 0, 0, 192, 240, 255, 255, 190, 0, 0, 0, 191, 0, 89, 167, 0, 127, 0, 0, 127, 128, 68, 0, 64, 0, 0, 0, 64, 240, 255, 255, 190, 0, 0, 0, 191, 0, 89, 167, 0, 127, 0, 0, 127, 128, 68, 0, 0, 0, 0, 0, 64, 0, 0, 0, 63, 0, 0, 0, 63, 0, 89, 167, 0, 127, 0, 0, 127, 0, 69, 0, 0 ),
+"array_index_data": PoolByteArray( 0, 0, 1, 0, 2, 0, 3, 0 ),
+"blend_shape_data": [  ],
+"format": 97559,
+"index_count": 4,
+"material": SubResource( 4 ),
+"primitive": 6,
+"skeleton_aabb": [  ],
+"vertex_count": 4
+}
+
+[sub_resource type="ArrayMesh" id=175]
+surfaces/0 = {
+"aabb": AABB( 0, -0.333333, -0.666667, 1e-005, 1, 1.00001 ),
+"array_data": PoolByteArray( 0, 0, 0, 0, 176, 170, 170, 190, 160, 170, 170, 62, 129, 0, 0, 0, 0, 0, 129, 127, 128, 69, 0, 195, 0, 0, 0, 0, 160, 170, 170, 190, 176, 170, 42, 191, 129, 0, 0, 0, 0, 0, 129, 127, 0, 69, 0, 195, 0, 0, 0, 0, 168, 170, 42, 63, 160, 170, 170, 62, 129, 0, 0, 0, 0, 0, 129, 127, 128, 69, 0, 196 ),
+"array_index_data": PoolByteArray( 0, 0, 1, 0, 2, 0 ),
+"blend_shape_data": [  ],
+"format": 97559,
+"index_count": 3,
+"material": SubResource( 4 ),
+"primitive": 6,
+"skeleton_aabb": [  ],
+"vertex_count": 3
+}
+
+[sub_resource type="ArrayMesh" id=176]
+surfaces/0 = {
+"aabb": AABB( 0, -0.333333, -0.666667, 1e-005, 1.00001, 1.00001 ),
+"array_data": PoolByteArray( 0, 0, 0, 0, 168, 170, 42, 63, 160, 170, 170, 62, 127, 0, 0, 0, 0, 0, 127, 127, 128, 197, 0, 196, 0, 0, 0, 128, 160, 170, 170, 190, 176, 170, 42, 191, 127, 0, 0, 0, 0, 0, 127, 127, 0, 197, 0, 195, 0, 0, 0, 128, 176, 170, 170, 190, 160, 170, 170, 62, 127, 0, 0, 0, 0, 0, 127, 127, 128, 197, 0, 195 ),
+"array_index_data": PoolByteArray( 0, 0, 1, 0, 2, 0 ),
+"blend_shape_data": [  ],
+"format": 97559,
+"index_count": 3,
+"material": SubResource( 4 ),
+"primitive": 6,
+"skeleton_aabb": [  ],
+"vertex_count": 3
+}
 
 [node name="Node" type="Node"]
 
@@ -3092,90 +3135,108 @@ script = ExtResource( 3 )
 [node name="CollisionShape" type="CollisionShape" parent="Qodot Test Map/func_group4/Brush3/StaticBody"]
 shape = SubResource( 159 )
 
-[node name="Spatial" type="Spatial" parent="Qodot Test Map"]
+[node name="func_group5" type="Spatial" parent="Qodot Test Map"]
 script = ExtResource( 2 )
 properties = {
-
+"_tb_id": "13",
+"_tb_name": "Lookout",
+"_tb_type": "_tb_group",
+"classname": "func_group"
 }
 
-[node name="Brush0" type="Spatial" parent="Qodot Test Map/Spatial"]
+[node name="Brush0" type="Spatial" parent="Qodot Test Map/func_group5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 7, 15 )
 script = ExtResource( 3 )
 
-[node name="StaticBody" type="StaticBody" parent="Qodot Test Map/Spatial/Brush0"]
+[node name="StaticBody" type="StaticBody" parent="Qodot Test Map/func_group5/Brush0"]
 
-[node name="CollisionShape" type="CollisionShape" parent="Qodot Test Map/Spatial/Brush0/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Qodot Test Map/func_group5/Brush0/StaticBody"]
 shape = SubResource( 160 )
 
-[node name="Face0" type="MeshInstance" parent="Qodot Test Map/Spatial/Brush0"]
+[node name="Face0" type="MeshInstance" parent="Qodot Test Map/func_group5/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4 )
 mesh = SubResource( 161 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="Qodot Test Map/Spatial/Brush0"]
+[node name="Face1" type="MeshInstance" parent="Qodot Test Map/func_group5/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0 )
 mesh = SubResource( 162 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="Qodot Test Map/Spatial/Brush0"]
+[node name="Face2" type="MeshInstance" parent="Qodot Test Map/func_group5/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
 mesh = SubResource( 163 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="Qodot Test Map/Spatial/Brush0"]
+[node name="Face3" type="MeshInstance" parent="Qodot Test Map/func_group5/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 mesh = SubResource( 164 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="Qodot Test Map/Spatial/Brush0"]
+[node name="Face4" type="MeshInstance" parent="Qodot Test Map/func_group5/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0 )
 mesh = SubResource( 165 )
 material/0 = null
 
-[node name="Face5" type="MeshInstance" parent="Qodot Test Map/Spatial/Brush0"]
+[node name="Face5" type="MeshInstance" parent="Qodot Test Map/func_group5/Brush0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4 )
 mesh = SubResource( 166 )
 material/0 = null
 
-[node name="Brush1" type="Spatial" parent="Qodot Test Map/Spatial"]
+[node name="Brush1" type="Spatial" parent="Qodot Test Map/func_group5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 4, 6.99999 )
 script = ExtResource( 3 )
 
-[node name="StaticBody" type="StaticBody" parent="Qodot Test Map/Spatial/Brush1"]
+[node name="StaticBody" type="StaticBody" parent="Qodot Test Map/func_group5/Brush1"]
 
-[node name="CollisionShape" type="CollisionShape" parent="Qodot Test Map/Spatial/Brush1/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Qodot Test Map/func_group5/Brush1/StaticBody"]
 shape = SubResource( 167 )
 
-[node name="Face0" type="MeshInstance" parent="Qodot Test Map/Spatial/Brush1"]
+[node name="Face0" type="MeshInstance" parent="Qodot Test Map/func_group5/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.49999 )
 mesh = SubResource( 168 )
 material/0 = null
 
-[node name="Face1" type="MeshInstance" parent="Qodot Test Map/Spatial/Brush1"]
+[node name="Face1" type="MeshInstance" parent="Qodot Test Map/func_group5/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0 )
 mesh = SubResource( 169 )
 material/0 = null
 
-[node name="Face2" type="MeshInstance" parent="Qodot Test Map/Spatial/Brush1"]
+[node name="Face2" type="MeshInstance" parent="Qodot Test Map/func_group5/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 3, 3.50001 )
 mesh = SubResource( 170 )
 material/0 = null
 
-[node name="Face3" type="MeshInstance" parent="Qodot Test Map/Spatial/Brush1"]
+[node name="Face3" type="MeshInstance" parent="Qodot Test Map/func_group5/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
 mesh = SubResource( 171 )
 material/0 = null
 
-[node name="Face4" type="MeshInstance" parent="Qodot Test Map/Spatial/Brush1"]
+[node name="Face4" type="MeshInstance" parent="Qodot Test Map/func_group5/Brush1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.96046e-008, 0, 0.49999 )
 mesh = SubResource( 172 )
 material/0 = null
 
-[node name="Brush2" type="Spatial" parent="Qodot Test Map/Spatial"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.#IND, -1.#IND, -1.#IND )
+[node name="Brush2" type="Spatial" parent="Qodot Test Map/func_group5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 7.33333, 10.6667 )
 script = ExtResource( 3 )
 
-[node name="StaticBody" type="StaticBody" parent="Qodot Test Map/Spatial/Brush2"]
+[node name="StaticBody" type="StaticBody" parent="Qodot Test Map/func_group5/Brush2"]
 
-[node name="CollisionShape" type="CollisionShape" parent="Qodot Test Map/Spatial/Brush2/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Qodot Test Map/func_group5/Brush2/StaticBody"]
 shape = SubResource( 173 )
+
+[node name="Face0" type="MeshInstance" parent="Qodot Test Map/func_group5/Brush2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.166667, -0.166667 )
+mesh = SubResource( 174 )
+material/0 = null
+
+[node name="Face1" type="MeshInstance" parent="Qodot Test Map/func_group5/Brush2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0 )
+mesh = SubResource( 175 )
+material/0 = null
+
+[node name="Face2" type="MeshInstance" parent="Qodot Test Map/func_group5/Brush2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
+mesh = SubResource( 176 )
+material/0 = null
