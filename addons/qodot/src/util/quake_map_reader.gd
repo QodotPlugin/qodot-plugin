@@ -33,7 +33,7 @@ func parse_map(map_path: String):
 		var next_entity = line_numbers[entity_idx + 1] if entity_idx < line_numbers.size() - 1 else null
 
 		var entity_start = current_entity[0]
-		var entity_end = line_numbers.size()
+		var entity_end = map_lines.size()
 
 		if next_entity:
 			entity_end = next_entity[0]
