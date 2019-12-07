@@ -60,9 +60,9 @@ _global_script_classes=[ {
 "path": "res://addons/qodot/src/nodes/qodot_spatial.gd"
 }, {
 "base": "Reference",
-"class": "QodotTextureMapper",
+"class": "QodotTextureLoader",
 "language": "GDScript",
-"path": "res://addons/qodot/src/mappers/qodot_texture_mapper.gd"
+"path": "res://addons/qodot/src/qodot_texture_loader.gd"
 }, {
 "base": "Reference",
 "class": "QodotThreadPool",
@@ -120,7 +120,7 @@ _global_script_class_icons={
 "QodotNode": "res://addons/qodot/icons/icon_qodot_node.svg",
 "QodotPlugin": "",
 "QodotSpatial": "res://addons/qodot/icons/icon_qodot_spatial.svg",
-"QodotTextureMapper": "",
+"QodotTextureLoader": "",
 "QodotThreadPool": "",
 "QodotUtil": "",
 "QuakeBrush": "",

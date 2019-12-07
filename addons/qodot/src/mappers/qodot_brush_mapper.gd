@@ -23,7 +23,7 @@ static func create_brush_meshes(entity_properties: Dictionary, brush: QuakeBrush
 	var brush_meshes = []
 
 	for face in brush.faces:
-		var spatial_material = texture_mapper.get_spatial_material(face, base_texture_path, material_extension, texture_extension, default_material)
+		var spatial_material = texture_mapper.get_spatial_material(face.texture, base_texture_path, material_extension, texture_extension, default_material)
 		if(face_mapper.should_spawn_face_mesh(entity_properties, brush, face)):
 			var face_mesh_node = face_mapper.spawn_face_mesh(brush, face, texture_mapper, base_texture_path, material_extension, texture_extension, default_material, inverse_scale_factor)
 			brush_meshes.append(face_mesh_node)

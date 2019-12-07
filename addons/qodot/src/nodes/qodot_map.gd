@@ -41,7 +41,7 @@ export(int) var max_build_threads = 4
 export(int) var build_bucket_size = 4
 
 # Instances
-var texture_mapper = QodotTextureMapper.new()
+var texture_mapper = QodotTextureLoader.new()
 
 var build_thread = Thread.new()
 

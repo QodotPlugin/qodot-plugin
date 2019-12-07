@@ -1,4 +1,4 @@
-class_name QodotTextureMapper
+class_name QodotTextureLoader
 
 const TEXTURE_EMPTY = '__TB_empty'	# TrenchBroom empty texture string
 
@@ -9,6 +9,7 @@ const PBR_EMISSION = 'emissive'
 const PBR_AO = 'ao'
 const PBR_DEPTH = 'depth'
 
+# Suffix string / Godot enum / SpatialMaterial property
 const PBR_SUFFICES = [
 	[ PBR_NORMAL, SpatialMaterial.TEXTURE_NORMAL, 'normal_enabled' ],
 	[ PBR_METALLIC, SpatialMaterial.TEXTURE_METALLIC ],
@@ -21,14 +22,20 @@ const PBR_SUFFICES = [
 var material_dict = {}
 var texture_directory = Directory.new()
 
-func get_spatial_material(face, base_texture_path, material_extension, texture_extension, default_material = null):
+func get_spatial_material(
+	texture_name: String,
+	base_texture_path: String,
+	material_extension: String,
+	texture_extension: String,
+	default_material = null
+	):
 	var spatial_material = null
 
-	if(face.texture != TEXTURE_EMPTY):
+	if(texture_name != TEXTURE_EMPTY):
 		texture_directory.change_dir(base_texture_path)
 
 		# Autoload material if it exists
-		var material_path = base_texture_path + '/' + face.texture + material_extension
+		var material_path = base_texture_path + '/' + texture_name + material_extension
 
 		if not material_path in material_dict and texture_directory.file_exists(material_path):
 			var loaded_material: SpatialMaterial = load(material_path)
@@ -39,7 +46,7 @@ func get_spatial_material(face, base_texture_path, material_extension, texture_e
 			spatial_material = material_dict[material_path]
 		else:
 			# Load albedo texture if it exists
-			var texture_path = base_texture_path + '/' + face.texture + texture_extension
+			var texture_path = base_texture_path + '/' + texture_name + texture_extension
 
 			var texture = null
 			if(texture_directory.file_exists(texture_path)):
@@ -53,7 +60,7 @@ func get_spatial_material(face, base_texture_path, material_extension, texture_e
 
 				spatial_material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, texture)
 
-				var pbr_textures = get_pbr_textures(base_texture_path, face.texture, texture_extension)
+				var pbr_textures = get_pbr_textures(base_texture_path, texture_name, texture_extension)
 				for pbr_suffix in PBR_SUFFICES:
 					if(pbr_suffix != null):
 						var tex = pbr_textures[pbr_suffix[0]]
