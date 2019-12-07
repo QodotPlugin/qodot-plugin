@@ -1,7 +1,7 @@
 [remap]
 
 importer="qodot.map"
-type="QuakeMap"
+type="QuakeMapFile"
 path="res://.import/qodot_example.map-b0f967c295899e762b401c55cb6193f8.tres"
 
 [deps]

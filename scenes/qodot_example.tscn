@@ -2109,6 +2109,7 @@ spot_angle = 18.0385
 
 [node name="ReflectionProbes" type="Spatial" parent="Lighting"]
 editor/display_folded = true
+visible = false
 
 [node name="ReflectionProbe" type="ReflectionProbe" parent="Lighting/ReflectionProbes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.9318, 4.55063, -10.453 )
