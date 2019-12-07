@@ -8,14 +8,14 @@ static func should_spawn_face_mesh(entity: QuakeEntity, brush: QuakeBrush, face:
 
 	return true
 
-static func spawn_face_mesh(brush: QuakeBrush, face: QuakeFace, texture_mapper: QodotTextureLoader, base_texture_path, material_extension, texture_extension, default_material, inverse_scale_factor):
+static func spawn_face_mesh(brush: QuakeBrush, face: QuakeFace, texture_loader: QodotTextureLoader, base_texture_path, material_extension, texture_extension, default_material, inverse_scale_factor):
 	var surface_tool = SurfaceTool.new()
 	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLE_FAN)
 
 	surface_tool.add_normal(face.normal)
 	surface_tool.add_tangent(face.tangent)
 
-	var spatial_material = texture_mapper.get_spatial_material(face.texture, base_texture_path, material_extension, texture_extension, default_material)
+	var spatial_material = texture_loader.get_spatial_material(face.texture, base_texture_path, material_extension, texture_extension, default_material)
 	surface_tool.set_material(spatial_material)
 
 	var vertex_idx = 0

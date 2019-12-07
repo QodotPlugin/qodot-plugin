@@ -19,13 +19,13 @@ static func should_spawn_brush_mesh(entity_properties: Dictionary, brush: QuakeB
 	# Default to true for entities with empty classnames
 	return true
 
-static func create_brush_meshes(entity_properties: Dictionary, brush: QuakeBrush, face_mapper, texture_mapper, base_texture_path, material_extension, texture_extension, default_material, inverse_scale_factor) -> Array:
+static func create_brush_meshes(entity_properties: Dictionary, brush: QuakeBrush, face_mapper, texture_loader, base_texture_path, material_extension, texture_extension, default_material, inverse_scale_factor) -> Array:
 	var brush_meshes = []
 
 	for face in brush.faces:
-		var spatial_material = texture_mapper.get_spatial_material(face.texture, base_texture_path, material_extension, texture_extension, default_material)
+		var spatial_material = texture_loader.get_spatial_material(face.texture, base_texture_path, material_extension, texture_extension, default_material)
 		if(face_mapper.should_spawn_face_mesh(entity_properties, brush, face)):
-			var face_mesh_node = face_mapper.spawn_face_mesh(brush, face, texture_mapper, base_texture_path, material_extension, texture_extension, default_material, inverse_scale_factor)
+			var face_mesh_node = face_mapper.spawn_face_mesh(brush, face, texture_loader, base_texture_path, material_extension, texture_extension, default_material, inverse_scale_factor)
 			brush_meshes.append(face_mesh_node)
 
 	return brush_meshes

@@ -67,7 +67,7 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "QodotTextureLoader",
 "language": "GDScript",
-"path": "res://addons/qodot/src/qodot_texture_loader.gd"
+"path": "res://addons/qodot/src/util/qodot_texture_loader.gd"
 }, {
 "base": "Reference",
 "class": "QodotThreadPool",

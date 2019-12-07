@@ -79,13 +79,29 @@ func parse_map(map_path: String, valve_uvs: bool, bitmask_format: int):
 
 	return [entity_properties, parsed_brushes]
 
-func parse_brush(face_data: Array):
+func create_brush(face_data: Array):
 	var brush_faces = []
 
 	for face in face_data:
 		brush_faces.append(QuakeFace.new(face))
 
 	return QuakeBrush.new(brush_faces)
+
+func get_texture_list(brush_data_dict: Dictionary) -> Array:
+	var texture_list = []
+
+	for entity_idx in brush_data_dict:
+		var entity_brushes = brush_data_dict[entity_idx]
+		for brush_idx in entity_brushes:
+			var brush_faces = entity_brushes[brush_idx]
+			for face_data in brush_faces:
+				var face_texture = face_data[1]
+				if not face_texture in texture_list:
+					texture_list.append(face_data[1])
+
+	texture_list.sort()
+
+	return texture_list
 
 func find_line_numbers(map_string: Array):
 	var line_numbers = []

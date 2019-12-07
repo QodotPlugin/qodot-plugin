@@ -7,6 +7,9 @@ tool
 # Pseudo-button for forcing a refresh after asset reimport
 export(bool) var reload setget set_reload
 
+# Pseudo-button for forcing a refresh after asset reimport
+export(bool) var print_to_log
+
 # Map file format
 export(QodotEnums.MapFormat) var map_format = QodotEnums.MapFormat.STANDARD
 
@@ -41,7 +44,7 @@ export(int) var max_build_threads = 4
 export(int) var build_bucket_size = 4
 
 # Instances
-var texture_mapper = QodotTextureLoader.new()
+var texture_loader = QodotTextureLoader.new()
 
 var build_thread = Thread.new()
 
@@ -63,6 +66,10 @@ func set_reload(new_reload):
 
 			build_start_timestamp = OS.get_ticks_msec()
 			build_thread.start(self, "build_map", map_file)
+
+func print_log(msg):
+	if(print_to_log):
+		QodotPrinter.print_typed(msg)
 
 # Returns whether a given format uses Valve-style UVs
 func get_valve_uvs(map_format: int):
@@ -103,41 +110,54 @@ func build_map(map_file: String):
 	var brush_collision_dict = {}
 	var brush_visuals_dict = {}
 
+	print_log("\nInitializing Thread Pool...")
 	var thread_pool = QodotThreadPool.new()
+	thread_pool.set_max_threads(max_build_threads)
 	thread_pool.set_bucket_size(build_bucket_size)
+	print_log("Done.\n")
 
+	print_log("Parsing map file...")
 	var map_reader = QuakeMapReader.new()
 	var parsed_map = map_reader.parse_map(map_file, get_valve_uvs(map_format), get_bitmask_format(map_format))
+	print_log("Done.\n")
+
 	var entity_properties_array = parsed_map[0]
 	var brush_data_dict = parsed_map[1]
 
 	var worldspawn_properties = entity_properties_array[0]
 	var entity_count = entity_properties_array.size()
 
+	print_log("Entity Count: " + String(entity_count))
+
 	var brush_count = 0
 	for entity_idx in brush_data_dict:
 		brush_count += brush_data_dict[entity_idx].size()
 
+	print_log("Brush Count: " + String(brush_count) + "\n")
+
+	print_log("Worldspawn Properties:")
+	print_log(worldspawn_properties)
+
 	if 'message' in worldspawn_properties:
 		call_deferred("set_name", worldspawn_properties['message'])
 
-	print("\nWorldspawn Properties:")
-	for property in worldspawn_properties:
-		print("\t", property, ": ", worldspawn_properties[property])
+	print_log("\nLoading textures...")
+	var texture_list = map_reader.get_texture_list(brush_data_dict)
+	var material_dict = texture_loader.load_texture_materials(texture_list, base_texture_path, material_extension, texture_extension, default_material)
+	print_log("Done.\n")
 
-	print("\nEntity Count: ", entity_count)
-	print("Brush Count: ", brush_count, "\n")
+	print_log("Map textures:")
+	print_log(texture_list)
 
+	print_log("Queueing entities for building...")
 	for entity_idx in range(0, entity_count):
 		var entity_properties = entity_properties_array[entity_idx]
 		thread_pool.add_thread_job(self, "build_entity", [entity_idx, entity_properties])
+	print_log("Done.\n")
 
-	print("Queued ", entity_count, " entities for building.")
-
-	print("Building entities...")
+	print_log("Building entities...")
 	thread_pool.start_thread_jobs()
 	var entity_results = yield(thread_pool, "jobs_complete")
-	print("Entities complete.\n")
 
 	for result_idx in entity_results:
 		var result = entity_results[result_idx]
@@ -147,20 +167,18 @@ func build_map(map_file: String):
 		brush_node_dict[entity_idx] = {}
 		brush_collision_dict[entity_idx] = {}
 		brush_visuals_dict[entity_idx] = {}
+	print_log("Done.\n")
 
-	var queued_brushes = 0
+	print_log("Queueing brushes for building...")
 	for entity_idx in entity_node_dict:
 		for brush_idx in range(0, brush_data_dict[entity_idx].size()):
 			var brush_data = brush_data_dict[entity_idx][brush_idx]
 			thread_pool.add_thread_job(self, "build_brush", [entity_idx, brush_idx, brush_data])
-			queued_brushes += 1
+	print_log("Done.\n")
 
-	print("Queued ", queued_brushes, " brushes for building.")
-
-	print("Building brushes...")
+	print_log("Building brushes...")
 	thread_pool.start_thread_jobs()
 	var brush_results = yield(thread_pool, "jobs_complete")
-	print("Brushes complete.\n")
 
 	for result_idx in brush_results:
 		var result = brush_results[result_idx]
@@ -168,22 +186,20 @@ func build_map(map_file: String):
 		var brush_idx = result[1]
 		var brush_node = result[2]
 		brush_node_dict[entity_idx][brush_idx] = brush_node
+	print_log("Done.\n")
 
-	queued_brushes = 0
+	print_log("Queueing brushes for collision building...")
 	for entity_idx in entity_node_dict:
 		var entity_properties = entity_properties_array[entity_idx]
 		for brush_idx in brush_node_dict[entity_idx]:
 			var brush_data = brush_data_dict[entity_idx][brush_idx]
 			if brush_mapper.should_spawn_brush_collision(entity_properties):
 				thread_pool.add_thread_job(self, "build_brush_collision", [entity_idx, brush_idx, entity_properties, brush_data])
-				queued_brushes += 1
+	print_log("Done.\n")
 
-	print("Queued ", queued_brushes, " brushes for collision building.")
-
-	print("Building collision...")
+	print_log("Building collision...")
 	thread_pool.start_thread_jobs()
 	var collision_results = yield(thread_pool, "jobs_complete")
-	print("Collision build complete.\n")
 
 	for result_idx in collision_results:
 		var result = collision_results[result_idx]
@@ -191,22 +207,20 @@ func build_map(map_file: String):
 		var brush_idx = result[1]
 		var brush_node = result[2]
 		brush_collision_dict[entity_idx][brush_idx] = brush_node
+	print_log("Done.\n")
 
-	queued_brushes = 0
+	print_log("Queueing brushes for visual building...")
 	for entity_idx in entity_node_dict:
 		var entity_node = entity_node_dict[entity_idx]
 		var entity_properties = entity_properties_array[entity_idx]
 		for brush_idx in brush_node_dict[entity_idx]:
 			var brush_data = brush_data_dict[entity_idx][brush_idx]
 			thread_pool.add_thread_job(self, "build_brush_visuals", [entity_idx, brush_idx, entity_properties, brush_data])
-			queued_brushes += 1
+	print_log("Done.\n")
 
-	print("Queued ", queued_brushes, " brushes for visual building.")
-
-	print("Building visuals...")
+	print_log("Building visuals...")
 	thread_pool.start_thread_jobs()
 	var visuals_results = yield(thread_pool, "jobs_complete")
-	print("Visual build complete.\n")
 
 	for result_idx in visuals_results:
 		var result = visuals_results[result_idx]
@@ -215,16 +229,15 @@ func build_map(map_file: String):
 			var brush_idx = result[1]
 			var brush_node = result[2]
 			brush_visuals_dict[entity_idx][brush_idx] = brush_node
+	print_log("Done.\n")
 
 	thread_pool.finish()
-
 	call_deferred("build_complete", [entity_node_dict, brush_node_dict, brush_collision_dict, brush_visuals_dict])
 
 func build_complete(dicts):
-	print("Adding nodes to editor tree...\n")
-
 	build_thread.wait_to_finish()
 
+	print_log("Adding nodes to scene...")
 	var entity_node_dict = dicts[0]
 	var brush_node_dict = dicts[1]
 	var brush_collision_dict = dicts[2]
@@ -253,13 +266,16 @@ func build_complete(dicts):
 			entity_node.add_child(brush_node)
 
 		add_child(entity_node)
+	print_log("Done.\n")
 
+	print_log("Adding nodes to editor tree...")
 	var edited_scene_root = get_tree().get_edited_scene_root()
 	add_children_to_editor(edited_scene_root)
+	print_log("Done.\n")
 
 	var build_end_timestamp = OS.get_ticks_msec()
 	var build_duration = build_end_timestamp - build_start_timestamp
-	print("Build complete after ", build_duration * 0.001, " seconds.\n")
+	print("Build complete after " + String(build_duration * 0.001) + " seconds.\n")
 
 # Creates a node representation of an entity and its child brushes
 func build_entity(userdata):
@@ -282,7 +298,7 @@ func build_brush(userdata):
 	var brush_data = userdata[2]
 
 	var map_reader = QuakeMapReader.new()
-	var brush = map_reader.parse_brush(brush_data)
+	var brush = map_reader.create_brush(brush_data)
 
 	var brush_node = QodotBrush.new()
 	brush_node.name = 'Brush0'
@@ -297,7 +313,7 @@ func build_brush_collision(userdata):
 	var brush_data = userdata[3]
 
 	var map_reader = QuakeMapReader.new()
-	var brush = map_reader.parse_brush(brush_data)
+	var brush = map_reader.create_brush(brush_data)
 
 	var brush_collision_objects = brush_mapper.create_brush_collision_objects(entity_properties, brush, inverse_scale_factor)
 
@@ -310,7 +326,7 @@ func build_brush_visuals(userdata):
 	var brush_data = userdata[3]
 
 	var map_reader = QuakeMapReader.new()
-	var brush = map_reader.parse_brush(brush_data)
+	var brush = map_reader.create_brush(brush_data)
 
 	if not brush_mapper.should_spawn_brush_mesh(entity_properties, brush):
 		return null
@@ -325,7 +341,7 @@ func build_brush_visuals(userdata):
 			brush_visuals = brush_mapper.create_brush_face_vertices(brush, inverse_scale_factor)
 
 		QodotEnums.MapMode.BRUSH_MESHES:
-			var face_meshes = brush_mapper.create_brush_meshes(entity_properties, brush, face_mapper, texture_mapper, base_texture_path, material_extension, texture_extension, default_material, inverse_scale_factor)
+			var face_meshes = brush_mapper.create_brush_meshes(entity_properties, brush, face_mapper, texture_loader, base_texture_path, material_extension, texture_extension, default_material, inverse_scale_factor)
 			for face_mesh in face_meshes:
 				brush_visuals.append(face_mesh)
 

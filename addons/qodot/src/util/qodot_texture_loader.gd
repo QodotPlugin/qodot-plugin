@@ -22,6 +22,18 @@ const PBR_SUFFICES = [
 var material_dict = {}
 var texture_directory = Directory.new()
 
+func load_texture_materials(
+	texture_list: Array,
+	base_texture_path: String,
+	material_extension: String,
+	texture_extension: String,
+	default_material = null
+	) -> Dictionary:
+	var texture_materials = {}
+	for texture in texture_list:
+		texture_materials[texture] = get_spatial_material(texture, base_texture_path, material_extension, texture_extension, default_material)
+	return texture_materials
+
 func get_spatial_material(
 	texture_name: String,
 	base_texture_path: String,
