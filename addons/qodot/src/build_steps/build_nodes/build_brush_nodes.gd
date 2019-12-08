@@ -1,8 +1,8 @@
-class_name QodotBuildBrushes
+class_name QodotBuildBrushNodes
 extends QodotBuildStep
 
 func get_name() -> String:
-	return "brushes"
+	return "brush_nodes"
 
 func get_type() -> int:
 	return self.Type.PER_BRUSH

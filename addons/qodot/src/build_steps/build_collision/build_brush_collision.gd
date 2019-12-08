@@ -1,5 +1,5 @@
 class_name QodotBuildBrushCollision
-extends QodotBuildStep
+extends QodotBuildCollision
 
 func get_name() -> String:
 	return "brush_collision"
@@ -12,6 +12,9 @@ func get_build_params() -> Array:
 
 func get_finalize_params() -> Array:
 	return ['brush_collision']
+
+func get_wants_finalize():
+	return true
 
 func _run(context) -> Array:
 	var entity_idx = context['entity_idx']
@@ -29,9 +32,6 @@ func _run(context) -> Array:
 		scaled_collision_vertices.append(collision_vertex / inverse_scale_factor)
 
 	return ["nodes", [entity_idx, brush_idx], [], entity_properties, scaled_collision_vertices]
-
-func wants_finalize():
-	return true
 
 func _finalize(context) -> void:
 	var brush_collision = context['brush_collision']
@@ -53,36 +53,3 @@ func _finalize(context) -> void:
 		brush_collision_object.add_child(brush_collision_shape)
 
 		brush_collision[brush_collision_idx][2] = [brush_collision_object]
-
-func should_spawn_brush_collision(entity_properties: Dictionary) -> bool:
-	if('classname' in entity_properties):
-		return entity_properties['classname'] != 'func_illusionary'
-
-	return true
-
-static func get_brush_collision_vertices(entity_properties: Dictionary, brush: QuakeBrush):
-	var collision_vertices = PoolVector3Array()
-
-	for face in brush.faces:
-		for vertex in face.face_vertices:
-
-			var vertex_present = false
-			for collision_vertex in collision_vertices:
-				if((vertex - collision_vertex).length() < 0.001):
-					vertex_present = true
-
-			if not vertex_present:
-				collision_vertices.append(vertex + face.center - brush.center)
-
-	return collision_vertices
-
-# Create and return a CollisionObject for the given .map classname
-static func spawn_brush_collision_object(entity_properties: Dictionary) -> CollisionObject:
-	var node = null
-
-	# Use an Area for trigger brushes
-	if('classname' in entity_properties):
-		if(entity_properties['classname'].find('trigger') > -1):
-			return Area.new()
-
-	return StaticBody.new()

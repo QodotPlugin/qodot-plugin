@@ -18,11 +18,11 @@ func get_build_params() -> Array:
 func get_finalize_params() -> Array:
 	return []
 
+func get_wants_finalize() -> bool:
+	return false
+
 func _run(context) -> Array:
 	return [null]
-
-func wants_finalize() -> bool:
-	return false
 
 func _finalize(context) -> void:
 	pass

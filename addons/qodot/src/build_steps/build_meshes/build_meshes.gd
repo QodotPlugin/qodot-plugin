@@ -1,69 +1,5 @@
-class_name QodotBuildBrushFaceMeshes
+class_name QodotBuildMeshes
 extends QodotBuildStep
-
-func get_name() -> String:
-	return "brush_face_meshes"
-
-func get_type() -> int:
-	return self.Type.PER_BRUSH
-
-func get_build_params() -> Array:
-	return ['material_dict', 'inverse_scale_factor']
-
-func get_finalize_params() -> Array:
-	return ['brush_face_meshes', 'material_dict', 'inverse_scale_factor']
-
-func _run(context) -> Array:
-	var entity_idx = context['entity_idx']
-	var brush_idx = context['brush_idx']
-	var entity_properties = context['entity_properties']
-	var brush_data = context['brush_data']
-	var material_dict = context['material_dict']
-	var inverse_scale_factor = context['inverse_scale_factor']
-
-	var map_reader = QuakeMapReader.new()
-	var brush = map_reader.create_brush(brush_data)
-
-	if not should_spawn_brush_mesh(entity_properties, brush):
-		return ["nodes", [entity_idx, brush_idx], [], [], []]
-
-	var face_nodes = []
-	var face_indices = []
-
-	for face_idx in range(0, brush.faces.size()):
-		var face = brush.faces[face_idx]
-		if(should_spawn_face_mesh(entity_properties, brush, face)):
-			var face_mesh_node = MeshInstance.new()
-			face_mesh_node.name = 'Face0'
-			face_nodes.append(face_mesh_node)
-			face_indices.append(face_idx)
-
-	return ["nodes", [entity_idx, brush_idx], face_nodes, face_indices, brush_data]
-
-func wants_finalize():
-	return true
-
-func _finalize(context):
-	var brush_face_meshes = context['brush_face_meshes']
-	var material_dict = context['material_dict']
-	var inverse_scale_factor = context['inverse_scale_factor']
-
-	for brush_face_mesh in brush_face_meshes:
-		var face_nodes = brush_face_mesh[2]
-		var face_indices = brush_face_mesh[3]
-		var brush_data = brush_face_mesh[4]
-
-		var map_reader = QuakeMapReader.new()
-		var brush = map_reader.create_brush(brush_data)
-
-		for face_idx in range(0, face_nodes.size()):
-			var face_node = face_nodes[face_idx]
-			var brush_face_idx = face_indices[face_idx]
-			if(face_node):
-				var face = brush.faces[brush_face_idx]
-				var mesh = get_face_mesh(brush.center, face, material_dict, inverse_scale_factor)
-				face_node.translation = (face.center - brush.center) / inverse_scale_factor
-				face_node.set_mesh(mesh)
 
 # Determine whether the given brush should create a set of visual face meshes
 static func should_spawn_brush_mesh(entity_properties: Dictionary, brush: QuakeBrush) -> bool:
@@ -92,29 +28,40 @@ static func should_spawn_face_mesh(entity_properties: Dictionary, brush: QuakeBr
 
 	return true
 
-static func get_face_mesh(center: Vector3, face: QuakeFace, material_dict: Dictionary, inverse_scale_factor: float):
-	var surface_tool = SurfaceTool.new()
-	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLE_FAN)
-
-	surface_tool.add_normal(face.normal)
-	surface_tool.add_tangent(face.tangent)
-
+static func get_face_mesh(surface_tool: SurfaceTool, center: Vector3, face: QuakeFace, material_dict: Dictionary, inverse_scale_factor: float, global_space: bool):
 	var spatial_material = material_dict[face.texture]
 	surface_tool.set_material(spatial_material)
 
-	var vertex_idx = 0
+	var vertices = PoolVector3Array()
+	var uvs = PoolVector2Array()
+	var colors = PoolColorArray()
+	var uv2s = PoolVector2Array()
+	var normals = PoolVector3Array()
+	var tangents = []
+
 	for vertex in face.face_vertices:
-		var global_vertex = (vertex + center) / inverse_scale_factor
+
+		var global_vertex = (vertex + face.center) / inverse_scale_factor
+
+		if(global_space):
+			vertices.append(global_vertex)
+		else:
+			vertices.append(vertex / inverse_scale_factor)
 
 		var uv = get_uv(face, global_vertex, spatial_material, inverse_scale_factor)
 		if uv:
-			surface_tool.add_uv(uv)
+			uvs.append(uv)
+			uv2s.append(uv)
+		else:
+			uvs.append(Vector2.ZERO)
+			uv2s.append(Vector2.ZERO)
 
-		surface_tool.add_index(vertex_idx)
-		surface_tool.add_vertex(vertex / inverse_scale_factor)
-		vertex_idx += 1
+		colors.append(Color.white)
 
-	return surface_tool.commit()
+		normals.append(face.normal)
+		tangents.append(face.tangent)
+
+	surface_tool.add_triangle_fan(vertices, uvs, colors, uv2s, normals, tangents)
 
 static func get_uv(face: QuakeFace, vertex: Vector3, spatial_material: SpatialMaterial, inverse_scale_factor: float):
 	if spatial_material:

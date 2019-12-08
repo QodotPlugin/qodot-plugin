@@ -33,12 +33,13 @@ export (SpatialMaterial) var default_material
 
 func get_build_steps():
 	return [
-		QodotBuildEntities.new(),
-		QodotBuildBrushes.new(),
+		QodotBuildEntityNodes.new(),
+		QodotBuildBrushNodes.new(),
 		QodotBuildBrushCollision.new(),
 		#QodotBuildBrushFaceAxes.new(),
 		#QodotBuildBrushFaceVertices.new(),
-		QodotBuildBrushFaceMeshes.new()
+		#QodotBuildBrushFaceMeshes.new(),
+		QodotBuildMaterialMeshes.new()
 	]
 
 # Threads
@@ -99,9 +100,8 @@ func _exit_tree():
 # Clears any existing children
 func clear_map():
 	for child in get_children():
-		if child.get_script() == QodotEntity || child.get_script() == QodotBrush:
-			remove_child(child)
-			child.queue_free()
+		remove_child(child)
+		child.queue_free()
 
 # Queues a build step for execution
 func queue_build_step(context: Dictionary, build_step: QodotBuildStep):
@@ -236,7 +236,7 @@ func finalize_build(context, build_order):
 	build_thread.wait_to_finish()
 
 	for build_step in get_build_steps():
-		if build_step.wants_finalize():
+		if build_step.get_wants_finalize():
 			run_finalize_step(context, build_step)
 
 	context.erase('entity_properties_array')

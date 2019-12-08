@@ -1,8 +1,8 @@
-class_name QodotBuildEntities
+class_name QodotBuildEntityNodes
 extends QodotBuildStep
 
 func get_name() -> String:
-	return "entities"
+	return "entity_nodes"
 
 func get_type() -> int:
 	return self.Type.PER_ENTITY
