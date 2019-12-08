@@ -10,14 +10,14 @@ func get_importer_name():
 func get_visible_name():
 	return 'Quake Map'
 
+func get_resource_type():
+	return 'Resource'
+
 func get_recognized_extensions():
 	return ['map']
 
 func get_save_extension():
 	return 'tres'
-
-func get_resource_type():
-	return 'QuakeMapFile'
 
 func get_import_options(preset):
 	return []

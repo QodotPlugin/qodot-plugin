@@ -153,7 +153,6 @@ transform = Transform( 0.787003, -0.320033, 0.527452, 0, 0.854936, 0.518734, -0.
 far = 500.0
 
 [node name="Lighting" type="Spatial" parent="."]
-editor/display_folded = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Lighting"]
 environment = SubResource( 1 )
@@ -179,7 +178,6 @@ spot_range = 12.7271
 spot_angle = 18.0385
 
 [node name="ReflectionProbes" type="Spatial" parent="Lighting"]
-editor/display_folded = true
 
 [node name="ReflectionProbe" type="ReflectionProbe" parent="Lighting/ReflectionProbes"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.9318, 4.55063, -10.453 )
@@ -194,12 +192,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.27827, 8.85103, -3.87941 )
 extents = Vector3( 8.54382, 11.2203, 23.6679 )
 
 [node name="PhysicsBalls" type="Spatial" parent="."]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 5, 0 )
 visible = false
 
 [node name="RigidBody" type="RigidBody" parent="PhysicsBalls"]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.542, 10.076, -20.5481 )
 
 [node name="CSGSphere" type="CSGSphere" parent="PhysicsBalls/RigidBody"]
@@ -209,7 +205,6 @@ radius = 0.4
 shape = SubResource( 2 )
 
 [node name="RigidBody2" type="RigidBody" parent="PhysicsBalls"]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.17785, 5.09448, -17.6912 )
 
 [node name="CSGSphere" type="CSGSphere" parent="PhysicsBalls/RigidBody2"]
@@ -219,7 +214,6 @@ radius = 0.4
 shape = SubResource( 2 )
 
 [node name="RigidBody3" type="RigidBody" parent="PhysicsBalls"]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.89516, 3.52519, 10.4726 )
 
 [node name="CSGSphere" type="CSGSphere" parent="PhysicsBalls/RigidBody3"]
@@ -229,7 +223,6 @@ radius = 0.4
 shape = SubResource( 2 )
 
 [node name="RigidBody4" type="RigidBody" parent="PhysicsBalls"]
-editor/display_folded = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2006, 9.43578, -10.8288 )
 
 [node name="CSGSphere" type="CSGSphere" parent="PhysicsBalls/RigidBody4"]
@@ -239,7 +232,6 @@ radius = 0.4
 shape = SubResource( 2 )
 
 [node name="Qodot Test Map" type="Spatial" parent="."]
-editor/display_folded = true
 script = ExtResource( 1 )
 reload = false
 print_to_log = false
@@ -571,11 +563,3 @@ material/0 = null
 [node name="baseuv_test_512" type="MeshInstance" parent="Qodot Test Map"]
 mesh = SubResource( 35 )
 material/0 = null
-
-[node name="CSGCombiner" type="CSGCombiner" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33.8233, -4.05292, -10.1568 )
-
-[node name="CSGBox" type="CSGBox" parent="CSGCombiner"]
-
-[node name="CSGBox2" type="CSGBox" parent="CSGCombiner"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.15786, 0, 0 )
