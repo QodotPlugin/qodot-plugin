@@ -12,6 +12,8 @@ static func _to_str(msg, indent = ""):
 		msg_str = _to_str_array(msg, indent)
 	elif msg is Dictionary:
 		msg_str = _to_str_dict(msg, indent)
+	elif typeof(msg) == TYPE_OBJECT:
+		msg_str = msg.get_class()
 	else:
 		msg_str = String(msg)
 
