@@ -52,7 +52,7 @@ func _run(context) -> Array:
 	var material_nodes = []
 	for material_name in material_names:
 		var material_node = MeshInstance.new()
-		material_node.name = material_name
+		material_node.name = material_name.replace("/", "|")
 		material_nodes.append(material_node)
 
 	return ["nodes", [], material_nodes, material_index_paths, material_names]
