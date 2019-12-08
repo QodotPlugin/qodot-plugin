@@ -6,7 +6,7 @@ class_name QuakeMapReader
 const OPEN_BRACKET = '('
 const CLOSE_BRACKET = ')'
 
-func parse_map(map_path: String, valve_uvs: bool, bitmask_format: int):
+func parse_map(map_path: String, bitmask_format: int):
 	var file = File.new()
 	var err = file.open(map_path, File.READ)
 
@@ -72,7 +72,7 @@ func parse_map(map_path: String, valve_uvs: bool, bitmask_format: int):
 			var parsed_brush = entity_brushes[brush_idx]
 			for face_idx in range(0, parsed_brush.size()):
 				var face_line = parsed_brush[face_idx]
-				parsed_brushes[entity_idx][brush_idx][face_idx] = parse_face(face_line, valve_uvs, bitmask_format)
+				parsed_brushes[entity_idx][brush_idx][face_idx] = parse_face(face_line, bitmask_format)
 
 	return [entity_properties, parsed_brushes]
 
@@ -163,7 +163,7 @@ func read_entity_properties(entity_lines: Array) -> Dictionary:
 
 	return properties
 
-func parse_face(line: String, valve_uvs: bool, bitmask_format: int) -> Array:
+func parse_face(line: String, bitmask_format: int) -> Array:
 	QodotUtil.debug_print(['Face: ', line])
 
 	# Parse vertices
@@ -190,8 +190,8 @@ func parse_face(line: String, valve_uvs: bool, bitmask_format: int) -> Array:
 	QodotUtil.debug_print(['Texture: ', texture])
 
 	var uv = null
-	if(valve_uvs):
-		loose_params.pop_front()
+	var first_uv_param = loose_params.pop_front()
+	if(first_uv_param == '['):
 		var u = [
 			loose_params.pop_front(),
 			loose_params.pop_front(),
@@ -213,7 +213,7 @@ func parse_face(line: String, valve_uvs: bool, bitmask_format: int) -> Array:
 			v[0], v[1], v[2], v[3]
 		]
 	else:
-		uv = [loose_params.pop_front(), loose_params.pop_front()]
+		uv = [first_uv_param, loose_params.pop_front()]
 
 	QodotUtil.debug_print(['UV: ', uv])
 

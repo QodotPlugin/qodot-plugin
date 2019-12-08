@@ -74,10 +74,6 @@ func print_log(msg):
 	if(print_to_log):
 		QodotPrinter.print_typed(msg)
 
-# Returns whether a given format uses Valve-style UVs
-func get_valve_uvs(map_format: int):
-	return map_format == QodotEnums.MapFormat.VALVE
-
 # Returns the bimask format for a given map format
 func get_bitmask_format(map_format: int):
 	match map_format:
@@ -110,7 +106,7 @@ func build_map(map_file: String) -> void:
 	print_log("Parsing map file...")
 	var map_parse_profiler = QodotProfiler.new()
 	var map_reader = QuakeMapReader.new()
-	var parsed_map = map_reader.parse_map(map_file, get_valve_uvs(map_format), get_bitmask_format(map_format))
+	var parsed_map = map_reader.parse_map(map_file, get_bitmask_format(map_format))
 	var map_parse_duration = map_parse_profiler.finish()
 	print_log("Done in " + String(map_parse_duration * 0.001) +  " seconds.\n")
 
