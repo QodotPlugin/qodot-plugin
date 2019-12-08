@@ -6,9 +6,6 @@ class_name QuakeMapReader
 const OPEN_BRACKET = '('
 const CLOSE_BRACKET = ')'
 
-var map_string: PoolStringArray
-var line_numbers: Array
-
 func parse_map(map_path: String, valve_uvs: bool, bitmask_format: int):
 	var file = File.new()
 	var err = file.open(map_path, File.READ)
@@ -182,7 +179,7 @@ func parse_face(line: String, valve_uvs: bool, bitmask_format: int) -> Array:
 	var second_vertex = parse_vertex(line.substr(second_open_bracket + 2, second_close_bracket - second_open_bracket - 2))
 	var third_vertex = parse_vertex(line.substr(third_open_bracket + 2, third_close_bracket - third_open_bracket - 2))
 
-	var vertices = PoolVector3Array([first_vertex, second_vertex, third_vertex])
+	var vertices = [first_vertex, second_vertex, third_vertex]
 	QodotUtil.debug_print(['Vertices: ', vertices])
 
 	# Parse other stuff
@@ -195,28 +192,28 @@ func parse_face(line: String, valve_uvs: bool, bitmask_format: int) -> Array:
 	var uv = null
 	if(valve_uvs):
 		loose_params.pop_front()
-		var u = PoolRealArray([
+		var u = [
 			loose_params.pop_front(),
 			loose_params.pop_front(),
 			loose_params.pop_front(),
 			loose_params.pop_front()
-		])
+		]
 		loose_params.pop_front()
 		loose_params.pop_front()
-		var v = PoolRealArray([
+		var v = [
 			loose_params.pop_front(),
 			loose_params.pop_front(),
 			loose_params.pop_front(),
 			loose_params.pop_front()
-		])
+		]
 		loose_params.pop_front()
 
-		uv = PoolRealArray([
+		uv = [
 			u[0], u[1], u[2], u[3],
 			v[0], v[1], v[2], v[3]
-		])
+		]
 	else:
-		uv = PoolRealArray([loose_params.pop_front(), loose_params.pop_front()])
+		uv = [loose_params.pop_front(), loose_params.pop_front()]
 
 	QodotUtil.debug_print(['UV: ', uv])
 

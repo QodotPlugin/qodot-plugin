@@ -1,11 +1,5 @@
 class_name QodotEnums
 
-enum MapMode {
-	FACE_AXES, 		# Debug visualization of raw plane data
-	FACE_VERTICES,	# Debug visualization of intersecting plane vertices
-	BRUSH_MESHES	# Full mesh representation with collision
-}
-
 enum MapFormat {
 	STANDARD,
 	VALVE,

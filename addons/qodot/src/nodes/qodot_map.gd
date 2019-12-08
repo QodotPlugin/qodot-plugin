@@ -13,9 +13,6 @@ export(bool) var print_to_log
 # Map file format
 export(QodotEnums.MapFormat) var map_format = QodotEnums.MapFormat.STANDARD
 
-# Rendering mode
-export(QodotEnums.MapMode) var mode = QodotEnums.MapMode.BRUSH_MESHES
-
 # Factor to scale the .map file's quake units down by
 # (16 is a best-effort conversion from Quake 3 units to metric)
 export(float) var inverse_scale_factor = 16.0
@@ -34,10 +31,15 @@ export(String) var texture_extension = '.png'
 # Materials
 export (SpatialMaterial) var default_material
 
-# Mappers used to control tree population
-export(Script) var entity_mapper = QodotEntityMapper
-export(Script) var brush_mapper = QodotBrushMapper
-export(Script) var face_mapper = QodotFaceMapper
+func get_build_steps():
+	return [
+		QodotBuildEntities.new(),
+		QodotBuildBrushes.new(),
+		QodotBuildBrushCollision.new(),
+		#QodotBuildBrushFaceAxes.new(),
+		#QodotBuildBrushFaceVertices.new(),
+		QodotBuildBrushFaceMeshes.new()
+	]
 
 # Threads
 export(int) var max_build_threads = 4
@@ -97,24 +99,65 @@ func _exit_tree():
 # Clears any existing children
 func clear_map():
 	for child in get_children():
-		if(child.get_script() == QodotEntity):
+		if child.get_script() == QodotEntity || child.get_script() == QodotBrush:
 			remove_child(child)
 			child.queue_free()
 
-# Kicks off the map building process
-func build_map(map_file: String):
-	print("\nBuilding map...")
+# Queues a build step for execution
+func queue_build_step(context: Dictionary, build_step: QodotBuildStep):
+	var build_step_type = build_step.get_type()
 
-	var entity_node_dict = {}
-	var brush_node_dict = {}
-	var brush_collision_dict = {}
-	var brush_visuals_dict = {}
+	var thread_pool = context['thread_pool']
 
-	print_log("\nInitializing Thread Pool...")
-	var thread_pool = QodotThreadPool.new()
-	thread_pool.set_max_threads(max_build_threads)
-	thread_pool.set_bucket_size(build_bucket_size)
+	var step_context = {}
+	for build_step_param_name in build_step.get_build_params():
+		if not build_step_param_name in context:
+			print("Error: Requested parameter not present in context")
+
+		if build_step_param_name == "thread_pool":
+			print("Error: Build steps cannot require the thread pool as a parameter")
+
+		step_context[build_step_param_name] = context[build_step_param_name]
+
+	print_log("Queueing " + build_step.get_name() + " for building...")
+
+	if build_step_type == QodotBuildStep.Type.SINGLE:
+		thread_pool.add_thread_job(build_step, "_run", step_context)
+	else:
+		var entity_properties_array = context['entity_properties_array']
+		for entity_idx in range(0, entity_properties_array.size()):
+			var entity_context = step_context.duplicate()
+			entity_context['entity_idx'] = entity_idx
+			entity_context['entity_properties'] = entity_properties_array[entity_idx]
+
+			if build_step_type == QodotBuildStep.Type.PER_ENTITY:
+				thread_pool.add_thread_job(build_step, "_run", entity_context)
+			elif build_step_type == QodotBuildStep.Type.PER_BRUSH:
+				var brush_data_dict = context['brush_data_dict']
+				for brush_idx in brush_data_dict[entity_idx]:
+					var brush_context = entity_context.duplicate()
+					brush_context['brush_idx'] = brush_idx
+					brush_context['brush_data'] = brush_data_dict[entity_idx][brush_idx]
+					thread_pool.add_thread_job(build_step, "_run", brush_context)
+
 	print_log("Done.\n")
+
+func run_finalize_step(context: Dictionary, build_step: QodotBuildStep) -> void:
+	var build_step_name = build_step.get_name()
+
+	var step_context = {}
+	for build_step_param_name in build_step.get_finalize_params():
+		if not build_step_param_name in context:
+			print("Error: Requested parameter not present in context")
+		step_context[build_step_param_name] = context[build_step_param_name]
+
+	print_log("Finalizing " + build_step.get_name() + "...")
+	build_step._finalize(step_context)
+	print_log("Done.\n")
+
+# Kicks off the building process
+func build_map(map_file: String) -> void:
+	print("\nBuilding map...")
 
 	print_log("Parsing map file...")
 	var map_reader = QuakeMapReader.new()
@@ -149,209 +192,131 @@ func build_map(map_file: String):
 	print_log("Map textures:")
 	print_log(texture_list)
 
-	print_log("Queueing entities for building...")
-	for entity_idx in range(0, entity_count):
-		var entity_properties = entity_properties_array[entity_idx]
-		thread_pool.add_thread_job(self, "build_entity", [entity_idx, entity_properties])
+	print_log("\nInitializing Thread Pool...")
+	var thread_pool = QodotThreadPool.new()
+	thread_pool.set_max_threads(max_build_threads)
+	thread_pool.set_bucket_size(build_bucket_size)
 	print_log("Done.\n")
 
-	print_log("Building entities...")
-	thread_pool.start_thread_jobs()
-	var entity_results = yield(thread_pool, "jobs_complete")
+	var context = {
+		"thread_pool": thread_pool,
+		"entity_properties_array": entity_properties_array,
+		"brush_data_dict": brush_data_dict,
+		"material_dict": material_dict,
+		"inverse_scale_factor": inverse_scale_factor
+	}
 
-	for result_idx in entity_results:
-		var result = entity_results[result_idx]
-		var entity_idx = result[0]
-		var entity_node = result[1]
-		entity_node_dict[entity_idx] = entity_node
-		brush_node_dict[entity_idx] = {}
-		brush_collision_dict[entity_idx] = {}
-		brush_visuals_dict[entity_idx] = {}
-	print_log("Done.\n")
+	var build_order = []
 
-	print_log("Queueing brushes for building...")
-	for entity_idx in entity_node_dict:
-		for brush_idx in range(0, brush_data_dict[entity_idx].size()):
-			var brush_data = brush_data_dict[entity_idx][brush_idx]
-			thread_pool.add_thread_job(self, "build_brush", [entity_idx, brush_idx, brush_data])
-	print_log("Done.\n")
+	var build_steps = get_build_steps()
+	for build_step_idx in range(0, build_steps.size()):
+		var build_step = build_steps[build_step_idx]
+		var step_name = build_step.get_name()
 
-	print_log("Building brushes...")
-	thread_pool.start_thread_jobs()
-	var brush_results = yield(thread_pool, "jobs_complete")
+		queue_build_step(context, build_step)
 
-	for result_idx in brush_results:
-		var result = brush_results[result_idx]
-		var entity_idx = result[0]
-		var brush_idx = result[1]
-		var brush_node = result[2]
-		brush_node_dict[entity_idx][brush_idx] = brush_node
-	print_log("Done.\n")
+		print_log("Building " + build_step.get_name() + "...")
+		thread_pool.start_thread_jobs()
+		var results = yield(thread_pool, "jobs_complete")
+		context[step_name] = []
+		build_order.append(step_name)
+		for result_idx in results:
+			var result = results[result_idx]
+			context[step_name].append(result)
+		print_log("Done.\n")
 
-	print_log("Queueing brushes for collision building...")
-	for entity_idx in entity_node_dict:
-		var entity_properties = entity_properties_array[entity_idx]
-		for brush_idx in brush_node_dict[entity_idx]:
-			var brush_data = brush_data_dict[entity_idx][brush_idx]
-			if brush_mapper.should_spawn_brush_collision(entity_properties):
-				thread_pool.add_thread_job(self, "build_brush_collision", [entity_idx, brush_idx, entity_properties, brush_data])
-	print_log("Done.\n")
-
-	print_log("Building collision...")
-	thread_pool.start_thread_jobs()
-	var collision_results = yield(thread_pool, "jobs_complete")
-
-	for result_idx in collision_results:
-		var result = collision_results[result_idx]
-		var entity_idx = result[0]
-		var brush_idx = result[1]
-		var brush_node = result[2]
-		brush_collision_dict[entity_idx][brush_idx] = brush_node
-	print_log("Done.\n")
-
-	print_log("Queueing brushes for visual building...")
-	for entity_idx in entity_node_dict:
-		var entity_node = entity_node_dict[entity_idx]
-		var entity_properties = entity_properties_array[entity_idx]
-		for brush_idx in brush_node_dict[entity_idx]:
-			var brush_data = brush_data_dict[entity_idx][brush_idx]
-			thread_pool.add_thread_job(self, "build_brush_visuals", [entity_idx, brush_idx, entity_properties, brush_data])
-	print_log("Done.\n")
-
-	print_log("Building visuals...")
-	thread_pool.start_thread_jobs()
-	var visuals_results = yield(thread_pool, "jobs_complete")
-
-	for result_idx in visuals_results:
-		var result = visuals_results[result_idx]
-		if(result != null):
-			var entity_idx = result[0]
-			var brush_idx = result[1]
-			var brush_node = result[2]
-			brush_visuals_dict[entity_idx][brush_idx] = brush_node
-	print_log("Done.\n")
-
+	print_log("Cleaning up thread pool...")
+	context.erase('thread_pool')
 	thread_pool.finish()
-	call_deferred("build_complete", [entity_node_dict, brush_node_dict, brush_collision_dict, brush_visuals_dict])
+	print_log("Done...\n")
 
-func build_complete(dicts):
+	call_deferred("finalize_build", context, build_order)
+
+func finalize_build(context, build_order):
 	build_thread.wait_to_finish()
 
-	print_log("Adding nodes to scene...")
-	var entity_node_dict = dicts[0]
-	var brush_node_dict = dicts[1]
-	var brush_collision_dict = dicts[2]
-	var brush_visuals_dict = dicts[3]
+	for build_step in get_build_steps():
+		if build_step.wants_finalize():
+			run_finalize_step(context, build_step)
 
-	var entity_keys = entity_node_dict.keys()
-	entity_keys.sort()
+	context.erase('entity_properties_array')
+	context.erase('brush_data_dict')
+	context.erase('material_dict')
+	context.erase('inverse_scale_factor')
 
-	for entity_idx in entity_keys:
-		var entity_node = entity_node_dict[entity_idx]
-
-		var brush_keys = brush_node_dict[entity_idx].keys()
-		brush_keys.sort()
-
-		for brush_idx in brush_keys:
-			var brush_node = brush_node_dict[entity_idx][brush_idx]
-
-			if brush_idx in brush_collision_dict[entity_idx]:
-				for collision_object in brush_collision_dict[entity_idx][brush_idx]:
-					brush_node.add_child(collision_object)
-
-			if brush_idx in brush_visuals_dict[entity_idx]:
-				for visual_object in brush_visuals_dict[entity_idx][brush_idx]:
-					brush_node.add_child(visual_object)
-
-			entity_node.add_child(brush_node)
-
-		add_child(entity_node)
+	print_log("Preparing results...")
+	var results = []
+	for build_step_name in build_order:
+		results.append(context[build_step_name])
 	print_log("Done.\n")
 
+	add_results_to_scene(results)
+
+func add_results_to_scene(results) -> void:
+	print_log("Adding nodes to scene...")
+	for result in results:
+		var filtered_results = []
+		for result_data in result:
+			var result_type = result_data[0]
+			if result_type == "nodes":
+				filtered_results.append(result_data)
+
+		filtered_results.sort_custom(self, "sort_result_data")
+
+		for result_data in filtered_results:
+			var attach_path = result_data[1]
+			var attach_nodes = result_data[2]
+
+			var attach_target = self
+			while(attach_path.size() > 0):
+				var attach_idx = attach_path.pop_front()
+				if attach_target.get_child_count() > attach_idx:
+					attach_target = attach_target.get_child(attach_idx)
+
+			for node in attach_nodes:
+				attach_target.add_child(node)
+	print_log("Done.\n")
+
+	add_nodes_to_editor_tree()
+
+func add_nodes_to_editor_tree():
 	print_log("Adding nodes to editor tree...")
 	var edited_scene_root = get_tree().get_edited_scene_root()
 	add_children_to_editor(edited_scene_root)
 	print_log("Done.\n")
 
+	build_complete()
+
+# Build completion handler
+func build_complete() -> void:
 	var build_end_timestamp = OS.get_ticks_msec()
 	var build_duration = build_end_timestamp - build_start_timestamp
 	print("Build complete after " + String(build_duration * 0.001) + " seconds.\n")
 
-# Creates a node representation of an entity and its child brushes
-func build_entity(userdata):
-	var entity_idx = userdata[0]
-	var entity_properties = userdata[1]
+func sort_result_data(a, b) -> bool:
+	var attach_path_a = a[1]
+	var attach_path_b = b[1]
 
-	if entity_mapper != null:
-		var entity_node = entity_mapper.spawn_entity(entity_properties, inverse_scale_factor)
+	var depth = 0
+	while true:
+		if depth >= attach_path_a.size():
+			return false
 
-		var entity_spawned_node = entity_mapper.spawn_node_for_entity(entity_properties)
-		if(entity_spawned_node != null):
-			entity_node.add_child(entity_spawned_node)
+		if depth >= attach_path_b.size():
+			return true
 
-		return [entity_idx, entity_node]
+		if attach_path_a[depth] == attach_path_b[depth]:
+			depth += 1
+		else:
+			return attach_path_a[depth] < attach_path_b[depth]
 
-# Creates a node representation of a brush
-func build_brush(userdata):
-	var entity_idx = userdata[0]
-	var brush_idx = userdata[1]
-	var brush_data = userdata[2]
+	return false
 
-	var map_reader = QuakeMapReader.new()
-	var brush = map_reader.create_brush(brush_data)
-
-	var brush_node = QodotBrush.new()
-	brush_node.name = 'Brush0'
-	brush_node.translation = brush.center / inverse_scale_factor
-
-	return [entity_idx, brush_idx, brush_node]
-
-func build_brush_collision(userdata):
-	var entity_idx = userdata[0]
-	var brush_idx = userdata[1]
-	var entity_properties = userdata[2]
-	var brush_data = userdata[3]
-
-	var map_reader = QuakeMapReader.new()
-	var brush = map_reader.create_brush(brush_data)
-
-	var brush_collision_objects = brush_mapper.create_brush_collision_objects(entity_properties, brush, inverse_scale_factor)
-
-	return [entity_idx, brush_idx, brush_collision_objects]
-
-func build_brush_visuals(userdata):
-	var entity_idx = userdata[0]
-	var brush_idx = userdata[1]
-	var entity_properties = userdata[2]
-	var brush_data = userdata[3]
-
-	var map_reader = QuakeMapReader.new()
-	var brush = map_reader.create_brush(brush_data)
-
-	if not brush_mapper.should_spawn_brush_mesh(entity_properties, brush):
-		return null
-
-	var brush_visuals = []
-
-	match mode:
-		QodotEnums.MapMode.FACE_AXES:
-			brush_visuals = brush_mapper.create_brush_face_axes(brush, inverse_scale_factor)
-
-		QodotEnums.MapMode.FACE_VERTICES:
-			brush_visuals = brush_mapper.create_brush_face_vertices(brush, inverse_scale_factor)
-
-		QodotEnums.MapMode.BRUSH_MESHES:
-			var face_meshes = brush_mapper.create_brush_meshes(entity_properties, brush, face_mapper, texture_loader, base_texture_path, material_extension, texture_extension, default_material, inverse_scale_factor)
-			for face_mesh in face_meshes:
-				brush_visuals.append(face_mesh)
-
-	return [entity_idx, brush_idx, brush_visuals]
-
-func add_children_to_editor(edited_scene_root):
+func add_children_to_editor(edited_scene_root) -> void:
 	for child in get_children():
 		recursive_set_owner(child, edited_scene_root)
 
-func recursive_set_owner(node, new_owner):
+func recursive_set_owner(node, new_owner) -> void:
 	node.set_owner(new_owner)
 	for child in node.get_children():
-		self.recursive_set_owner(child, new_owner)
+		recursive_set_owner(child, new_owner)

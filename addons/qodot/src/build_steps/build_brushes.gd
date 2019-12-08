@@ -1,0 +1,26 @@
+class_name QodotBuildBrushes
+extends QodotBuildStep
+
+func get_name() -> String:
+	return "brushes"
+
+func get_type() -> int:
+	return self.Type.PER_BRUSH
+
+func get_build_params() -> Array:
+	return ['inverse_scale_factor']
+
+func _run(context) -> Array:
+	var entity_idx = context['entity_idx']
+	var brush_idx = context['brush_idx']
+	var brush_data = context['brush_data']
+	var inverse_scale_factor = context['inverse_scale_factor']
+
+	var map_reader = QuakeMapReader.new()
+	var brush = map_reader.create_brush(brush_data)
+
+	var brush_node = QodotBrush.new()
+	brush_node.name = 'Brush' + String(brush_idx)
+	brush_node.translation = brush.center / inverse_scale_factor
+
+	return ["nodes", [entity_idx, brush_idx], [brush_node]]
