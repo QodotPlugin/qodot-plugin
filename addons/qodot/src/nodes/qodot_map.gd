@@ -51,7 +51,7 @@ var texture_loader = QodotTextureLoader.new()
 
 var build_thread = Thread.new()
 
-var build_start_timestamp = 0
+var build_profiler = null
 
 ## Setters
 func set_reload(new_reload):
@@ -67,7 +67,7 @@ func set_reload(new_reload):
 				print("Skipping reload: No map file")
 				return
 
-			build_start_timestamp = OS.get_ticks_msec()
+			build_profiler = QodotProfiler.new()
 			build_thread.start(self, "build_map", map_file)
 
 func print_log(msg):
@@ -102,6 +102,94 @@ func clear_map():
 	for child in get_children():
 		remove_child(child)
 		child.queue_free()
+
+# Kicks off the building process
+func build_map(map_file: String) -> void:
+	print("\nBuilding map...\n")
+
+	print_log("Parsing map file...")
+	var map_parse_profiler = QodotProfiler.new()
+	var map_reader = QuakeMapReader.new()
+	var parsed_map = map_reader.parse_map(map_file, get_valve_uvs(map_format), get_bitmask_format(map_format))
+	var map_parse_duration = map_parse_profiler.finish()
+	print_log("Done in " + String(map_parse_duration * 0.001) +  " seconds.\n")
+
+	var entity_properties_array = parsed_map[0]
+	var brush_data_dict = parsed_map[1]
+
+	var worldspawn_properties = entity_properties_array[0]
+	var entity_count = entity_properties_array.size()
+
+	print_log("Entity Count: " + String(entity_count))
+
+	var brush_count = 0
+	for entity_idx in brush_data_dict:
+		brush_count += brush_data_dict[entity_idx].size()
+
+	print_log("Brush Count: " + String(brush_count) + "\n")
+
+	print_log("Worldspawn Properties:")
+	print_log(worldspawn_properties)
+
+	if 'message' in worldspawn_properties:
+		call_deferred("set_name", worldspawn_properties['message'])
+
+	print_log("\nLoading textures...")
+	var texture_load_profiler = QodotProfiler.new()
+	var texture_list = map_reader.get_texture_list(brush_data_dict)
+	var material_dict = texture_loader.load_texture_materials(texture_list, base_texture_path, material_extension, texture_extension, default_material)
+	var texture_load_duration = texture_load_profiler.finish()
+	print_log("Done in " + String(texture_load_duration * 0.001) + " seconds.\n")
+
+	print_log("Map textures:")
+	print_log(texture_list)
+
+	print_log("\nInitializing Thread Pool...")
+	var thread_init_profiler = QodotProfiler.new()
+	var thread_pool = QodotThreadPool.new()
+	thread_pool.set_max_threads(max_build_threads)
+	thread_pool.set_bucket_size(build_bucket_size)
+	var thread_init_duration = thread_init_profiler.finish()
+	print_log("Done in " + String(thread_init_duration * 0.001) + " seconds.\n")
+
+	var context = {
+		"thread_pool": thread_pool,
+		"entity_properties_array": entity_properties_array,
+		"brush_data_dict": brush_data_dict,
+		"material_dict": material_dict,
+		"inverse_scale_factor": inverse_scale_factor
+	}
+
+	var build_order = []
+
+	var build_steps = get_build_steps()
+	for build_step_idx in range(0, build_steps.size()):
+		var build_step = build_steps[build_step_idx]
+		var step_name = build_step.get_name()
+
+		queue_build_step(context, build_step)
+
+		print_log("Building " + build_step.get_name() + "...")
+		var job_profiler = QodotProfiler.new()
+		thread_pool.start_thread_jobs()
+		var results = yield(thread_pool, "jobs_complete")
+		context[step_name] = []
+		build_order.append(step_name)
+		for result_idx in results:
+			var result = results[result_idx]
+			context[step_name].append(result)
+		var job_duration = job_profiler.finish()
+		print_log("Done in " + String(job_duration * 0.001) + " seconds.\n")
+
+	print_log("Cleaning up thread pool...")
+	var thread_cleanup_profiler = QodotProfiler.new()
+	context.erase('thread_pool')
+	thread_pool.finish()
+	var thread_cleanup_duration = thread_cleanup_profiler.finish()
+	print_log("Done in " + String(thread_cleanup_duration * 0.001) + " seconds...\n")
+
+	call_deferred("finalize_build", context, build_order)
+
 
 # Queues a build step for execution
 func queue_build_step(context: Dictionary, build_step: QodotBuildStep):
@@ -142,96 +230,6 @@ func queue_build_step(context: Dictionary, build_step: QodotBuildStep):
 
 	print_log("Done.\n")
 
-func run_finalize_step(context: Dictionary, build_step: QodotBuildStep) -> void:
-	var build_step_name = build_step.get_name()
-
-	var step_context = {}
-	for build_step_param_name in build_step.get_finalize_params():
-		if not build_step_param_name in context:
-			print("Error: Requested parameter not present in context")
-		step_context[build_step_param_name] = context[build_step_param_name]
-
-	print_log("Finalizing " + build_step.get_name() + "...")
-	build_step._finalize(step_context)
-	print_log("Done.\n")
-
-# Kicks off the building process
-func build_map(map_file: String) -> void:
-	print("\nBuilding map...")
-
-	print_log("Parsing map file...")
-	var map_reader = QuakeMapReader.new()
-	var parsed_map = map_reader.parse_map(map_file, get_valve_uvs(map_format), get_bitmask_format(map_format))
-	print_log("Done.\n")
-
-	var entity_properties_array = parsed_map[0]
-	var brush_data_dict = parsed_map[1]
-
-	var worldspawn_properties = entity_properties_array[0]
-	var entity_count = entity_properties_array.size()
-
-	print_log("Entity Count: " + String(entity_count))
-
-	var brush_count = 0
-	for entity_idx in brush_data_dict:
-		brush_count += brush_data_dict[entity_idx].size()
-
-	print_log("Brush Count: " + String(brush_count) + "\n")
-
-	print_log("Worldspawn Properties:")
-	print_log(worldspawn_properties)
-
-	if 'message' in worldspawn_properties:
-		call_deferred("set_name", worldspawn_properties['message'])
-
-	print_log("\nLoading textures...")
-	var texture_list = map_reader.get_texture_list(brush_data_dict)
-	var material_dict = texture_loader.load_texture_materials(texture_list, base_texture_path, material_extension, texture_extension, default_material)
-	print_log("Done.\n")
-
-	print_log("Map textures:")
-	print_log(texture_list)
-
-	print_log("\nInitializing Thread Pool...")
-	var thread_pool = QodotThreadPool.new()
-	thread_pool.set_max_threads(max_build_threads)
-	thread_pool.set_bucket_size(build_bucket_size)
-	print_log("Done.\n")
-
-	var context = {
-		"thread_pool": thread_pool,
-		"entity_properties_array": entity_properties_array,
-		"brush_data_dict": brush_data_dict,
-		"material_dict": material_dict,
-		"inverse_scale_factor": inverse_scale_factor
-	}
-
-	var build_order = []
-
-	var build_steps = get_build_steps()
-	for build_step_idx in range(0, build_steps.size()):
-		var build_step = build_steps[build_step_idx]
-		var step_name = build_step.get_name()
-
-		queue_build_step(context, build_step)
-
-		print_log("Building " + build_step.get_name() + "...")
-		thread_pool.start_thread_jobs()
-		var results = yield(thread_pool, "jobs_complete")
-		context[step_name] = []
-		build_order.append(step_name)
-		for result_idx in results:
-			var result = results[result_idx]
-			context[step_name].append(result)
-		print_log("Done.\n")
-
-	print_log("Cleaning up thread pool...")
-	context.erase('thread_pool')
-	thread_pool.finish()
-	print_log("Done...\n")
-
-	call_deferred("finalize_build", context, build_order)
-
 func finalize_build(context, build_order):
 	build_thread.wait_to_finish()
 
@@ -252,8 +250,24 @@ func finalize_build(context, build_order):
 
 	add_results_to_scene(results)
 
+func run_finalize_step(context: Dictionary, build_step: QodotBuildStep) -> void:
+	var build_step_name = build_step.get_name()
+
+	var step_context = {}
+	for build_step_param_name in build_step.get_finalize_params():
+		if not build_step_param_name in context:
+			print("Error: Requested parameter not present in context")
+		step_context[build_step_param_name] = context[build_step_param_name]
+
+	print_log("Finalizing " + build_step.get_name() + "...")
+	var finalize_profiler = QodotProfiler.new()
+	build_step._finalize(step_context)
+	var finalize_duration = finalize_profiler.finish()
+	print_log("Done in " + String(finalize_duration * 0.001) + " seconds.\n")
+
 func add_results_to_scene(results) -> void:
 	print_log("Adding nodes to scene...")
+	var node_add_profiler = QodotProfiler.new()
 	for result in results:
 		var filtered_results = []
 		for result_data in result:
@@ -275,22 +289,24 @@ func add_results_to_scene(results) -> void:
 
 			for node in attach_nodes:
 				attach_target.add_child(node)
-	print_log("Done.\n")
+	var node_add_duration = node_add_profiler.finish()
+	print_log("Done in " + String(node_add_duration * 0.001) + " seconds.\n")
 
 	add_nodes_to_editor_tree()
 
 func add_nodes_to_editor_tree():
 	print_log("Adding nodes to editor tree...")
+	var node_editor_profiler = QodotProfiler.new()
 	var edited_scene_root = get_tree().get_edited_scene_root()
 	add_children_to_editor(edited_scene_root)
-	print_log("Done.\n")
+	var node_editor_duration = node_editor_profiler.finish()
+	print_log("Done in " + String(node_editor_duration * 0.001) + " seconds.\n")
 
 	build_complete()
 
 # Build completion handler
 func build_complete() -> void:
-	var build_end_timestamp = OS.get_ticks_msec()
-	var build_duration = build_end_timestamp - build_start_timestamp
+	var build_duration = build_profiler.finish()
 	print("Build complete after " + String(build_duration * 0.001) + " seconds.\n")
 
 func sort_result_data(a, b) -> bool:
