@@ -110,7 +110,7 @@ static func get_standard_tangent(
 		v_sign = sign(df)
 
 	v_sign *= sign(scale.y)
-	u_axis = u_axis.rotated(normal, deg2rad(rotation * -v_sign))
+	u_axis = u_axis.rotated(normal, deg2rad(-rotation * v_sign))
 
 	return Plane(u_axis, v_sign)
 
@@ -126,13 +126,10 @@ static func get_valve_tangent(
 
 	var uv_out = Vector2.ZERO
 
-	var u_axis = Vector3(uv[1], uv[2], uv[0])
-	var v_axis = Vector3(uv[5], uv[6], uv[4])
+	var u_axis = Vector3(uv[1], uv[2], uv[0]).normalized()
+	var v_axis = Vector3(uv[5], uv[6], uv[4]).normalized()
 
-	var v_sign = 1.0
-
-	v_sign *= sign(scale.y)
-	u_axis = u_axis.rotated(normal, deg2rad(rotation * -v_sign))
+	var v_sign = -sign(normal.cross(u_axis).dot(v_axis))
 
 	return Plane(u_axis, v_sign)
 
