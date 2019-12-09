@@ -22,7 +22,19 @@ func _run(context) -> Array:
 		if classname.substr(0, 5) == 'func_':
 			node = null
 		elif classname.substr(0, 5) == 'light':
-			node = OmniLight.new()
+			if 'mangle' in entity_properties:
+				node = SpotLight.new()
+
+				var comps = entity_properties['mangle'].split(' ')
+				var yaw = comps[0]
+				var pitch = comps[1]
+				node.rotate(node.global_transform.basis.x, deg2rad(int(pitch)))
+				node.rotate(node.global_transform.basis.y, deg2rad(180 + int(yaw)))
+
+				if 'angle' in entity_properties:
+					node.set_param(Light.PARAM_SPOT_ANGLE, (int(entity_properties['angle'])))
+			else:
+				node = OmniLight.new()
 
 			var light_brightness = 300
 			if 'light' in entity_properties:
@@ -62,6 +74,15 @@ func _run(context) -> Array:
 
 			node.set_param(Light.PARAM_RANGE, 8.8 / light_range / range_multiplier)
 			node.set_param(Light.PARAM_ATTENUATION, attenuation)
+
+			var light_color = Color.white
+			if '_color' in entity_properties:
+				var comps = entity_properties['_color'].split(' ')
+				var red = int(comps[0]) / 255.0
+				var green = int(comps[1]) / 255.0
+				var blue = int(comps[2]) / 255.0
+				light_color = Color(red, green, blue)
+			node.set_color(light_color)
 		else:
 			match classname:
 				'worldspawn':
@@ -70,11 +91,7 @@ func _run(context) -> Array:
 					node = null
 				_:
 					node = Position3D.new()
+					if 'angle' in entity_properties:
+						node.rotation.y = deg2rad(180 + entity_properties['angle'])
 
-	var spawned_nodes = []
-	if node:
-		if 'angle' in entity_properties:
-			node.rotation.y = deg2rad(180 + entity_properties['angle'])
-		spawned_nodes.append(node)
-
-	return ["nodes", [entity_idx], spawned_nodes]
+	return ["nodes", [entity_idx], [node] if node else []]
