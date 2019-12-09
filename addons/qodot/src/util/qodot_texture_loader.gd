@@ -31,17 +31,17 @@ func load_texture_materials(
 	) -> Dictionary:
 	var texture_materials = {}
 	for texture in texture_list:
-		texture_materials[texture] = get_spatial_material(texture, base_texture_path, material_extension, texture_extension, default_material)
+		texture_materials[texture] = get_material(texture, base_texture_path, material_extension, texture_extension, default_material)
 	return texture_materials
 
-func get_spatial_material(
+func get_material(
 	texture_name: String,
 	base_texture_path: String,
 	material_extension: String,
 	texture_extension: String,
 	default_material = null
 	):
-	var spatial_material = null
+	var material = null
 
 	if(texture_name != TEXTURE_EMPTY):
 		texture_directory.change_dir(base_texture_path)
@@ -50,12 +50,13 @@ func get_spatial_material(
 		var material_path = base_texture_path + '/' + texture_name + material_extension
 
 		if not material_path in material_dict and texture_directory.file_exists(material_path):
-			var loaded_material: SpatialMaterial = load(material_path)
-			material_dict[material_path] = loaded_material
+			var loaded_material: Material = load(material_path)
+			if loaded_material:
+				material_dict[material_path] = loaded_material
 
 		if material_path in material_dict:
 			# If material already exists, use it
-			spatial_material = material_dict[material_path]
+			material = material_dict[material_path]
 		else:
 			# Load albedo texture if it exists
 			var texture_path = base_texture_path + '/' + texture_name + texture_extension
@@ -66,11 +67,11 @@ func get_spatial_material(
 
 			if texture:
 				if default_material:
-					spatial_material = default_material.duplicate()
+					material = default_material.duplicate()
 				else:
-					spatial_material = SpatialMaterial.new()
+					material = SpatialMaterial.new()
 
-				spatial_material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, texture)
+				material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, texture)
 
 				var pbr_textures = get_pbr_textures(base_texture_path, texture_name, texture_extension)
 				for pbr_suffix in PBR_SUFFICES:
@@ -79,14 +80,14 @@ func get_spatial_material(
 						if(tex != null):
 							var enable_prop = pbr_suffix[2] if pbr_suffix.size() >= 3 else null
 							if(enable_prop):
-								spatial_material.set(enable_prop, true)
+								material.set(enable_prop, true)
 
 							var texture_enum = pbr_suffix[1]
-							spatial_material.set_texture(texture_enum, tex)
+							material.set_texture(texture_enum, tex)
 
-				material_dict[material_path] = spatial_material
+				material_dict[material_path] = material
 
-	return spatial_material
+	return material
 
 # PBR texture fetching
 func get_pbr_textures(base_texture_path, texture, texture_extension):

@@ -29,8 +29,8 @@ static func should_spawn_face_mesh(entity_properties: Dictionary, brush: QuakeBr
 	return true
 
 static func get_face_mesh(surface_tool: SurfaceTool, center: Vector3, face: QuakeFace, material_dict: Dictionary, inverse_scale_factor: float, global_space: bool):
-	var spatial_material = material_dict[face.texture]
-	surface_tool.set_material(spatial_material)
+	var material = material_dict[face.texture]
+	surface_tool.set_material(material)
 
 	var vertices = PoolVector3Array()
 	var uvs = PoolVector2Array()
@@ -48,7 +48,7 @@ static func get_face_mesh(surface_tool: SurfaceTool, center: Vector3, face: Quak
 		else:
 			vertices.append(vertex / inverse_scale_factor)
 
-		var uv = get_uv(face, global_vertex, spatial_material, inverse_scale_factor)
+		var uv = get_uv(face, global_vertex, material, inverse_scale_factor)
 		if uv:
 			uvs.append(uv)
 			uv2s.append(uv)
@@ -59,38 +59,112 @@ static func get_face_mesh(surface_tool: SurfaceTool, center: Vector3, face: Quak
 		colors.append(Color.white)
 
 		normals.append(face.normal)
-		tangents.append(face.tangent)
+
+		var tangent = get_tangent(face)
+		tangents.append(tangent)
 
 	surface_tool.add_triangle_fan(vertices, uvs, colors, uv2s, normals, tangents)
 
-static func get_uv(face: QuakeFace, vertex: Vector3, spatial_material: SpatialMaterial, inverse_scale_factor: float):
-	if spatial_material:
-		var texture = spatial_material.get_texture(SpatialMaterial.TEXTURE_ALBEDO)
-		if texture:
-			if(face.uv.size() == 2):
-				return get_standard_uv(
-						vertex,
-						face.normal,
-						texture,
-						face.uv,
-						face.rotation,
-						face.scale,
-						inverse_scale_factor
-					)
-			elif(face.uv.size() == 8):
-				return get_valve_uv(
-						vertex,
-						face.normal,
-						texture,
-						face.uv,
-						face.rotation,
-						face.scale,
-						inverse_scale_factor
-					)
-			else:
-				print('Error: Unknown UV format')
-				return null
+static func get_tangent(face: QuakeFace):
+	if(face.uv.size() == 2):
+		return get_standard_tangent(
+				face.normal,
+				face.rotation,
+				face.scale
+			)
+	elif(face.uv.size() == 8):
+		return get_valve_tangent(
+				face.normal,
+				face.uv,
+				face.rotation,
+				face.scale
+			)
+	else:
+		print('Error: Unknown UV format')
+		return null
 
+static func get_standard_tangent(
+		normal: Vector3,
+		rotation: float,
+		scale: Vector2
+	):
+	var du = normal.dot(Vector3.UP)
+	var dr = normal.dot(Vector3.RIGHT)
+	var df = normal.dot(Vector3.BACK)
+
+	var dua = abs(du)
+	var dra = abs(dr)
+	var dfa = abs(df)
+
+	var u_axis: Vector3 = Vector3.ZERO
+	var v_sign: float = 0
+
+	if(dua >= dra && dua >= dfa):
+		u_axis = Vector3.BACK
+		v_sign = sign(du)
+	elif(dra >= dua && dra >= dfa):
+		u_axis = Vector3.BACK
+		v_sign = -sign(dr)
+	elif(dfa >= dua && dfa >= dra):
+		u_axis = Vector3.RIGHT
+		v_sign = sign(df)
+
+	v_sign *= sign(scale.y)
+	u_axis = u_axis.rotated(normal, deg2rad(rotation * -v_sign))
+
+	return Plane(u_axis, v_sign)
+
+static func get_valve_tangent(
+	normal: Vector3,
+	uv: PoolRealArray,
+	rotation: float,
+	scale: Vector2
+	):
+	if(uv.size() != 8):
+		print("Error: not a Valve-format UV array")
+		return null
+
+	var uv_out = Vector2.ZERO
+
+	var u_axis = Vector3(uv[1], uv[2], uv[0])
+	var v_axis = Vector3(uv[5], uv[6], uv[4])
+
+	var v_sign = 1.0
+
+	v_sign *= sign(scale.y)
+	u_axis = u_axis.rotated(normal, deg2rad(rotation * -v_sign))
+
+	return Plane(u_axis, v_sign)
+
+
+static func get_uv(face: QuakeFace, vertex: Vector3, material: Material, inverse_scale_factor: float):
+	if material:
+		if material is SpatialMaterial:
+			var texture = material.get_texture(SpatialMaterial.TEXTURE_ALBEDO)
+			if texture:
+				if(face.uv.size() == 2):
+					return get_standard_uv(
+							vertex,
+							face.normal,
+							texture,
+							face.uv,
+							face.rotation,
+							face.scale,
+							inverse_scale_factor
+						)
+				elif(face.uv.size() == 8):
+					return get_valve_uv(
+							vertex,
+							face.normal,
+							texture,
+							face.uv,
+							face.rotation,
+							face.scale,
+							inverse_scale_factor
+						)
+				else:
+					print('Error: Unknown UV format')
+					return null
 	return null
 
 static func get_standard_uv(

@@ -5,7 +5,6 @@ class_name QuakeFace
 var plane_vertices: PoolVector3Array
 var plane: Plane
 var normal: Vector3
-var tangent: Plane
 
 var face_vertices = PoolVector3Array()
 var center: Vector3
@@ -36,27 +35,6 @@ func _init(face_data: Array):
 	self.rotation = rotation
 	self.scale = scale
 	self.bitmask_params = bitmask_params
-
-	self.tangent = self.get_tangent()
-
-# Get the plane's normal
-func get_tangent():
-	if(self.uv.size() == 2):
-		return self.get_standard_tangent()
-	elif(self.uv.size() == 8):
-		return self.get_valve_tangent()
-
-	print("Error: Unrecognized UV format")
-	return null
-
-# Tangent functions to work around broken auto-generated ones
-# Also incorrect for now,
-# but prevents materials with depth mapping from crashing the graphics driver
-func get_standard_tangent() -> Plane:
-	return Plane(self.normal.cross(Vector3.UP).normalized(), 0.0)
-
-func get_valve_tangent() -> Plane:
-	return Plane(self.normal.cross(Vector3.UP).normalized(), 0.0)
 
 # Get the plane's distance from the world origin
 func get_distance() -> float:
