@@ -6,7 +6,7 @@ class_name QuakeMapReader
 const OPEN_BRACKET = '('
 const CLOSE_BRACKET = ')'
 
-func parse_map(map_path: String, bitmask_format: int):
+func parse_map(map_path: String):
 	var file = File.new()
 	var err = file.open(map_path, File.READ)
 
@@ -72,7 +72,7 @@ func parse_map(map_path: String, bitmask_format: int):
 			var parsed_brush = entity_brushes[brush_idx]
 			for face_idx in range(0, parsed_brush.size()):
 				var face_line = parsed_brush[face_idx]
-				parsed_brushes[entity_idx][brush_idx][face_idx] = parse_face(face_line, bitmask_format)
+				parsed_brushes[entity_idx][brush_idx][face_idx] = parse_face(face_line)
 
 	return [entity_properties, parsed_brushes]
 
@@ -163,7 +163,7 @@ func read_entity_properties(entity_lines: Array) -> Dictionary:
 
 	return properties
 
-func parse_face(line: String, bitmask_format: int) -> Array:
+func parse_face(line: String) -> Array:
 	QodotUtil.debug_print(['Face: ', line])
 
 	# Parse vertices
@@ -182,7 +182,7 @@ func parse_face(line: String, bitmask_format: int) -> Array:
 	var vertices = [first_vertex, second_vertex, third_vertex]
 	QodotUtil.debug_print(['Vertices: ', vertices])
 
-	# Parse other stuff
+	# Parse texture parameters
 	var loose_params = Array(line.substr(third_close_bracket + 2, line.length()).split(' '))
 	QodotUtil.debug_print(['Loose params: ', loose_params])
 
@@ -223,39 +223,11 @@ func parse_face(line: String, bitmask_format: int) -> Array:
 	var scale = Vector2(loose_params.pop_front(), loose_params.pop_front())
 	QodotUtil.debug_print(['Scale: ', scale])
 
-	var surface = -1
-	var content = -1
-	var color = -1
-	var hexen_2_param = -1
+	var bitmask_params = []
+	while loose_params.size() > 0:
+		bitmask_params.append(int(loose_params.pop_front()))
 
-	match bitmask_format:
-		QodotEnums.BitmaskFormat.HEXEN_2:
-			hexen_2_param = int(loose_params.pop_front())
-			QodotUtil.debug_print(['Unknown Hexen 2 Parameter: ', hexen_2_param])
-
-		QodotEnums.BitmaskFormat.QUAKE_2:
-			if(loose_params.size() > 0):
-				surface = int(loose_params.pop_front())
-				QodotUtil.debug_print(['Surface: ', surface])
-
-			if(loose_params.size() > 0):
-				content = int(loose_params.pop_front())
-				QodotUtil.debug_print(['Content: ', content])
-
-		QodotEnums.BitmaskFormat.DAIKATANA:
-			if(loose_params.size() > 0):
-				surface = int(loose_params.pop_front())
-				QodotUtil.debug_print(['Surface: ', surface])
-
-			if(loose_params.size() > 0):
-				content = int(loose_params.pop_front())
-				QodotUtil.debug_print(['Content: ', content])
-
-			if(loose_params.size() > 0):
-				color = int(loose_params.pop_front())
-				QodotUtil.debug_print(['Color: ', color])
-
-	return [vertices, texture, uv, rotation, scale, surface, content, color, hexen_2_param]
+	return [vertices, texture, uv, rotation, scale, bitmask_params]
 
 func parse_vertex(vertex_substr: String) -> Vector3:
 	var comps = vertex_substr.split(' ')

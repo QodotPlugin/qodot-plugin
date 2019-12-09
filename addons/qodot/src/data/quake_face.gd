@@ -16,10 +16,7 @@ var uv: PoolRealArray
 var rotation: float
 var scale: Vector2
 
-var surface: int
-var content: int
-var color: int
-var hexen_2_param: int
+var bitmask_params: PoolIntArray
 
 func _init(face_data: Array):
 	var plane_vertices: PoolVector3Array = PoolVector3Array(face_data[0])
@@ -27,10 +24,7 @@ func _init(face_data: Array):
 	var uv: PoolRealArray = PoolRealArray(face_data[2])
 	var rotation: float = face_data[3]
 	var scale: Vector2 = face_data[4]
-	var surface: int = face_data[5]
-	var content: int = face_data[6]
-	var color: int = face_data[7]
-	var hexen_2_param: int = face_data[8]
+	var bitmask_params: PoolIntArray = PoolIntArray(face_data[5])
 
 	self.plane_vertices = plane_vertices
 	self.plane = Plane(plane_vertices[0], plane_vertices[1], plane_vertices[2])
@@ -41,10 +35,7 @@ func _init(face_data: Array):
 	self.uv = uv
 	self.rotation = rotation
 	self.scale = scale
-	self.surface = surface
-	self.content = content
-	self.color = color
-	self.hexen_2_param = hexen_2_param
+	self.bitmask_params = bitmask_params
 
 	self.tangent = self.get_tangent()
 
@@ -55,7 +46,7 @@ func get_tangent():
 	elif(self.uv.size() == 8):
 		return self.get_valve_tangent()
 
-	print("Error: Unrecognized vertex format")
+	print("Error: Unrecognized UV format")
 	return null
 
 # Tangent functions to work around broken auto-generated ones

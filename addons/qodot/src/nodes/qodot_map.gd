@@ -10,9 +10,6 @@ export(bool) var reload setget set_reload
 # Pseudo-button for forcing a refresh after asset reimport
 export(bool) var print_to_log
 
-# Map file format
-export(QodotEnums.MapFormat) var map_format = QodotEnums.MapFormat.STANDARD
-
 # Factor to scale the .map file's quake units down by
 # (16 is a best-effort conversion from Quake 3 units to metric)
 export(float) var inverse_scale_factor = 16.0
@@ -74,22 +71,6 @@ func print_log(msg):
 	if(print_to_log):
 		QodotPrinter.print_typed(msg)
 
-# Returns the bimask format for a given map format
-func get_bitmask_format(map_format: int):
-	match map_format:
-		QodotEnums.MapFormat.QUAKE_2:
-			return QodotEnums.BitmaskFormat.QUAKE_2
-		QodotEnums.MapFormat.QUAKE_3:
-			return QodotEnums.BitmaskFormat.QUAKE_2
-		QodotEnums.MapFormat.QUAKE_3_LEGACY:
-			return QodotEnums.BitmaskFormat.QUAKE_2
-		QodotEnums.MapFormat.HEXEN_2:
-			return QodotEnums.BitmaskFormat.HEXEN_2
-		QodotEnums.MapFormat.DAIKATANA:
-			return QodotEnums.BitmaskFormat.DAIKATANA
-
-	return QodotEnums.BitmaskFormat.NONE
-
 func _exit_tree():
 	build_thread.wait_to_finish()
 
@@ -106,7 +87,7 @@ func build_map(map_file: String) -> void:
 	print_log("Parsing map file...")
 	var map_parse_profiler = QodotProfiler.new()
 	var map_reader = QuakeMapReader.new()
-	var parsed_map = map_reader.parse_map(map_file, get_bitmask_format(map_format))
+	var parsed_map = map_reader.parse_map(map_file)
 	var map_parse_duration = map_parse_profiler.finish()
 	print_log("Done in " + String(map_parse_duration * 0.001) +  " seconds.\n")
 

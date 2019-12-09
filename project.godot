@@ -74,11 +74,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/qodot/src/nodes/qodot_entity.gd"
 }, {
-"base": "Reference",
-"class": "QodotEnums",
-"language": "GDScript",
-"path": "res://addons/qodot/src/qodot_enums.gd"
-}, {
 "base": "QodotSpatial",
 "class": "QodotMap",
 "language": "GDScript",
@@ -168,7 +163,6 @@ _global_script_class_icons={
 "QodotBuildMeshes": "",
 "QodotBuildStep": "",
 "QodotEntity": "",
-"QodotEnums": "",
 "QodotMap": "",
 "QodotNode": "res://addons/qodot/icons/icon_qodot_node.svg",
 "QodotPlugin": "",
