@@ -21,8 +21,8 @@ func get_finalize_params() -> Array:
 func get_wants_finalize() -> bool:
 	return false
 
-func _run(context) -> Array:
-	return [null]
+func _run(context):
+	return null
 
 func _finalize(context) -> void:
 	pass

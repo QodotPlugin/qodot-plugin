@@ -1,8 +1,8 @@
-class_name QodotBuildBrushCollision
+class_name QodotBuildBrushCollisionShapes
 extends QodotBuildCollision
 
 func get_name() -> String:
-	return "brush_collision"
+	return "brush_collision_shapes"
 
 func get_type() -> int:
 	return self.Type.PER_BRUSH
@@ -11,7 +11,7 @@ func get_build_params() -> Array:
 	return ['inverse_scale_factor']
 
 func get_finalize_params() -> Array:
-	return ['brush_collision']
+	return ['brush_collision_shapes']
 
 func get_wants_finalize():
 	return true
@@ -31,18 +31,16 @@ func _run(context) -> Array:
 	for collision_vertex in collision_vertices:
 		scaled_collision_vertices.append(collision_vertex / inverse_scale_factor)
 
-	return ["nodes", get_brush_attach_path(entity_idx, brush_idx), [], entity_properties, scaled_collision_vertices]
+	return ["nodes", NodePath("Entity" + String(entity_idx) + "/Brush" + String(brush_idx) + "/CollisionObject"), [], entity_properties, scaled_collision_vertices]
 
 func _finalize(context) -> void:
-	var brush_collision = context['brush_collision']
+	var brush_collision_shapes = context['brush_collision_shapes']
 
-	for brush_collision_idx in range(0, brush_collision.size()):
-		var brush_collision_data = brush_collision[brush_collision_idx]
+	for brush_collision_idx in range(0, brush_collision_shapes.size()):
+		var brush_collision_data = brush_collision_shapes[brush_collision_idx]
 
 		var entity_properties = brush_collision_data[3]
 		var brush_collision_vertices = brush_collision_data[4]
-
-		var brush_collision_object = spawn_brush_collision_object(entity_properties)
 
 		var brush_convex_collision = ConvexPolygonShape.new()
 		brush_convex_collision.set_points(brush_collision_vertices)
@@ -50,6 +48,4 @@ func _finalize(context) -> void:
 		var brush_collision_shape = CollisionShape.new()
 		brush_collision_shape.set_shape(brush_convex_collision)
 
-		brush_collision_object.add_child(brush_collision_shape)
-
-		brush_collision[brush_collision_idx][2] = [brush_collision_object]
+		brush_collision_shapes[brush_collision_idx][2] = [brush_collision_shape]

@@ -33,7 +33,11 @@ func get_build_steps():
 		QodotBuildEntityNodes.new(),
 		QodotBuildBrushNodes.new(),
 		QodotBuildEntitySpawns.new(),
-		QodotBuildBrushCollision.new(),
+		QodotBuildCollisionNode.new(),
+		QodotBuildMeshNode.new(),
+		QodotBuildBrushStaticBodies.new(),
+		QodotBuildBrushAreas.new(),
+		QodotBuildBrushCollisionShapes.new(),
 		#QodotBuildBrushFaceAxes.new(),
 		#QodotBuildBrushFaceVertices.new(),
 		#QodotBuildBrushFaceMeshes.new(),
@@ -78,8 +82,21 @@ func _exit_tree():
 # Clears any existing children
 func clear_map():
 	for child in get_children():
-		remove_child(child)
-		child.queue_free()
+		var should_remove = false
+
+		var child_script = child.get_script()
+		if child_script:
+			if child_script == QodotNode || child_script == QodotSpatial:
+				should_remove = true
+			else:
+				var child_base_script = child_script.get_base_script()
+				if child_base_script:
+					if child_base_script == QodotNode || child_base_script == QodotSpatial:
+						should_remove = true
+
+		if should_remove:
+			remove_child(child)
+			child.queue_free()
 
 # Kicks off the building process
 func build_map(map_file: String) -> void:
@@ -155,7 +172,8 @@ func build_map(map_file: String) -> void:
 		build_order.append(step_name)
 		for result_idx in results:
 			var result = results[result_idx]
-			context[step_name].append(result)
+			if result:
+				context[step_name].append(result)
 		var job_duration = job_profiler.finish()
 		print_log("Done in " + String(job_duration * 0.001) + " seconds.\n")
 

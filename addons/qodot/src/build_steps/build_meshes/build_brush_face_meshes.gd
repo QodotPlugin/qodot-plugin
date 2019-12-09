@@ -16,7 +16,7 @@ func get_finalize_params() -> Array:
 func get_wants_finalize():
 	return true
 
-func _run(context) -> Array:
+func _run(context):
 	var entity_idx = context['entity_idx']
 	var brush_idx = context['brush_idx']
 	var entity_properties = context['entity_properties']
@@ -30,7 +30,7 @@ func _run(context) -> Array:
 	var attach_path = get_brush_attach_path(entity_idx, brush_idx)
 
 	if not should_spawn_brush_mesh(entity_properties, brush):
-		return ["nodes", attach_path, [], [], []]
+		return null
 
 	var face_nodes = []
 	var face_indices = []
