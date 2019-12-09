@@ -94,4 +94,4 @@ func _run(context) -> Array:
 					if 'angle' in entity_properties:
 						node.rotation.y = deg2rad(180 + entity_properties['angle'])
 
-	return ["nodes", [entity_idx], [node] if node else []]
+	return ["nodes", get_entity_attach_path(entity_idx), [node] if node else []]

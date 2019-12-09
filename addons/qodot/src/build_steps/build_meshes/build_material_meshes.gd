@@ -55,7 +55,7 @@ func _run(context) -> Array:
 		material_node.name = material_name.replace("/", "|")
 		material_nodes.append(material_node)
 
-	return ["nodes", [], material_nodes, material_index_paths, material_names]
+	return ["nodes", get_map_attach_path(), material_nodes, material_index_paths, material_names]
 
 func _finalize(context):
 	var material_meshes = context['material_meshes']

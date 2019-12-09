@@ -19,9 +19,9 @@ func _run(context) -> Array:
 	entity_node.properties = entity_properties
 
 	if 'classname' in entity_properties:
-		entity_node.name = entity_properties['classname']
+		entity_node.name = 'Entity' + String(entity_idx)
 
 	if 'origin' in entity_properties:
 		entity_node.translation = entity_properties['origin'] / inverse_scale_factor
 
-	return ["nodes", [entity_idx], [entity_node]]
+	return ["nodes", get_map_attach_path(), [entity_node]]

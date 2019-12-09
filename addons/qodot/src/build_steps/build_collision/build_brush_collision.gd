@@ -31,7 +31,7 @@ func _run(context) -> Array:
 	for collision_vertex in collision_vertices:
 		scaled_collision_vertices.append(collision_vertex / inverse_scale_factor)
 
-	return ["nodes", [entity_idx, brush_idx], [], entity_properties, scaled_collision_vertices]
+	return ["nodes", get_brush_attach_path(entity_idx, brush_idx), [], entity_properties, scaled_collision_vertices]
 
 func _finalize(context) -> void:
 	var brush_collision = context['brush_collision']

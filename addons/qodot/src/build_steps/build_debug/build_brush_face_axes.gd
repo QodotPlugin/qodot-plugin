@@ -34,4 +34,4 @@ func _run(context) -> Array:
 
 		face_axes.append(face_axes_node)
 
-	return ["nodes", [entity_idx, brush_idx], face_axes]
+	return ["nodes", get_brush_attach_path(entity_idx, brush_idx), face_axes]

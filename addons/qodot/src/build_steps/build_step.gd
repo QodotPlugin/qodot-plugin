@@ -26,3 +26,13 @@ func _run(context) -> Array:
 
 func _finalize(context) -> void:
 	pass
+
+func get_map_attach_path():
+	return NodePath('./')
+
+func get_entity_attach_path(entity_idx: int) -> NodePath:
+	return NodePath('./Entity' + String(entity_idx))
+
+
+func get_brush_attach_path(entity_idx: int, brush_idx: int) -> NodePath:
+	return NodePath('./Entity' + String(entity_idx) + '/Brush' + String(brush_idx))

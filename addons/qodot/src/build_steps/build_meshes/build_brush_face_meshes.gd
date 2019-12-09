@@ -27,8 +27,10 @@ func _run(context) -> Array:
 	var map_reader = QuakeMapReader.new()
 	var brush = map_reader.create_brush(brush_data)
 
+	var attach_path = get_brush_attach_path(entity_idx, brush_idx)
+
 	if not should_spawn_brush_mesh(entity_properties, brush):
-		return ["nodes", [entity_idx, brush_idx], [], [], []]
+		return ["nodes", attach_path, [], [], []]
 
 	var face_nodes = []
 	var face_indices = []
@@ -41,7 +43,7 @@ func _run(context) -> Array:
 			face_nodes.append(face_mesh_node)
 			face_indices.append(face_idx)
 
-	return ["nodes", [entity_idx, brush_idx], face_nodes, face_indices, brush_data]
+	return ["nodes", attach_path, face_nodes, face_indices, brush_data]
 
 func _finalize(context):
 	var brush_face_meshes = context['brush_face_meshes']

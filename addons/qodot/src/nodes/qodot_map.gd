@@ -253,18 +253,11 @@ func add_results_to_scene(results) -> void:
 			if result_type == "nodes":
 				filtered_results.append(result_data)
 
-		filtered_results.sort_custom(self, "sort_result_data")
-
 		for result_data in filtered_results:
 			var attach_path = result_data[1]
 			var attach_nodes = result_data[2]
 
-			var attach_target = self
-			while(attach_path.size() > 0):
-				var attach_idx = attach_path.pop_front()
-				if attach_target.get_child_count() > attach_idx:
-					attach_target = attach_target.get_child(attach_idx)
-
+			var attach_target = get_node(attach_path)
 			for node in attach_nodes:
 				attach_target.add_child(node)
 	var node_add_duration = node_add_profiler.finish()
@@ -291,20 +284,7 @@ func sort_result_data(a, b) -> bool:
 	var attach_path_a = a[1]
 	var attach_path_b = b[1]
 
-	var depth = 0
-	while true:
-		if depth >= attach_path_a.size():
-			return false
-
-		if depth >= attach_path_b.size():
-			return true
-
-		if attach_path_a[depth] == attach_path_b[depth]:
-			depth += 1
-		else:
-			return attach_path_a[depth] < attach_path_b[depth]
-
-	return false
+	return attach_path_a < attach_path_b
 
 func add_children_to_editor(edited_scene_root) -> void:
 	for child in get_children():

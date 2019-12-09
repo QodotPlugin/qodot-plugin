@@ -36,4 +36,4 @@ func _run(context) -> Array:
 			vertex_node.translation = vertex / inverse_scale_factor
 			face_spatial.add_child(vertex_node)
 
-	return ["nodes", [entity_idx, brush_idx], face_vertices]
+	return ["nodes", get_brush_attach_path(entity_idx, brush_idx), face_vertices]
