@@ -280,12 +280,6 @@ func build_complete() -> void:
 	var build_duration = build_profiler.finish()
 	print("Build complete after " + String(build_duration * 0.001) + " seconds.\n")
 
-func sort_result_data(a, b) -> bool:
-	var attach_path_a = a[1]
-	var attach_path_b = b[1]
-
-	return attach_path_a < attach_path_b
-
 func add_children_to_editor(edited_scene_root) -> void:
 	for child in get_children():
 		recursive_set_owner(child, edited_scene_root)
