@@ -32,6 +32,7 @@ func get_build_steps():
 	return [
 		QodotBuildEntityNodes.new(),
 		QodotBuildBrushNodes.new(),
+		QodotBuildEntitySpawns.new(),
 		QodotBuildBrushCollision.new(),
 		#QodotBuildBrushFaceAxes.new(),
 		#QodotBuildBrushFaceVertices.new(),
