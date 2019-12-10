@@ -179,6 +179,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/qodot/src/util/quake_map_reader.gd"
 }, {
+"base": "Resource",
+"class": "QuakePaletteFile",
+"language": "GDScript",
+"path": "res://addons/qodot/src/resources/quake_palette_file.gd"
+}, {
+"base": "EditorImportPlugin",
+"class": "QuakePaletteImportPlugin",
+"language": "GDScript",
+"path": "res://addons/qodot/src/quake_palette_import_plugin.gd"
+}, {
 "base": "ImmediateGeometry",
 "class": "QuakePlaneAxes",
 "language": "GDScript",
@@ -219,6 +229,8 @@ _global_script_class_icons={
 "QuakeMapFile": "",
 "QuakeMapImportPlugin": "",
 "QuakeMapReader": "",
+"QuakePaletteFile": "",
+"QuakePaletteImportPlugin": "",
 "QuakePlaneAxes": "res://addons/qodot/icons/icon_qodot_spatial.svg"
 }
 

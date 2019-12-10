@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.palette"
+type="Resource"
+path="res://.import/palette.lmp-607fece05ca2e6d7092d2b1487763816.tres"
+
+[deps]
+
+source_file="res://addons/qodot/palette.lmp"
+dest_files=[ "res://.import/palette.lmp-607fece05ca2e6d7092d2b1487763816.tres" ]
+
+[params]
+
