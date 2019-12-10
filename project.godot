@@ -15,6 +15,11 @@ _global_script_classes=[ {
 "path": "res://addons/qodot/src/nodes/qodot_brush.gd"
 }, {
 "base": "QodotBuildCollision",
+"class": "QodotBuildAreaCollisionShapes",
+"language": "GDScript",
+"path": "res://addons/qodot/src/build_steps/build_collision/build_area_collision_shapes.gd"
+}, {
+"base": "QodotBuildCollision",
 "class": "QodotBuildBrushAreas",
 "language": "GDScript",
 "path": "res://addons/qodot/src/build_steps/build_collision/build_brush_areas.gd"
@@ -60,6 +65,11 @@ _global_script_classes=[ {
 "path": "res://addons/qodot/src/build_steps/build_nodes/build_collision_node.gd"
 }, {
 "base": "QodotBuildStep",
+"class": "QodotBuildCollisionStaticBody",
+"language": "GDScript",
+"path": "res://addons/qodot/src/build_steps/build_nodes/build_collision_static_body.gd"
+}, {
+"base": "QodotBuildStep",
 "class": "QodotBuildEntityNodes",
 "language": "GDScript",
 "path": "res://addons/qodot/src/build_steps/build_nodes/build_entity_nodes.gd"
@@ -83,6 +93,11 @@ _global_script_classes=[ {
 "class": "QodotBuildMeshes",
 "language": "GDScript",
 "path": "res://addons/qodot/src/build_steps/build_meshes/build_meshes.gd"
+}, {
+"base": "QodotBuildCollision",
+"class": "QodotBuildStaticCollisionShapes",
+"language": "GDScript",
+"path": "res://addons/qodot/src/build_steps/build_collision/build_static_collision_shapes.gd"
 }, {
 "base": "Reference",
 "class": "QodotBuildStep",
@@ -171,6 +186,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "QodotBrush": "",
+"QodotBuildAreaCollisionShapes": "",
 "QodotBuildBrushAreas": "",
 "QodotBuildBrushCollisionShapes": "",
 "QodotBuildBrushFaceAxes": "",
@@ -180,11 +196,13 @@ _global_script_class_icons={
 "QodotBuildBrushStaticBodies": "",
 "QodotBuildCollision": "",
 "QodotBuildCollisionNode": "",
+"QodotBuildCollisionStaticBody": "",
 "QodotBuildEntityNodes": "",
 "QodotBuildEntitySpawns": "",
 "QodotBuildMaterialMeshes": "",
 "QodotBuildMeshNode": "",
 "QodotBuildMeshes": "",
+"QodotBuildStaticCollisionShapes": "",
 "QodotBuildStep": "",
 "QodotEntity": "",
 "QodotMap": "",

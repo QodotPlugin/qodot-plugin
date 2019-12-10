@@ -30,18 +30,23 @@ export (SpatialMaterial) var default_material
 
 func get_build_steps():
 	return [
-		QodotBuildEntityNodes.new(),
-		QodotBuildBrushNodes.new(),
-		QodotBuildEntitySpawns.new(),
-		QodotBuildCollisionNode.new(),
-		QodotBuildMeshNode.new(),
-		QodotBuildBrushStaticBodies.new(),
-		QodotBuildBrushAreas.new(),
-		QodotBuildBrushCollisionShapes.new(),
+		#QodotBuildEntityNodes.new(),
+		#QodotBuildEntitySpawns.new(),
+		#QodotBuildBrushNodes.new(),
+		#QodotBuildBrushStaticBodies.new(),
+		#QodotBuildBrushAreas.new(),
+		#QodotBuildBrushCollisionShapes.new(),
 		#QodotBuildBrushFaceAxes.new(),
 		#QodotBuildBrushFaceVertices.new(),
 		#QodotBuildBrushFaceMeshes.new(),
-		QodotBuildMaterialMeshes.new()
+
+		QodotBuildMeshNode.new(),
+		QodotBuildMaterialMeshes.new(),
+
+		QodotBuildCollisionNode.new(),
+		QodotBuildCollisionStaticBody.new(),
+		QodotBuildStaticCollisionShapes.new(),
+		QodotBuildAreaCollisionShapes.new()
 	]
 
 # Threads

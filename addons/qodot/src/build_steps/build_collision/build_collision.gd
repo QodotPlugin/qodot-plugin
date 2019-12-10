@@ -7,7 +7,7 @@ func should_spawn_brush_collision(entity_properties: Dictionary) -> bool:
 
 	return true
 
-static func get_brush_collision_vertices(entity_properties: Dictionary, brush: QuakeBrush):
+static func get_brush_collision_vertices(entity_properties: Dictionary, brush: QuakeBrush, world_space: bool = false):
 	var collision_vertices = PoolVector3Array()
 
 	for face in brush.faces:
@@ -19,7 +19,10 @@ static func get_brush_collision_vertices(entity_properties: Dictionary, brush: Q
 					vertex_present = true
 
 			if not vertex_present:
-				collision_vertices.append(vertex + face.center - brush.center)
+				if(world_space):
+					collision_vertices.append(vertex + face.center - brush.center)
+				else:
+					collision_vertices.append(vertex + face.center - brush.center)
 
 	return collision_vertices
 
@@ -33,3 +36,24 @@ static func spawn_brush_collision_object(entity_properties: Dictionary) -> Colli
 			return Area.new()
 
 	return StaticBody.new()
+
+func has_static_collision(entity_properties):
+	if not 'classname' in entity_properties:
+		return false
+
+	if entity_properties['classname'].find('trigger') != -1:
+		return false
+
+	if entity_properties['classname'] == 'func_illusionary':
+		return false
+
+	return true
+
+func has_area_collision(entity_properties):
+	if not 'classname' in entity_properties:
+		return false
+
+	if entity_properties['classname'].find('trigger') != -1:
+		return true
+
+	return false

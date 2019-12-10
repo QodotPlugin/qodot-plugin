@@ -18,10 +18,8 @@ func _run(context):
 	var brush_idx = context['brush_idx']
 	var entity_properties = context['entity_properties']
 
-	if not 'classname' in entity_properties:
-		return null
-
-	if entity_properties['classname'].find('trigger') == -1 and entity_properties['classname'] != 'func_illusionary':
+	print(entity_properties, ", ", has_area_collision(entity_properties))
+	if not has_area_collision(entity_properties):
 		return null
 
 	return ["nodes", get_brush_attach_path(entity_idx, brush_idx), [], entity_properties]
