@@ -27,11 +27,25 @@ func load_texture_materials(
 	base_texture_path: String,
 	material_extension: String,
 	texture_extension: String,
+	texture_wads: Array,
 	default_material = null
 	) -> Dictionary:
+	var texture_wad_resources = []
+	for texture_wad_path in texture_wads:
+		var texture_wad = load(texture_wad_path) as QuakeWadFile
+		if texture_wad and not texture_wad in texture_wad_resources:
+			texture_wad_resources.append(texture_wad)
+
 	var texture_materials = {}
 	for texture in texture_list:
-		texture_materials[texture] = get_material(texture, base_texture_path, material_extension, texture_extension, default_material)
+		texture_materials[texture] = get_material(
+			texture,
+			base_texture_path,
+			material_extension,
+			texture_extension,
+			texture_wad_resources,
+			default_material
+		)
 	return texture_materials
 
 func get_material(
@@ -39,6 +53,7 @@ func get_material(
 	base_texture_path: String,
 	material_extension: String,
 	texture_extension: String,
+	texture_wad_resources: Array,
 	default_material = null
 	):
 	var material = null
@@ -62,8 +77,15 @@ func get_material(
 			var texture_path = base_texture_path + '/' + texture_name + texture_extension
 
 			var texture = null
-			if(texture_directory.file_exists(texture_path)):
-				texture = load(texture_path)
+
+			for texture_wad in texture_wad_resources:
+				var texture_name_lower = texture_name.to_lower()
+				if texture_name_lower in texture_wad.textures:
+					texture = texture_wad.textures[texture_name_lower]
+
+			if not texture:
+				if(texture_directory.file_exists(texture_path)):
+					texture = load(texture_path)
 
 			if texture:
 				if default_material:

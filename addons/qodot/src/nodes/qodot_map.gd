@@ -24,6 +24,7 @@ export(String, DIR) var base_texture_path = 'res://textures'
 # File extensions appended to textures specified in the .map file
 export(String) var material_extension = '.tres'
 export(String) var texture_extension = '.png'
+export(Array, String, FILE, "*.wad") var texture_wads = []
 
 # Materials
 export (SpatialMaterial) var default_material
@@ -54,10 +55,7 @@ export(int) var max_build_threads = 4
 export(int) var build_bucket_size = 4
 
 # Instances
-var texture_loader = QodotTextureLoader.new()
-
 var build_thread = Thread.new()
-
 var build_profiler = null
 
 ## Setters
@@ -137,7 +135,8 @@ func build_map(map_file: String) -> void:
 	print_log("\nLoading textures...")
 	var texture_load_profiler = QodotProfiler.new()
 	var texture_list = map_reader.get_texture_list(brush_data_dict)
-	var material_dict = texture_loader.load_texture_materials(texture_list, base_texture_path, material_extension, texture_extension, default_material)
+	var texture_loader = QodotTextureLoader.new()
+	var material_dict = texture_loader.load_texture_materials(texture_list, base_texture_path, material_extension, texture_extension, texture_wads, default_material)
 	var texture_load_duration = texture_load_profiler.finish()
 	print_log("Done in " + String(texture_load_duration * 0.001) + " seconds.\n")
 
