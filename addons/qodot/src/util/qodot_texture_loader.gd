@@ -59,8 +59,6 @@ func get_material(
 	var material = null
 
 	if(texture_name != TEXTURE_EMPTY):
-		texture_directory.change_dir(base_texture_path)
-
 		# Autoload material if it exists
 		var material_path = base_texture_path + '/' + texture_name + material_extension
 
@@ -129,9 +127,8 @@ func get_pbr_texture(base_texture_path, texture, suffix, texture_extension):
 	for comp in texture_comps:
 		texture_string += '/' + comp
 
-	var path = texture_string + '/' + texture_comps[-1] + '_' + suffix + texture_extension
+	var path = base_texture_path + texture_string + '/' + texture_comps[-1] + '_' + suffix + texture_extension
 
-	texture_directory.change_dir(base_texture_path)
 	if(texture_directory.file_exists(path)):
 		return load(path)
 
