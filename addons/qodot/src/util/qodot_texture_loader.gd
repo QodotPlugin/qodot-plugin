@@ -121,9 +121,15 @@ func get_pbr_textures(base_texture_path, texture, texture_extension):
 
 func get_pbr_texture(base_texture_path, texture, suffix, texture_extension):
 	var texture_comps = texture.split('/')
-	var texture_group = texture_comps[0]
-	var texture_name = texture_comps[1]
-	var path = base_texture_path + '/' + texture_group + '/' + texture_name + '/' + texture_name + '_' + suffix + texture_extension
+
+	if texture_comps.size() == 0:
+		return null
+
+	var texture_string = ''
+	for comp in texture_comps:
+		texture_string += '/' + comp
+
+	var path = texture_string + '/' + texture_comps[-1] + '_' + suffix + texture_extension
 
 	texture_directory.change_dir(base_texture_path)
 	if(texture_directory.file_exists(path)):
