@@ -1,10 +1,11 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=43 format=2]
 
 [ext_resource path="res://addons/qodot/src/nodes/qodot_map.gd" type="Script" id=1]
-[ext_resource path="res://addons/qodot/src/nodes/qodot_node.gd" type="Script" id=2]
-[ext_resource path="res://textures/base/checkerboard.png" type="Texture" id=3]
-[ext_resource path="res://textures/base/uv_test_512.png" type="Texture" id=4]
-[ext_resource path="res://textures/pbr/military-panel.tres" type="Material" id=5]
+[ext_resource path="res://addons/qodot/src/build/pipeline/build_pipeline.gd" type="Script" id=2]
+[ext_resource path="res://addons/qodot/src/nodes/qodot_node.gd" type="Script" id=3]
+[ext_resource path="res://textures/base/checkerboard.png" type="Texture" id=4]
+[ext_resource path="res://textures/base/uv_test_512.png" type="Texture" id=5]
+[ext_resource path="res://textures/pbr/military-panel.tres" type="Material" id=6]
 
 [sub_resource type="Environment" id=1]
 background_mode = 1
@@ -19,7 +20,7 @@ glow_bicubic_upscale = true
 radius = 0.4
 
 [sub_resource type="SpatialMaterial" id=3]
-albedo_texture = ExtResource( 3 )
+albedo_texture = ExtResource( 4 )
 
 [sub_resource type="ArrayMesh" id=4]
 surfaces/0 = {
@@ -36,7 +37,7 @@ surfaces/0 = {
 }
 
 [sub_resource type="SpatialMaterial" id=5]
-albedo_texture = ExtResource( 4 )
+albedo_texture = ExtResource( 5 )
 
 [sub_resource type="ArrayMesh" id=6]
 surfaces/0 = {
@@ -60,7 +61,7 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 97599,
 "index_count": 240,
-"material": ExtResource( 5 ),
+"material": ExtResource( 6 ),
 "primitive": 4,
 "skeleton_aabb": [  ],
 "vertex_count": 162
@@ -259,11 +260,12 @@ shape = SubResource( 2 )
 [node name="Qodot Test Map" type="Spatial" parent="."]
 transform = Transform( 1, 0.000771044, -0.000164647, -0.000771083, 1, -0.000219232, 0.000164466, 0.000219368, 1, 0, 0, 0 )
 script = ExtResource( 1 )
+build_pipeline = ExtResource( 2 )
 map_file = "res://scenes/qodot_example.map"
 texture_wads = [ "res://textures/QUAKE101.WAD" ]
 
 [node name="Meshes" type="Node" parent="Qodot Test Map"]
-script = ExtResource( 2 )
+script = ExtResource( 3 )
 
 [node name="base|checkerboard" type="MeshInstance" parent="Qodot Test Map/Meshes"]
 mesh = SubResource( 4 )
@@ -278,7 +280,7 @@ mesh = SubResource( 7 )
 material/0 = null
 
 [node name="Collision" type="Node" parent="Qodot Test Map"]
-script = ExtResource( 2 )
+script = ExtResource( 3 )
 
 [node name="StaticBody" type="StaticBody" parent="Qodot Test Map/Collision"]
 

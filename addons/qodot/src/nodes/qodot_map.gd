@@ -10,6 +10,8 @@ export(bool) var reload setget set_reload
 # Pseudo-button for forcing a refresh after asset reimport
 export(bool) var print_to_log
 
+export(Script) var build_pipeline
+
 # Factor to scale the .map file's quake units down by
 # (16 is a best-effort conversion from Quake 3 units to metric)
 export(float) var inverse_scale_factor = 16.0
@@ -28,27 +30,6 @@ export(Array, String, FILE, "*.wad") var texture_wads = []
 # Materials
 export(String) var material_extension = '.tres'
 export (SpatialMaterial) var default_material
-
-func get_build_steps():
-	return [
-		#QodotBuildEntityNodes.new(),
-		#QodotBuildEntitySpawns.new(),
-		#QodotBuildBrushNodes.new(),
-		#QodotBuildBrushStaticBodies.new(),
-		#QodotBuildBrushAreas.new(),
-		#QodotBuildBrushCollisionShapes.new(),
-		#QodotBuildBrushFaceAxes.new(),
-		#QodotBuildBrushFaceVertices.new(),
-		#QodotBuildBrushFaceMeshes.new(),
-
-		QodotBuildMeshNode.new(),
-		QodotBuildMaterialMeshes.new(),
-
-		QodotBuildCollisionNode.new(),
-		QodotBuildCollisionStaticBody.new(),
-		QodotBuildStaticCollisionShapes.new(),
-		QodotBuildAreaCollisionShapes.new()
-	]
 
 # Threads
 export(int) var max_build_threads = 4
@@ -106,63 +87,36 @@ func clear_map():
 func build_map(map_file: String) -> void:
 	print("\nBuilding map...\n")
 
-	print_log("Parsing map file...")
-	var map_parse_profiler = QodotProfiler.new()
-	var map_reader = QuakeMapReader.new()
-	var parsed_map = map_reader.parse_map(map_file)
-	var map_parse_duration = map_parse_profiler.finish()
-	print_log("Done in " + String(map_parse_duration * 0.001) +  " seconds.\n")
+	var context = build_pipeline.initialize_context(
+		map_file,
+		base_texture_path,
+		material_extension,
+		texture_extension,
+		texture_wads,
+		default_material
+	)
 
-	var entity_properties_array = parsed_map[0]
-	var brush_data_dict = parsed_map[1]
+	context['inverse_scale_factor'] = inverse_scale_factor
 
-	var worldspawn_properties = entity_properties_array[0]
-	var entity_count = entity_properties_array.size()
-
-	print_log("Entity Count: " + String(entity_count))
-
-	var brush_count = 0
-	for entity_idx in brush_data_dict:
-		brush_count += brush_data_dict[entity_idx].size()
-
-	print_log("Brush Count: " + String(brush_count) + "\n")
-
-	print_log("Worldspawn Properties:")
-	print_log(worldspawn_properties)
-
-	if 'message' in worldspawn_properties:
-		call_deferred("set_name", worldspawn_properties['message'])
-
-	print_log("\nLoading textures...")
-	var texture_load_profiler = QodotProfiler.new()
-	var texture_list = map_reader.get_texture_list(brush_data_dict)
-	var texture_loader = QodotTextureLoader.new()
-	var material_dict = texture_loader.load_texture_materials(texture_list, base_texture_path, material_extension, texture_extension, texture_wads, default_material)
-	var texture_load_duration = texture_load_profiler.finish()
-	print_log("Done in " + String(texture_load_duration * 0.001) + " seconds.\n")
-
-	print_log("Map textures:")
-	print_log(texture_list)
+	if 'entity_properties' in context:
+		var entity_properties = context['entity_properties']
+		if entity_properties.size() > 0:
+			var worldspawn_properties = entity_properties[0]
+			if 'message' in worldspawn_properties:
+				call_deferred("set_name", worldspawn_properties['message'])
 
 	print_log("\nInitializing Thread Pool...")
 	var thread_init_profiler = QodotProfiler.new()
 	var thread_pool = QodotThreadPool.new()
 	thread_pool.set_max_threads(max_build_threads)
 	thread_pool.set_bucket_size(build_bucket_size)
+	context['thread_pool'] = thread_pool
 	var thread_init_duration = thread_init_profiler.finish()
 	print_log("Done in " + String(thread_init_duration * 0.001) + " seconds.\n")
 
-	var context = {
-		"thread_pool": thread_pool,
-		"entity_properties_array": entity_properties_array,
-		"brush_data_dict": brush_data_dict,
-		"material_dict": material_dict,
-		"inverse_scale_factor": inverse_scale_factor
-	}
-
 	var build_order = []
 
-	var build_steps = get_build_steps()
+	var build_steps = build_pipeline.get_build_steps()
 	for build_step_idx in range(0, build_steps.size()):
 		var build_step = build_steps[build_step_idx]
 		var step_name = build_step.get_name()
@@ -234,7 +188,7 @@ func queue_build_step(context: Dictionary, build_step: QodotBuildStep):
 func finalize_build(context, build_order):
 	build_thread.wait_to_finish()
 
-	for build_step in get_build_steps():
+	for build_step in build_pipeline.get_build_steps():
 		if build_step.get_wants_finalize():
 			run_finalize_step(context, build_step)
 
