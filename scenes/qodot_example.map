@@ -35,7 +35,7 @@
 "classname" "func_group"
 "_tb_type" "_tb_group"
 "_tb_name" "Railing"
-"_tb_id" "90"
+"_tb_id" "6"
 // brush 0
 {
 ( -400 -64 16 ) ( -400 -63 16 ) ( -400 -64 17 ) base/uv_test_512 [ 0 -1 0 0 ] [ 0 0 -1 0 ] 0 0.0625 0.0625
@@ -123,7 +123,7 @@
 "classname" "func_group"
 "_tb_type" "_tb_group"
 "_tb_name" "Not A TIE Fighter"
-"_tb_id" "91"
+"_tb_id" "7"
 // brush 0
 {
 ( -304 32 80 ) ( -304 -0 16 ) ( -304 32 16 ) base/checkerboard [ 0 -1 0 -0 ] [ 0 0 -1 -0 ] -0 0.03125 0.03125
@@ -167,7 +167,7 @@
 "classname" "func_group"
 "_tb_type" "_tb_group"
 "_tb_name" "Boundary"
-"_tb_id" "92"
+"_tb_id" "8"
 // brush 0
 {
 ( 48 80 64 ) ( 48 81 64 ) ( 48 80 65 ) special/clip [ 0 -1 0 -0 ] [ 0 0 -1 256 ] -0 0.0625 0.0625
@@ -210,7 +210,7 @@
 "classname" "func_group"
 "_tb_type" "_tb_group"
 "_tb_name" "Lookout"
-"_tb_id" "93"
+"_tb_id" "9"
 // brush 0
 {
 ( 176 -128 96 ) ( 176 -127 96 ) ( 176 -128 97 ) base/checkerboard [ 0 -1 0 -0 ] [ 0 0 -1 256 ] -0 0.0625 0.0625
@@ -243,7 +243,7 @@
 "classname" "func_group"
 "_tb_type" "_tb_group"
 "_tb_name" "Arch"
-"_tb_id" "94"
+"_tb_id" "10"
 // brush 0
 {
 ( -224 256 16 ) ( -224 257 16 ) ( -224 255.66666666666674 17 ) pbr/military-panel [ 0 1 0.333333 -1109.33 ] [ 0 0 -1 336 ] -0 0.0625 0.0475

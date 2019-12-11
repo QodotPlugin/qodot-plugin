@@ -184,10 +184,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/qodot/src/resources/quake_palette_file.gd"
 }, {
-"base": "EditorImportPlugin",
+"base": "Reference",
 "class": "QuakePaletteImportPlugin",
 "language": "GDScript",
-"path": "res://addons/qodot/src/import_plugins/quake_wad_import_plugin.gd"
+"path": "res://addons/qodot/src/import_plugins/quake_palette_import_plugin.gd"
 }, {
 "base": "ImmediateGeometry",
 "class": "QuakePlaneAxes",
@@ -198,6 +198,11 @@ _global_script_classes=[ {
 "class": "QuakeWadFile",
 "language": "GDScript",
 "path": "res://addons/qodot/src/resources/quake_wad_file.gd"
+}, {
+"base": "EditorImportPlugin",
+"class": "QuakeWadImportPlugin",
+"language": "GDScript",
+"path": "res://addons/qodot/src/import_plugins/quake_wad_import_plugin.gd"
 } ]
 _global_script_class_icons={
 "QodotBrush": "",
@@ -237,7 +242,8 @@ _global_script_class_icons={
 "QuakePaletteFile": "",
 "QuakePaletteImportPlugin": "",
 "QuakePlaneAxes": "res://addons/qodot/icons/icon_qodot_spatial.svg",
-"QuakeWadFile": ""
+"QuakeWadFile": "",
+"QuakeWadImportPlugin": ""
 }
 
 [application]
