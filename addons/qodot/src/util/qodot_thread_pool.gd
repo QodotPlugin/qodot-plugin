@@ -84,7 +84,8 @@ func add_thread():
 func remove_thread():
 	if(free_threads.size() > 0):
 		var thread = free_threads.pop_back()
-		thread.finish()
+		if thread.is_active():
+			thread.finish()
 
 func add_thread_job(target, func_name, params):
 	var job_id = job_counter
@@ -149,7 +150,9 @@ func jobs_pending():
 
 func finish():
 	for thread in free_threads:
-		thread.finish()
+		if thread.is_active():
+			thread.finish()
 
 	for thread in busy_threads:
-		thread.finish()
+		if thread.is_active():
+			thread.finish()
