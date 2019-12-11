@@ -8,6 +8,12 @@ var center = Vector3.ZERO
 func _init(faces):
 	self.faces = faces
 	self.find_face_vertices()
+
+	for face_idx in range(self.faces.size() - 1, -1, -1):
+		var face = self.faces[face_idx]
+		if face.face_vertices.size() < 3:
+			self.faces.remove(face_idx)
+
 	self.find_face_centers()
 	self.face_vertices_to_local()
 	self.wind_face_vertices()
