@@ -22,11 +22,11 @@ export(String, FILE, '*.map') var map_file
 export(String, DIR) var base_texture_path = 'res://textures'
 
 # File extensions appended to textures specified in the .map file
-export(String) var material_extension = '.tres'
 export(String) var texture_extension = '.png'
 export(Array, String, FILE, "*.wad") var texture_wads = []
 
 # Materials
+export(String) var material_extension = '.tres'
 export (SpatialMaterial) var default_material
 
 func get_build_steps():
@@ -80,7 +80,8 @@ func print_log(msg):
 		QodotPrinter.print_typed(msg)
 
 func _exit_tree():
-	build_thread.wait_to_finish()
+	if(build_thread.is_active()):
+		build_thread.wait_to_finish()
 
 # Clears any existing children
 func clear_map():
