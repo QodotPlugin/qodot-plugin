@@ -189,9 +189,8 @@ static func get_standard_uv(
 	elif(df >= du && df >= dr):
 		uv_out = Vector2(global_vertex.x, -global_vertex.y)
 
-	uv_out /=  texture.get_size() / inverse_scale_factor
-
 	uv_out = uv_out.rotated(deg2rad(rotation))
+	uv_out /=  texture.get_size() / inverse_scale_factor
 	uv_out /= scale
 	uv_out += Vector2(uv[0], uv[1]) / texture.get_size()
 
