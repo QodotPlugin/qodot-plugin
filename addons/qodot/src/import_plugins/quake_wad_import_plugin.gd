@@ -1,4 +1,4 @@
-class_name QuakePaletteImportPlugin
+class_name QuakeWadImportPlugin
 extends EditorImportPlugin
 tool
 
