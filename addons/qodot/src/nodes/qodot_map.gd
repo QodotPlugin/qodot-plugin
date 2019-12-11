@@ -10,7 +10,7 @@ export(bool) var reload setget set_reload
 # Pseudo-button for forcing a refresh after asset reimport
 export(bool) var print_to_log
 
-export(Script) var build_pipeline
+export(Script) var build_pipeline = QodotMeshPerMaterialPipeline
 
 # Factor to scale the .map file's quake units down by
 # (16 is a best-effort conversion from Quake 3 units to metric)
