@@ -23,9 +23,10 @@ func _run(context) -> Array:
 
 	var face_axes = []
 
-	for face in brush.faces:
+	for face_idx in range(0, brush.faces.size()):
+		var face = brush.faces[face_idx]
 		var face_axes_node = QuakePlaneAxes.new()
-		face_axes_node.name = 'Plane0'
+		face_axes_node.name = 'Face' + String(face_idx) + '_Plane'
 		face_axes_node.translation = (face.plane_vertices[0] - brush.center) / inverse_scale_factor
 
 		face_axes_node.vertex_set = []

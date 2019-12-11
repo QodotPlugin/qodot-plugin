@@ -23,10 +23,11 @@ func _run(context) -> Array:
 
 	var face_vertices = []
 
-	for face in brush.faces:
+	for face_idx in range(0, brush.faces.size()):
+		var face = brush.faces[face_idx]
 		var vertices = face.face_vertices
 		var face_spatial = QodotSpatial.new()
-		face_spatial.name = 'Face0'
+		face_spatial.name = 'Face' + String(face_idx) + '_Vertices'
 		face_spatial.translation = (face.center - brush.center) / inverse_scale_factor
 		face_vertices.append(face_spatial)
 
