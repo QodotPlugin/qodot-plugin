@@ -76,14 +76,15 @@ func get_material(
 
 			var texture = null
 
-			for texture_wad in texture_wad_resources:
-				var texture_name_lower = texture_name.to_lower()
-				if texture_name_lower in texture_wad.textures:
-					texture = texture_wad.textures[texture_name_lower]
+			if(texture_directory.file_exists(texture_path)):
+				texture = load(texture_path)
 
 			if not texture:
-				if(texture_directory.file_exists(texture_path)):
-					texture = load(texture_path)
+				for texture_wad in texture_wad_resources:
+					var texture_name_lower = texture_name.to_lower()
+					if texture_name_lower in texture_wad.textures:
+						texture = texture_wad.textures[texture_name_lower]
+						break
 
 			if texture:
 				if default_material:
@@ -133,3 +134,13 @@ func get_pbr_texture(base_texture_path, texture, suffix, texture_extension):
 		return load(path)
 
 	return null
+
+
+func start_timer():
+	var timer = Timer.new()
+	timer.connect("timeout", self, "timer_complete")
+	timer.set_one_shot(true)
+	timer.start(2.0)
+
+func complete():
+	print("timer completed")
