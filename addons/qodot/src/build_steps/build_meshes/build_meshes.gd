@@ -83,57 +83,6 @@ static func get_tangent(face: QuakeFace):
 		print('Error: Unknown UV format')
 		return null
 
-static func get_standard_tangent(
-		normal: Vector3,
-		rotation: float,
-		scale: Vector2
-	):
-	var du = normal.dot(Vector3.UP)
-	var dr = normal.dot(Vector3.RIGHT)
-	var df = normal.dot(Vector3.BACK)
-
-	var dua = abs(du)
-	var dra = abs(dr)
-	var dfa = abs(df)
-
-	var u_axis: Vector3 = Vector3.ZERO
-	var v_sign: float = 0
-
-	if(dua >= dra && dua >= dfa):
-		u_axis = Vector3.BACK
-		v_sign = sign(du)
-	elif(dra >= dua && dra >= dfa):
-		u_axis = Vector3.BACK
-		v_sign = -sign(dr)
-	elif(dfa >= dua && dfa >= dra):
-		u_axis = Vector3.RIGHT
-		v_sign = sign(df)
-
-	v_sign *= sign(scale.y)
-	u_axis = u_axis.rotated(normal, deg2rad(-rotation * v_sign))
-
-	return Plane(u_axis, v_sign)
-
-static func get_valve_tangent(
-	normal: Vector3,
-	uv: PoolRealArray,
-	rotation: float,
-	scale: Vector2
-	):
-	if(uv.size() != 8):
-		print("Error: not a Valve-format UV array")
-		return null
-
-	var uv_out = Vector2.ZERO
-
-	var u_axis = Vector3(uv[1], uv[2], uv[0]).normalized()
-	var v_axis = Vector3(uv[5], uv[6], uv[4]).normalized()
-
-	var v_sign = -sign(normal.cross(u_axis).dot(v_axis))
-
-	return Plane(u_axis, v_sign)
-
-
 static func get_uv(face: QuakeFace, vertex: Vector3, material: Material, inverse_scale_factor: float):
 	if material:
 		if material is SpatialMaterial:
@@ -226,3 +175,53 @@ static func get_valve_uv(
 	uv_out += Vector2(u_shift, v_shift) / texture_size
 
 	return uv_out
+
+static func get_standard_tangent(
+		normal: Vector3,
+		rotation: float,
+		scale: Vector2
+	):
+	var du = normal.dot(Vector3.UP)
+	var dr = normal.dot(Vector3.RIGHT)
+	var df = normal.dot(Vector3.BACK)
+
+	var dua = abs(du)
+	var dra = abs(dr)
+	var dfa = abs(df)
+
+	var u_axis: Vector3 = Vector3.ZERO
+	var v_sign: float = 0
+
+	if(dua >= dra && dua >= dfa):
+		u_axis = Vector3.BACK
+		v_sign = sign(du)
+	elif(dra >= dua && dra >= dfa):
+		u_axis = Vector3.BACK
+		v_sign = -sign(dr)
+	elif(dfa >= dua && dfa >= dra):
+		u_axis = Vector3.RIGHT
+		v_sign = sign(df)
+
+	v_sign *= sign(scale.y)
+	u_axis = u_axis.rotated(normal, deg2rad(-rotation * v_sign))
+
+	return Plane(u_axis, v_sign)
+
+static func get_valve_tangent(
+	normal: Vector3,
+	uv: PoolRealArray,
+	rotation: float,
+	scale: Vector2
+	):
+	if(uv.size() != 8):
+		print("Error: not a Valve-format UV array")
+		return null
+
+	var uv_out = Vector2.ZERO
+
+	var u_axis = Vector3(uv[1], uv[2], uv[0]).normalized()
+	var v_axis = Vector3(uv[5], uv[6], uv[4]).normalized()
+
+	var v_sign = -sign(normal.cross(u_axis).dot(v_axis))
+
+	return Plane(u_axis, v_sign)
