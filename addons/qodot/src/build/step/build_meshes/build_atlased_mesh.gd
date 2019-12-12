@@ -60,31 +60,29 @@ func _finalize(context):
 	var texture_atlas = context['texture_atlas'][0]
 	var inverse_scale_factor = context['inverse_scale_factor']
 
-	var atlas_texture = texture_atlas[1]
-	var atlas_texture_names = texture_atlas[2]
-	var atlas_positions = texture_atlas[3]
-	var atlas_sizes = texture_atlas[4]
+	var atlas_texture_names = texture_atlas[1]
+	var atlas_sizes = texture_atlas[2]
+	var atlas_array = texture_atlas[3]
+	var atlas_data_texture = texture_atlas[4]
 
 	var mesh_instance = atlased_mesh[0][2][0]
 	var material_index_paths = atlased_mesh[0][3]
 	var material_names = atlased_mesh[0][4]
 
+	var material = atlas_material.duplicate()
+	material.set_shader_param('atlas_array', atlas_array)
+	material.set_shader_param('atlas_data', atlas_data_texture)
+
 	var surface_tool = SurfaceTool.new()
 	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var material = atlas_material.duplicate()
-	material.set_shader_param('atlas', atlas_texture)
 	surface_tool.set_material(material)
-
-	var texture_rects = []
 
 	for texture_name in atlas_texture_names:
 		var texture_idx = atlas_texture_names.find(texture_name)
-		var atlas_position = atlas_positions[texture_idx]
 		var atlas_size = atlas_sizes[texture_idx]
-		texture_rects.append([atlas_position / atlas_texture.get_size(), atlas_size / atlas_texture.get_size()])
 
 		var texture_vertex_color = Color()
-		texture_vertex_color.r = float(texture_idx) / 255.0
+		texture_vertex_color.r = float(texture_idx) / float(atlas_texture_names.size() - 1)
 
 		if texture_name in material_index_paths:
 			var face_index_paths = material_index_paths[texture_name]
@@ -99,19 +97,5 @@ func _finalize(context):
 				var face = brush.faces[face_idx]
 
 				get_face_mesh(surface_tool, brush.center, face, atlas_size, texture_vertex_color, inverse_scale_factor, true)
-
-	var rect_data_image = Image.new()
-	rect_data_image.create(256, 1, false, Image.FORMAT_RGBAF)
-
-	rect_data_image.lock()
-	for texture_name in atlas_texture_names:
-		var texture_idx = atlas_texture_names.find(texture_name)
-		var texture_rect = texture_rects[texture_idx]
-		rect_data_image.set_pixel(texture_idx, 0, Color(texture_rect[0].x, texture_rect[0].y, texture_rect[1].x, texture_rect[1].y))
-	rect_data_image.unlock()
-
-	var rect_data_texture = ImageTexture.new()
-	rect_data_texture.create_from_image(rect_data_image, 0)
-	material.set_shader_param('rect_data', rect_data_texture)
 
 	mesh_instance.set_mesh(surface_tool.commit())

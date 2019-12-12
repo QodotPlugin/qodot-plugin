@@ -1,20 +1,22 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=2]
 
-[sub_resource type="Shader" id=3]
+[sub_resource type="Shader" id=1]
 code = "shader_type spatial;
 
-uniform sampler2D atlas: hint_albedo;
-uniform sampler2D rect_data;
+uniform sampler2DArray atlas_array: hint_albedo;
+uniform sampler2D atlas_data;
 
-varying vec2 rect_pos;
 varying vec2 rect_size;
+varying float atlas_w;
 
 void vertex() {
-	float rect_u = COLOR.r;
-	vec4 rect = texture(rect_data, vec2(rect_u, 0.0));
+	float u = COLOR.r;
 	
-	rect_pos = rect.xy;
-	rect_size = rect.zw;
+	float atlas_depth = float(textureSize(atlas_array, 0).z - 1);
+	atlas_w = u * atlas_depth;
+	
+	vec4 rect = texture(atlas_data, vec2(u, 0.0));
+	rect_size = rect.xy;
 }
 
 void fragment() {
@@ -22,9 +24,8 @@ void fragment() {
 	vec2 world_uv = UV;
 	world_uv = mod(world_uv, 1.0);
 	world_uv *= rect_size;
-	world_uv += rect_pos;
 	
-	ALBEDO = texture(atlas, world_uv).xyz;
+	ALBEDO = texture(atlas_array, vec3(world_uv, atlas_w)).xyz;
 	METALLIC = 0.0;
 	SPECULAR = 0.0;
 	ROUGHNESS = 1.0;
@@ -32,4 +33,4 @@ void fragment() {
 "
 
 [resource]
-shader = SubResource( 3 )
+shader = SubResource( 1 )
