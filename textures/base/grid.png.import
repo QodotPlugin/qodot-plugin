@@ -2,31 +2,29 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/grid.png-fd4a33a8da0d6ae534a921b7a845447a.s3tc.stex"
-path.etc2="res://.import/grid.png-fd4a33a8da0d6ae534a921b7a845447a.etc2.stex"
+path="res://.import/grid.png-fd4a33a8da0d6ae534a921b7a845447a.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://textures/base/grid.png"
-dest_files=[ "res://.import/grid.png-fd4a33a8da0d6ae534a921b7a845447a.s3tc.stex", "res://.import/grid.png-fd4a33a8da0d6ae534a921b7a845447a.etc2.stex" ]
+dest_files=[ "res://.import/grid.png-fd4a33a8da0d6ae534a921b7a845447a.stex" ]
 
 [params]
 
-compress/mode=2
+compress/mode=1
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=true
-flags/filter=true
+flags/filter=false
 flags/mipmaps=true
-flags/anisotropic=false
-flags/srgb=1
-process/fix_alpha_border=true
+flags/anisotropic=true
+flags/srgb=2
+process/fix_alpha_border=false
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false

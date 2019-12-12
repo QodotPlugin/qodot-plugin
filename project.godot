@@ -19,6 +19,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/qodot/src/build/step/build_collision/build_area_collision_shapes.gd"
 }, {
+"base": "QodotBuildMeshes",
+"class": "QodotBuildAtlasedMesh",
+"language": "GDScript",
+"path": "res://addons/qodot/src/build/step/build_meshes/build_atlased_mesh.gd"
+}, {
 "base": "Reference",
 "class": "QodotBuildBrushAreas",
 "language": "GDScript",
@@ -29,17 +34,17 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/qodot/src/build/step/build_collision/build_brush_collision_shapes.gd"
 }, {
-"base": "Reference",
+"base": "QodotBuildStep",
 "class": "QodotBuildBrushFaceAxes",
 "language": "GDScript",
 "path": "res://addons/qodot/src/build/step/build_debug/build_brush_face_axes.gd"
 }, {
-"base": "Reference",
+"base": "QodotBuildMeshes",
 "class": "QodotBuildBrushFaceMeshes",
 "language": "GDScript",
 "path": "res://addons/qodot/src/build/step/build_meshes/build_brush_face_meshes.gd"
 }, {
-"base": "Reference",
+"base": "QodotBuildStep",
 "class": "QodotBuildBrushFaceVertices",
 "language": "GDScript",
 "path": "res://addons/qodot/src/build/step/build_debug/build_brush_face_vertices.gd"
@@ -85,6 +90,11 @@ _global_script_classes=[ {
 "path": "res://addons/qodot/src/build/step/build_meshes/build_material_meshes.gd"
 }, {
 "base": "QodotBuildStep",
+"class": "QodotBuildMaterials",
+"language": "GDScript",
+"path": "res://addons/qodot/src/build/step/build_textures/build_materials.gd"
+}, {
+"base": "QodotBuildStep",
 "class": "QodotBuildMeshNode",
 "language": "GDScript",
 "path": "res://addons/qodot/src/build/step/build_nodes/build_mesh_node.gd"
@@ -108,6 +118,11 @@ _global_script_classes=[ {
 "class": "QodotBuildStep",
 "language": "GDScript",
 "path": "res://addons/qodot/src/build/step/build_step.gd"
+}, {
+"base": "QodotBuildStep",
+"class": "QodotBuildTextureAtlas",
+"language": "GDScript",
+"path": "res://addons/qodot/src/build/step/build_textures/build_texture_atlas.gd"
 }, {
 "base": "QodotBuildPipeline",
 "class": "QodotDebugPipeline",
@@ -149,10 +164,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/qodot/src/util/qodot_profiler.gd"
 }, {
+"base": "QodotBuildPipeline",
+"class": "QodotSingleMeshAtlasedPipeline",
+"language": "GDScript",
+"path": "res://addons/qodot/src/build/pipeline/single_mesh_atlased_pipeline.gd"
+}, {
 "base": "Spatial",
 "class": "QodotSpatial",
 "language": "GDScript",
 "path": "res://addons/qodot/src/nodes/qodot_spatial.gd"
+}, {
+"base": "Resource",
+"class": "QodotTextureAtlas",
+"language": "GDScript",
+"path": "res://scenes/test_maps/atlas_test.gd"
 }, {
 "base": "Reference",
 "class": "QodotTextureLoader",
@@ -222,6 +247,7 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "QodotBrush": "",
 "QodotBuildAreaCollisionShapes": "",
+"QodotBuildAtlasedMesh": "",
 "QodotBuildBrushAreas": "",
 "QodotBuildBrushCollisionShapes": "",
 "QodotBuildBrushFaceAxes": "",
@@ -235,11 +261,13 @@ _global_script_class_icons={
 "QodotBuildEntityNodes": "",
 "QodotBuildEntitySpawns": "",
 "QodotBuildMaterialMeshes": "",
+"QodotBuildMaterials": "",
 "QodotBuildMeshNode": "",
 "QodotBuildMeshes": "",
 "QodotBuildPipeline": "",
 "QodotBuildStaticCollisionShapes": "",
 "QodotBuildStep": "",
+"QodotBuildTextureAtlas": "",
 "QodotDebugPipeline": "",
 "QodotEntity": "",
 "QodotMap": "",
@@ -248,7 +276,9 @@ _global_script_class_icons={
 "QodotPlugin": "",
 "QodotPrinter": "",
 "QodotProfiler": "",
+"QodotSingleMeshAtlasedPipeline": "",
 "QodotSpatial": "res://addons/qodot/icons/icon_qodot_spatial.svg",
+"QodotTextureAtlas": "",
 "QodotTextureLoader": "",
 "QodotThreadPool": "",
 "QodotUtil": "",
@@ -273,6 +303,29 @@ config/icon="res://icon.png"
 [editor_plugins]
 
 enabled=PoolStringArray( "qodot" )
+
+[importer_defaults]
+
+texture={
+"compress/bptc_ldr": 0,
+"compress/hdr_mode": 0,
+"compress/lossy_quality": 1.0,
+"compress/mode": 2,
+"compress/normal_map": 0,
+"detect_3d": false,
+"flags/anisotropic": true,
+"flags/filter": false,
+"flags/mipmaps": true,
+"flags/repeat": 1,
+"flags/srgb": 2,
+"process/HDR_as_SRGB": false,
+"process/fix_alpha_border": false,
+"process/invert_color": false,
+"process/premult_alpha": false,
+"size_limit": 0,
+"stream": false,
+"svg/scale": 1.0
+}
 
 [memory]
 

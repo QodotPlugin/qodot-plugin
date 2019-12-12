@@ -3,6 +3,8 @@ extends QodotBuildPipeline
 
 static func get_build_steps() -> Array:
 	return [
+		QodotBuildMaterials.new(),
+
 		QodotBuildMeshNode.new(),
 		QodotBuildMaterialMeshes.new(),
 

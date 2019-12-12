@@ -192,11 +192,6 @@ func finalize_build(context, build_order):
 		if build_step.get_wants_finalize():
 			run_finalize_step(context, build_step)
 
-	context.erase('entity_properties_array')
-	context.erase('brush_data_dict')
-	context.erase('material_dict')
-	context.erase('inverse_scale_factor')
-
 	print_log("Preparing results...")
 	var results = []
 	for build_step_name in build_order:

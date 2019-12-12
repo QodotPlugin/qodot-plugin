@@ -2,31 +2,29 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/checkerboard.png-b1ef70c28f42e73b55782d9c04bec508.s3tc.stex"
-path.etc2="res://.import/checkerboard.png-b1ef70c28f42e73b55782d9c04bec508.etc2.stex"
+path="res://.import/checkerboard.png-b1ef70c28f42e73b55782d9c04bec508.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://textures/base/checkerboard.png"
-dest_files=[ "res://.import/checkerboard.png-b1ef70c28f42e73b55782d9c04bec508.s3tc.stex", "res://.import/checkerboard.png-b1ef70c28f42e73b55782d9c04bec508.etc2.stex" ]
+dest_files=[ "res://.import/checkerboard.png-b1ef70c28f42e73b55782d9c04bec508.stex" ]
 
 [params]
 
-compress/mode=2
+compress/mode=1
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=true
-flags/filter=true
+flags/repeat=1
+flags/filter=false
 flags/mipmaps=true
-flags/anisotropic=false
+flags/anisotropic=true
 flags/srgb=1
-process/fix_alpha_border=true
+process/fix_alpha_border=false
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false

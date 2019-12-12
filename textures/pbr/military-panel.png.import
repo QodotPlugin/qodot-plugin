@@ -2,31 +2,29 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/military-panel.png-71c832f4f98aeaaefbf6596ffd93576e.s3tc.stex"
-path.etc2="res://.import/military-panel.png-71c832f4f98aeaaefbf6596ffd93576e.etc2.stex"
+path="res://.import/military-panel.png-71c832f4f98aeaaefbf6596ffd93576e.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://textures/pbr/military-panel.png"
-dest_files=[ "res://.import/military-panel.png-71c832f4f98aeaaefbf6596ffd93576e.s3tc.stex", "res://.import/military-panel.png-71c832f4f98aeaaefbf6596ffd93576e.etc2.stex" ]
+dest_files=[ "res://.import/military-panel.png-71c832f4f98aeaaefbf6596ffd93576e.stex" ]
 
 [params]
 
-compress/mode=2
+compress/mode=1
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=true
-flags/filter=true
+flags/filter=false
 flags/mipmaps=true
-flags/anisotropic=false
+flags/anisotropic=true
 flags/srgb=1
-process/fix_alpha_border=true
+process/fix_alpha_border=false
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false

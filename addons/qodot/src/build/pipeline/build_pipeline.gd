@@ -28,26 +28,15 @@ static func initialize_context(map_file: String, base_texture_path: String, mate
 	print("Worldspawn Properties:")
 	print(worldspawn_properties)
 
-	print("\nLoading textures...")
-	var texture_load_profiler = QodotProfiler.new()
 	var texture_list = map_reader.get_texture_list(brush_data_dict)
-	var texture_loader = QodotTextureLoader.new()
-	var material_dict = texture_loader.load_texture_materials(
-		texture_list,
-		base_texture_path,
-		material_extension,
-		texture_extension,
-		texture_wads,
-		default_material
-	)
-	var texture_load_duration = texture_load_profiler.finish()
-	print("Done in " + String(texture_load_duration * 0.001) + " seconds.\n")
-
-	print("Map textures:")
-	print(texture_list)
 
 	return {
+		"base_texture_path": base_texture_path,
+		"material_extension": material_extension,
+		"texture_extension": texture_extension,
+		"texture_wads": texture_wads,
+		"default_material": default_material,
 		"entity_properties_array": entity_properties_array,
 		"brush_data_dict": brush_data_dict,
-		"material_dict": material_dict
+		"texture_list": texture_list
 	}

@@ -1,0 +1,35 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=3]
+code = "shader_type spatial;
+
+uniform sampler2D atlas: hint_albedo;
+uniform sampler2D rect_data;
+
+varying vec2 rect_pos;
+varying vec2 rect_size;
+
+void vertex() {
+	float rect_u = COLOR.r;
+	vec4 rect = texture(rect_data, vec2(rect_u, 0.0));
+	
+	rect_pos = rect.xy;
+	rect_size = rect.zw;
+}
+
+void fragment() {
+	
+	vec2 world_uv = UV;
+	world_uv = mod(world_uv, 1.0);
+	world_uv *= rect_size;
+	world_uv += rect_pos;
+	
+	ALBEDO = texture(atlas, world_uv).xyz;
+	METALLIC = 0.0;
+	SPECULAR = 0.0;
+	ROUGHNESS = 1.0;
+}
+"
+
+[resource]
+shader = SubResource( 3 )

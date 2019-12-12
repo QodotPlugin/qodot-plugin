@@ -4,10 +4,11 @@ extends QodotBuildStep
 # Determine whether the given brush should create a set of visual face meshes
 static func should_spawn_brush_mesh(entity_properties: Dictionary, brush: QuakeBrush) -> bool:
 	# Don't spawn collision if the brush is textured entirely with CLIP
-	var is_clip = true
+	var is_clip = false
 	for face in brush.faces:
-		if(face.texture.find('clip') == -1):
-			is_clip = false
+		if(face.texture.findn('clip') != -1):
+			is_clip = true
+			break
 
 	if(is_clip):
 		return false
@@ -15,7 +16,7 @@ static func should_spawn_brush_mesh(entity_properties: Dictionary, brush: QuakeB
 	# Classname-specific behavior
 	if('classname' in entity_properties):
 		# Don't spawn collision for trigger brushes
-		return entity_properties['classname'].find('trigger') == -1
+		return entity_properties['classname'].findn('trigger') == -1
 
 	# Default to true for entities with empty classnames
 	return true
@@ -23,15 +24,12 @@ static func should_spawn_brush_mesh(entity_properties: Dictionary, brush: QuakeB
 # Determine whether the given face should spawn a visual mesh
 static func should_spawn_face_mesh(entity_properties: Dictionary, brush: QuakeBrush, face: QuakeFace) -> bool:
 	# Don't spawn a mesh if the face is textured with SKIP
-	if(face.texture.find('skip') > -1):
+	if(face.texture.findn('skip') > -1):
 		return false
 
 	return true
 
-static func get_face_mesh(surface_tool: SurfaceTool, center: Vector3, face: QuakeFace, material_dict: Dictionary, inverse_scale_factor: float, global_space: bool):
-	var material = material_dict[face.texture]
-	surface_tool.set_material(material)
-
+static func get_face_mesh(surface_tool: SurfaceTool, center: Vector3, face: QuakeFace, texture_size: Vector2, color: Color, inverse_scale_factor: float, global_space: bool):
 	var vertices = PoolVector3Array()
 	var uvs = PoolVector2Array()
 	var colors = PoolColorArray()
@@ -48,7 +46,7 @@ static func get_face_mesh(surface_tool: SurfaceTool, center: Vector3, face: Quak
 		else:
 			vertices.append(vertex / inverse_scale_factor)
 
-		var uv = get_uv(face, global_vertex, material, inverse_scale_factor)
+		var uv = get_uv(face, global_vertex, texture_size, inverse_scale_factor)
 		if uv:
 			uvs.append(uv)
 			uv2s.append(uv)
@@ -56,7 +54,7 @@ static func get_face_mesh(surface_tool: SurfaceTool, center: Vector3, face: Quak
 			uvs.append(Vector2.ZERO)
 			uv2s.append(Vector2.ZERO)
 
-		colors.append(Color.white)
+		colors.append(color)
 
 		normals.append(face.normal)
 
@@ -65,58 +63,35 @@ static func get_face_mesh(surface_tool: SurfaceTool, center: Vector3, face: Quak
 
 	surface_tool.add_triangle_fan(vertices, uvs, colors, uv2s, normals, tangents)
 
-static func get_tangent(face: QuakeFace):
+static func get_uv(face: QuakeFace, vertex: Vector3, texture_size: Vector2, inverse_scale_factor: float):
 	if(face.uv.size() == 2):
-		return get_standard_tangent(
+		return get_standard_uv(
+				vertex,
 				face.normal,
-				face.rotation,
-				face.scale
-			)
-	elif(face.uv.size() == 8):
-		return get_valve_tangent(
-				face.normal,
+				texture_size,
 				face.uv,
 				face.rotation,
-				face.scale
+				face.scale,
+				inverse_scale_factor
+			)
+	elif(face.uv.size() == 8):
+		return get_valve_uv(
+				vertex,
+				face.normal,
+				texture_size,
+				face.uv,
+				face.rotation,
+				face.scale,
+				inverse_scale_factor
 			)
 	else:
 		print('Error: Unknown UV format')
 		return null
 
-static func get_uv(face: QuakeFace, vertex: Vector3, material: Material, inverse_scale_factor: float):
-	if material:
-		if material is SpatialMaterial:
-			var texture = material.get_texture(SpatialMaterial.TEXTURE_ALBEDO)
-			if texture:
-				if(face.uv.size() == 2):
-					return get_standard_uv(
-							vertex,
-							face.normal,
-							texture,
-							face.uv,
-							face.rotation,
-							face.scale,
-							inverse_scale_factor
-						)
-				elif(face.uv.size() == 8):
-					return get_valve_uv(
-							vertex,
-							face.normal,
-							texture,
-							face.uv,
-							face.rotation,
-							face.scale,
-							inverse_scale_factor
-						)
-				else:
-					print('Error: Unknown UV format')
-					return null
-	return null
-
 static func get_standard_uv(
 	global_vertex: Vector3,
 	normal: Vector3,
-	texture: Texture,
+	texture_size: Vector2,
 	uv: PoolRealArray,
 	rotation: float,
 	scale: Vector2,
@@ -139,9 +114,9 @@ static func get_standard_uv(
 		uv_out = Vector2(global_vertex.x, -global_vertex.y)
 
 	uv_out = uv_out.rotated(deg2rad(rotation))
-	uv_out /=  texture.get_size() / inverse_scale_factor
+	uv_out /=  texture_size / inverse_scale_factor
 	uv_out /= scale
-	uv_out += Vector2(uv[0], uv[1]) / texture.get_size()
+	uv_out += Vector2(uv[0], uv[1]) / texture_size
 
 	return uv_out
 
@@ -149,7 +124,7 @@ static func get_standard_uv(
 static func get_valve_uv(
 	global_vertex: Vector3,
 	normal: Vector3,
-	texture: Texture,
+	texture_size: Vector2,
 	uv: PoolRealArray,
 	rotation: float,
 	scale: Vector2,
@@ -168,13 +143,29 @@ static func get_valve_uv(
 	uv_out.x = u_axis.dot(global_vertex)
 	uv_out.y = v_axis.dot(global_vertex)
 
-	var texture_size = texture.get_size()
-
 	uv_out /= texture_size / inverse_scale_factor
 	uv_out /= scale
 	uv_out += Vector2(u_shift, v_shift) / texture_size
 
 	return uv_out
+
+static func get_tangent(face: QuakeFace):
+	if(face.uv.size() == 2):
+		return get_standard_tangent(
+				face.normal,
+				face.rotation,
+				face.scale
+			)
+	elif(face.uv.size() == 8):
+		return get_valve_tangent(
+				face.normal,
+				face.uv,
+				face.rotation,
+				face.scale
+			)
+	else:
+		print('Error: Unknown UV format')
+		return null
 
 static func get_standard_tangent(
 		normal: Vector3,

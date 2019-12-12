@@ -8,7 +8,7 @@ func get_type() -> int:
 	return self.Type.PER_BRUSH
 
 func get_build_params() -> Array:
-	return ['material_dict', 'inverse_scale_factor']
+	return ['inverse_scale_factor']
 
 func get_finalize_params() -> Array:
 	return ['brush_face_meshes', 'material_dict', 'inverse_scale_factor']
@@ -21,7 +21,6 @@ func _run(context):
 	var brush_idx = context['brush_idx']
 	var entity_properties = context['entity_properties']
 	var brush_data = context['brush_data']
-	var material_dict = context['material_dict']
 	var inverse_scale_factor = context['inverse_scale_factor']
 
 	var map_reader = QuakeMapReader.new()
@@ -47,7 +46,7 @@ func _run(context):
 
 func _finalize(context):
 	var brush_face_meshes = context['brush_face_meshes']
-	var material_dict = context['material_dict']
+	var material_dict = context['material_dict'][0][1]
 	var inverse_scale_factor = context['inverse_scale_factor']
 
 	for brush_face_mesh in brush_face_meshes:
@@ -65,6 +64,12 @@ func _finalize(context):
 				var face = brush.faces[brush_face_idx]
 				var surface_tool = SurfaceTool.new()
 				surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
-				get_face_mesh(surface_tool, brush.center, face, material_dict, inverse_scale_factor, false)
+
+				var material = material_dict[face.texture]
+				surface_tool.set_material(material)
+
+				var texture_size = material.get_texture(SpatialMaterial.TEXTURE_ALBEDO).get_size()
+
+				get_face_mesh(surface_tool, brush.center, face, texture_size, Color.white, inverse_scale_factor, false)
 				face_node.translation = (face.center - brush.center) / inverse_scale_factor
 				face_node.set_mesh(surface_tool.commit())

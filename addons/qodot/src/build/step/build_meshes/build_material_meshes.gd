@@ -8,7 +8,7 @@ func get_type() -> int:
 	return self.Type.SINGLE
 
 func get_build_params() -> Array:
-	return ['material_dict', 'entity_properties_array', 'brush_data_dict']
+	return ['entity_properties_array', 'brush_data_dict']
 
 func get_finalize_params() -> Array:
 	return ['material_meshes', 'brush_data_dict', 'material_dict', 'inverse_scale_factor']
@@ -18,7 +18,6 @@ func get_wants_finalize():
 
 func _run(context) -> Array:
 	var brush_data_dict = context['brush_data_dict']
-	var material_dict = context['material_dict']
 	var entity_properties_array = context['entity_properties_array']
 
 	var material_names = []
@@ -60,7 +59,7 @@ func _run(context) -> Array:
 func _finalize(context):
 	var material_meshes = context['material_meshes']
 	var brush_data_dict = context['brush_data_dict']
-	var material_dict = context['material_dict']
+	var material_dict = context['material_dict'][0][1]
 	var inverse_scale_factor = context['inverse_scale_factor']
 
 	var material_nodes = material_meshes[0][2]
@@ -85,7 +84,12 @@ func _finalize(context):
 			var brush = map_reader.create_brush(face_data)
 			var face = brush.faces[face_idx]
 
-			get_face_mesh(surface_tool, brush.center, face, material_dict, inverse_scale_factor, true)
+			var material = material_dict[face.texture]
+			surface_tool.set_material(material)
+
+			var texture_size = material.get_texture(SpatialMaterial.TEXTURE_ALBEDO).get_size()
+
+			get_face_mesh(surface_tool, brush.center, face, texture_size, Color.white, inverse_scale_factor, true)
 
 		surface_tool.index()
 		material_node.set_mesh(surface_tool.commit())
