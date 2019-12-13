@@ -50,9 +50,13 @@ func _run(context) -> Array:
 
 				material_index_paths[face.texture].append([entity_key, brush_key, face_idx])
 
-	print(material_names)
+	var texture_layered_mesh = QodotTextureLayeredMesh.new()
+	texture_layered_mesh.name = 'TextureLayeredMesh'
+	texture_layered_mesh.set_shader_parameter('atlas_array')
+	texture_layered_mesh.set_texture_format(QodotTextureLayeredMesh.TextureFormat.RGB8)
+	texture_layered_mesh.set_texture_tile(true)
 
-	return ["nodes", "./Meshes", [MeshInstance.new()], material_index_paths, material_names]
+	return ["nodes", "./Meshes", [texture_layered_mesh], material_index_paths, material_names]
 
 func _finalize(context):
 	var atlased_mesh = context['atlased_mesh']
@@ -60,31 +64,25 @@ func _finalize(context):
 	var texture_atlas = context['texture_atlas'][0]
 	var inverse_scale_factor = context['inverse_scale_factor']
 
-	var atlas_texture = texture_atlas[1]
-	var atlas_texture_names = texture_atlas[2]
-	var atlas_positions = texture_atlas[3]
-	var atlas_sizes = texture_atlas[4]
+	var atlas_texture_names = texture_atlas[1]
+	var atlas_positions = texture_atlas[2]
+	var atlas_sizes = texture_atlas[3]
+	var atlas_textures = texture_atlas[4]
+	var atlas_data_texture = texture_atlas[5]
 
-	var mesh_instance = atlased_mesh[0][2][0]
+	var texture_layered_mesh := atlased_mesh[0][2][0] as QodotTextureLayeredMesh
 	var material_index_paths = atlased_mesh[0][3]
 	var material_names = atlased_mesh[0][4]
 
 	var surface_tool = SurfaceTool.new()
 	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var material = atlas_material.duplicate()
-	material.set_shader_param('atlas', atlas_texture)
-	surface_tool.set_material(material)
-
-	var texture_rects = []
 
 	for texture_name in atlas_texture_names:
 		var texture_idx = atlas_texture_names.find(texture_name)
-		var atlas_position = atlas_positions[texture_idx]
 		var atlas_size = atlas_sizes[texture_idx]
-		texture_rects.append([atlas_position / atlas_texture.get_size(), atlas_size / atlas_texture.get_size()])
 
 		var texture_vertex_color = Color()
-		texture_vertex_color.r = float(texture_idx) / 255.0
+		texture_vertex_color.r = float(texture_idx) / float(atlas_texture_names.size() - 1)
 
 		if texture_name in material_index_paths:
 			var face_index_paths = material_index_paths[texture_name]
@@ -100,18 +98,9 @@ func _finalize(context):
 
 				get_face_mesh(surface_tool, brush.center, face, atlas_size, texture_vertex_color, inverse_scale_factor, true)
 
-	var rect_data_image = Image.new()
-	rect_data_image.create(256, 1, false, Image.FORMAT_RGBAF)
+	texture_layered_mesh.set_mesh(surface_tool.commit())
 
-	rect_data_image.lock()
-	for texture_name in atlas_texture_names:
-		var texture_idx = atlas_texture_names.find(texture_name)
-		var texture_rect = texture_rects[texture_idx]
-		rect_data_image.set_pixel(texture_idx, 0, Color(texture_rect[0].x, texture_rect[0].y, texture_rect[1].x, texture_rect[1].y))
-	rect_data_image.unlock()
-
-	var rect_data_texture = ImageTexture.new()
-	rect_data_texture.create_from_image(rect_data_image, 0)
-	material.set_shader_param('rect_data', rect_data_texture)
-
-	mesh_instance.set_mesh(surface_tool.commit())
+	var material = atlas_material.duplicate()
+	material.set_shader_param('atlas_data', atlas_data_texture)
+	texture_layered_mesh.set_shader_material(material)
+	texture_layered_mesh.set_array_data(atlas_textures)

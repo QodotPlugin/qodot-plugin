@@ -179,6 +179,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/test_maps/atlas_test.gd"
 }, {
+"base": "QodotSpatial",
+"class": "QodotTextureLayeredMesh",
+"language": "GDScript",
+"path": "res://addons/qodot/src/util/texture_layered_mesh.gd"
+}, {
 "base": "Reference",
 "class": "QodotTextureLoader",
 "language": "GDScript",
@@ -279,6 +284,7 @@ _global_script_class_icons={
 "QodotSingleMeshAtlasedPipeline": "",
 "QodotSpatial": "res://addons/qodot/icons/icon_qodot_spatial.svg",
 "QodotTextureAtlas": "",
+"QodotTextureLayeredMesh": "",
 "QodotTextureLoader": "",
 "QodotThreadPool": "",
 "QodotUtil": "",

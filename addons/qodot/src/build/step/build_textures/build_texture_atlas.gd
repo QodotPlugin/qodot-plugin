@@ -17,6 +17,7 @@ func get_build_params() -> Array:
 func _run(context) -> Array:
 	var material_dict = context['material_dict'][0][1]
 
+	# Get texture data
 	var texture_names = []
 	var textures = []
 	var sizes = []
@@ -29,19 +30,46 @@ func _run(context) -> Array:
 			textures.append(texture)
 			sizes.append(size)
 
-	var atlas_dict = Geometry.make_atlas(sizes)
-	var atlas_points = atlas_dict['points']
-	var atlas_size = atlas_dict['size']
+	var max_size = Vector2.ZERO
+	for size in sizes:
+		if size.x > max_size.x:
+			max_size.x = size.x
+		if size.y > max_size.y:
+			max_size.y = size.y
 
-	var atlas_image = Image.new()
-	atlas_image.create(atlas_size.x, atlas_size.y, false, texture_format)
+	var atlas_center = max_size / 2.0
 
-	for texture_idx in range(0, textures.size()):
-		var texture = textures[texture_idx]
-		var src_image = texture.get_data()
-		atlas_image.blit_rect(src_image, Rect2(Vector2.ZERO, src_image.get_size()), atlas_points[texture_idx])
+	var positions = []
+	for size in sizes:
+		var half_size = size / 2.0
+		var position = atlas_center - half_size
+		positions.append(position)
 
-	var result_image = ImageTexture.new()
-	result_image.create_from_image(atlas_image, 0)
+	# Create atlas data texture
+	var atlas_data_image = Image.new()
+	atlas_data_image.create(textures.size(), 1, false, Image.FORMAT_RGBAF)
 
-	return ["data", result_image, texture_names, atlas_points, sizes]
+	atlas_data_image.lock()
+	for texture_name in texture_names:
+		var texture_idx = texture_names.find(texture_name)
+		var texture_position = positions[texture_idx]
+		var texture_size = sizes[texture_idx]
+		var half_size = texture_size / 2.0
+		atlas_data_image.set_pixel(
+			texture_idx,
+			0,
+			Color(
+				texture_position.x / max_size.x,
+				texture_position.y / max_size.y,
+				texture_size.x / max_size.x,
+				texture_size.y / max_size.y
+			)
+		)
+	atlas_data_image.unlock()
+
+	var atlas_data_texture = ImageTexture.new()
+	atlas_data_texture.create_from_image(atlas_data_image, 0)
+
+	# Return data
+	print("Returning data")
+	return ["data", texture_names, positions, sizes, textures, atlas_data_texture]
