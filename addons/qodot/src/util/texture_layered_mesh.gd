@@ -63,8 +63,6 @@ export(TextureCompressionSource) var texture_compression_source = TextureCompres
 export(float) var texture_lossy_quality = 0.7 setget set_texture_lossy_quality
 export(int, FLAGS, "Mipmap", "Repeat", "Filter", "Anisotropic Filter", "Convert to Linear", "Mirrored Repeat", "Video Surface") var texture_flags = Texture.FLAG_MIPMAPS | Texture.FLAG_ANISOTROPIC_FILTER setget set_texture_flags
 
-export(bool) var texture_tile = false setget set_texture_tile
-
 func _ready():
 	regenerate()
 
@@ -111,10 +109,6 @@ func set_texture_lossy_quality(new_texture_lossy_quality):
 func set_texture_flags(new_texture_flags):
 	if(texture_flags != new_texture_flags):
 		texture_flags = new_texture_flags
-
-func set_texture_tile(new_texture_tile):
-	if(texture_tile != new_texture_tile):
-		texture_tile = new_texture_tile
 
 # Business Logic
 func regenerate():
@@ -188,24 +182,12 @@ func regenerate():
 				if image_format != texture_format:
 					image_copy.convert(texture_format)
 
-				var image_size = image_copy.get_size()
-				var image_pos = (max_size - image_size) / 2.0
-
-				var final_image = Image.new()
-				final_image.create(max_size.x, max_size.y, true, texture_format)
-
-				var tile_count = max_size / image_size
-
-				for x_idx in range(-ceil(tile_count.x), ceil(tile_count.x)):
-					for y_idx in range(-ceil(tile_count.y), ceil(tile_count.y)):
-						final_image.blit_rect(image_copy, Rect2(Vector2.ZERO, image_size), image_pos + (image_size * Vector2(x_idx, y_idx)))
-
 				if texture_compression != TextureCompression.NONE:
-					final_image.compress(texture_compression, texture_compression_source, texture_lossy_quality)
+					image_copy.compress(texture_compression, texture_compression_source, texture_lossy_quality)
 
-				final_image.generate_mipmaps()
+				image_copy.generate_mipmaps()
 
-				texture_array.set_layer_data(final_image, image_idx)
+				texture_array.set_layer_data(image_copy, image_idx)
 				image_idx += 1
 
 		new_shader_material.set_shader_param(shader_parameter, texture_array)
