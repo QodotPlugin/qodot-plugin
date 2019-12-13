@@ -30,39 +30,40 @@ func _run(context) -> Array:
 			textures.append(texture)
 			sizes.append(size)
 
-	# Build texture array
-	var texture_array = TextureArray.new()
-
 	var max_size = Vector2.ZERO
 	for size in sizes:
-		if size > max_size:
-			max_size = size
+		if size.x > max_size.x:
+			max_size.x = size.x
+		if size.y > max_size.y:
+			max_size.y = size.y
 
-	print("Creating texture array")
-	texture_array.create(
-		max_size.x, max_size.y, textures.size(),
-		texture_format,
-		Texture.FLAG_REPEAT | Texture.FLAG_MIPMAPS | Texture.FLAG_ANISOTROPIC_FILTER
-	)
+	var atlas_center = max_size / 2.0
 
-	print("Populating texture array")
-	for texture_idx in range(0, textures.size()):
-		var texture = textures[texture_idx]
-		var src_image = texture.get_data()
-		texture_array.set_layer_data(src_image, texture_idx)
+	var positions = []
+	for size in sizes:
+		var half_size = size / 2.0
+		var position = atlas_center - half_size
+		positions.append(position)
 
 	# Create atlas data texture
 	var atlas_data_image = Image.new()
-	atlas_data_image.create(textures.size(), 1, false, Image.FORMAT_RGF)
+	atlas_data_image.create(textures.size(), 1, false, Image.FORMAT_RGBAF)
 
 	atlas_data_image.lock()
 	for texture_name in texture_names:
 		var texture_idx = texture_names.find(texture_name)
+		var texture_position = positions[texture_idx]
 		var texture_size = sizes[texture_idx]
+		var half_size = texture_size / 2.0
 		atlas_data_image.set_pixel(
 			texture_idx,
 			0,
-			Color(texture_size.x / max_size.x, texture_size.y / max_size.y, 0.0, 0.0)
+			Color(
+				texture_position.x / max_size.x,
+				texture_position.y / max_size.y,
+				texture_size.x / max_size.x,
+				texture_size.y / max_size.y
+			)
 		)
 	atlas_data_image.unlock()
 
@@ -71,4 +72,4 @@ func _run(context) -> Array:
 
 	# Return data
 	print("Returning data")
-	return ["data", texture_names, sizes, texture_array, atlas_data_texture]
+	return ["data", texture_names, positions, sizes, textures, atlas_data_texture]

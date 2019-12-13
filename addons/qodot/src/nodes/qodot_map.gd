@@ -257,6 +257,8 @@ func add_children_to_editor(edited_scene_root) -> void:
 		recursive_set_owner(child, edited_scene_root)
 
 func recursive_set_owner(node, new_owner) -> void:
-	node.set_owner(new_owner)
+	if not node.get_parent() is QodotTextureLayeredMesh:
+		node.set_owner(new_owner)
+
 	for child in node.get_children():
 		recursive_set_owner(child, new_owner)
