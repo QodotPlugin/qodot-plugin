@@ -16,7 +16,7 @@ func get_finalize_params() -> Array:
 func get_wants_finalize():
 	return true
 
-func _run(context) -> Array:
+func _run(context) -> Dictionary:
 	var brush_data_dict = context['brush_data_dict']
 	var entity_properties_array = context['entity_properties_array']
 
@@ -48,27 +48,36 @@ func _run(context) -> Array:
 
 				material_index_paths[face.texture].append([entity_key, brush_key, face_idx])
 
-	var material_nodes = []
+	var material_nodes = {}
 	for material_name in material_names:
 		var material_node = MeshInstance.new()
 		material_node.name = material_name.replace("/", "|")
-		material_nodes.append(material_node)
+		material_nodes[material_name] = material_node
 
-	return ["nodes", "./Meshes", material_nodes, material_index_paths, material_names]
+	return {
+		'material_meshes': {
+			'nodes': material_nodes,
+			'index_paths': material_index_paths,
+			'material_names': material_names
+		},
+		'nodes': {
+			'meshes': material_nodes
+		}
+	}
 
-func _finalize(context):
+func _finalize(context) -> Dictionary:
 	var material_meshes = context['material_meshes']
 	var brush_data_dict = context['brush_data_dict']
-	var material_dict = context['material_dict'][0][1]
+	var material_dict = context['material_dict']
 	var inverse_scale_factor = context['inverse_scale_factor']
 
-	var material_nodes = material_meshes[0][2]
-	var material_index_paths = material_meshes[0][3]
-	var material_names = material_meshes[0][4]
+	var material_nodes = material_meshes['nodes']
+	var material_index_paths = material_meshes['index_paths']
+	var material_names = material_meshes['material_names']
 
 	for texture_name_idx in range(0, material_names.size()):
 		var material_name = material_names[texture_name_idx]
-		var material_node = material_nodes[texture_name_idx]
+		var material_node = material_nodes[material_name]
 
 		var surface_tool = SurfaceTool.new()
 		surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
@@ -84,12 +93,17 @@ func _finalize(context):
 			var brush = map_reader.create_brush(face_data)
 			var face = brush.faces[face_idx]
 
-			var material = material_dict[face.texture]
-			surface_tool.set_material(material)
+			var texture_size = Vector2.ZERO
 
-			var texture_size = material.get_texture(SpatialMaterial.TEXTURE_ALBEDO).get_size()
+			var material = material_dict[face.texture]
+			if material:
+				surface_tool.set_material(material)
+
+				texture_size = material.get_texture(SpatialMaterial.TEXTURE_ALBEDO).get_size()
 
 			get_face_mesh(surface_tool, brush.center, face, texture_size, Color.white, inverse_scale_factor, true)
 
 		surface_tool.index()
 		material_node.set_mesh(surface_tool.commit())
+
+	return {}

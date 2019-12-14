@@ -14,24 +14,24 @@ func get_build_params() -> Array:
 		'material_dict'
 	]
 
-func _run(context) -> Array:
-	var material_dict = context['material_dict'][0][1]
+func _run(context) -> Dictionary:
+	var material_dict = context['material_dict']
 
 	# Get texture data
 	var texture_names = []
-	var textures = []
-	var sizes = []
+	var atlas_textures = []
+	var atlas_sizes = []
 	for material_key in material_dict:
 		var material = material_dict[material_key]
 		if material:
 			var texture = material.get_texture(SpatialMaterial.TEXTURE_ALBEDO)
 			var size = texture.get_size()
 			texture_names.append(material_key)
-			textures.append(texture)
-			sizes.append(size)
+			atlas_textures.append(texture)
+			atlas_sizes.append(size)
 
 	var max_size = Vector2.ZERO
-	for size in sizes:
+	for size in atlas_sizes:
 		if size.x > max_size.x:
 			max_size.x = size.x
 		if size.y > max_size.y:
@@ -39,21 +39,21 @@ func _run(context) -> Array:
 
 	var atlas_center = max_size / 2.0
 
-	var positions = []
-	for size in sizes:
+	var atlas_positions = []
+	for size in atlas_sizes:
 		var half_size = size / 2.0
 		var position = atlas_center - half_size
-		positions.append(position)
+		atlas_positions.append(position)
 
 	# Create atlas data texture
 	var atlas_data_image = Image.new()
-	atlas_data_image.create(textures.size(), 1, false, Image.FORMAT_RGBAF)
+	atlas_data_image.create(atlas_textures.size(), 1, false, Image.FORMAT_RGBAF)
 
 	atlas_data_image.lock()
 	for texture_name in texture_names:
 		var texture_idx = texture_names.find(texture_name)
-		var texture_position = positions[texture_idx]
-		var texture_size = sizes[texture_idx]
+		var texture_position = atlas_positions[texture_idx]
+		var texture_size = atlas_sizes[texture_idx]
 		var half_size = texture_size / 2.0
 		atlas_data_image.set_pixel(
 			texture_idx,
@@ -71,5 +71,12 @@ func _run(context) -> Array:
 	atlas_data_texture.create_from_image(atlas_data_image, 0)
 
 	# Return data
-	print("Returning data")
-	return ["data", texture_names, positions, sizes, textures, atlas_data_texture]
+	return {
+		'texture_atlas': {
+			'atlas_texture_names': texture_names,
+			'atlas_positions': atlas_positions,
+			'atlas_sizes': atlas_sizes,
+			'atlas_textures': atlas_textures,
+			'atlas_data_texture': atlas_data_texture
+		}
+	}

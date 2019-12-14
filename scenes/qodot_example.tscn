@@ -243,147 +243,147 @@ radius = 0.4
 [node name="CollisionShape" type="CollisionShape" parent="Decor/PhysicsBalls/RigidBody4"]
 shape = SubResource( 1 )
 
-[node name="Qodot Test Map" type="Spatial" parent="."]
+[node name="Map Build In Progress" type="Spatial" parent="."]
 script = ExtResource( 2 )
 print_to_log = true
 map_file = "res://scenes/qodot_example.map"
 max_build_threads = 8
 build_bucket_size = 100
 
-[node name="Meshes" type="Node" parent="Qodot Test Map"]
+[node name="Meshes" type="Node" parent="Map Build In Progress"]
 script = ExtResource( 3 )
 
-[node name="base|checkerboard" type="MeshInstance" parent="Qodot Test Map/Meshes"]
+[node name="base|checkerboard" type="MeshInstance" parent="Map Build In Progress/Meshes"]
 mesh = SubResource( 3 )
 material/0 = null
 
-[node name="base|uv_test_512" type="MeshInstance" parent="Qodot Test Map/Meshes"]
+[node name="base|uv_test_512" type="MeshInstance" parent="Map Build In Progress/Meshes"]
 mesh = SubResource( 5 )
 material/0 = null
 
-[node name="pbr|military-panel" type="MeshInstance" parent="Qodot Test Map/Meshes"]
+[node name="pbr|military-panel" type="MeshInstance" parent="Map Build In Progress/Meshes"]
 mesh = SubResource( 6 )
 material/0 = null
 
-[node name="Collision" type="Node" parent="Qodot Test Map"]
+[node name="Collision" type="Node" parent="Map Build In Progress"]
 script = ExtResource( 3 )
 
-[node name="StaticBody" type="StaticBody" parent="Qodot Test Map/Collision"]
+[node name="StaticBody" type="StaticBody" parent="Map Build In Progress/Collision"]
 
-[node name="CollisionShape" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity0_Brush0_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 0, -10.5 )
 shape = SubResource( 7 )
 
-[node name="CollisionShape2" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity0_Brush1_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 3.5, -21 )
 shape = SubResource( 8 )
 
-[node name="CollisionShape3" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity1_Brush0_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 2.5, -24.5 )
 shape = SubResource( 9 )
 
-[node name="CollisionShape4" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity1_Brush1_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 3.5, -24.5 )
 shape = SubResource( 10 )
 
-[node name="CollisionShape5" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity1_Brush2_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 3.5, -10.5 )
 shape = SubResource( 11 )
 
-[node name="CollisionShape6" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity1_Brush3_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 2.5, 3.5 )
 shape = SubResource( 12 )
 
-[node name="CollisionShape7" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity1_Brush4_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 2.5, -24.5 )
 shape = SubResource( 13 )
 
-[node name="CollisionShape8" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity1_Brush5_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 3.5, -10.5 )
 shape = SubResource( 14 )
 
-[node name="CollisionShape9" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity1_Brush6_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 2.5, 3.5 )
 shape = SubResource( 15 )
 
-[node name="CollisionShape10" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity1_Brush7_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 3.5, 3.5 )
 shape = SubResource( 16 )
 
-[node name="CollisionShape11" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity1_Brush8_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 2.5, 3.5 )
 shape = SubResource( 17 )
 
-[node name="CollisionShape12" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity2_Brush0_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 3.32273, -18.0227 )
 shape = SubResource( 18 )
 
-[node name="CollisionShape13" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity2_Brush1_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 3, -20 )
 shape = SubResource( 19 )
 
-[node name="CollisionShape14" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity2_Brush2_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 3.32273, -21.9773 )
 shape = SubResource( 20 )
 
-[node name="CollisionShape15" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity3_Brush0_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 12, 3.5 )
 shape = SubResource( 21 )
 
-[node name="CollisionShape16" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity3_Brush1_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 12, -10.5 )
 shape = SubResource( 22 )
 
-[node name="CollisionShape17" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity3_Brush2_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 12, -24.5 )
 shape = SubResource( 23 )
 
-[node name="CollisionShape18" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity3_Brush3_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 12, -10 )
 shape = SubResource( 24 )
 
-[node name="CollisionShape19" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity4_Brush0_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 7, 15 )
 shape = SubResource( 25 )
 
-[node name="CollisionShape20" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity4_Brush1_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 4, 6.99999 )
 shape = SubResource( 26 )
 
-[node name="CollisionShape21" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity4_Brush2_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 7.33333, 10.6667 )
 shape = SubResource( 27 )
 
-[node name="CollisionShape22" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity5_Brush0_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 21.5, 2.5, -11 )
 shape = SubResource( 28 )
 
-[node name="CollisionShape23" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity5_Brush1_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 5.5, -11 )
 shape = SubResource( 29 )
 
-[node name="CollisionShape24" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity5_Brush2_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17.5, 8, -11 )
 shape = SubResource( 30 )
 
-[node name="CollisionShape25" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity5_Brush3_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 9.66667, -11 )
 shape = SubResource( 31 )
 
-[node name="CollisionShape26" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity5_Brush4_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 8, -11 )
 shape = SubResource( 32 )
 
-[node name="CollisionShape27" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity5_Brush5_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.99999, 5.5, -11 )
 shape = SubResource( 33 )
 
-[node name="CollisionShape28" type="CollisionShape" parent="Qodot Test Map/Collision/StaticBody"]
+[node name="Entity5_Brush6_Collision" type="CollisionShape" parent="Map Build In Progress/Collision/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 2.5, -11 )
 shape = SubResource( 34 )
 
-[node name="Entity6_Brush0_Trigger" type="Area" parent="Qodot Test Map/Collision"]
+[node name="Entity6_Brush0_Trigger" type="Area" parent="Map Build In Progress/Collision"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 5.25, -11 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Qodot Test Map/Collision/Entity6_Brush0_Trigger"]
+[node name="CollisionShape" type="CollisionShape" parent="Map Build In Progress/Collision/Entity6_Brush0_Trigger"]
 shape = SubResource( 35 )

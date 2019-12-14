@@ -16,7 +16,7 @@ func get_finalize_params() -> Array:
 func get_wants_finalize():
 	return true
 
-func _run(context) -> Array:
+func _run(context) -> Dictionary:
 	var entity_idx = context['entity_idx']
 	var brush_idx = context['brush_idx']
 	var entity_properties = context['entity_properties']
@@ -31,21 +31,42 @@ func _run(context) -> Array:
 	for collision_vertex in collision_vertices:
 		scaled_collision_vertices.append(collision_vertex / inverse_scale_factor)
 
-	return ["nodes", NodePath("Entity" + String(entity_idx) + "/Brush" + String(brush_idx) + "/CollisionObject"), [], entity_properties, scaled_collision_vertices]
+	return {
+		'brush_collision_shapes': {
+			entity_idx: {
+				brush_idx: {
+					'entity_properties': entity_properties,
+					'brush_collision_vertices': scaled_collision_vertices
+				}
+			}
+		}
+	}
 
-func _finalize(context) -> void:
+func _finalize(context) -> Dictionary:
 	var brush_collision_shapes = context['brush_collision_shapes']
 
-	for brush_collision_idx in range(0, brush_collision_shapes.size()):
-		var brush_collision_data = brush_collision_shapes[brush_collision_idx]
+	var brush_collision_dict = {}
 
-		var entity_properties = brush_collision_data[3]
-		var brush_collision_vertices = brush_collision_data[4]
+	for entity_idx in brush_collision_shapes:
+		var entity_key = 'entity_' + String(entity_idx)
 
-		var brush_convex_collision = ConvexPolygonShape.new()
-		brush_convex_collision.set_points(brush_collision_vertices)
+		if not entity_key in brush_collision_dict:
+			brush_collision_dict[entity_key] = {}
 
-		var brush_collision_shape = CollisionShape.new()
-		brush_collision_shape.set_shape(brush_convex_collision)
+		for brush_idx in brush_collision_shapes:
+			var brush_collision_data = brush_collision_shapes[entity_idx][brush_idx]
 
-		brush_collision_shapes[brush_collision_idx][2] = [brush_collision_shape]
+			var entity_properties = brush_collision_data['entity_properties']
+			var brush_collision_vertices = brush_collision_data['brush_collision_vertices']
+
+			var brush_convex_collision = ConvexPolygonShape.new()
+			brush_convex_collision.set_points(brush_collision_vertices)
+
+			var brush_collision_shape = CollisionShape.new()
+			brush_collision_shape.set_shape(brush_convex_collision)
+
+			brush_collision_dict[entity_key]['brush_' + String(brush_idx)] = brush_collision_shape
+
+	return {
+		'nodes': brush_collision_dict
+	}

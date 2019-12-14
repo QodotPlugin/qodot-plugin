@@ -10,7 +10,7 @@ func get_type() -> int:
 func get_build_params() -> Array:
 	return ['material_dict', 'inverse_scale_factor']
 
-func _run(context) -> Array:
+func _run(context) -> Dictionary:
 	var entity_idx = context['entity_idx']
 	var brush_idx = context['brush_idx']
 	var entity_properties = context['entity_properties']
@@ -21,7 +21,7 @@ func _run(context) -> Array:
 	var map_reader = QuakeMapReader.new()
 	var brush = map_reader.create_brush(brush_data)
 
-	var face_vertices = []
+	var face_vertex_dict = {}
 
 	for face_idx in range(0, brush.faces.size()):
 		var face = brush.faces[face_idx]
@@ -29,7 +29,7 @@ func _run(context) -> Array:
 		var face_spatial = QodotSpatial.new()
 		face_spatial.name = 'Face' + String(face_idx) + '_Vertices'
 		face_spatial.translation = (face.center - brush.center) / inverse_scale_factor
-		face_vertices.append(face_spatial)
+		face_vertex_dict['face_' + String(face_idx)] = face_spatial
 
 		for vertex in vertices:
 			var vertex_node = Position3D.new()
@@ -37,4 +37,10 @@ func _run(context) -> Array:
 			vertex_node.translation = vertex / inverse_scale_factor
 			face_spatial.add_child(vertex_node)
 
-	return ["nodes", get_brush_attach_path(entity_idx, brush_idx), face_vertices]
+	return {
+		'nodes': {
+			'entity_' + entity_idx: {
+				'brush_' + brush_idx: face_vertex_dict
+			}
+		}
+	}

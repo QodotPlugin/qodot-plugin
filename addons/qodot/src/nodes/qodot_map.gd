@@ -10,7 +10,7 @@ export(bool) var reload setget set_reload
 # Pseudo-button for forcing a refresh after asset reimport
 export(bool) var print_to_log
 
-export(Script) var build_pipeline = QodotMeshPerMaterialPipeline
+export(Script) var build_pipeline = preload('res://addons/qodot/src/build/pipeline/mesh_per_material_pipeline.gd')
 
 # Factor to scale the .map file's quake units down by
 # (16 is a best-effort conversion from Quake 3 units to metric)
@@ -87,24 +87,43 @@ func clear_map():
 func build_map(map_file: String) -> void:
 	print("\nBuilding map...\n")
 
-	var context = build_pipeline.initialize_context(
-		map_file,
-		base_texture_path,
-		material_extension,
-		texture_extension,
-		texture_wads,
-		default_material
-	)
+	call_deferred("set_name", 'Map Build In Progress')
 
-	context['inverse_scale_factor'] = inverse_scale_factor
+	var context = {
+		"map_file": map_file,
+		"base_texture_path": base_texture_path,
+		"material_extension": material_extension,
+		"texture_extension": texture_extension,
+		"texture_wads": texture_wads,
+		"default_material": default_material,
+		"inverse_scale_factor": inverse_scale_factor
+	}
 
-	if 'entity_properties' in context:
-		var entity_properties = context['entity_properties']
-		if entity_properties.size() > 0:
-			var worldspawn_properties = entity_properties[0]
-			if 'message' in worldspawn_properties:
-				call_deferred("set_name", worldspawn_properties['message'])
+	"""
+	# Read entity properties and brush data
+	var entity_properties_array = context['entity_properties_array']
+	var brush_data_dict = context['brush_data_dict']
 
+	# Read worldspawn properties and apply map name
+	var worldspawn_properties = entity_properties_array[0]
+	var entity_count = entity_properties_array.size()
+
+	print_log("Entity Count: " + String(entity_count))
+
+	var brush_count = 0
+	for entity_idx in brush_data_dict:
+		brush_count += brush_data_dict[entity_idx].size()
+
+	print_log("Brush Count: " + String(brush_count) + "\n")
+
+	print_log("Worldspawn Properties:")
+	print_log(worldspawn_properties)
+
+	if 'message' in worldspawn_properties:
+		call_deferred("set_name", worldspawn_properties['message'])
+	"""
+
+	# Initialize thread pool
 	print_log("\nInitializing Thread Pool...")
 	var thread_init_profiler = QodotProfiler.new()
 	var thread_pool = QodotThreadPool.new()
@@ -114,8 +133,8 @@ func build_map(map_file: String) -> void:
 	var thread_init_duration = thread_init_profiler.finish()
 	print_log("Done in " + String(thread_init_duration * 0.001) + " seconds.\n")
 
+	# Run build steps
 	var build_order = []
-
 	var build_steps = build_pipeline.get_build_steps()
 	for build_step_idx in range(0, build_steps.size()):
 		var build_step = build_steps[build_step_idx]
@@ -127,15 +146,28 @@ func build_map(map_file: String) -> void:
 		var job_profiler = QodotProfiler.new()
 		thread_pool.start_thread_jobs()
 		var results = yield(thread_pool, "jobs_complete")
-		context[step_name] = []
-		build_order.append(step_name)
-		for result_idx in results:
-			var result = results[result_idx]
+		for result_key in results:
+			var result = results[result_key]
 			if result:
-				context[step_name].append(result)
+				if not result_key in build_order:
+					build_order.append(result_key)
+				for data_key in result:
+					if data_key == 'nodes':
+						var nodes = result[data_key]
+						add_context_nodes_recursive(context, data_key, nodes)
+						if 'nodes' in context:
+							QodotPrinter.print_typed(context['nodes'])
+					else:
+						if data_key in context:
+							for result_key in result[data_key]:
+								var data = result[data_key][result_key]
+								context[data_key][result_key] = data
+						else:
+							context[data_key] = result[data_key]
 		var job_duration = job_profiler.finish()
 		print_log("Done in " + String(job_duration * 0.001) + " seconds.\n")
 
+	# Cleanup thread pool
 	print_log("Cleaning up thread pool...")
 	var thread_cleanup_profiler = QodotProfiler.new()
 	context.erase('thread_pool')
@@ -143,7 +175,27 @@ func build_map(map_file: String) -> void:
 	var thread_cleanup_duration = thread_cleanup_profiler.finish()
 	print_log("Done in " + String(thread_cleanup_duration * 0.001) + " seconds...\n")
 
+	# Finalize build
 	call_deferred("finalize_build", context, build_order)
+
+func add_context_nodes_recursive(context: Dictionary, context_key: String, nodes: Dictionary):
+	for node_key in nodes:
+		var node = nodes[node_key]
+		if node is Dictionary:
+			add_context_nodes_recursive(context[context_key]['children'], node_key, node)
+		else:
+			if not context_key in context:
+				context[context_key] = {
+					'children': {}
+				}
+
+			context[context_key]['children'][node_key] = {
+				'node': node,
+				'children': {}
+			}
+
+			if 'node' in context[context_key]:
+				context[context_key]['node'].add_child(node)
 
 
 # Queues a build step for execution
@@ -155,7 +207,7 @@ func queue_build_step(context: Dictionary, build_step: QodotBuildStep):
 	var step_context = {}
 	for build_step_param_name in build_step.get_build_params():
 		if not build_step_param_name in context:
-			print("Error: Requested parameter not present in context")
+			print("Error: Requested parameter " + build_step_param_name + " not present in context for build step " + build_step.get_name())
 
 		if build_step_param_name == "thread_pool":
 			print("Error: Build steps cannot require the thread pool as a parameter")
@@ -192,13 +244,7 @@ func finalize_build(context, build_order):
 		if build_step.get_wants_finalize():
 			run_finalize_step(context, build_step)
 
-	print_log("Preparing results...")
-	var results = []
-	for build_step_name in build_order:
-		results.append(context[build_step_name])
-	print_log("Done.\n")
-
-	add_results_to_scene(results)
+	add_results_to_scene(context['nodes'])
 
 func run_finalize_step(context: Dictionary, build_step: QodotBuildStep) -> void:
 	var build_step_name = build_step.get_name()
@@ -206,32 +252,25 @@ func run_finalize_step(context: Dictionary, build_step: QodotBuildStep) -> void:
 	var step_context = {}
 	for build_step_param_name in build_step.get_finalize_params():
 		if not build_step_param_name in context:
-			print("Error: Requested parameter not present in context")
+			print("Error: Requested parameter " + build_step_param_name + " not present in context for build step " + build_step.get_name())
 		step_context[build_step_param_name] = context[build_step_param_name]
 
 	print_log("Finalizing " + build_step.get_name() + "...")
 	var finalize_profiler = QodotProfiler.new()
-	build_step._finalize(step_context)
+	var finalize_result = build_step._finalize(step_context)
+	print("finalize result: ", finalize_result)
+	if 'nodes' in finalize_result:
+		add_context_nodes_recursive(context, 'nodes', finalize_result['nodes'])
 	var finalize_duration = finalize_profiler.finish()
 	print_log("Done in " + String(finalize_duration * 0.001) + " seconds.\n")
 
-func add_results_to_scene(results) -> void:
+func add_results_to_scene(nodes: Dictionary) -> void:
 	print_log("Adding nodes to scene...")
 	var node_add_profiler = QodotProfiler.new()
-	for result in results:
-		var filtered_results = []
-		for result_data in result:
-			var result_type = result_data[0]
-			if result_type == "nodes":
-				filtered_results.append(result_data)
-
-		for result_data in filtered_results:
-			var attach_path = result_data[1]
-			var attach_nodes = result_data[2]
-
-			var attach_target = get_node(attach_path)
-			for node in attach_nodes:
-				attach_target.add_child(node)
+	for node_key in nodes['children']:
+		var node_data = nodes['children'][node_key]
+		var node = node_data['node']
+		add_child(node)
 	var node_add_duration = node_add_profiler.finish()
 	print_log("Done in " + String(node_add_duration * 0.001) + " seconds.\n")
 

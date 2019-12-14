@@ -7,7 +7,12 @@ func get_name() -> String:
 func get_type() -> int:
 	return self.Type.SINGLE
 
-func _run(context) -> Array:
+func _run(context) -> Dictionary:
 	var mesh_node = QodotNode.new()
 	mesh_node.name = "Meshes"
-	return ["nodes", get_map_attach_path(), [mesh_node]]
+
+	return {
+		'nodes': {
+			'meshes': mesh_node
+		}
+	}

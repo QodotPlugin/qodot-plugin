@@ -10,7 +10,7 @@ func get_type() -> int:
 func get_build_params() -> Array:
 	return ['material_dict', 'inverse_scale_factor']
 
-func _run(context) -> Array:
+func _run(context) -> Dictionary:
 	var entity_idx = context['entity_idx']
 	var brush_idx = context['brush_idx']
 	var entity_properties = context['entity_properties']
@@ -21,7 +21,7 @@ func _run(context) -> Array:
 	var map_reader = QuakeMapReader.new()
 	var brush = map_reader.create_brush(brush_data)
 
-	var face_axes = []
+	var face_axes_dict = {}
 
 	for face_idx in range(0, brush.faces.size()):
 		var face = brush.faces[face_idx]
@@ -33,6 +33,12 @@ func _run(context) -> Array:
 		for vertex in face.plane_vertices:
 			face_axes_node.vertex_set.append(((vertex - face.plane_vertices[0]) / inverse_scale_factor))
 
-		face_axes.append(face_axes_node)
+		face_axes_dict['face_' + String(face_idx)] = face_axes_node
 
-	return ["nodes", get_brush_attach_path(entity_idx, brush_idx), face_axes]
+	return {
+		'nodes': {
+			'entity_' + entity_idx: {
+				'brush_' + brush_idx: face_axes_dict
+			}
+		}
+	}

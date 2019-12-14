@@ -21,9 +21,15 @@ func _run(context):
 	if not has_static_collision(entity_properties):
 		return null
 
-	return ["nodes", get_brush_attach_path(entity_idx, brush_idx), [], entity_properties]
+	return {
+		'nodes': {
+			'entity_' + entity_idx: {
+				'brush_' + brush_idx: {}
+			}
+		}
+	}
 
-func _finalize(context) -> void:
+func _finalize(context) -> Dictionary:
 	var brush_static_bodies = context['brush_static_bodies']
 
 	for brush_collision_idx in range(0, brush_static_bodies.size()):
@@ -34,3 +40,5 @@ func _finalize(context) -> void:
 		brush_static_body.name = "CollisionObject"
 
 		brush_static_bodies[brush_collision_idx][2] = [brush_static_body]
+
+	return {}

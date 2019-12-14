@@ -98,3 +98,13 @@ func _run(context):
 		return null
 
 	return ["nodes", get_entity_attach_path(entity_idx), [node] if node else []]
+
+	var node_dict = {}
+	if node:
+		node_dict['spawn'] = node
+
+	return {
+		'nodes': {
+			'entity_' + entity_idx: node_dict
+		}
+	}

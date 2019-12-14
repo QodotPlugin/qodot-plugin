@@ -31,7 +31,7 @@ func _run(context):
 	if not should_spawn_brush_mesh(entity_properties, brush):
 		return null
 
-	var face_nodes = []
+	var face_node_dict = {}
 	var face_indices = []
 
 	for face_idx in range(0, brush.faces.size()):
@@ -39,10 +39,16 @@ func _run(context):
 		if(should_spawn_face_mesh(entity_properties, brush, face)):
 			var face_mesh_node = MeshInstance.new()
 			face_mesh_node.name = 'Face0'
-			face_nodes.append(face_mesh_node)
+			face_node_dict['face_' + String(face_idx)] = face_mesh_node
 			face_indices.append(face_idx)
 
-	return ["nodes", attach_path, face_nodes, face_indices, brush_data]
+	return {
+		'nodes': {
+			'entity_' + entity_idx: {
+				'brush_' + brush_idx: face_node_dict
+			}
+		}
+	}
 
 func _finalize(context):
 	var brush_face_meshes = context['brush_face_meshes']

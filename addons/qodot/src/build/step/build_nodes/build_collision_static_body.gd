@@ -7,6 +7,11 @@ func get_name() -> String:
 func get_type() -> int:
 	return self.Type.SINGLE
 
-func _run(context) -> Array:
-	var static_body_node = StaticBody.new()
-	return ["nodes", "./Collision", [static_body_node]]
+func _run(context) -> Dictionary:
+	return {
+		'nodes': {
+			'collision': {
+				'static_body': StaticBody.new()
+			}
+		}
+	}

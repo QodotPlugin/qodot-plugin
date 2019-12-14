@@ -16,7 +16,7 @@ func get_finalize_params() -> Array:
 func get_wants_finalize():
 	return true
 
-func _run(context):
+func _run(context) -> Dictionary:
 	var entity_idx = context['entity_idx']
 	var brush_idx = context['brush_idx']
 	var entity_properties = context['entity_properties']
@@ -24,7 +24,7 @@ func _run(context):
 	var inverse_scale_factor = context['inverse_scale_factor']
 
 	if not has_area_collision(entity_properties):
-		return null
+		return {}
 
 	var map_reader = QuakeMapReader.new()
 	var brush = map_reader.create_brush(brush_data)
@@ -34,30 +34,44 @@ func _run(context):
 	for collision_vertex in collision_vertices:
 		scaled_collision_vertices.append(collision_vertex / inverse_scale_factor)
 
-	return ["nodes", NodePath("./Collision"), [], entity_idx, brush_idx, brush.center, scaled_collision_vertices]
+	return {
+		'area_collision_shapes': {
+			entity_idx: {
+				brush_idx: {
+					'brush_center': brush.center,
+					'brush_collision_vertices': scaled_collision_vertices
+				}
+			}
+		}
+	}
 
-func _finalize(context) -> void:
+
+func _finalize(context) -> Dictionary:
 	var area_collision_shapes = context['area_collision_shapes']
 	var inverse_scale_factor = context['inverse_scale_factor']
 
-	for brush_collision_idx in range(0, area_collision_shapes.size()):
-		var brush_collision_data = area_collision_shapes[brush_collision_idx]
+	var collision_shape_dict = {}
 
-		var entity_idx = brush_collision_data[3]
-		var brush_idx = brush_collision_data[4]
-		var brush_center = brush_collision_data[5]
-		var brush_collision_vertices = brush_collision_data[6]
+	for entity_idx in area_collision_shapes:
+		for brush_idx in area_collision_shapes[entity_idx]:
+			var brush_center = area_collision_shapes[entity_idx][brush_idx]['brush_center']
+			var brush_collision_vertices = area_collision_shapes[entity_idx][brush_idx]['brush_collision_vertices']
 
-		var brush_convex_collision = ConvexPolygonShape.new()
-		brush_convex_collision.set_points(brush_collision_vertices)
+			var brush_convex_collision = ConvexPolygonShape.new()
+			brush_convex_collision.set_points(brush_collision_vertices)
 
-		var brush_collision_shape = CollisionShape.new()
-		brush_collision_shape.set_shape(brush_convex_collision)
+			var brush_collision_shape = CollisionShape.new()
+			brush_collision_shape.set_shape(brush_convex_collision)
 
-		var brush_area = Area.new()
-		brush_area.name = "Entity" + String(entity_idx) + "_Brush" + String(brush_idx) + "_Trigger"
-		brush_area.translation = brush_center / inverse_scale_factor
-		brush_area.add_child(brush_collision_shape)
+			var brush_area = Area.new()
+			brush_area.name = "Entity" + String(entity_idx) + "_Brush" + String(brush_idx) + "_Trigger"
+			brush_area.translation = brush_center / inverse_scale_factor
+			brush_area.add_child(brush_collision_shape)
 
+			collision_shape_dict['entity_' + String(entity_idx) + '_brush_' + String(brush_idx)] = brush_area
 
-		area_collision_shapes[brush_collision_idx][2] = [brush_area]
+	return {
+		'nodes': {
+			'collision': collision_shape_dict
+		}
+	}

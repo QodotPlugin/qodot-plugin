@@ -21,11 +21,11 @@ func get_finalize_params() -> Array:
 func get_wants_finalize() -> bool:
 	return false
 
-func _run(context):
-	return null
+func _run(context) -> Dictionary:
+	return {}
 
-func _finalize(context) -> void:
-	pass
+func _finalize(context) -> Dictionary:
+	return {}
 
 func get_map_attach_path():
 	return NodePath('./')

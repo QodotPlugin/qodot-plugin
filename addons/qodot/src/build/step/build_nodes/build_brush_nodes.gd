@@ -10,7 +10,7 @@ func get_type() -> int:
 func get_build_params() -> Array:
 	return ['inverse_scale_factor']
 
-func _run(context) -> Array:
+func _run(context) -> Dictionary:
 	var entity_idx = context['entity_idx']
 	var brush_idx = context['brush_idx']
 	var brush_data = context['brush_data']
@@ -23,4 +23,10 @@ func _run(context) -> Array:
 	brush_node.name = 'Brush' + String(brush_idx)
 	brush_node.translation = brush.center / inverse_scale_factor
 
-	return ["nodes", get_entity_attach_path(entity_idx), [brush_node]]
+	return {
+		'nodes': {
+			'entity_' + entity_idx: {
+				'brush_' + brush_idx: brush_node
+			}
+		}
+	}
