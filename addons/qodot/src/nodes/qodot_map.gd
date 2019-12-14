@@ -155,8 +155,6 @@ func build_map(map_file: String) -> void:
 					if data_key == 'nodes':
 						var nodes = result[data_key]
 						add_context_nodes_recursive(context, data_key, nodes)
-						if 'nodes' in context:
-							QodotPrinter.print_typed(context['nodes'])
 					else:
 						if data_key in context:
 							for result_key in result[data_key]:
@@ -258,7 +256,6 @@ func run_finalize_step(context: Dictionary, build_step: QodotBuildStep) -> void:
 	print_log("Finalizing " + build_step.get_name() + "...")
 	var finalize_profiler = QodotProfiler.new()
 	var finalize_result = build_step._finalize(step_context)
-	print("finalize result: ", finalize_result)
 	if 'nodes' in finalize_result:
 		add_context_nodes_recursive(context, 'nodes', finalize_result['nodes'])
 	var finalize_duration = finalize_profiler.finish()
