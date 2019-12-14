@@ -99,33 +99,7 @@ func _finalize(context):
 
 	texture_layered_mesh.set_mesh(surface_tool.commit())
 
-	var max_size = Vector2.ZERO
-	for texture in atlas_textures:
-		var texture_size = texture.get_size()
-		if texture_size.x > max_size.x:
-			max_size.x = texture_size.x
-
-		if texture_size.y > max_size.y:
-			max_size.y = texture_size.y
-
-	var final_textures = []
-	for atlas_texture in atlas_textures:
-		var texture_image = atlas_texture.get_data()
-		var texture_size = texture_image.get_size()
-
-		var final_image = Image.new()
-		final_image.create(max_size.x, max_size.y, false, texture_image.get_format())
-
-		var image_pos = (max_size - texture_size) / 2.0
-		var tile_count = max_size / texture_size
-
-		for x_idx in range(-ceil(tile_count.x), ceil(tile_count.x)):
-			for y_idx in range(-ceil(tile_count.y), ceil(tile_count.y)):
-				final_image.blit_rect(texture_image, Rect2(Vector2.ZERO, texture_size), image_pos + (texture_size * Vector2(x_idx, y_idx)))
-
-		final_textures.append(final_image)
-
 	var material = atlas_material.duplicate()
 	material.set_shader_param('atlas_data', atlas_data_texture)
 	texture_layered_mesh.set_shader_material(material)
-	texture_layered_mesh.set_array_data(final_textures)
+	texture_layered_mesh.set_array_data(atlas_textures)

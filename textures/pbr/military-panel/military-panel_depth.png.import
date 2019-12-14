@@ -14,7 +14,7 @@ dest_files=[ "res://.import/military-panel_depth.png-a501f2e1a6e6d6ef5c8508c950a
 
 [params]
 
-compress/mode=3
+compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0

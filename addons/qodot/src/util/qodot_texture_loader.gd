@@ -118,6 +118,36 @@ func get_pbr_textures(base_texture_path, texture, texture_extension):
 		pbr_textures[suffix_string] = get_pbr_texture(base_texture_path, texture, suffix_string, texture_extension)
 	return pbr_textures
 
+func create_pbr_material(
+	albedo_texture: Texture,
+	base_texture_path: String,
+	texture_name: String,
+	texture_extension: String,
+	default_material: SpatialMaterial = null
+	) -> SpatialMaterial:
+	var material = null
+
+	if default_material:
+		material = default_material.duplicate()
+	else:
+		material = SpatialMaterial.new()
+
+	material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, albedo_texture)
+
+	var pbr_textures = get_pbr_textures(base_texture_path, texture_name, texture_extension)
+	for pbr_suffix in PBR_SUFFICES:
+		if(pbr_suffix != null):
+			var tex = pbr_textures[pbr_suffix[0]]
+			if(tex != null):
+				var enable_prop = pbr_suffix[2] if pbr_suffix.size() >= 3 else null
+				if(enable_prop):
+					material.set(enable_prop, true)
+
+				var texture_enum = pbr_suffix[1]
+				material.set_texture(texture_enum, tex)
+
+	return material
+
 func get_pbr_texture(base_texture_path, texture, suffix, texture_extension):
 	var texture_comps = texture.split('/')
 
@@ -134,13 +164,3 @@ func get_pbr_texture(base_texture_path, texture, suffix, texture_extension):
 		return load(path)
 
 	return null
-
-
-func start_timer():
-	var timer = Timer.new()
-	timer.connect("timeout", self, "timer_complete")
-	timer.set_one_shot(true)
-	timer.start(2.0)
-
-func complete():
-	print("timer completed")

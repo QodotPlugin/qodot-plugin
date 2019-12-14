@@ -14,7 +14,7 @@ dest_files=[ "res://.import/grid.png-fd4a33a8da0d6ae534a921b7a845447a.stex" ]
 
 [params]
 
-compress/mode=1
+compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0

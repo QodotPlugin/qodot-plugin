@@ -14,7 +14,7 @@ dest_files=[ "res://.import/military-panel.png-71c832f4f98aeaaefbf6596ffd93576e.
 
 [params]
 
-compress/mode=1
+compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0

@@ -14,7 +14,7 @@ dest_files=[ "res://.import/uv_test_512.png-a7d989485e055959d5dd3187b6a9d1af.ste
 
 [params]
 
-compress/mode=1
+compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0

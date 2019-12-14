@@ -2,21 +2,19 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/skip.png-2026d0f841ccf5af70e5ac1bf277c3e0.s3tc.stex"
-path.etc2="res://.import/skip.png-2026d0f841ccf5af70e5ac1bf277c3e0.etc2.stex"
+path="res://.import/skip.png-2026d0f841ccf5af70e5ac1bf277c3e0.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://textures/special/skip.png"
-dest_files=[ "res://.import/skip.png-2026d0f841ccf5af70e5ac1bf277c3e0.s3tc.stex", "res://.import/skip.png-2026d0f841ccf5af70e5ac1bf277c3e0.etc2.stex" ]
+dest_files=[ "res://.import/skip.png-2026d0f841ccf5af70e5ac1bf277c3e0.stex" ]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0

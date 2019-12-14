@@ -179,7 +179,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/test_maps/atlas_test.gd"
 }, {
-"base": "QodotSpatial",
+"base": "TextureLayeredMesh",
 "class": "QodotTextureLayeredMesh",
 "language": "GDScript",
 "path": "res://addons/qodot/src/util/texture_layered_mesh.gd"
@@ -248,6 +248,11 @@ _global_script_classes=[ {
 "class": "QuakeWadImportPlugin",
 "language": "GDScript",
 "path": "res://addons/qodot/src/import_plugins/quake_wad_import_plugin.gd"
+}, {
+"base": "Spatial",
+"class": "TextureLayeredMesh",
+"language": "GDScript",
+"path": "res://addons/qodot/lib/texture_layered_mesh.gd"
 } ]
 _global_script_class_icons={
 "QodotBrush": "",
@@ -297,7 +302,8 @@ _global_script_class_icons={
 "QuakePaletteImportPlugin": "",
 "QuakePlaneAxes": "res://addons/qodot/icons/icon_qodot_spatial.svg",
 "QuakeWadFile": "",
-"QuakeWadImportPlugin": ""
+"QuakeWadImportPlugin": "",
+"TextureLayeredMesh": ""
 }
 
 [application]

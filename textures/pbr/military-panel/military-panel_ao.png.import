@@ -2,21 +2,19 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/military-panel_ao.png-8066647586039761e81372189dc6fffe.s3tc.stex"
-path.etc2="res://.import/military-panel_ao.png-8066647586039761e81372189dc6fffe.etc2.stex"
+path="res://.import/military-panel_ao.png-8066647586039761e81372189dc6fffe.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://textures/pbr/military-panel/military-panel_ao.png"
-dest_files=[ "res://.import/military-panel_ao.png-8066647586039761e81372189dc6fffe.s3tc.stex", "res://.import/military-panel_ao.png-8066647586039761e81372189dc6fffe.etc2.stex" ]
+dest_files=[ "res://.import/military-panel_ao.png-8066647586039761e81372189dc6fffe.stex" ]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
