@@ -27,15 +27,14 @@ func _run(context) -> Array:
 
 	print("\nLoading textures...")
 	var texture_load_profiler = QodotProfiler.new()
-	var texture_loader = QodotTextureLoader.new()
-	var material_dict = texture_loader.load_texture_materials(
-		texture_list,
+	var texture_loader = QodotTextureLoader.new(
 		base_texture_path,
 		material_extension,
 		texture_extension,
 		texture_wads,
 		default_material
 	)
+	var material_dict = texture_loader.load_texture_materials(texture_list)
 	var texture_load_duration = texture_load_profiler.finish()
 	print("Done in " + String(texture_load_duration * 0.001) + " seconds.\n")
 

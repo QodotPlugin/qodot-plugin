@@ -19,17 +19,30 @@ const PBR_SUFFICES = [
 	[ PBR_DEPTH, SpatialMaterial.TEXTURE_DEPTH, 'depth_enabled' ]
 ]
 
-var material_dict = {}
-var texture_directory = Directory.new()
+# Parameters
+var base_texture_path: String
+var material_extension: String
+var texture_extension: String
+var texture_wads: Array
+var default_material = null
 
-func load_texture_materials(
-	texture_list: Array,
+# Instances
+var directory = Directory.new()
+
+func _init(
 	base_texture_path: String,
 	material_extension: String,
 	texture_extension: String,
 	texture_wads: Array,
 	default_material = null
-	) -> Dictionary:
+	):
+	self.base_texture_path = base_texture_path
+	self.material_extension = material_extension
+	self.texture_extension = texture_extension
+	self.texture_wads = texture_wads
+	self.default_material = default_material
+
+func load_texture_materials(texture_list: Array) -> Dictionary:
 	var texture_wad_resources = []
 	for texture_wad_path in texture_wads:
 		var texture_wad = load(texture_wad_path) as QuakeWadFile
@@ -38,31 +51,18 @@ func load_texture_materials(
 
 	var texture_materials = {}
 	for texture in texture_list:
-		texture_materials[texture] = get_material(
-			texture,
-			base_texture_path,
-			material_extension,
-			texture_extension,
-			texture_wad_resources,
-			default_material
-		)
+		texture_materials[texture] = get_material(texture, texture_wad_resources)
 	return texture_materials
 
-func get_material(
-	texture_name: String,
-	base_texture_path: String,
-	material_extension: String,
-	texture_extension: String,
-	texture_wad_resources: Array,
-	default_material = null
-	):
+func get_material(texture_name: String, texture_wad_resources: Array):
 	var material = null
 
 	if(texture_name != TEXTURE_EMPTY):
 		# Autoload material if it exists
-		var material_path = base_texture_path + '/' + texture_name + material_extension
+		var material_dict = {}
 
-		if not material_path in material_dict and texture_directory.file_exists(material_path):
+		var material_path = base_texture_path + '/' + texture_name + material_extension
+		if not material_path in material_dict and directory.file_exists(material_path):
 			var loaded_material: Material = load(material_path)
 			if loaded_material:
 				material_dict[material_path] = loaded_material
@@ -76,7 +76,7 @@ func get_material(
 
 			var texture = null
 
-			if(texture_directory.file_exists(texture_path)):
+			if(directory.file_exists(texture_path)):
 				texture = load(texture_path)
 
 			if not texture:
@@ -94,7 +94,7 @@ func get_material(
 
 				material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, texture)
 
-				var pbr_textures = get_pbr_textures(base_texture_path, texture_name, texture_extension)
+				var pbr_textures = get_pbr_textures(texture_name, texture)
 				for pbr_suffix in PBR_SUFFICES:
 					if(pbr_suffix != null):
 						var tex = pbr_textures[pbr_suffix[0]]
@@ -111,20 +111,14 @@ func get_material(
 	return material
 
 # PBR texture fetching
-func get_pbr_textures(base_texture_path, texture, texture_extension):
+func get_pbr_textures(texture_name: String, texture: Texture) -> Dictionary:
 	var pbr_textures = {}
 	for suffix in PBR_SUFFICES:
 		var suffix_string = suffix[0]
-		pbr_textures[suffix_string] = get_pbr_texture(base_texture_path, texture, suffix_string, texture_extension)
+		pbr_textures[suffix_string] = get_pbr_texture(texture_name, suffix_string)
 	return pbr_textures
 
-func create_pbr_material(
-	albedo_texture: Texture,
-	base_texture_path: String,
-	texture_name: String,
-	texture_extension: String,
-	default_material: SpatialMaterial = null
-	) -> SpatialMaterial:
+func create_pbr_material(texture_name: String, albedo_texture: Texture) -> SpatialMaterial:
 	var material = null
 
 	if default_material:
@@ -134,7 +128,7 @@ func create_pbr_material(
 
 	material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, albedo_texture)
 
-	var pbr_textures = get_pbr_textures(base_texture_path, texture_name, texture_extension)
+	var pbr_textures = get_pbr_textures(texture_name, albedo_texture)
 	for pbr_suffix in PBR_SUFFICES:
 		if(pbr_suffix != null):
 			var tex = pbr_textures[pbr_suffix[0]]
@@ -148,8 +142,8 @@ func create_pbr_material(
 
 	return material
 
-func get_pbr_texture(base_texture_path, texture, suffix, texture_extension):
-	var texture_comps = texture.split('/')
+func get_pbr_texture(texture_name: String, suffix: String):
+	var texture_comps = texture_name.split('/')
 
 	if texture_comps.size() == 0:
 		return null
@@ -160,7 +154,7 @@ func get_pbr_texture(base_texture_path, texture, suffix, texture_extension):
 
 	var path = base_texture_path + texture_string + '/' + texture_comps[-1] + '_' + suffix + texture_extension
 
-	if(texture_directory.file_exists(path)):
+	if(directory.file_exists(path)):
 		return load(path)
 
 	return null
