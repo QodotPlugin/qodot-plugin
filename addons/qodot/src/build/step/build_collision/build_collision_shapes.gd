@@ -41,19 +41,3 @@ func create_convex_collision_shape(vertices) -> CollisionShape:
 	brush_collision_shape.set_shape(convex_polygon)
 
 	return brush_collision_shape
-
-func create_concave_collision_shape(vertices) -> CollisionShape:
-	var concave_polygon = ConcavePolygonShape.new()
-
-	var triangles = PoolVector3Array()
-	for vertex_idx in range(0, vertices.size() - 2):
-		triangles.append(vertices[vertex_idx])
-		triangles.append(vertices[vertex_idx + 1])
-		triangles.append(vertices[vertex_idx + 2])
-
-	concave_polygon.set_faces(triangles)
-
-	var brush_collision_shape = CollisionShape.new()
-	brush_collision_shape.set_shape(concave_polygon)
-
-	return brush_collision_shape
