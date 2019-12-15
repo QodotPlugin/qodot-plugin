@@ -37,8 +37,8 @@ func _run(context) -> Dictionary:
 
 	return {
 		'nodes': {
-			'entity_' + entity_idx: {
-				'brush_' + brush_idx: face_axes_dict
+			'entity_' + String(entity_idx): {
+				'brush_' + String(brush_idx): face_axes_dict
 			}
 		}
 	}

@@ -26,9 +26,6 @@ func _run(context) -> Dictionary:
 
 	return {
 		'nodes': {
-			'entity_' + entity_idx: {
-				'path': get_map_attach_path,
-				'node': entity_node
-			}
+			'entity_' + String(entity_idx): entity_node
 		}
 	}

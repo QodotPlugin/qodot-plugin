@@ -25,8 +25,8 @@ func _run(context) -> Dictionary:
 
 	return {
 		'nodes': {
-			'entity_' + entity_idx: {
-				'brush_' + brush_idx: brush_node
+			'entity_' + String(entity_idx): {
+				'brush_' + String(brush_idx): brush_node
 			}
 		}
 	}

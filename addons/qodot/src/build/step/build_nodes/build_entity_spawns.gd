@@ -10,7 +10,7 @@ func get_type() -> int:
 func get_build_params() -> Array:
 	return ['inverse_scale_factor']
 
-func _run(context):
+func _run(context) -> Dictionary:
 	var entity_idx = context['entity_idx']
 	var entity_properties = context['entity_properties']
 	var inverse_scale_factor = context['inverse_scale_factor']
@@ -95,16 +95,12 @@ func _run(context):
 						node.rotation.y = deg2rad(180 + entity_properties['angle'])
 
 	if not node:
-		return null
-
-	return ["nodes", get_entity_attach_path(entity_idx), [node] if node else []]
-
-	var node_dict = {}
-	if node:
-		node_dict['spawn'] = node
+		return {}
 
 	return {
 		'nodes': {
-			'entity_' + entity_idx: node_dict
+			'entity_' + String(entity_idx): {
+				'spawn': node
+			}
 		}
 	}

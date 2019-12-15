@@ -10,9 +10,6 @@ func get_type() -> int:
 func get_finalize_params() -> Array:
 	return ['brush_areas']
 
-func get_wants_finalize():
-	return true
-
 func _run(context) -> Dictionary:
 	var entity_idx = context['entity_idx']
 	var brush_idx = context['brush_idx']
@@ -22,32 +19,11 @@ func _run(context) -> Dictionary:
 		return {}
 
 	return {
-		'brush_areas': {
-			entity_idx: {
-				brush_idx: true
+		'nodes': {
+			'entity_' + String(entity_idx): {
+				'brush_' + String(brush_idx): {
+					'collision_object': Area.new()
+				}
 			}
 		}
-	}
-
-func _finalize(context) -> Dictionary:
-	var brush_areas = context['brush_areas']
-
-	var brush_area_dict = {}
-
-	for entity_idx in brush_areas:
-		var entity_key = 'entity_' + String(entity_idx)
-
-		if not entity_idx in brush_area_dict:
-			brush_area_dict[entity_idx] = {}
-
-		for brush_idx in brush_areas:
-			var brush_collision_data = brush_areas[entity_idx][brush_idx]
-
-			var brush_area = Area.new()
-			brush_area.name = "CollisionObject"
-
-			brush_area_dict[entity_key]['brush_' + String(brush_idx)] = brush_area
-
-	return {
-		'nodes': brush_area_dict
 	}
