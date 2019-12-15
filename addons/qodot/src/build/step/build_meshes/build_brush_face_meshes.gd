@@ -53,9 +53,9 @@ func _run(context) -> Dictionary:
 			var material = material_dict[face.texture]
 			if material:
 				surface_tool.set_material(material)
-				texture_size = material.get_texture(SpatialMaterial.TEXTURE_ALBEDO).get_size()
+				texture_size = material.get_texture(SpatialMaterial.TEXTURE_ALBEDO).get_size() / inverse_scale_factor
 
-			get_face_mesh(surface_tool, brush.center, face, texture_size, Color.white, inverse_scale_factor, false)
+			get_face_mesh(surface_tool, brush.center, face, texture_size, Color.white, false)
 
 			face_surfaces[face_key] = surface_tool
 

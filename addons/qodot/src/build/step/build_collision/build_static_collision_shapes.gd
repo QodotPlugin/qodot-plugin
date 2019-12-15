@@ -24,24 +24,17 @@ func _run(context) -> Dictionary:
 
 	var brush = create_brush_from_face_data(brush_data)
 
-	var collision_vertices = get_brush_collision_vertices(entity_properties, brush, true)
-	var scaled_collision_vertices = PoolVector3Array()
-	for collision_vertex in collision_vertices:
-		scaled_collision_vertices.append(collision_vertex)
-
 	return {
 		'static_collision_shapes': {
-			get_entity_brush_key(entity_idx, brush_idx) + '_Collision': {
+			get_entity_brush_key(entity_idx, brush_idx): {
 				'brush_center': brush.center,
-				'brush_collision_vertices': scaled_collision_vertices
+				'brush_collision_vertices': get_brush_collision_vertices(entity_properties, brush, true)
 			}
 		}
 	}
 
 func _finalize(context) -> Dictionary:
 	var static_collision_shapes = context['static_collision_shapes']
-
-	QodotPrinter.print_typed(static_collision_shapes)
 
 	var brush_collision_dict = {}
 

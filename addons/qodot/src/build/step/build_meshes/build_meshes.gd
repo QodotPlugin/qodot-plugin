@@ -29,7 +29,7 @@ static func should_spawn_face_mesh(entity_properties: Dictionary, brush: QuakeBr
 
 	return true
 
-static func get_face_mesh(surface_tool: SurfaceTool, center: Vector3, face: QuakeFace, texture_size: Vector2, color: Color, inverse_scale_factor: float, global_space: bool):
+static func get_face_mesh(surface_tool: SurfaceTool, center: Vector3, face: QuakeFace, texture_size: Vector2, color: Color, global_space: bool):
 	var vertices = PoolVector3Array()
 	var uvs = PoolVector2Array()
 	var colors = PoolColorArray()
@@ -46,7 +46,7 @@ static func get_face_mesh(surface_tool: SurfaceTool, center: Vector3, face: Quak
 		else:
 			vertices.append(vertex)
 
-		var uv = get_uv(face, global_vertex, texture_size, inverse_scale_factor)
+		var uv = get_uv(face, global_vertex, texture_size)
 		if uv:
 			uvs.append(uv)
 			uv2s.append(uv)
@@ -63,7 +63,7 @@ static func get_face_mesh(surface_tool: SurfaceTool, center: Vector3, face: Quak
 
 	surface_tool.add_triangle_fan(vertices, uvs, colors, uv2s, normals, tangents)
 
-static func get_uv(face: QuakeFace, vertex: Vector3, texture_size: Vector2, inverse_scale_factor: float):
+static func get_uv(face: QuakeFace, vertex: Vector3, texture_size: Vector2):
 	if(face.uv.size() == 2):
 		return get_standard_uv(
 				vertex,
@@ -71,8 +71,7 @@ static func get_uv(face: QuakeFace, vertex: Vector3, texture_size: Vector2, inve
 				texture_size,
 				face.uv,
 				face.rotation,
-				face.scale,
-				inverse_scale_factor
+				face.scale
 			)
 	elif(face.uv.size() == 8):
 		return get_valve_uv(
@@ -81,8 +80,7 @@ static func get_uv(face: QuakeFace, vertex: Vector3, texture_size: Vector2, inve
 				texture_size,
 				face.uv,
 				face.rotation,
-				face.scale,
-				inverse_scale_factor
+				face.scale
 			)
 	else:
 		print('Error: Unknown UV format')
@@ -94,8 +92,7 @@ static func get_standard_uv(
 	texture_size: Vector2,
 	uv: PoolRealArray,
 	rotation: float,
-	scale: Vector2,
-	inverse_scale_factor: float):
+	scale: Vector2):
 	if(uv.size() != 2):
 		print("Error: not a Standard-format UV array")
 		return null
@@ -114,7 +111,7 @@ static func get_standard_uv(
 		uv_out = Vector2(global_vertex.x, -global_vertex.y)
 
 	uv_out = uv_out.rotated(deg2rad(rotation))
-	uv_out /=  texture_size / inverse_scale_factor
+	uv_out /=  texture_size
 	uv_out /= scale
 	uv_out += Vector2(uv[0], uv[1]) / texture_size
 
@@ -127,8 +124,7 @@ static func get_valve_uv(
 	texture_size: Vector2,
 	uv: PoolRealArray,
 	rotation: float,
-	scale: Vector2,
-	inverse_scale_factor: float):
+	scale: Vector2):
 	if(uv.size() != 8):
 		print("Error: not a Valve-format UV array")
 		return null
@@ -143,7 +139,7 @@ static func get_valve_uv(
 	uv_out.x = u_axis.dot(global_vertex)
 	uv_out.y = v_axis.dot(global_vertex)
 
-	uv_out /= texture_size / inverse_scale_factor
+	uv_out /= texture_size
 	uv_out /= scale
 	uv_out += Vector2(u_shift, v_shift) / texture_size
 

@@ -97,9 +97,9 @@ func _finalize(context) -> Dictionary:
 			if material:
 				surface_tool.set_material(material)
 
-				texture_size = material.get_texture(SpatialMaterial.TEXTURE_ALBEDO).get_size()
+				texture_size = material.get_texture(SpatialMaterial.TEXTURE_ALBEDO).get_size() / inverse_scale_factor
 
-			get_face_mesh(surface_tool, brush.center, face, texture_size, Color.white, inverse_scale_factor, true)
+			get_face_mesh(surface_tool, brush.center, face, texture_size, Color.white, true)
 
 		surface_tool.index()
 		material_node.set_mesh(surface_tool.commit())

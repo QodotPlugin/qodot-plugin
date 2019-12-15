@@ -10,7 +10,7 @@ func get_type() -> int:
 	return self.Type.SINGLE
 
 func get_build_params() -> Array:
-	return ['entity_properties_array', 'brush_data_dict']
+	return ['brush_data_dict', 'entity_properties_array']
 
 func get_finalize_params() -> Array:
 	return ['atlased_mesh', 'brush_data_dict', 'texture_atlas', 'inverse_scale_factor']
@@ -88,7 +88,7 @@ func _finalize(context) -> Dictionary:
 
 	for texture_name in material_index_paths:
 		var texture_idx = atlas_texture_names.find(texture_name)
-		var atlas_size = atlas_sizes[texture_idx]
+		var atlas_size = atlas_sizes[texture_idx] / inverse_scale_factor
 
 		var texture_vertex_color = Color()
 		texture_vertex_color.r = float(texture_idx) / float(atlas_texture_names.size() - 1)
@@ -103,7 +103,7 @@ func _finalize(context) -> Dictionary:
 			var brush = create_brush_from_face_data(face_data)
 			var face = brush.faces[face_idx]
 
-			get_face_mesh(surface_tool, brush.center, face, atlas_size, texture_vertex_color, inverse_scale_factor, true)
+			get_face_mesh(surface_tool, brush.center, face, atlas_size, texture_vertex_color, true)
 
 	texture_layered_mesh.set_mesh(surface_tool.commit())
 

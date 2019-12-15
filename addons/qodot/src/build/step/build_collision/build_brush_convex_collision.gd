@@ -1,4 +1,4 @@
-class_name QodotBuildBrushCollisionShapes
+class_name QodotBuildBrushConvexCollision
 extends QodotBuildCollision
 
 func get_name() -> String:

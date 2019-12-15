@@ -14,7 +14,7 @@ static func get_build_steps() -> Array:
 
 		QodotBuildBrushStaticBodies.new(),
 		QodotBuildBrushAreas.new(),
-		QodotBuildBrushCollisionShapes.new(),
+		QodotBuildBrushConvexCollision.new(),
 
 		QodotBuildBrushFaceAxes.new(),
 		QodotBuildBrushFaceVertices.new(),

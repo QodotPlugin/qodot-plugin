@@ -16,24 +16,19 @@ func get_wants_finalize():
 func _run(context) -> Dictionary:
 	var entity_idx = context['entity_idx']
 	var brush_idx = context['brush_idx']
-	var entity_properties = context['entity_properties']
 	var brush_data = context['brush_data']
+	var entity_properties = context['entity_properties']
 
 	if not has_area_collision(entity_properties):
 		return {}
 
 	var brush = create_brush_from_face_data(brush_data)
 
-	var collision_vertices = get_brush_collision_vertices(entity_properties, brush, true)
-	var scaled_collision_vertices = PoolVector3Array()
-	for collision_vertex in collision_vertices:
-		scaled_collision_vertices.append(collision_vertex)
-
 	return {
 		'area_collision_shapes': {
 			get_entity_brush_key(entity_idx, brush_idx): {
 				'brush_center': brush.center,
-				'brush_collision_vertices': scaled_collision_vertices
+				'brush_collision_vertices': get_brush_collision_vertices(entity_properties, brush, true)
 			}
 		}
 	}
@@ -45,8 +40,10 @@ func _finalize(context) -> Dictionary:
 	var collision_shape_dict = {}
 
 	for area_collision_shape_key in area_collision_shapes:
-		var brush_center = area_collision_shapes[area_collision_shape_key]['brush_center']
-		var brush_collision_vertices = area_collision_shapes[area_collision_shape_key]['brush_collision_vertices']
+		var area_collision_shape_data = area_collision_shapes[area_collision_shape_key]
+
+		var brush_center = area_collision_shape_data['brush_center']
+		var brush_collision_vertices = area_collision_shape_data['brush_collision_vertices']
 
 		var brush_convex_collision = ConvexPolygonShape.new()
 		brush_convex_collision.set_points(brush_collision_vertices)

@@ -30,9 +30,9 @@ _global_script_classes=[ {
 "path": "res://addons/qodot/src/build/step/build_collision/build_brush_areas.gd"
 }, {
 "base": "QodotBuildCollision",
-"class": "QodotBuildBrushCollisionShapes",
+"class": "QodotBuildBrushConvexCollision",
 "language": "GDScript",
-"path": "res://addons/qodot/src/build/step/build_collision/build_brush_collision_shapes.gd"
+"path": "res://addons/qodot/src/build/step/build_collision/build_brush_convex_collision.gd"
 }, {
 "base": "QodotBuildStep",
 "class": "QodotBuildBrushFaceAxes",
@@ -269,7 +269,7 @@ _global_script_class_icons={
 "QodotBuildAreaCollisionShapes": "",
 "QodotBuildAtlasedMesh": "",
 "QodotBuildBrushAreas": "",
-"QodotBuildBrushCollisionShapes": "",
+"QodotBuildBrushConvexCollision": "",
 "QodotBuildBrushFaceAxes": "",
 "QodotBuildBrushFaceMeshes": "",
 "QodotBuildBrushFaceVertices": "",
