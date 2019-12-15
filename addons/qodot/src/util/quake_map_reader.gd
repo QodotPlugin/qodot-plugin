@@ -193,11 +193,11 @@ func parse_face(line: String) -> Array:
 		loose_params.pop_front()
 
 		uv = [
-			u[0], u[1], u[2], u[3],
-			v[0], v[1], v[2], v[3]
+			u[0], u[1], u[2], float(u[3]) / inverse_scale_factor,
+			v[0], v[1], v[2], float(v[3]) / inverse_scale_factor
 		]
 	else:
-		uv = [first_uv_param, loose_params.pop_front()]
+		uv = [float(first_uv_param) / inverse_scale_factor, float(loose_params.pop_front()) / inverse_scale_factor]
 
 	QodotUtil.debug_print(['UV: ', uv])
 
