@@ -39,7 +39,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/qodot/src/build/step/build_debug/build_brush_face_axes.gd"
 }, {
-"base": "Reference",
+"base": "QodotBuildMeshes",
 "class": "QodotBuildBrushFaceMeshes",
 "language": "GDScript",
 "path": "res://addons/qodot/src/build/step/build_debug/build_brush_face_meshes.gd"
@@ -49,7 +49,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/qodot/src/build/step/build_debug/build_brush_face_vertices.gd"
 }, {
-"base": "Reference",
+"base": "QodotBuildStep",
 "class": "QodotBuildBrushNodes",
 "language": "GDScript",
 "path": "res://addons/qodot/src/build/step/build_debug/build_brush_nodes.gd"
@@ -79,7 +79,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/qodot/src/build/step/build_nodes/build_collision_static_body.gd"
 }, {
-"base": "Reference",
+"base": "QodotBuildStep",
 "class": "QodotBuildEntityNodes",
 "language": "GDScript",
 "path": "res://addons/qodot/src/build/step/build_debug/build_entity_nodes.gd"
@@ -264,7 +264,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/qodot/src/import_plugins/quake_wad_import_plugin.gd"
 }, {
-"base": "Spatial",
+"base": "QodotSpatial",
 "class": "TextureLayeredMesh",
 "language": "GDScript",
 "path": "res://addons/qodot/lib/texture_layered_mesh.gd"
