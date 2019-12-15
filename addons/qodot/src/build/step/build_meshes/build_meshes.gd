@@ -111,7 +111,7 @@ static func get_standard_uv(
 		uv_out = Vector2(global_vertex.x, -global_vertex.y)
 
 	uv_out = uv_out.rotated(deg2rad(rotation))
-	uv_out /=  texture_size
+	uv_out /= texture_size
 	uv_out /= scale
 	uv_out += Vector2(uv[0], uv[1]) / texture_size
 
