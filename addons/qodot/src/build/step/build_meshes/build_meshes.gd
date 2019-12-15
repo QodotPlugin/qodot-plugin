@@ -39,12 +39,12 @@ static func get_face_mesh(surface_tool: SurfaceTool, center: Vector3, face: Quak
 
 	for vertex in face.face_vertices:
 
-		var global_vertex = (vertex + face.center) / inverse_scale_factor
+		var global_vertex = (vertex + face.center)
 
 		if(global_space):
 			vertices.append(global_vertex)
 		else:
-			vertices.append(vertex / inverse_scale_factor)
+			vertices.append(vertex)
 
 		var uv = get_uv(face, global_vertex, texture_size, inverse_scale_factor)
 		if uv:

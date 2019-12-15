@@ -355,10 +355,6 @@ texture={
 
 limits/message_queue/max_size_kb=81920
 
-[physics]
-
-3d/physics_engine="GodotPhysics"
-
 [rendering]
 
 environment/default_environment="res://default_env.tres"

@@ -20,8 +20,8 @@ func _run(context) -> Dictionary:
 
 	return {
 		'nodes': {
-			'entity_' + String(entity_idx): {
-				'brush_' + String(brush_idx): {
+			get_entity_key(entity_idx): {
+				get_brush_key(brush_idx): {
 					'collision_object': Area.new()
 				}
 			}

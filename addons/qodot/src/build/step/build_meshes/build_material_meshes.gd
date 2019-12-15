@@ -29,8 +29,7 @@ func _run(context) -> Dictionary:
 
 		for brush_key in entity_brushes:
 			var face_data = entity_brushes[brush_key]
-			var map_reader = QuakeMapReader.new()
-			var brush = map_reader.create_brush(face_data)
+			var brush = create_brush_from_face_data(face_data)
 
 			if not should_spawn_brush_mesh(entity_properties, brush):
 				continue
@@ -89,8 +88,7 @@ func _finalize(context) -> Dictionary:
 			var face_idx = face_index_path[2]
 			var face_data = brush_data_dict[entity_idx][brush_idx]
 
-			var map_reader = QuakeMapReader.new()
-			var brush = map_reader.create_brush(face_data)
+			var brush = create_brush_from_face_data(face_data)
 			var face = brush.faces[face_idx]
 
 			var texture_size = Vector2.ZERO

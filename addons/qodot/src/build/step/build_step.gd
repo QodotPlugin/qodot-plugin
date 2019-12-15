@@ -27,12 +27,25 @@ func _run(context) -> Dictionary:
 func _finalize(context) -> Dictionary:
 	return {}
 
-func get_map_attach_path():
-	return NodePath('./')
+func get_entity_key(entity_idx):
+	return 'entity_' + String(entity_idx)
 
-func get_entity_attach_path(entity_idx: int) -> NodePath:
-	return NodePath('./Entity' + String(entity_idx))
+func get_brush_key(brush_idx):
+	return 'brush_' + String(brush_idx)
 
+func get_face_key(face_idx):
+	return 'face_' + String(face_idx)
 
-func get_brush_attach_path(entity_idx: int, brush_idx: int) -> NodePath:
-	return NodePath('./Entity' + String(entity_idx) + '/Brush' + String(brush_idx))
+func get_entity_brush_key(entity_idx, brush_idx):
+	return get_entity_key(entity_idx) + '_' + get_brush_key(brush_idx)
+
+func get_entity_brush_face_key(entity_idx, brush_idx, face_idx):
+	return get_entity_brush_key(entity_idx, brush_idx) + '_' + get_face_key(face_idx)
+
+func create_brush_from_face_data(face_data: Array) -> QuakeBrush:
+	var brush_faces = []
+
+	for face in face_data:
+		brush_faces.append(QuakeFace.new(face))
+
+	return QuakeBrush.new(brush_faces)

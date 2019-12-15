@@ -7,13 +7,9 @@ func get_name() -> String:
 func get_type() -> int:
 	return self.Type.PER_ENTITY
 
-func get_build_params() -> Array:
-	return ['inverse_scale_factor']
-
 func _run(context) -> Dictionary:
 	var entity_idx = context['entity_idx']
 	var entity_properties = context['entity_properties']
-	var inverse_scale_factor = context['inverse_scale_factor']
 
 	var node = null
 
@@ -99,7 +95,7 @@ func _run(context) -> Dictionary:
 
 	return {
 		'nodes': {
-			'entity_' + String(entity_idx): {
+			get_entity_key(entity_idx): {
 				'spawn': node
 			}
 		}

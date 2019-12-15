@@ -6,13 +6,18 @@ class_name QuakeMapReader
 const OPEN_BRACKET = '('
 const CLOSE_BRACKET = ')'
 
-func parse_map(map_path: String):
+var inverse_scale_factor = 1.0
+
+func _init(inverse_scale_factor):
+	self.inverse_scale_factor = inverse_scale_factor
+
+func parse_map(map_path: String) -> Dictionary:
 	var file = File.new()
 	var err = file.open(map_path, File.READ)
 
 	if err != OK:
 		print(['Error opening .map file: ', err])
-		return false
+		return {}
 
 	var map_lines = []
 	while not file.eof_reached():
@@ -74,31 +79,10 @@ func parse_map(map_path: String):
 				var face_line = parsed_brush[face_idx]
 				parsed_brushes[entity_idx][brush_idx][face_idx] = parse_face(face_line)
 
-	return [entity_properties, parsed_brushes]
-
-func create_brush(face_data: Array):
-	var brush_faces = []
-
-	for face in face_data:
-		brush_faces.append(QuakeFace.new(face))
-
-	return QuakeBrush.new(brush_faces)
-
-func get_texture_list(brush_data_dict: Dictionary) -> Array:
-	var texture_list = []
-
-	for entity_idx in brush_data_dict:
-		var entity_brushes = brush_data_dict[entity_idx]
-		for brush_idx in entity_brushes:
-			var brush_faces = entity_brushes[brush_idx]
-			for face_data in brush_faces:
-				var face_texture = face_data[1]
-				if not face_texture in texture_list:
-					texture_list.append(face_data[1])
-
-	texture_list.sort()
-
-	return texture_list
+	return {
+		'entity_properties': entity_properties,
+		'brush_data': parsed_brushes
+	}
 
 func find_line_numbers(map_string: Array):
 	var line_numbers = []
@@ -231,7 +215,7 @@ func parse_face(line: String) -> Array:
 
 func parse_vertex(vertex_substr: String) -> Vector3:
 	var comps = vertex_substr.split(' ')
-	return Vector3(comps[1], comps[2], comps[0])
+	return Vector3(comps[1], comps[2], comps[0]) / inverse_scale_factor
 
 func line_starts_with(line: String, prefix: String):
 	return line.substr(0, prefix.length()) == prefix

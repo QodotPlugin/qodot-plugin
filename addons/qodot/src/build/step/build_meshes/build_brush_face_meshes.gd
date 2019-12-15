@@ -24,10 +24,7 @@ func _run(context) -> Dictionary:
 	var material_dict = context['material_dict']
 	var inverse_scale_factor = context['inverse_scale_factor']
 
-	var map_reader = QuakeMapReader.new()
-	var brush = map_reader.create_brush(brush_data)
-
-	var attach_path = get_brush_attach_path(entity_idx, brush_idx)
+	var brush = create_brush_from_face_data(brush_data)
 
 	if not should_spawn_brush_mesh(entity_properties, brush):
 		return {}
@@ -35,16 +32,16 @@ func _run(context) -> Dictionary:
 	var face_nodes = {}
 	var face_surfaces = {}
 
-	var brush_key = 'entity_' + String(entity_idx) + '_brush_' + String(brush_idx)
+	var brush_key = get_entity_brush_key(entity_idx, brush_idx)
 
 	for face_idx in range(0, brush.faces.size()):
 		var face = brush.faces[face_idx]
 
 		if(should_spawn_face_mesh(entity_properties, brush, face)):
-			var face_key = brush_key + '_face_' + String(face_idx)
+			var face_key = brush_key + get_face_key(face_idx)
 			var face_mesh_node = MeshInstance.new()
 			face_mesh_node.name = 'Face0'
-			face_mesh_node.translation = (face.center - brush.center) / inverse_scale_factor
+			face_mesh_node.translation = (face.center - brush.center)
 			face_nodes[face_key] = face_mesh_node
 
 			var surface_tool = SurfaceTool.new()
@@ -70,8 +67,8 @@ func _run(context) -> Dictionary:
 			}
 		},
 		'nodes': {
-			'entity_' + String(entity_idx): {
-				'brush_' + String(brush_idx): face_nodes
+			get_entity_key(entity_idx): {
+				get_brush_key(brush_idx): face_nodes
 			}
 		}
 	}
