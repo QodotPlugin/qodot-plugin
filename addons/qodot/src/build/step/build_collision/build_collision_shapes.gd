@@ -27,17 +27,33 @@ func _run(context) -> Dictionary:
 		}
 	}
 
-func get_context_key():
+func get_context_key() -> String:
 	return 'collision_shapes'
 
-func should_spawn_collision_shapes(entity_properties):
+func should_spawn_collision_shapes(entity_properties) -> bool:
 	return false
 
-func create_convex_collision_shape(vertices):
+func create_convex_collision_shape(vertices) -> CollisionShape:
 	var convex_polygon = ConvexPolygonShape.new()
 	convex_polygon.set_points(vertices)
 
 	var brush_collision_shape = CollisionShape.new()
 	brush_collision_shape.set_shape(convex_polygon)
+
+	return brush_collision_shape
+
+func create_concave_collision_shape(vertices) -> CollisionShape:
+	var concave_polygon = ConcavePolygonShape.new()
+
+	var triangles = PoolVector3Array()
+	for vertex_idx in range(0, vertices.size() - 2):
+		triangles.append(vertices[vertex_idx])
+		triangles.append(vertices[vertex_idx + 1])
+		triangles.append(vertices[vertex_idx + 2])
+
+	concave_polygon.set_faces(triangles)
+
+	var brush_collision_shape = CollisionShape.new()
+	brush_collision_shape.set_shape(concave_polygon)
 
 	return brush_collision_shape
