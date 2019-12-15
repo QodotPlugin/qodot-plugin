@@ -25,7 +25,6 @@ func _run(context) -> Dictionary:
 	var texture_wads = context['texture_wads']
 	var default_material = context['default_material']
 
-	print("\nLoading textures...")
 	var texture_load_profiler = QodotProfiler.new()
 	var texture_loader = QodotTextureLoader.new(
 		base_texture_path,
@@ -37,7 +36,6 @@ func _run(context) -> Dictionary:
 
 	var material_dict = texture_loader.load_texture_materials(texture_list)
 	var texture_load_duration = texture_load_profiler.finish()
-	print("Done in " + String(texture_load_duration * 0.001) + " seconds.\n")
 
 	print("Map textures:")
 	print(texture_list, '\n')
