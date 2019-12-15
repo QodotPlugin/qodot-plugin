@@ -75,6 +75,13 @@ func clear_map():
 				should_remove = true
 			else:
 				var child_base_script = child_script.get_base_script()
+				while child_base_script:
+					var next_base = child_base_script.get_base_script()
+					if next_base:
+						child_base_script = next_base
+					else:
+						break
+
 				if child_base_script:
 					if child_base_script == QodotNode || child_base_script == QodotSpatial:
 						should_remove = true
