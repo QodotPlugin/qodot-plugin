@@ -1,5 +1,5 @@
 class_name TextureLayeredMesh
-extends Spatial
+extends QodotSpatial
 tool
 
 # Constants
