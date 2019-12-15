@@ -8,7 +8,6 @@ static func get_build_steps() -> Array:
 		QodotBuildMaterials.new(),
 		QodotBuildTextureAtlas.new(),
 
-		QodotBuildMeshNode.new(),
 		QodotBuildAtlasedMesh.new(),
 
 		QodotBuildCollisionNode.new(),
