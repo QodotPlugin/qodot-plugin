@@ -24,8 +24,8 @@ func _run(context) -> Dictionary:
 				var comps = entity_properties['mangle'].split(' ')
 				var yaw = comps[0]
 				var pitch = comps[1]
-				node.rotate(node.global_transform.basis.x, deg2rad(int(pitch)))
-				node.rotate(node.global_transform.basis.y, deg2rad(180 + int(yaw)))
+				node.rotate(Vector3.RIGHT, deg2rad(180 + int(yaw)))
+				node.rotate(Vector3.UP, deg2rad(int(pitch)))
 
 				if 'angle' in entity_properties:
 					node.set_param(Light.PARAM_SPOT_ANGLE, (int(entity_properties['angle'])))
@@ -90,13 +90,19 @@ func _run(context) -> Dictionary:
 					if 'angle' in entity_properties:
 						node.rotation.y = deg2rad(180 + entity_properties['angle'])
 
+		if node:
+			node.name = 'entity_' + String(entity_idx) + '_' + classname
+
 	if not node:
 		return {}
 
+	if 'origin' in entity_properties:
+		node.translation = entity_properties['origin']
+
 	return {
 		'nodes': {
-			get_entity_key(entity_idx): {
-				'spawn': node
+			'entity_spawns_node': {
+				get_entity_key(entity_idx): node
 			}
 		}
 	}

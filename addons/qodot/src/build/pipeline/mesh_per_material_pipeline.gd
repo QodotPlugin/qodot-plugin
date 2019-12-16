@@ -4,14 +4,20 @@ extends QodotBuildPipeline
 static func get_build_steps() -> Array:
 	return [
 		QodotBuildParseMap.new(),
+
 		QodotBuildTextureList.new(),
 		QodotBuildMaterials.new(),
 
-		QodotBuildMeshNode.new(),
+		QodotBuildNode.new("mesh_node", "Meshes", QodotSpatial),
 		QodotBuildMaterialMeshes.new(),
 
-		QodotBuildCollisionNode.new(),
-		QodotBuildCollisionStaticBody.new(),
+		QodotBuildNode.new("collision_node", "Collision", QodotSpatial),
+		QodotBuildNode.new("static_body", "Static Collision", StaticBody, ['collision_node']),
 		QodotBuildStaticCollisionShapes.new(),
-		QodotBuildAreaCollisionShapes.new()
+
+		QodotBuildNode.new("triggers_node", "Triggers", QodotSpatial),
+		QodotBuildAreaCollisionShapes.new(),
+
+		QodotBuildNode.new("entity_spawns_node", "Entity Spawns", QodotSpatial),
+		QodotBuildEntitySpawns.new()
 	]

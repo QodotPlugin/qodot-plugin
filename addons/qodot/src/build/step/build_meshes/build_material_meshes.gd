@@ -60,7 +60,7 @@ func _run(context) -> Dictionary:
 			'material_names': material_names
 		},
 		'nodes': {
-			'meshes': material_nodes
+			'mesh_node': material_nodes
 		}
 	}
 

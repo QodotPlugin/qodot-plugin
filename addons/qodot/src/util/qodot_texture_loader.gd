@@ -21,92 +21,114 @@ const PBR_SUFFICES = [
 
 # Parameters
 var base_texture_path: String
-var material_extension: String
 var texture_extension: String
 var texture_wads: Array
-var default_material = null
 
 # Instances
 var directory = Directory.new()
 
+var texture_wad_resources: Array = []
+
 func _init(
 	base_texture_path: String,
-	material_extension: String,
 	texture_extension: String,
-	texture_wads: Array,
-	default_material = null
+	texture_wads: Array
 	):
 	self.base_texture_path = base_texture_path
-	self.material_extension = material_extension
 	self.texture_extension = texture_extension
-	self.texture_wads = texture_wads
-	self.default_material = default_material
 
-func load_texture_materials(texture_list: Array) -> Dictionary:
-	var texture_wad_resources = []
+	load_texture_wad_resources(texture_wads)
+
+func load_texture_wad_resources(texture_wads: Array):
+	texture_wad_resources.clear()
+
 	for texture_wad_path in texture_wads:
 		var texture_wad = load(texture_wad_path) as QuakeWadFile
 		if texture_wad and not texture_wad in texture_wad_resources:
 			texture_wad_resources.append(texture_wad)
 
+func load_textures(texture_list: Array):
+	var texture_dict = {}
+
+	for texture_name in texture_list:
+		texture_dict[texture_name] = load_texture(texture_name)
+
+	return texture_dict
+
+func load_texture(texture_name: String) -> Texture:
+	if(texture_name == TEXTURE_EMPTY):
+		return null
+
+	# Load albedo texture if it exists
+	var texture_path = base_texture_path + '/' + texture_name + texture_extension
+
+	if(directory.file_exists(texture_path)):
+		return load(texture_path) as Texture
+
+	var texture_name_lower = texture_name.to_lower()
+	for texture_wad in texture_wad_resources:
+		if texture_name_lower in texture_wad.textures:
+			return texture_wad.textures[texture_name_lower]
+
+	return null
+
+func create_materials(texture_list: Array, material_extension: String, default_material: Material) -> Dictionary:
 	var texture_materials = {}
 	for texture in texture_list:
-		texture_materials[texture] = get_material(texture, texture_wad_resources)
+		texture_materials[texture] = create_material(
+		texture,
+		material_extension,
+		default_material
+	)
 	return texture_materials
 
-func get_material(texture_name: String, texture_wad_resources: Array):
+func create_material(
+	texture_name: String,
+	material_extension: String,
+	default_material: SpatialMaterial
+	) -> SpatialMaterial:
+	if(texture_name == TEXTURE_EMPTY):
+		return null
+
+	# Autoload material if it exists
+	var material_dict = {}
+
+	var material_path = base_texture_path + '/' + texture_name + material_extension
+	if not material_path in material_dict and directory.file_exists(material_path):
+		var loaded_material: Material = load(material_path)
+		if loaded_material:
+			material_dict[material_path] = loaded_material
+
+	# If material already exists, use it
+	if material_path in material_dict:
+		return material_dict[material_path]
+
+	var texture = load_texture(texture_name)
+	if not texture:
+		return null
+
 	var material = null
 
-	if(texture_name != TEXTURE_EMPTY):
-		# Autoload material if it exists
-		var material_dict = {}
+	if default_material:
+		material = default_material.duplicate()
+	else:
+		material = SpatialMaterial.new()
 
-		var material_path = base_texture_path + '/' + texture_name + material_extension
-		if not material_path in material_dict and directory.file_exists(material_path):
-			var loaded_material: Material = load(material_path)
-			if loaded_material:
-				material_dict[material_path] = loaded_material
+	material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, texture)
 
-		if material_path in material_dict:
-			# If material already exists, use it
-			material = material_dict[material_path]
-		else:
-			# Load albedo texture if it exists
-			var texture_path = base_texture_path + '/' + texture_name + texture_extension
+	var pbr_textures = get_pbr_textures(texture_name, texture)
+	for pbr_suffix in PBR_SUFFICES:
+		if(pbr_suffix != null):
+			var tex = pbr_textures[pbr_suffix[0]]
+			if(tex != null):
+				var enable_prop = pbr_suffix[2] if pbr_suffix.size() >= 3 else null
+				if(enable_prop):
+					material.set(enable_prop, true)
 
-			var texture = null
+				var texture_enum = pbr_suffix[1]
+				material.set_texture(texture_enum, tex)
 
-			if(directory.file_exists(texture_path)):
-				texture = load(texture_path)
-
-			if not texture:
-				for texture_wad in texture_wad_resources:
-					var texture_name_lower = texture_name.to_lower()
-					if texture_name_lower in texture_wad.textures:
-						texture = texture_wad.textures[texture_name_lower]
-						break
-
-			if texture:
-				if default_material:
-					material = default_material.duplicate()
-				else:
-					material = SpatialMaterial.new()
-
-				material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, texture)
-
-				var pbr_textures = get_pbr_textures(texture_name, texture)
-				for pbr_suffix in PBR_SUFFICES:
-					if(pbr_suffix != null):
-						var tex = pbr_textures[pbr_suffix[0]]
-						if(tex != null):
-							var enable_prop = pbr_suffix[2] if pbr_suffix.size() >= 3 else null
-							if(enable_prop):
-								material.set(enable_prop, true)
-
-							var texture_enum = pbr_suffix[1]
-							material.set_texture(texture_enum, tex)
-
-				material_dict[material_path] = material
+		material_dict[material_path] = material
 
 	return material
 
@@ -118,7 +140,7 @@ func get_pbr_textures(texture_name: String, texture: Texture) -> Dictionary:
 		pbr_textures[suffix_string] = get_pbr_texture(texture_name, suffix_string)
 	return pbr_textures
 
-func create_pbr_material(texture_name: String, albedo_texture: Texture) -> SpatialMaterial:
+func create_pbr_material(texture_name: String, albedo_texture: Texture, default_material: SpatialMaterial) -> SpatialMaterial:
 	var material = null
 
 	if default_material:

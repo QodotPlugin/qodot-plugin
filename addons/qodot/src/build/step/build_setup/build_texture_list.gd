@@ -17,6 +17,9 @@ func _run(context) -> Dictionary:
 
 	var texture_list = get_texture_list(brush_data_dict)
 
+	print("\nMap textures:")
+	QodotPrinter.print_typed(texture_list)
+
 	return {
 		'texture_list': texture_list
 	}

@@ -7,7 +7,7 @@ func should_spawn_brush_collision(entity_properties: Dictionary) -> bool:
 
 	return true
 
-static func get_brush_collision_vertices(entity_properties: Dictionary, brush: QuakeBrush, world_space: bool = false):
+func get_brush_collision_vertices(entity_properties: Dictionary, brush: QuakeBrush, world_space: bool = false):
 	var collision_vertices = PoolVector3Array()
 
 	for face in brush.faces:
@@ -27,7 +27,7 @@ static func get_brush_collision_vertices(entity_properties: Dictionary, brush: Q
 	return collision_vertices
 
 # Create and return a CollisionObject for the given .map classname
-static func spawn_brush_collision_object(entity_properties: Dictionary) -> CollisionObject:
+func spawn_brush_collision_object(entity_properties: Dictionary) -> CollisionObject:
 	var node = null
 
 	# Use an Area for trigger brushes

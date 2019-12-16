@@ -35,7 +35,7 @@ func _finalize(context) -> Dictionary:
 
 	return {
 		'nodes': {
-			'collision': {
+			'collision_node': {
 				'static_body': static_collision_dict
 			}
 		}

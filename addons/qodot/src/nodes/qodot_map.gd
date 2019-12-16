@@ -94,8 +94,6 @@ func clear_map():
 func build_map(map_file: String) -> void:
 	print("\nBuilding map...\n")
 
-	call_deferred("set_name", 'Map Build In Progress')
-
 	var context = {
 		"map_file": map_file,
 		"base_texture_path": base_texture_path,
@@ -105,30 +103,6 @@ func build_map(map_file: String) -> void:
 		"default_material": default_material,
 		"inverse_scale_factor": inverse_scale_factor
 	}
-
-	"""
-	# Read entity properties and brush data
-	var entity_properties_array = context['entity_properties_array']
-	var brush_data_dict = context['brush_data_dict']
-
-	# Read worldspawn properties and apply map name
-	var worldspawn_properties = entity_properties_array[0]
-	var entity_count = entity_properties_array.size()
-
-	print_log("Entity Count: " + String(entity_count))
-
-	var brush_count = 0
-	for entity_idx in brush_data_dict:
-		brush_count += brush_data_dict[entity_idx].size()
-
-	print_log("Brush Count: " + String(brush_count) + "\n")
-
-	print_log("Worldspawn Properties:")
-	print_log(worldspawn_properties)
-
-	if 'message' in worldspawn_properties:
-		call_deferred("set_name", worldspawn_properties['message'])
-	"""
 
 	# Initialize thread pool
 	print_log("\nInitializing Thread Pool...")
@@ -147,7 +121,11 @@ func build_map(map_file: String) -> void:
 		var build_step = build_steps[build_step_idx]
 		var step_name = build_step.get_name()
 
-		queue_build_step(context, build_step)
+		if not queue_build_step(context, build_step):
+			print('Error: failed to queue build step.')
+			cleanup_thread_pool(context, thread_pool)
+			call_deferred("build_failed")
+			return
 
 		print_log("Building " + build_step.get_name() + "...")
 		var job_profiler = QodotProfiler.new()
@@ -172,16 +150,16 @@ func build_map(map_file: String) -> void:
 		var job_duration = job_profiler.finish()
 		print_log("Done in " + String(job_duration * 0.001) + " seconds.\n")
 
-	# Cleanup thread pool
+	cleanup_thread_pool(context, thread_pool)
+	call_deferred("finalize_build", context, build_order)
+
+func cleanup_thread_pool(context, thread_pool):
 	print_log("Cleaning up thread pool...")
 	var thread_cleanup_profiler = QodotProfiler.new()
 	context.erase('thread_pool')
 	thread_pool.finish()
 	var thread_cleanup_duration = thread_cleanup_profiler.finish()
 	print_log("Done in " + String(thread_cleanup_duration * 0.001) + " seconds...\n")
-
-	# Finalize build
-	call_deferred("finalize_build", context, build_order)
 
 func add_context_nodes_recursive(context: Dictionary, context_key: String, nodes: Dictionary):
 	for node_key in nodes:
@@ -213,9 +191,11 @@ func queue_build_step(context: Dictionary, build_step: QodotBuildStep):
 	for build_step_param_name in build_step.get_build_params():
 		if not build_step_param_name in context:
 			print("Error: Requested parameter " + build_step_param_name + " not present in context for build step " + build_step.get_name())
+			return false
 
 		if build_step_param_name == "thread_pool":
 			print("Error: Build steps cannot require the thread pool as a parameter")
+			return false
 
 		step_context[build_step_param_name] = context[build_step_param_name]
 
@@ -241,6 +221,11 @@ func queue_build_step(context: Dictionary, build_step: QodotBuildStep):
 					thread_pool.add_thread_job(build_step, "_run", brush_context)
 
 	print_log("Done.\n")
+	return true
+
+func build_failed():
+	build_thread.wait_to_finish()
+	print("Build failed.")
 
 func finalize_build(context, build_order):
 	build_thread.wait_to_finish()

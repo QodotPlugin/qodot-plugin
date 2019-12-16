@@ -30,7 +30,7 @@ func _finalize(context) -> Dictionary:
 		var brush_collision_shape = create_convex_collision_shape(brush_collision_vertices)
 
 		var brush_area = Area.new()
-		brush_area.name = area_collision_shape_key + "_Trigger"
+		brush_area.name = area_collision_shape_key + "_trigger"
 		brush_area.translation = brush_center
 		brush_area.add_child(brush_collision_shape)
 
@@ -38,6 +38,6 @@ func _finalize(context) -> Dictionary:
 
 	return {
 		'nodes': {
-			'collision': area_collision_dict
+			'triggers_node': area_collision_dict
 		}
 	}

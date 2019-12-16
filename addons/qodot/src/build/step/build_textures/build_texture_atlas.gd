@@ -10,25 +10,26 @@ func get_type() -> int:
 	return self.Type.SINGLE
 
 func get_build_params() -> Array:
-	return [
-		'material_dict'
-	]
+	return ['texture_dict']
 
 func _run(context) -> Dictionary:
-	var material_dict = context['material_dict']
+	var texture_dict = context['texture_dict']
 
 	# Get texture data
 	var texture_names = []
 	var atlas_textures = []
 	var atlas_sizes = []
-	for material_key in material_dict:
-		var material = material_dict[material_key]
-		if material:
-			var texture = material.get_texture(SpatialMaterial.TEXTURE_ALBEDO)
-			var size = texture.get_size()
-			texture_names.append(material_key)
+
+	for texture_key in texture_dict:
+		var texture = texture_dict[texture_key]
+		if texture:
+			texture_names.append(texture_key)
 			atlas_textures.append(texture)
-			atlas_sizes.append(size)
+			atlas_sizes.append(texture.get_size())
+
+	if texture_names.size() <= 0:
+		print("No textures to atlas.")
+		return {}
 
 	var max_size = Vector2.ZERO
 	for size in atlas_sizes:

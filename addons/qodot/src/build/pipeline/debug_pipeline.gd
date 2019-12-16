@@ -8,8 +8,6 @@ static func get_build_steps() -> Array:
 		QodotBuildMaterials.new(),
 
 		QodotBuildEntityNodes.new(),
-		QodotBuildEntitySpawns.new(),
-
 		QodotBuildBrushNodes.new(),
 
 		QodotBuildBrushStaticBodies.new(),
@@ -18,5 +16,8 @@ static func get_build_steps() -> Array:
 
 		QodotBuildBrushFaceAxes.new(),
 		QodotBuildBrushFaceVertices.new(),
-		QodotBuildBrushFaceMeshes.new()
+		QodotBuildBrushFaceMeshes.new(),
+
+		QodotBuildNode.new("entity_spawns", "Entity Spawns"),
+		QodotBuildEntitySpawns.new()
 	]

@@ -2,15 +2,8 @@ class_name QodotBuildMeshes
 extends QodotBuildStep
 
 # Determine whether the given brush should create a set of visual face meshes
-static func should_spawn_brush_mesh(entity_properties: Dictionary, brush: QuakeBrush) -> bool:
-	# Don't spawn collision if the brush is textured entirely with CLIP
-	var is_clip = false
-	for face in brush.faces:
-		if(face.texture.findn('clip') != -1):
-			is_clip = true
-			break
-
-	if(is_clip):
+func should_spawn_brush_mesh(entity_properties: Dictionary, brush: QuakeBrush) -> bool:
+	if(is_clip_brush(brush)):
 		return false
 
 	# Classname-specific behavior
@@ -22,14 +15,20 @@ static func should_spawn_brush_mesh(entity_properties: Dictionary, brush: QuakeB
 	return true
 
 # Determine whether the given face should spawn a visual mesh
-static func should_spawn_face_mesh(entity_properties: Dictionary, brush: QuakeBrush, face: QuakeFace) -> bool:
+func should_spawn_face_mesh(entity_properties: Dictionary, brush: QuakeBrush, face: QuakeFace) -> bool:
 	# Don't spawn a mesh if the face is textured with SKIP
 	if(face.texture.findn('skip') > -1):
 		return false
 
 	return true
 
-static func get_face_mesh(surface_tool: SurfaceTool, center: Vector3, face: QuakeFace, texture_size: Vector2, color: Color, global_space: bool):
+func is_clip_brush(brush: QuakeBrush):
+	for face in brush.faces:
+		if(face.texture.findn('clip') != -1):
+			return true
+	return false
+
+func get_face_mesh(surface_tool: SurfaceTool, center: Vector3, face: QuakeFace, texture_size: Vector2, color: Color, global_space: bool):
 	var vertices = PoolVector3Array()
 	var uvs = PoolVector2Array()
 	var colors = PoolColorArray()
@@ -63,7 +62,7 @@ static func get_face_mesh(surface_tool: SurfaceTool, center: Vector3, face: Quak
 
 	surface_tool.add_triangle_fan(vertices, uvs, colors, uv2s, normals, tangents)
 
-static func get_uv(face: QuakeFace, vertex: Vector3, texture_size: Vector2):
+func get_uv(face: QuakeFace, vertex: Vector3, texture_size: Vector2):
 	if(face.uv.size() == 2):
 		return get_standard_uv(
 				vertex,
@@ -86,7 +85,7 @@ static func get_uv(face: QuakeFace, vertex: Vector3, texture_size: Vector2):
 		print('Error: Unknown UV format')
 		return null
 
-static func get_standard_uv(
+func get_standard_uv(
 	global_vertex: Vector3,
 	normal: Vector3,
 	texture_size: Vector2,
@@ -118,7 +117,7 @@ static func get_standard_uv(
 	return uv_out
 
 
-static func get_valve_uv(
+func get_valve_uv(
 	global_vertex: Vector3,
 	normal: Vector3,
 	texture_size: Vector2,
@@ -145,7 +144,7 @@ static func get_valve_uv(
 
 	return uv_out
 
-static func get_tangent(face: QuakeFace):
+func get_tangent(face: QuakeFace):
 	if(face.uv.size() == 2):
 		return get_standard_tangent(
 				face.normal,
@@ -163,7 +162,7 @@ static func get_tangent(face: QuakeFace):
 		print('Error: Unknown UV format')
 		return null
 
-static func get_standard_tangent(
+func get_standard_tangent(
 		normal: Vector3,
 		rotation: float,
 		scale: Vector2
@@ -194,7 +193,7 @@ static func get_standard_tangent(
 
 	return Plane(u_axis, v_sign)
 
-static func get_valve_tangent(
+func get_valve_tangent(
 	normal: Vector3,
 	uv: PoolRealArray,
 	rotation: float,
