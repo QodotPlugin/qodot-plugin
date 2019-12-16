@@ -21,6 +21,7 @@ func get_type() -> int:
 func _run(context) -> Dictionary:
 	var node = node_type.new()
 	node.name = readable_name
+	node.set_meta("_edit_lock_", true)
 
 	var attach_dict = {
 		'nodes': {}
