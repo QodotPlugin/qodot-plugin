@@ -13,19 +13,19 @@ func get_build_params() -> Array:
 	return ['brush_data_dict', 'entity_properties_array', 'texture_atlas', 'inverse_scale_factor']
 
 func _run(context) -> Dictionary:
+	# Fetch context data
 	var brush_data_dict = context['brush_data_dict']
 	var entity_properties_array = context['entity_properties_array']
 	var texture_atlas = context['texture_atlas']
 	var inverse_scale_factor = context['inverse_scale_factor']
 
+	# Fetch subdata
 	var atlas_texture_names = texture_atlas['atlas_texture_names']
 	var atlas_sizes = texture_atlas['atlas_sizes']
 	var atlas_textures = texture_atlas['atlas_textures']
 	var atlas_data_texture = texture_atlas['atlas_data_texture']
 
-	var material_names = []
-	var material_index_paths = {}
-
+	# Build brush geometry
 	var surface_tool = SurfaceTool.new()
 	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
 
@@ -51,19 +51,23 @@ func _run(context) -> Dictionary:
 				var atlas_size = atlas_sizes[texture_idx] / inverse_scale_factor
 				var texture_vertex_color = Color()
 				texture_vertex_color.r = float(texture_idx) / float(atlas_texture_names.size() - 1)
-				get_face_mesh(surface_tool, brush.center, face, atlas_size, texture_vertex_color, true)
+				face.get_mesh(surface_tool, atlas_size, texture_vertex_color, true)
 
+	surface_tool.index()
+
+	# Create TextureLayeredMesh
 	var texture_layered_mesh = QodotTextureLayeredMesh.new()
 	texture_layered_mesh.name = 'Mesh'
 	texture_layered_mesh.set_shader_parameter('atlas_array')
 	texture_layered_mesh.set_texture_format(QodotTextureLayeredMesh.TextureFormat.RGB8)
 
+	# Configure atlas material
 	var material = atlas_material.duplicate()
 	material.set_shader_param('atlas_data', atlas_data_texture)
 
+	# Assign generated data to TextureLayeredMesh
 	texture_layered_mesh.set_shader_material(material)
 	texture_layered_mesh.set_array_data(atlas_textures)
-
 	texture_layered_mesh.set_mesh(surface_tool.commit())
 
 	return {

@@ -1,5 +1,5 @@
-class_name QodotBuildAreaCollisionShapes
-extends QodotBuildCollisionShapes
+class_name QodotBuildAreaConvexCollision
+extends QodotBuildConvexCollisionShapes
 
 func get_name() -> String:
 	return 'area_collision_shapes'

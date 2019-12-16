@@ -1,11 +1,8 @@
-class_name QodotBuildCollisionShapes
-extends QodotBuildCollision
+class_name QodotBuildConvexCollisionShapes
+extends QodotBuildCollisionShapes
 
 func get_name() -> String:
-	return 'collision_shapes'
-
-func get_type() -> int:
-	return self.Type.PER_BRUSH
+	return 'convex_collision_shapes'
 
 func _run(context) -> Dictionary:
 	var entity_idx = context['entity_idx']
@@ -28,7 +25,13 @@ func _run(context) -> Dictionary:
 	}
 
 func get_context_key() -> String:
-	return 'collision_shapes'
+	return 'convex_collision_shapes'
 
-func should_spawn_collision_shapes(entity_properties) -> bool:
-	return false
+func create_convex_collision_shape(vertices) -> CollisionShape:
+	var convex_polygon = ConvexPolygonShape.new()
+	convex_polygon.set_points(vertices)
+
+	var brush_collision_shape = CollisionShape.new()
+	brush_collision_shape.set_shape(convex_polygon)
+
+	return brush_collision_shape

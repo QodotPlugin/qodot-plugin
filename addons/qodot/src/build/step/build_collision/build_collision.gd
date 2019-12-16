@@ -7,7 +7,11 @@ func should_spawn_brush_collision(entity_properties: Dictionary) -> bool:
 
 	return true
 
-func get_brush_collision_vertices(entity_properties: Dictionary, brush: QuakeBrush, world_space: bool = false):
+func get_brush_collision_vertices(
+	entity_properties: Dictionary,
+	brush: QuakeBrush,
+	world_space: bool = false
+	) -> PoolVector3Array:
 	var collision_vertices = PoolVector3Array()
 
 	for face in brush.faces:
@@ -25,6 +29,16 @@ func get_brush_collision_vertices(entity_properties: Dictionary, brush: QuakeBru
 					collision_vertices.append(vertex + face.center - brush.center)
 
 	return collision_vertices
+
+func get_brush_collision_triangles(brush: QuakeBrush, global_space: bool = false) -> PoolVector3Array:
+	var collision_triangles = PoolVector3Array()
+
+	for face in brush.faces:
+		var face_triangles = face.get_triangles(global_space)
+		for triangle_vertex in face_triangles:
+			collision_triangles.append(triangle_vertex)
+
+	return collision_triangles
 
 # Create and return a CollisionObject for the given .map classname
 func spawn_brush_collision_object(entity_properties: Dictionary) -> CollisionObject:

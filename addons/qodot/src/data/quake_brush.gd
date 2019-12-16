@@ -98,3 +98,9 @@ func vertex_in_hull(vertex: Vector3):
 			return false
 
 	return true
+
+func is_clip_brush():
+	for face in faces:
+		if(face.texture.findn('clip') != -1):
+			return true
+	return false

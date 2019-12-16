@@ -8,7 +8,7 @@ func get_type() -> int:
 	return self.Type.SINGLE
 
 func get_build_params() -> Array:
-	return ['entity_properties_array', 'brush_data_dict']
+	return ['entity_properties_array', 'brush_data_dict', 'material_dict', 'inverse_scale_factor']
 
 func get_finalize_params() -> Array:
 	return ['material_meshes', 'brush_data_dict', 'material_dict', 'inverse_scale_factor']
@@ -17,12 +17,16 @@ func get_wants_finalize():
 	return true
 
 func _run(context) -> Dictionary:
-	var brush_data_dict = context['brush_data_dict']
+	# Fetch context variables
 	var entity_properties_array = context['entity_properties_array']
+	var brush_data_dict = context['brush_data_dict']
+	var material_dict = context['material_dict']
+	var inverse_scale_factor = context['inverse_scale_factor']
 
+	# Assemble material names and index paths
 	var material_names = []
-
 	var material_index_paths = {}
+
 	for entity_key in brush_data_dict:
 		var entity_brushes = brush_data_dict[entity_key]
 		var entity_properties = entity_properties_array[entity_key]
@@ -47,36 +51,13 @@ func _run(context) -> Dictionary:
 
 				material_index_paths[face.texture].append([entity_key, brush_key, face_idx])
 
+	# Create nodes and surfaces
 	var material_nodes = {}
+	var material_surfaces = {}
 	for material_name in material_names:
 		var material_node = MeshInstance.new()
 		material_node.name = material_name.replace("/", "|")
 		material_nodes[material_name] = material_node
-
-	return {
-		'material_meshes': {
-			'nodes': material_nodes,
-			'index_paths': material_index_paths,
-			'material_names': material_names
-		},
-		'nodes': {
-			'mesh_node': material_nodes
-		}
-	}
-
-func _finalize(context) -> Dictionary:
-	var material_meshes = context['material_meshes']
-	var brush_data_dict = context['brush_data_dict']
-	var material_dict = context['material_dict']
-	var inverse_scale_factor = context['inverse_scale_factor']
-
-	var material_nodes = material_meshes['nodes']
-	var material_index_paths = material_meshes['index_paths']
-	var material_names = material_meshes['material_names']
-
-	for texture_name_idx in range(0, material_names.size()):
-		var material_name = material_names[texture_name_idx]
-		var material_node = material_nodes[material_name]
 
 		var surface_tool = SurfaceTool.new()
 		surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
@@ -97,11 +78,38 @@ func _finalize(context) -> Dictionary:
 			if material:
 				surface_tool.set_material(material)
 
-				texture_size = material.get_texture(SpatialMaterial.TEXTURE_ALBEDO).get_size() / inverse_scale_factor
+				var albedo_texture = material.get_texture(SpatialMaterial.TEXTURE_ALBEDO)
+				texture_size = albedo_texture.get_size() / inverse_scale_factor
 
-			get_face_mesh(surface_tool, brush.center, face, texture_size, Color.white, true)
+			face.get_mesh(surface_tool, texture_size, Color.white, true)
 
 		surface_tool.index()
-		material_node.set_mesh(surface_tool.commit())
+		material_surfaces[material_name] = surface_tool
+
+	# Return data for surface committing on the main thread,
+	# as well as spawned nodes
+	return {
+		'material_meshes': {
+			'material_nodes': material_nodes,
+			'material_surfaces': material_surfaces
+		},
+		'nodes': {
+			'mesh_node': material_nodes
+		}
+	}
+
+func _finalize(context) -> Dictionary:
+	# Fetch context data
+	var material_meshes = context['material_meshes']
+
+	# Fetch subdata
+	var material_nodes = material_meshes['material_nodes']
+	var material_surfaces = material_meshes['material_surfaces']
+
+	# Commit surface tools to their respective material node meshes
+	for material_name in material_nodes:
+		var material_node = material_nodes[material_name]
+		var material_surface = material_surfaces[material_name]
+		material_node.set_mesh(material_surface.commit())
 
 	return {}
