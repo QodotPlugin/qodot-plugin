@@ -20,9 +20,11 @@ func _run(context) -> Dictionary:
 
 	return {
 		get_context_key(): {
-			get_entity_brush_key(entity_idx, brush_idx): {
-				'brush_center': brush.center,
-				'brush_collision_vertices': get_brush_collision_vertices(entity_properties, brush, true)
+			get_entity_key(entity_idx): {
+				get_brush_key(brush_idx): {
+					'brush_center': brush.center,
+					'brush_collision_vertices': get_brush_collision_vertices(entity_properties, brush, true)
+				}
 			}
 		}
 	}

@@ -22,11 +22,12 @@ func _finalize(context) -> Dictionary:
 	var static_collision_dict = {}
 
 	var collision_triangles = PoolVector3Array()
-	for brush_collision_key in static_concave_collision:
-		var static_collision_shape = static_concave_collision[brush_collision_key]
-		var brush_collision_triangles = static_collision_shape['brush_collision_triangles']
-		for vertex in brush_collision_triangles:
-			collision_triangles.append(vertex)
+	for entity_idx in static_concave_collision:
+		for brush_idx in static_concave_collision[entity_idx]:
+			var static_collision_shape = static_concave_collision[entity_idx][brush_idx]
+			var brush_collision_triangles = static_collision_shape['brush_collision_triangles']
+			for vertex in brush_collision_triangles:
+				collision_triangles.append(vertex)
 
 	var brush_collision_shape = create_concave_collision_shape(collision_triangles)
 

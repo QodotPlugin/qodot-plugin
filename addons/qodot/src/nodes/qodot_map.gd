@@ -36,8 +36,10 @@ enum VisualBuildType {
 
 enum StaticCollisionBuildType {
 	NONE,
-	CONVEX,
-	CONCAVE
+	CONVEX_SINGLE,
+	CONVEX_PER_ENTITY,
+	CONVEX_PER_BRUSH,
+	CONCAVE_SINGLE
 }
 
 enum TriggerCollisionBuildType {
@@ -56,7 +58,7 @@ enum StaticLightingBuildType {
 }
 
 export(VisualBuildType) var visual_build_type = VisualBuildType.MATERIAL_MESHES
-export(StaticCollisionBuildType) var static_collision_build_type = StaticCollisionBuildType.CONVEX
+export(StaticCollisionBuildType) var static_collision_build_type = StaticCollisionBuildType.CONVEX_PER_BRUSH
 export(TriggerCollisionBuildType) var trigger_collision_build_type = TriggerCollisionBuildType.AREA
 export(EntitySpawnBuildType) var entity_spawn_build_type = EntitySpawnBuildType.ENTITY_SPAWNS
 export(StaticLightingBuildType) var static_lighting_build_type = StaticLightingBuildType.NONE
@@ -251,9 +253,13 @@ func get_build_steps() -> Array:
 			static_collision_build_steps.append(QodotBuildNode.new("static_body", "Static Collision", StaticBody, ['collision_node']))
 
 			match static_collision_build_type:
-				StaticCollisionBuildType.CONVEX:
-					static_collision_build_steps.append(QodotBuildStaticConvexCollision.new())
-				StaticCollisionBuildType.CONCAVE:
+				StaticCollisionBuildType.CONVEX_SINGLE:
+					static_collision_build_steps.append(QodotBuildStaticConvexCollisionSingle.new())
+				StaticCollisionBuildType.CONVEX_PER_ENTITY:
+					static_collision_build_steps.append(QodotBuildStaticConvexCollisionPerEntity.new())
+				StaticCollisionBuildType.CONVEX_PER_BRUSH:
+					static_collision_build_steps.append(QodotBuildStaticConvexCollisionPerBrush.new())
+				StaticCollisionBuildType.CONCAVE_SINGLE:
 					static_collision_build_steps.append(QodotBuildStaticConcaveCollision.new())
 
 		var trigger_collision_build_steps = []
@@ -307,15 +313,17 @@ func add_context_results(context: Dictionary, results):
 		if result:
 			for data_key in result:
 				if data_key == 'nodes':
-					var nodes = result[data_key]
-					add_context_nodes_recursive(context, data_key, nodes)
+					add_context_nodes_recursive(context, data_key, result[data_key])
 				else:
-					if data_key in context:
-						for result_key in result[data_key]:
-							var data = result[data_key][result_key]
-							context[data_key][result_key] = data
-					else:
-						context[data_key] = result[data_key]
+					add_context_data_recursive(context, data_key, result[data_key])
+
+func add_context_data_recursive(context: Dictionary, data_key, result):
+	if not data_key in context:
+		context[data_key] = result
+	else:
+		for result_key in result:
+			var data = result[result_key]
+			add_context_data_recursive(context[data_key], result_key, data)
 
 func add_context_nodes_recursive(context: Dictionary, context_key: String, nodes: Dictionary):
 	for node_key in nodes:
