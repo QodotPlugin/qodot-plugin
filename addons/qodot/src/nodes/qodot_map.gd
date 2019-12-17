@@ -89,7 +89,7 @@ var build_thread = Thread.new()
 var build_profiler = null
 
 ## Setters
-func set_reload(new_reload):
+func set_reload(new_reload = true):
 	if reload != new_reload:
 		if Engine.is_editor_hint():
 			if build_thread.is_active():
