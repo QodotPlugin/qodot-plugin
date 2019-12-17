@@ -94,6 +94,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/qodot/src/build/step/build_meshes/build_material_meshes.gd"
 }, {
+"base": "QodotBuildMeshes",
+"class": "QodotBuildMaterialMeshesPerBrush",
+"language": "GDScript",
+"path": "res://addons/qodot/src/build/step/build_meshes/build_material_meshes_per_brush.gd"
+}, {
+"base": "QodotBuildMeshes",
+"class": "QodotBuildMaterialMeshesPerEntity",
+"language": "GDScript",
+"path": "res://addons/qodot/src/build/step/build_meshes/build_material_meshes_per_entity.gd"
+}, {
 "base": "QodotBuildStep",
 "class": "QodotBuildMaterials",
 "language": "GDScript",
@@ -297,6 +307,8 @@ _global_script_class_icons={
 "QodotBuildEntityNodes": "",
 "QodotBuildEntitySpawns": "",
 "QodotBuildMaterialMeshes": "",
+"QodotBuildMaterialMeshesPerBrush": "",
+"QodotBuildMaterialMeshesPerEntity": "",
 "QodotBuildMaterials": "",
 "QodotBuildMeshes": "",
 "QodotBuildNode": "",

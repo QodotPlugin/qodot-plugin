@@ -26,7 +26,9 @@ export(String) var build = CATEGORY_STRING
 
 enum VisualBuildType {
 	NONE,
-	MESH_PER_MATERIAL,
+	MATERIAL_MESHES,
+	MATERIAL_MESHES_PER_ENTITY,
+	MATERIAL_MESHES_PER_BRUSH,
 	SINGLE_MESH_ATLASED
 }
 
@@ -51,7 +53,7 @@ enum StaticLightingBuildType {
 	UNWRAP_UV2
 }
 
-export(VisualBuildType) var visual_build_type = VisualBuildType.MESH_PER_MATERIAL
+export(VisualBuildType) var visual_build_type = VisualBuildType.MATERIAL_MESHES
 export(StaticCollisionBuildType) var static_collision_build_type = StaticCollisionBuildType.CONVEX
 export(TriggerCollisionBuildType) var trigger_collision_build_type = TriggerCollisionBuildType.AREA
 export(EntitySpawnBuildType) var entity_spawn_build_type = EntitySpawnBuildType.ENTITY_SPAWNS
@@ -191,12 +193,26 @@ func get_build_steps() -> Array:
 
 		var visual_build_steps = []
 		match visual_build_type:
-			VisualBuildType.MESH_PER_MATERIAL:
+			VisualBuildType.MATERIAL_MESHES:
 				visual_build_steps = [
 					QodotBuildTextureList.new(),
 					QodotBuildMaterials.new(),
 					QodotBuildNode.new("mesh_node", "Meshes", QodotSpatial),
 					QodotBuildMaterialMeshes.new()
+				]
+			VisualBuildType.MATERIAL_MESHES_PER_ENTITY:
+				visual_build_steps = [
+					QodotBuildTextureList.new(),
+					QodotBuildMaterials.new(),
+					QodotBuildNode.new("mesh_node", "Meshes", QodotSpatial),
+					QodotBuildMaterialMeshesPerEntity.new()
+				]
+			VisualBuildType.MATERIAL_MESHES_PER_BRUSH:
+				visual_build_steps = [
+					QodotBuildTextureList.new(),
+					QodotBuildMaterials.new(),
+					QodotBuildNode.new("mesh_node", "Meshes", QodotSpatial),
+					QodotBuildMaterialMeshesPerBrush.new()
 				]
 			VisualBuildType.SINGLE_MESH_ATLASED:
 				visual_build_steps = [

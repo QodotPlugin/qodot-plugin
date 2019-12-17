@@ -16,6 +16,9 @@ func get_finalize_params() -> Array:
 func get_wants_finalize():
 	return true
 
+var material_names = []
+var material_index_paths = {}
+
 func _run(context) -> Dictionary:
 	# Fetch context variables
 	var entity_properties_array = context['entity_properties_array']
@@ -23,33 +26,14 @@ func _run(context) -> Dictionary:
 	var material_dict = context['material_dict']
 	var inverse_scale_factor = context['inverse_scale_factor']
 
-	# Aggregate faces that share materials
-	var material_names = []
-	var material_index_paths = {}
-
-	for entity_key in brush_data_dict:
-		var entity_brushes = brush_data_dict[entity_key]
-		var entity_properties = entity_properties_array[entity_key]
-
-		for brush_key in entity_brushes:
-			var face_data = entity_brushes[brush_key]
-			var brush = create_brush_from_face_data(face_data)
-
-			if not should_spawn_brush_mesh(entity_properties, brush):
-				continue
-
-			for face_idx in range(0, brush.faces.size()):
-				var face = brush.faces[face_idx]
-				if not should_spawn_face_mesh(entity_properties, brush, face):
-					continue
-
-				if not face.texture in material_index_paths:
-					material_index_paths[face.texture] = []
-
-				if not face.texture in material_names:
-					material_names.append(face.texture)
-
-				material_index_paths[face.texture].append([entity_key, brush_key, face_idx])
+	foreach_entity_brush_face(
+		entity_properties_array,
+		brush_data_dict,
+		funcref(self, 'boolean_true'),
+		funcref(self, 'should_spawn_brush_mesh'),
+		funcref(self, 'should_spawn_face_mesh'),
+		funcref(self, 'get_material_name_and_index_path')
+	)
 
 	# Create one surface per material
 	var material_surfaces = {}
@@ -87,6 +71,15 @@ func _run(context) -> Dictionary:
 			'material_surfaces': material_surfaces
 		}
 	}
+
+func get_material_name_and_index_path(entity_key, entity_properties, brush_key, brush, face_idx, face):
+	if not face.texture in material_index_paths:
+		material_index_paths[face.texture] = []
+
+	if not face.texture in material_names:
+		material_names.append(face.texture)
+
+	material_index_paths[face.texture].append([entity_key, brush_key, face_idx])
 
 func _finalize(context) -> Dictionary:
 	# Fetch context data
