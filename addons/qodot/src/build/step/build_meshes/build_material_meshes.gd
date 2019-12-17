@@ -23,7 +23,7 @@ func _run(context) -> Dictionary:
 	var material_dict = context['material_dict']
 	var inverse_scale_factor = context['inverse_scale_factor']
 
-	# Assemble material names and index paths
+	# Aggregate faces that share materials
 	var material_names = []
 	var material_index_paths = {}
 
@@ -51,6 +51,7 @@ func _run(context) -> Dictionary:
 
 				material_index_paths[face.texture].append([entity_key, brush_key, face_idx])
 
+	# Create one surface per material
 	var material_surfaces = {}
 	for material_name in material_names:
 		var surface_tool = SurfaceTool.new()
@@ -80,8 +81,7 @@ func _run(context) -> Dictionary:
 		surface_tool.index()
 		material_surfaces[material_name] = surface_tool
 
-	# Return data for surface committing on the main thread,
-	# as well as spawned nodes
+	# Return data for surface committing on the main thread
 	return {
 		'material_meshes': {
 			'material_surfaces': material_surfaces
@@ -95,13 +95,15 @@ func _finalize(context) -> Dictionary:
 	# Fetch subdata
 	var material_surfaces = material_meshes['material_surfaces']
 
+	# Create single array mesh
 	var array_mesh = ArrayMesh.new()
 
-	# Commit surface tools to their respective material node meshes
+	# Commit material surfaces to array mesh
 	for material_name in material_surfaces:
 		var material_surface = material_surfaces[material_name]
 		material_surface.commit(array_mesh)
 
+	# Create MeshInstance, configure, and apply mesh
 	var materials_node = MeshInstance.new()
 	materials_node.name = "MaterialsMesh"
 	materials_node.set_flag(MeshInstance.FLAG_USE_BAKED_LIGHT, true)
