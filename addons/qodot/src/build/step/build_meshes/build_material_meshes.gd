@@ -51,11 +51,6 @@ func _run(context) -> Dictionary:
 
 				material_index_paths[face.texture].append([entity_key, brush_key, face_idx])
 
-	# Create nodes and surfaces
-	var materials_node = MeshInstance.new()
-	materials_node.name = "MaterialsMesh"
-	materials_node.set_flag(MeshInstance.FLAG_USE_BAKED_LIGHT, true)
-
 	var material_surfaces = {}
 	for material_name in material_names:
 		var surface_tool = SurfaceTool.new()
@@ -89,13 +84,7 @@ func _run(context) -> Dictionary:
 	# as well as spawned nodes
 	return {
 		'material_meshes': {
-			'materials_node': materials_node,
 			'material_surfaces': material_surfaces
-		},
-		'nodes': {
-			'mesh_node': {
-				'materials_node': materials_node
-			}
 		}
 	}
 
@@ -104,10 +93,7 @@ func _finalize(context) -> Dictionary:
 	var material_meshes = context['material_meshes']
 
 	# Fetch subdata
-	var materials_node = material_meshes['materials_node']
 	var material_surfaces = material_meshes['material_surfaces']
-
-	var meshes_to_unwrap = {}
 
 	var array_mesh = ArrayMesh.new()
 
@@ -115,12 +101,19 @@ func _finalize(context) -> Dictionary:
 	for material_name in material_surfaces:
 		var material_surface = material_surfaces[material_name]
 		material_surface.commit(array_mesh)
-		meshes_to_unwrap[material_name] = array_mesh
 
+	var materials_node = MeshInstance.new()
+	materials_node.name = "MaterialsMesh"
+	materials_node.set_flag(MeshInstance.FLAG_USE_BAKED_LIGHT, true)
 	materials_node.set_mesh(array_mesh)
 
 	return {
 		'meshes_to_unwrap': {
 			'material_mesh': array_mesh
+		},
+		'nodes': {
+			'mesh_node': {
+				'materials_node': materials_node
+			}
 		}
 	}
