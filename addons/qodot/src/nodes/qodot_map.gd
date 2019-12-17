@@ -2,6 +2,8 @@ class_name QodotMap
 extends QodotSpatial
 tool
 
+const CATEGORY_STRING = '================================================================'
+
 ### Spatial node for rendering a QuakeMap resource into an entity/brush tree
 
 # Pseudo-button for forcing a refresh after asset reimport
@@ -10,28 +12,67 @@ export(bool) var reload setget set_reload
 # Pseudo-button for forcing a refresh after asset reimport
 export(bool) var print_to_log
 
-export(Script) var build_pipeline = preload('res://addons/qodot/src/build/pipeline/mesh_per_material_pipeline.gd')
-
-# Factor to scale the .map file's quake units down by
-# (16 is a best-effort conversion from Quake 3 units to metric)
-export(float) var inverse_scale_factor = 16.0
+export(String) var map = CATEGORY_STRING
 
 # .map Resource to auto-load when updating the map from the editor
 # (Works around references being held and preventing refresh on reimport)
 export(String, FILE, '*.map') var map_file
 
-# Base search path for textures specified in the .map file
-export(String, DIR) var base_texture_path = 'res://textures'
+# Factor to scale the .map file's quake units down by
+# (16 is a best-effort conversion from Quake 3 units to metric)
+export(float) var inverse_scale_factor = 16.0
 
-# File extensions appended to textures specified in the .map file
+export(String) var build = CATEGORY_STRING
+
+enum VisualBuildType {
+	NONE,
+	MESH_PER_MATERIAL,
+	SINGLE_MESH_ATLASED
+}
+
+enum StaticCollisionBuildType {
+	NONE,
+	CONVEX,
+	CONCAVE
+}
+
+enum TriggerCollisionBuildType {
+	NONE,
+	AREA
+}
+
+enum EntitySpawnBuildType {
+	NONE,
+	ENTITY_SPAWNS
+}
+
+enum StaticLightingBuildType {
+	NONE,
+	UNWRAP_UV2
+}
+
+export(VisualBuildType) var visual_build_type = VisualBuildType.MESH_PER_MATERIAL
+export(StaticCollisionBuildType) var static_collision_build_type = StaticCollisionBuildType.CONVEX
+export(TriggerCollisionBuildType) var trigger_collision_build_type = TriggerCollisionBuildType.AREA
+export(EntitySpawnBuildType) var entity_spawn_build_type = EntitySpawnBuildType.ENTITY_SPAWNS
+export(StaticLightingBuildType) var static_lighting_build_type = StaticLightingBuildType.NONE
+
+export(bool) var use_custom_build_pipeline = false
+export(Script) var custom_build_pipeline
+
+# Textures
+export(String) var textures = CATEGORY_STRING
+export(String, DIR) var base_texture_path = 'res://textures'
 export(String) var texture_extension = '.png'
 export(Array, String, FILE, "*.wad") var texture_wads = []
 
 # Materials
+export(String) var materials = CATEGORY_STRING
 export(String) var material_extension = '.tres'
 export (SpatialMaterial) var default_material
 
 # Threads
+export(String) var threading = CATEGORY_STRING
 export(int) var max_build_threads = 4
 export(int) var build_bucket_size = 4
 
@@ -115,8 +156,8 @@ func build_map(map_file: String) -> void:
 	print_log("Done in " + String(thread_init_duration * 0.001) + " seconds.\n")
 
 	# Run build steps
-	var build_order = []
-	var build_steps = build_pipeline.get_build_steps()
+	var build_steps = get_build_steps()
+
 	for build_step_idx in range(0, build_steps.size()):
 		var build_step = build_steps[build_step_idx]
 		var step_name = build_step.get_name()
@@ -131,27 +172,88 @@ func build_map(map_file: String) -> void:
 		var job_profiler = QodotProfiler.new()
 		thread_pool.start_thread_jobs()
 		var results = yield(thread_pool, "jobs_complete")
-		for result_key in results:
-			var result = results[result_key]
-			if result:
-				if not result_key in build_order:
-					build_order.append(result_key)
-				for data_key in result:
-					if data_key == 'nodes':
-						var nodes = result[data_key]
-						add_context_nodes_recursive(context, data_key, nodes)
-					else:
-						if data_key in context:
-							for result_key in result[data_key]:
-								var data = result[data_key][result_key]
-								context[data_key][result_key] = data
-						else:
-							context[data_key] = result[data_key]
+		add_context_results(context, results)
 		var job_duration = job_profiler.finish()
 		print_log("Done in " + String(job_duration * 0.001) + " seconds.\n")
 
 	cleanup_thread_pool(context, thread_pool)
-	call_deferred("finalize_build", context, build_order)
+	call_deferred("finalize_build", context, build_steps)
+
+func get_build_steps() -> Array:
+	var build_steps = []
+
+	if use_custom_build_pipeline:
+		build_steps = custom_build_pipeline.get_build_steps()
+	else:
+		build_steps = [
+			QodotBuildParseMap.new()
+		]
+
+		var visual_build_steps = []
+		match visual_build_type:
+			VisualBuildType.MESH_PER_MATERIAL:
+				visual_build_steps = [
+					QodotBuildTextureList.new(),
+					QodotBuildMaterials.new(),
+					QodotBuildNode.new("mesh_node", "Meshes", QodotSpatial),
+					QodotBuildMaterialMeshes.new()
+				]
+			VisualBuildType.SINGLE_MESH_ATLASED:
+				visual_build_steps = [
+					QodotBuildTextureList.new(),
+					QodotBuildTextures.new(),
+					QodotBuildTextureAtlas.new(),
+					QodotBuildAtlasedMesh.new(),
+				]
+
+		var static_collision_build_steps = []
+
+		if static_collision_build_type != StaticCollisionBuildType.NONE:
+			static_collision_build_steps.append(QodotBuildNode.new("collision_node", "Collision", QodotSpatial))
+			static_collision_build_steps.append(QodotBuildNode.new("static_body", "Static Collision", StaticBody, ['collision_node']))
+
+			match static_collision_build_type:
+				StaticCollisionBuildType.CONVEX:
+					static_collision_build_steps.append(QodotBuildStaticConvexCollision.new())
+				StaticCollisionBuildType.CONCAVE:
+					static_collision_build_steps.append(QodotBuildStaticConcaveCollision.new())
+
+		var trigger_collision_build_steps = []
+		match trigger_collision_build_type:
+			TriggerCollisionBuildType.AREA:
+				trigger_collision_build_steps = [
+					QodotBuildNode.new("triggers_node", "Triggers", QodotSpatial),
+					QodotBuildAreaConvexCollision.new(),
+				]
+
+		var entity_spawn_build_steps = []
+		match entity_spawn_build_type:
+			EntitySpawnBuildType.ENTITY_SPAWNS:
+				entity_spawn_build_steps = [
+					QodotBuildNode.new("entity_spawns_node", "Entity Spawns", QodotSpatial),
+					QodotBuildEntitySpawns.new(),
+				]
+
+		var static_lighting_build_steps = []
+		match static_lighting_build_type:
+			StaticLightingBuildType.UNWRAP_UV2:
+				static_lighting_build_steps = [
+					QodotBuildUnwrapUVs.new(),
+				]
+
+		var build_step_arrays = [
+			visual_build_steps,
+			static_collision_build_steps,
+			trigger_collision_build_steps,
+			entity_spawn_build_steps,
+			static_lighting_build_steps
+		]
+
+		for build_step_array in build_step_arrays:
+			for build_step in build_step_array:
+				build_steps.append(build_step)
+
+	return build_steps
 
 func cleanup_thread_pool(context, thread_pool):
 	print_log("Cleaning up thread pool...")
@@ -160,6 +262,22 @@ func cleanup_thread_pool(context, thread_pool):
 	thread_pool.finish()
 	var thread_cleanup_duration = thread_cleanup_profiler.finish()
 	print_log("Done in " + String(thread_cleanup_duration * 0.001) + " seconds...\n")
+
+func add_context_results(context: Dictionary, results):
+	for result_key in results:
+		var result = results[result_key]
+		if result:
+			for data_key in result:
+				if data_key == 'nodes':
+					var nodes = result[data_key]
+					add_context_nodes_recursive(context, data_key, nodes)
+				else:
+					if data_key in context:
+						for result_key in result[data_key]:
+							var data = result[data_key][result_key]
+							context[data_key][result_key] = data
+					else:
+						context[data_key] = result[data_key]
 
 func add_context_nodes_recursive(context: Dictionary, context_key: String, nodes: Dictionary):
 	for node_key in nodes:
@@ -179,6 +297,10 @@ func add_context_nodes_recursive(context: Dictionary, context_key: String, nodes
 
 			if 'node' in context[context_key]:
 				context[context_key]['node'].add_child(node)
+			else:
+				add_child(node)
+
+			recursive_set_owner(node, get_tree().get_edited_scene_root())
 
 
 # Queues a build step for execution
@@ -227,14 +349,14 @@ func build_failed():
 	build_thread.wait_to_finish()
 	print("Build failed.")
 
-func finalize_build(context, build_order):
+func finalize_build(context: Dictionary, build_steps: Array):
 	build_thread.wait_to_finish()
 
-	for build_step in build_pipeline.get_build_steps():
+	for build_step in build_steps:
 		if build_step.get_wants_finalize():
 			run_finalize_step(context, build_step)
 
-	add_results_to_scene(context['nodes'])
+	build_complete()
 
 func run_finalize_step(context: Dictionary, build_step: QodotBuildStep) -> void:
 	var build_step_name = build_step.get_name()
@@ -248,32 +370,9 @@ func run_finalize_step(context: Dictionary, build_step: QodotBuildStep) -> void:
 	print_log("Finalizing " + build_step.get_name() + "...")
 	var finalize_profiler = QodotProfiler.new()
 	var finalize_result = build_step._finalize(step_context)
-	if 'nodes' in finalize_result:
-		add_context_nodes_recursive(context, 'nodes', finalize_result['nodes'])
+	add_context_results(context, {0: finalize_result})
 	var finalize_duration = finalize_profiler.finish()
 	print_log("Done in " + String(finalize_duration * 0.001) + " seconds.\n")
-
-func add_results_to_scene(nodes: Dictionary) -> void:
-	print_log("Adding nodes to scene...")
-	var node_add_profiler = QodotProfiler.new()
-	for node_key in nodes['children']:
-		var node_data = nodes['children'][node_key]
-		var node = node_data['node']
-		add_child(node)
-	var node_add_duration = node_add_profiler.finish()
-	print_log("Done in " + String(node_add_duration * 0.001) + " seconds.\n")
-
-	add_nodes_to_editor_tree()
-
-func add_nodes_to_editor_tree():
-	print_log("Adding nodes to editor tree...")
-	var node_editor_profiler = QodotProfiler.new()
-	var edited_scene_root = get_tree().get_edited_scene_root()
-	add_children_to_editor(edited_scene_root)
-	var node_editor_duration = node_editor_profiler.finish()
-	print_log("Done in " + String(node_editor_duration * 0.001) + " seconds.\n")
-
-	build_complete()
 
 # Build completion handler
 func build_complete() -> void:

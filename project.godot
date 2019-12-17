@@ -149,6 +149,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/qodot/src/build/step/build_setup/build_textures.gd"
 }, {
+"base": "QodotBuildStep",
+"class": "QodotBuildUnwrapUVs",
+"language": "GDScript",
+"path": "res://addons/qodot/src/build/step/build_setup/build_unwrap_uvs.gd"
+}, {
 "base": "QodotBuildPipeline",
 "class": "QodotDebugPipeline",
 "language": "GDScript",
@@ -303,6 +308,7 @@ _global_script_class_icons={
 "QodotBuildTextureAtlas": "",
 "QodotBuildTextureList": "",
 "QodotBuildTextures": "",
+"QodotBuildUnwrapUVs": "",
 "QodotDebugPipeline": "",
 "QodotEntity": "",
 "QodotMap": "",
@@ -333,7 +339,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Qodot"
-run/main_scene="res://scenes/qodot_example.tscn"
+run/main_scene="res://scenes/qodot_example/qodot_example.tscn"
 config/icon="res://icon.png"
 
 [editor_plugins]
@@ -369,4 +375,7 @@ limits/message_queue/max_size_kb=81920
 
 [rendering]
 
+quality/filters/anisotropic_filter_level=16
+quality/shadows/filter_mode=2
+quality/filters/msaa=2
 environment/default_environment="res://default_env.tres"

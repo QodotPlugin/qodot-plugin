@@ -12,6 +12,12 @@ func get_type() -> int:
 func get_build_params() -> Array:
 	return ['brush_data_dict', 'entity_properties_array', 'texture_atlas', 'inverse_scale_factor']
 
+func get_wants_finalize() -> bool:
+	return true
+
+func get_finalize_params() -> Array:
+	return ['build_atlased_mesh']
+
 func _run(context) -> Dictionary:
 	# Fetch context data
 	var brush_data_dict = context['brush_data_dict']
@@ -68,10 +74,34 @@ func _run(context) -> Dictionary:
 	# Assign generated data to TextureLayeredMesh
 	texture_layered_mesh.set_shader_material(material)
 	texture_layered_mesh.set_array_data(atlas_textures)
-	texture_layered_mesh.set_mesh(surface_tool.commit())
+
+	var array_mesh = ArrayMesh.new()
+	texture_layered_mesh.set_mesh(array_mesh)
 
 	return {
+		'build_atlased_mesh': {
+			'texture_layered_mesh': texture_layered_mesh,
+			'atlased_mesh': array_mesh,
+			'atlased_surface': surface_tool
+		},
 		'nodes': {
 			'texture_layered_mesh': texture_layered_mesh
+		}
+	}
+
+func _finalize(context: Dictionary) -> Dictionary:
+	var build_atlased_mesh = context['build_atlased_mesh']
+
+	var texture_layered_mesh = build_atlased_mesh['texture_layered_mesh']
+	var atlased_mesh = build_atlased_mesh['atlased_mesh']
+	var atlased_surface = build_atlased_mesh['atlased_surface']
+
+	atlased_surface.commit(atlased_mesh)
+
+	texture_layered_mesh.call_deferred('set_reload', true)
+
+	return {
+		'meshes_to_unwrap': {
+			'atlased_mesh': atlased_mesh
 		}
 	}

@@ -35,11 +35,15 @@ func _run(context) -> Dictionary:
 			var light_brightness = 300
 			if 'light' in entity_properties:
 				light_brightness = int(entity_properties['light'])
-			node.set_param(Light.PARAM_ENERGY, light_brightness / 2560.0)
+				node.set_param(Light.PARAM_ENERGY, light_brightness / 100.0)
+				node.set_param(Light.PARAM_INDIRECT_ENERGY, light_brightness / 100.0)
 
 			var light_range = 1
 			if 'wait' in entity_properties:
 				light_range = float(entity_properties['wait'])
+
+			var normalized_brightness = light_brightness / 300.0
+			node.set_param(Light.PARAM_RANGE, 16.0 * light_range * (normalized_brightness * normalized_brightness))
 
 			var light_attenuation = 0
 			if 'delay' in entity_properties:
@@ -48,7 +52,7 @@ func _run(context) -> Dictionary:
 			var attenuation = 0
 			match light_attenuation:
 				0:
-					attenuation = 1
+					attenuation = 1.0
 				1:
 					attenuation = 0.5
 				2:
@@ -62,14 +66,10 @@ func _run(context) -> Dictionary:
 				_:
 					attenuation = 1
 
-			var range_multiplier = 1
-			if attenuation == 0:
-				range_multiplier = 0.001
-			else:
-				range_multiplier = attenuation
-
-			node.set_param(Light.PARAM_RANGE, 8.8 / light_range / range_multiplier)
 			node.set_param(Light.PARAM_ATTENUATION, attenuation)
+			node.set_shadow(true)
+
+			node.set_bake_mode(Light.BAKE_ALL)
 
 			var light_color = Color.white
 			if '_color' in entity_properties:

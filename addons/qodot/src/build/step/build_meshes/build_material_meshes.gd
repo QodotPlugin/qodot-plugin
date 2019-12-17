@@ -11,7 +11,7 @@ func get_build_params() -> Array:
 	return ['entity_properties_array', 'brush_data_dict', 'material_dict', 'inverse_scale_factor']
 
 func get_finalize_params() -> Array:
-	return ['material_meshes', 'brush_data_dict', 'material_dict', 'inverse_scale_factor']
+	return ['material_meshes']
 
 func get_wants_finalize():
 	return true
@@ -52,13 +52,12 @@ func _run(context) -> Dictionary:
 				material_index_paths[face.texture].append([entity_key, brush_key, face_idx])
 
 	# Create nodes and surfaces
-	var material_nodes = {}
+	var materials_node = MeshInstance.new()
+	materials_node.name = "MaterialsMesh"
+	materials_node.set_flag(MeshInstance.FLAG_USE_BAKED_LIGHT, true)
+
 	var material_surfaces = {}
 	for material_name in material_names:
-		var material_node = MeshInstance.new()
-		material_node.name = material_name.replace("/", "|")
-		material_nodes[material_name] = material_node
-
 		var surface_tool = SurfaceTool.new()
 		surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
 
@@ -90,11 +89,13 @@ func _run(context) -> Dictionary:
 	# as well as spawned nodes
 	return {
 		'material_meshes': {
-			'material_nodes': material_nodes,
+			'materials_node': materials_node,
 			'material_surfaces': material_surfaces
 		},
 		'nodes': {
-			'mesh_node': material_nodes
+			'mesh_node': {
+				'materials_node': materials_node
+			}
 		}
 	}
 
@@ -103,13 +104,23 @@ func _finalize(context) -> Dictionary:
 	var material_meshes = context['material_meshes']
 
 	# Fetch subdata
-	var material_nodes = material_meshes['material_nodes']
+	var materials_node = material_meshes['materials_node']
 	var material_surfaces = material_meshes['material_surfaces']
 
-	# Commit surface tools to their respective material node meshes
-	for material_name in material_nodes:
-		var material_node = material_nodes[material_name]
-		var material_surface = material_surfaces[material_name]
-		material_node.set_mesh(material_surface.commit())
+	var meshes_to_unwrap = {}
 
-	return {}
+	var array_mesh = ArrayMesh.new()
+
+	# Commit surface tools to their respective material node meshes
+	for material_name in material_surfaces:
+		var material_surface = material_surfaces[material_name]
+		material_surface.commit(array_mesh)
+		meshes_to_unwrap[material_name] = array_mesh
+
+	materials_node.set_mesh(array_mesh)
+
+	return {
+		'meshes_to_unwrap': {
+			'material_mesh': array_mesh
+		}
+	}
