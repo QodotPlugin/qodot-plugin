@@ -33,7 +33,6 @@ func _finalize(context) -> Dictionary:
 				collision_vertices.append(vertex + brush_center)
 
 	var collision_shape = create_convex_collision_shape(collision_vertices)
-	collision_shape.name = 'map_collision'
 
 	return {
 		'nodes': {

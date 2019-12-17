@@ -23,7 +23,7 @@ func _finalize(context) -> Dictionary:
 
 	for entity_idx in static_convex_collision:
 		for brush_idx in static_convex_collision[entity_idx]:
-			var brush_collision_key = get_entity_brush_key(entity_idx, brush_idx) + '_collision'
+			var brush_collision_key = entity_idx + '_' + brush_idx + '_collision'
 			var static_collision_shape = static_convex_collision[entity_idx][brush_idx]
 
 			var brush_center = static_collision_shape['brush_center']

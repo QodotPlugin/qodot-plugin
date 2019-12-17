@@ -39,7 +39,9 @@ enum StaticCollisionBuildType {
 	CONVEX_SINGLE,
 	CONVEX_PER_ENTITY,
 	CONVEX_PER_BRUSH,
-	CONCAVE_SINGLE
+	CONCAVE_SINGLE,
+	CONCAVE_PER_ENTITY,
+	CONCAVE_PER_BRUSH
 }
 
 enum TriggerCollisionBuildType {
@@ -260,7 +262,11 @@ func get_build_steps() -> Array:
 				StaticCollisionBuildType.CONVEX_PER_BRUSH:
 					static_collision_build_steps.append(QodotBuildStaticConvexCollisionPerBrush.new())
 				StaticCollisionBuildType.CONCAVE_SINGLE:
-					static_collision_build_steps.append(QodotBuildStaticConcaveCollision.new())
+					static_collision_build_steps.append(QodotBuildStaticConcaveCollisionSingle.new())
+				StaticCollisionBuildType.CONCAVE_PER_ENTITY:
+					static_collision_build_steps.append(QodotBuildStaticConcaveCollisionPerEntity.new())
+				StaticCollisionBuildType.CONCAVE_PER_BRUSH:
+					static_collision_build_steps.append(QodotBuildStaticConcaveCollisionPerBrush.new())
 
 		var trigger_collision_build_steps = []
 		match trigger_collision_build_type:

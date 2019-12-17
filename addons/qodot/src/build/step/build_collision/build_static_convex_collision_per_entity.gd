@@ -21,12 +21,11 @@ func _finalize(context) -> Dictionary:
 
 	var static_collision_dict = {}
 
-	for entity_idx in static_convex_collision:
+	for entity_key in static_convex_collision:
 		var entity_collision_vertices = []
 
-		for brush_idx in static_convex_collision[entity_idx]:
-			var brush_collision_key = get_entity_brush_key(entity_idx, brush_idx) + '_collision'
-			var static_collision_shape = static_convex_collision[entity_idx][brush_idx]
+		for brush_key in static_convex_collision[entity_key]:
+			var static_collision_shape = static_convex_collision[entity_key][brush_key]
 
 			var brush_center = static_collision_shape['brush_center']
 			var brush_collision_vertices = static_collision_shape['brush_collision_vertices']
@@ -35,9 +34,9 @@ func _finalize(context) -> Dictionary:
 				entity_collision_vertices.append(vertex + brush_center)
 
 		var entity_collision_shape = create_convex_collision_shape(entity_collision_vertices)
-		entity_collision_shape.name = get_entity_key(entity_idx) + '_collision'
+		entity_collision_shape.name = entity_key + '_collision'
 
-		static_collision_dict[entity_idx] = entity_collision_shape
+		static_collision_dict[entity_key] = entity_collision_shape
 
 	return {
 		'nodes': {

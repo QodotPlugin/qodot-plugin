@@ -1,8 +1,8 @@
-class_name QodotBuildStaticConcaveCollision
+class_name QodotBuildStaticConcaveCollisionPerBrush
 extends QodotBuildConcaveCollisionShapes
 
 func get_name() -> String:
-	return 'static_concave_collision'
+	return 'static_concave_collision_per_brush'
 
 func get_finalize_params() -> Array:
 	return ['static_concave_collision']
@@ -21,22 +21,21 @@ func _finalize(context) -> Dictionary:
 
 	var static_collision_dict = {}
 
-	var collision_triangles = PoolVector3Array()
-	for entity_idx in static_concave_collision:
-		for brush_idx in static_concave_collision[entity_idx]:
-			var static_collision_shape = static_concave_collision[entity_idx][brush_idx]
-			var brush_collision_triangles = static_collision_shape['brush_collision_triangles']
-			for vertex in brush_collision_triangles:
-				collision_triangles.append(vertex)
+	for entity_key in static_concave_collision:
+		for brush_key in static_concave_collision[entity_key]:
+			var entity_brush_key = entity_key + '_' + brush_key
 
-	var brush_collision_shape = create_concave_collision_shape(collision_triangles)
+			var static_collision_shape = static_concave_collision[entity_key][brush_key]
+			var brush_collision_triangles = static_collision_shape['brush_collision_triangles']
+
+			var brush_collision_shape = create_concave_collision_shape(brush_collision_triangles)
+			brush_collision_shape.name = entity_brush_key + '_collision'
+			static_collision_dict[entity_brush_key] = brush_collision_shape
 
 	return {
 		'nodes': {
 			'collision_node': {
-				'static_body': {
-					'convex_collision': brush_collision_shape
-				}
+				'static_body': static_collision_dict
 			}
 		}
 	}
