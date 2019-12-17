@@ -29,7 +29,9 @@ enum VisualBuildType {
 	MATERIAL_MESHES,
 	MATERIAL_MESHES_PER_ENTITY,
 	MATERIAL_MESHES_PER_BRUSH,
-	SINGLE_MESH_ATLASED
+	ATLASED_MESH,
+	ATLASED_MESH_PER_ENTITY,
+	ATLASED_MESH_PER_BRUSH
 }
 
 enum StaticCollisionBuildType {
@@ -60,7 +62,7 @@ export(EntitySpawnBuildType) var entity_spawn_build_type = EntitySpawnBuildType.
 export(StaticLightingBuildType) var static_lighting_build_type = StaticLightingBuildType.NONE
 
 export(bool) var use_custom_build_pipeline = false
-export(Script) var custom_build_pipeline
+export(Script) var custom_build_pipeline= preload('res://addons/qodot/src/build/pipeline/debug_pipeline.gd')
 
 # Textures
 export(String) var textures = CATEGORY_STRING
@@ -214,12 +216,32 @@ func get_build_steps() -> Array:
 					QodotBuildNode.new("mesh_node", "Meshes", QodotSpatial),
 					QodotBuildMaterialMeshesPerBrush.new()
 				]
-			VisualBuildType.SINGLE_MESH_ATLASED:
+			VisualBuildType.ATLASED_MESH:
 				visual_build_steps = [
 					QodotBuildTextureList.new(),
 					QodotBuildTextures.new(),
 					QodotBuildTextureAtlas.new(),
+					QodotBuildTextureLayeredMesh.new(preload('res://textures/shaders/atlas.tres'), 'atlas_array'),
+					QodotBuildTextureLayeredMeshAtlas.new(),
 					QodotBuildAtlasedMesh.new(),
+				]
+			VisualBuildType.ATLASED_MESH_PER_ENTITY:
+				visual_build_steps = [
+					QodotBuildTextureList.new(),
+					QodotBuildTextures.new(),
+					QodotBuildTextureAtlas.new(),
+					QodotBuildTextureLayeredMesh.new(preload('res://textures/shaders/atlas.tres'), 'atlas_array'),
+					QodotBuildTextureLayeredMeshAtlas.new(),
+					QodotBuildAtlasedMeshPerEntity.new(),
+				]
+			VisualBuildType.ATLASED_MESH_PER_BRUSH:
+				visual_build_steps = [
+					QodotBuildTextureList.new(),
+					QodotBuildTextures.new(),
+					QodotBuildTextureAtlas.new(),
+					QodotBuildTextureLayeredMesh.new(preload('res://textures/shaders/atlas.tres'), 'atlas_array'),
+					QodotBuildTextureLayeredMeshAtlas.new(),
+					QodotBuildAtlasedMeshPerBrush.new(),
 				]
 
 		var static_collision_build_steps = []

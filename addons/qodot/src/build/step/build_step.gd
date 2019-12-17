@@ -126,5 +126,20 @@ func foreach_entity_brush_face(entity_properties_array: Array, brush_data_dict: 
 
 	return entity_brush_face_results
 
+func foreach_brush_face(entity_key, entity_properties: Dictionary, entity_brushes: Dictionary, brush_predicate: FuncRef, face_predicate: FuncRef, function: FuncRef):
+	var brush_face_results = {}
+
+	for brush_key in entity_brushes:
+		var face_data = entity_brushes[brush_key]
+		var brush = create_brush_from_face_data(face_data)
+
+		if not brush_predicate.call_func(entity_properties, brush):
+			continue
+
+		brush_face_results[brush_key] = foreach_face(entity_key, entity_properties, brush_key, brush, face_predicate, function)
+
+	return brush_face_results
+
+
 func boolean_true(a = null, b = null, c = null) -> bool:
 	return true
