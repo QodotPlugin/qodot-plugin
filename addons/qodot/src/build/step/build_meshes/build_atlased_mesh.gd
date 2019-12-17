@@ -28,17 +28,17 @@ func _run(context) -> Dictionary:
 	var brush_data_dict = context['brush_data_dict']
 	var entity_properties_array = context['entity_properties_array']
 	var texture_atlas = context['texture_atlas']
-	inverse_scale_factor = context['inverse_scale_factor']
+	self.inverse_scale_factor = context['inverse_scale_factor']
 
 	# Fetch subdata
-	atlas_texture_names = texture_atlas['atlas_texture_names']
-	atlas_sizes = texture_atlas['atlas_sizes']
+	self.atlas_texture_names = texture_atlas['atlas_texture_names']
+	self.atlas_sizes = texture_atlas['atlas_sizes']
 	var atlas_textures = texture_atlas['atlas_textures']
 	var atlas_data_texture = texture_atlas['atlas_data_texture']
 
 	# Build brush geometry
-	surface_tool = SurfaceTool.new()
-	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+	self.surface_tool = SurfaceTool.new()
+	self.surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
 
 	foreach_entity_brush_face(
 		entity_properties_array,
@@ -66,13 +66,13 @@ func _run(context) -> Dictionary:
 	texture_layered_mesh.set_array_data(atlas_textures)
 
 	var array_mesh = ArrayMesh.new()
-	texture_layered_mesh.set_mesh(array_mesh)
+	texture_layered_mesh.set_meshes([array_mesh])
 
 	return {
 		'build_atlased_mesh': {
 			'texture_layered_mesh': texture_layered_mesh,
 			'atlased_mesh': array_mesh,
-			'atlased_surface': surface_tool
+			'atlased_surface': self.surface_tool
 		},
 		'nodes': {
 			'texture_layered_mesh': texture_layered_mesh
@@ -85,7 +85,7 @@ func get_face_mesh(entity_key, entity_properties: Dictionary, brush_key, brush: 
 	var atlas_size = atlas_sizes[texture_idx] / inverse_scale_factor
 	var texture_vertex_color = Color()
 	texture_vertex_color.r = float(texture_idx) / float(atlas_texture_names.size() - 1)
-	face.get_mesh(surface_tool, atlas_size, texture_vertex_color, true)
+	face.get_mesh(self.surface_tool, atlas_size, texture_vertex_color, true)
 
 func _finalize(context: Dictionary) -> Dictionary:
 	var build_atlased_mesh = context['build_atlased_mesh']

@@ -50,7 +50,7 @@ enum  TextureCompressionSource {
 # Exported Variables
 export(bool) var reload setget set_reload
 
-export(Mesh) var mesh setget set_mesh
+export(Array, Mesh) var meshes setget set_meshes
 export(ShaderMaterial) var shader_material setget set_shader_material
 export(Array, Resource) var array_data setget set_array_data
 
@@ -70,9 +70,9 @@ func _ready():
 func set_reload(new_reload):
 	regenerate()
 
-func set_mesh(new_mesh):
-	if mesh != new_mesh:
-		mesh = new_mesh
+func set_meshes(new_meshes):
+	if meshes != new_meshes:
+		meshes = new_meshes
 
 func set_shader_material(new_shader_material):
 	if shader_material != new_shader_material:
@@ -117,14 +117,9 @@ func regenerate():
 		remove_child(child)
 		child.queue_free()
 
-	if not mesh:
+	if meshes.size() <= 0:
 		print_log("Error: No mesh")
 		return
-
-	var new_mesh = mesh.duplicate()
-	var mesh_instance = MeshInstance.new()
-	mesh_instance.set_mesh(new_mesh)
-	add_child(mesh_instance)
 
 	if not shader_material:
 		print_log("Error: No base shader")
@@ -133,7 +128,6 @@ func regenerate():
 	# Create shader material instance
 	print_log("Regenerating material")
 	var new_shader_material = shader_material.duplicate()
-	mesh_instance.set_material_override(new_shader_material)
 	print_log("Created shader material: ", new_shader_material)
 
 	if array_data.size() <= 0:
@@ -194,6 +188,13 @@ func regenerate():
 		new_shader_material.set_shader_param(shader_parameter, texture_array)
 
 		print_log("Created texture array with data: ", texture_array.data)
+
+	for mesh in meshes:
+		var new_mesh = mesh.duplicate()
+		var mesh_instance = MeshInstance.new()
+		mesh_instance.set_mesh(new_mesh)
+		mesh_instance.set_material_override(new_shader_material)
+		add_child(mesh_instance)
 
 func finalize_image(image: Image, array_size: Vector2) -> Image:
 	return image
