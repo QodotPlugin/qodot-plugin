@@ -225,7 +225,7 @@ func get_build_steps() -> Array:
 					QodotBuildTextureList.new(),
 					QodotBuildTextures.new(),
 					QodotBuildTextureAtlas.new(),
-					QodotBuildTextureLayeredMesh.new(preload('res://textures/shaders/atlas.tres'), 'atlas_array'),
+					QodotBuildTextureLayeredMesh.new(preload('res://addons/qodot/shaders/atlas.tres'), 'atlas_array'),
 					QodotBuildTextureLayeredMeshAtlas.new(),
 					QodotBuildAtlasedMesh.new(),
 				]
@@ -234,7 +234,7 @@ func get_build_steps() -> Array:
 					QodotBuildTextureList.new(),
 					QodotBuildTextures.new(),
 					QodotBuildTextureAtlas.new(),
-					QodotBuildTextureLayeredMesh.new(preload('res://textures/shaders/atlas.tres'), 'atlas_array'),
+					QodotBuildTextureLayeredMesh.new(preload('res://addons/qodot/shaders/atlas.tres'), 'atlas_array'),
 					QodotBuildTextureLayeredMeshAtlas.new(),
 					QodotBuildAtlasedMeshPerEntity.new(),
 				]
@@ -243,7 +243,7 @@ func get_build_steps() -> Array:
 					QodotBuildTextureList.new(),
 					QodotBuildTextures.new(),
 					QodotBuildTextureAtlas.new(),
-					QodotBuildTextureLayeredMesh.new(preload('res://textures/shaders/atlas.tres'), 'atlas_array'),
+					QodotBuildTextureLayeredMesh.new(preload('res://addons/qodot/shaders/atlas.tres'), 'atlas_array'),
 					QodotBuildTextureLayeredMeshAtlas.new(),
 					QodotBuildAtlasedMeshPerBrush.new(),
 				]
