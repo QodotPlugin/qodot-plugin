@@ -2,19 +2,21 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/uv_test.png-8d851e28effb2e24df36af0489b550b0.stex"
+path.s3tc="res://.import/uv_test.png-8d851e28effb2e24df36af0489b550b0.s3tc.stex"
+path.etc2="res://.import/uv_test.png-8d851e28effb2e24df36af0489b550b0.etc2.stex"
 metadata={
-"vram_texture": false
+"imported_formats": [ "s3tc", "etc2" ],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://textures/base/uv_test.png"
-dest_files=[ "res://.import/uv_test.png-8d851e28effb2e24df36af0489b550b0.stex" ]
+dest_files=[ "res://.import/uv_test.png-8d851e28effb2e24df36af0489b550b0.s3tc.stex", "res://.import/uv_test.png-8d851e28effb2e24df36af0489b550b0.etc2.stex" ]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0

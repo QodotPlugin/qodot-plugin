@@ -429,10 +429,6 @@ texture={
 "svg/scale": 1.0
 }
 
-[memory]
-
-limits/message_queue/max_size_kb=81920
-
 [rendering]
 
 quality/filters/anisotropic_filter_level=16

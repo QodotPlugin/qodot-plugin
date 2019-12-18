@@ -2,19 +2,21 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/grid.png-fd4a33a8da0d6ae534a921b7a845447a.stex"
+path.s3tc="res://.import/grid.png-fd4a33a8da0d6ae534a921b7a845447a.s3tc.stex"
+path.etc2="res://.import/grid.png-fd4a33a8da0d6ae534a921b7a845447a.etc2.stex"
 metadata={
-"vram_texture": false
+"imported_formats": [ "s3tc", "etc2" ],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://textures/base/grid.png"
-dest_files=[ "res://.import/grid.png-fd4a33a8da0d6ae534a921b7a845447a.stex" ]
+dest_files=[ "res://.import/grid.png-fd4a33a8da0d6ae534a921b7a845447a.s3tc.stex", "res://.import/grid.png-fd4a33a8da0d6ae534a921b7a845447a.etc2.stex" ]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
