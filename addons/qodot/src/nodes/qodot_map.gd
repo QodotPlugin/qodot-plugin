@@ -172,7 +172,7 @@ func build_map(map_file: String) -> void:
 
 		if not queue_build_step(context, build_step):
 			print('Error: failed to queue build step.')
-			cleanup_thread_pool(context, thread_pool)
+			call_deferred('cleanup_thread_pool', context, thread_pool)
 			call_deferred("build_failed")
 			return
 
@@ -184,7 +184,7 @@ func build_map(map_file: String) -> void:
 		var job_duration = job_profiler.finish()
 		print_log("Done in " + String(job_duration * 0.001) + " seconds.\n")
 
-	cleanup_thread_pool(context, thread_pool)
+	call_deferred('cleanup_thread_pool', context, thread_pool)
 	call_deferred("finalize_build", context, build_steps)
 
 func get_build_steps() -> Array:

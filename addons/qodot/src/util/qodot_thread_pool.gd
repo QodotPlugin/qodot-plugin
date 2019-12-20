@@ -79,7 +79,9 @@ func set_bucket_size(new_bucket_size):
 
 # Interface
 func add_thread():
-	free_threads.append(PoolThread.new())
+	var thread = PoolThread.new()
+	free_threads.append(thread)
+	thread.connect("jobs_finished", self, "finish_thread_jobs")
 
 func remove_thread():
 	if(free_threads.size() > 0):
@@ -105,7 +107,6 @@ func start_thread_jobs():
 		while thread.job_bucket.size() < bucket_size && pending_jobs.size() > 0:
 			thread.job_bucket.append(pending_jobs.pop_front())
 
-		thread.connect("jobs_finished", self, "finish_thread_jobs")
 		thread.semaphore.post()
 		busy_threads.append(thread)
 
@@ -125,8 +126,6 @@ func run_thread_jobs(userdata):
 func finish_thread_jobs(thread, results):
 	for job_id in results:
 		job_results[job_id] = results[job_id]
-
-	thread.disconnect("jobs_finished", self, "finish_thread_jobs")
 
 	busy_threads.remove(busy_threads.find(thread))
 
