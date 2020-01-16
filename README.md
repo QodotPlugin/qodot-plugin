@@ -1,8 +1,6 @@
-# ![](https://raw.githubusercontent.com/ShiftyAxel/Qodot/master/icon.png) Qodot
+![](https://raw.githubusercontent.com/ShiftyAxel/Qodot/master/extras/graphics/qodot_logo_small.png)
 
 Quake *.map* file support for Godot.
-
-![Image Heading](https://raw.githubusercontent.com/ShiftyAxel/Qodot/master/extras/screenshots/heading.png)
 
 ## Overview
 
