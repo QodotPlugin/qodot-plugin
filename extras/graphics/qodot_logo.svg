@@ -44,9 +44,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.99999997"
-     inkscape:cx="32.629315"
-     inkscape:cy="127.16728"
+     inkscape:zoom="1.4142135"
+     inkscape:cx="303.44562"
+     inkscape:cy="149.25127"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -65,11 +65,26 @@
      inkscape:window-maximized="1"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:pagecheckerboard="true">
+     inkscape:pagecheckerboard="false">
     <inkscape:grid
        type="xygrid"
        id="grid3336"
        empspacing="4" />
+    <sodipodi:guide
+       position="192.6866,114.5513"
+       orientation="0,1"
+       id="guide835"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="227.68839,205.76808"
+       orientation="1,0"
+       id="guide837"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="247.13383,350.01787"
+       orientation="1,0"
+       id="guide839"
+       inkscape:locked="false" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -79,7 +94,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -103,13 +118,13 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:192px;line-height:1.25;font-family:Calibri;-inkscape-font-specification:'Calibri Bold';letter-spacing:0px;word-spacing:0px;fill:#414042;fill-opacity:1;stroke:none;stroke-width:10;stroke-miterlimit:4;stroke-dasharray:none"
-       x="250.80823"
-       y="945.71039"
+       x="239.5"
+       y="935.71039"
        id="text844"><tspan
          sodipodi:role="line"
          id="tspan842"
-         x="250.80823"
-         y="945.71039"
+         x="239.5"
+         y="935.71039"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Calibri;-inkscape-font-specification:'Calibri Bold';stroke-width:10;stroke-miterlimit:4;stroke-dasharray:none">ODOT</tspan></text>
   </g>
   <g
