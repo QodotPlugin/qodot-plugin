@@ -52,6 +52,10 @@ Documentation is available on the [Qodot Wiki](https://github.com/ShiftyAxel/Qod
 
 [The Qodot example content repository](https://github.com/Shfty/qodot-example) contains a Godot project showing off its functionality with a simple `.map` file imported into a `.tscn`. Installation and usage instructions can be found in its README.
 
+## Extra Content
+
+[The Qodot extra content repository](https://github.com/Shfty/qodot-example) contains a set of additional resources, such as map editor plugins, logo graphics, showcase content and screenshots.
+
 ## Qodot Elsewhere
 
 [Discord - Qodot](https://discord.gg/c72WBuG)
