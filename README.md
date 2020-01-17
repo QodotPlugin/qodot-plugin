@@ -80,4 +80,4 @@ In order to open the example map in TrenchBroom, it will need access to the Qodo
 
 [FreePBR.com](https://freepbr.com) - For royalty-free PBR example textures
 
-[SunkPer](https://twitter.com/SunkPer) - For the showcase screenshots above
+[SunkPer](https://twitter.com/SunkPer) - For showcase screenshots
