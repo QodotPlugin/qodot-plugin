@@ -417,6 +417,7 @@ func run_finalize_step(context: Dictionary, build_step: QodotBuildStep) -> void:
 	for build_step_param_name in build_step.get_finalize_params():
 		if not build_step_param_name in context:
 			print("Error: Requested parameter " + build_step_param_name + " not present in context for build step " + build_step.get_name())
+			continue
 		step_context[build_step_param_name] = context[build_step_param_name]
 
 	print_log("Finalizing " + build_step.get_name() + "...")
