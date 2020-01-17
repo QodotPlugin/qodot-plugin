@@ -17,6 +17,9 @@ func should_spawn_collision_shapes(entity_properties):
 	return has_area_collision(entity_properties)
 
 func _finalize(context) -> Dictionary:
+	if not 'area_collision_shapes' in context:
+		return {}
+
 	var area_collision_shapes = context['area_collision_shapes']
 
 	var area_collision_dict = {}
