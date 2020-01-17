@@ -16,7 +16,7 @@ export(String) var map = CATEGORY_STRING
 
 # .map Resource to auto-load when updating the map from the editor
 # (Works around references being held and preventing refresh on reimport)
-export(String, FILE, '*.map') var map_file
+export(String, FILE, '*.map') var map_file setget set_map_file
 
 # Factor to scale the .map file's quake units down by
 # (16 is a best-effort conversion from Quake 3 units to metric)
@@ -92,18 +92,31 @@ var build_profiler = null
 func set_reload(new_reload = true):
 	if reload != new_reload:
 		if Engine.is_editor_hint():
-			if build_thread.is_active():
-				print("Skipping reload: Build in progress")
-				return
+			reload()
 
-			clear_map()
+func reload(ignore = null):
+	if build_thread.is_active():
+		print("Skipping reload: Build in progress")
+		return
 
-			if not map_file:
-				print("Skipping reload: No map file")
-				return
+	clear_map()
 
-			build_profiler = QodotProfiler.new()
-			build_thread.start(self, "build_map", map_file)
+	if not map_file:
+		print("Skipping reload: No map file")
+		return
+
+	build_profiler = QodotProfiler.new()
+	build_thread.start(self, "build_map", map_file)
+
+func set_map_file(new_map_file: String):
+	if(map_file != new_map_file):
+		map_file = new_map_file
+
+func set_texture_wads(new_texture_wads):
+	var tw = Array(new_texture_wads)
+	if(texture_wads != tw):
+		texture_wads = tw
+		print(texture_wads)
 
 func print_log(msg):
 	if(print_to_log):
