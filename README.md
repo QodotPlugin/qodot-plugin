@@ -50,9 +50,7 @@ Documentation is available on the [Qodot Wiki](https://github.com/ShiftyAxel/Qod
 
 ## Example Content
 
-The repo contains an example project with a simple *.map* scene imported to a *.tscn*.
-
-In order to open the example map in TrenchBroom, it will need access to the Qodot game configuration as specified in the [TrenchBroom](https://github.com/ShiftyAxel/Qodot/wiki/TrenchBroom#qodot-integration) wiki page.
+[The Qodot example content repository](https://github.com/Shfty/qodot-example) contains a Godot project showing off its functionality with a simple `.map` file imported into a `.tscn`. Installation and usage instructions can be found in its README.
 
 ## Qodot Elsewhere
 
