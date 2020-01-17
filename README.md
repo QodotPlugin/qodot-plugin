@@ -23,7 +23,17 @@ Qodot extends the Godot editor to import Quake *.map* files, and provides an ext
   - Simple, intuitive map editor with a strong feature set
   - Includes a simple Qodot game preset
   - Can be built upon with game-specific entities and brush properties
-  
+
+## Showcase
+
+[![](https://raw.githubusercontent.com/ShiftyAxel/Qodot/master/extras/examples/sunkper-props-thumbnail.jpg)](https://raw.githubusercontent.com/ShiftyAxel/Qodot/master/extras/examples/sunkper-props.jpg)
+
+Assorted props by [@SunkPer](https://twitter.com/SunkPer)
+
+[![](https://raw.githubusercontent.com/Shfty/Qodot/master/extras/examples/sunkper-summer-island.gif)](https://cdn.discordapp.com/attachments/651209074930876416/659427504309796876/Project_Summer_Island_WIP_25.mp4)
+
+Summer Island by [@SunkPer](https://twitter.com/SunkPer)
+
 ## Thesis
 
 Qodot was created to solve a long-standing problem with modern game engines: The lack of simple, accessible level editing functionality for users without 3D modeling expertise.
@@ -68,4 +78,6 @@ In order to open the example map in TrenchBroom, it will need access to the Qodo
 
 [Redhacker2](https://github.com/donovan1212) - For stress-testing Qodot to within an inch of its life and motivating me to improve it
 
-[FreePBR.com](should_spawn_brush_collision) - For royalty-free PBR example textures
+[FreePBR.com](https://freepbr.com) - For royalty-free PBR example textures
+
+[SunkPer](https://twitter.com/SunkPer) - For the showcase screenshots above
