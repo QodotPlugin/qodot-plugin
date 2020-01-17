@@ -11,8 +11,8 @@ func _run(context) -> Dictionary:
 	var entity_idx = context['entity_idx']
 	var entity_properties = context['entity_properties']
 
+	var is_child_scene = false
 	var node = null
-
 	if('classname' in entity_properties):
 		var classname = entity_properties['classname']
 		if classname.substr(0, 5) == 'func_':
@@ -86,8 +86,14 @@ func _run(context) -> Dictionary:
 				'trigger':
 					node = null
 				_:
-					node = QodotEntity.new()
-					node.properties = entity_properties
+					var entity_defintion_set = context['entity_definition_set']
+					if entity_defintion_set.has(classname):
+						var entity_def_scene = load(entity_defintion_set[classname])
+						node = entity_def_scene.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
+						is_child_scene = true
+					else:
+						node = QodotEntity.new()
+						node.properties = entity_properties
 					if 'angle' in entity_properties:
 						node.rotation.y = deg2rad(180 + entity_properties['angle'])
 
@@ -103,7 +109,15 @@ func _run(context) -> Dictionary:
 	return {
 		'nodes': {
 			'entity_spawns_node': {
-				get_entity_key(entity_idx): node
+				get_entity_key(entity_idx): InstancedScene.new(node) if is_child_scene else node 
 			}
 		}
 	}
+
+class InstancedScene:
+	var wrapped_node
+	func _init(node : Node):
+		wrapped_node = node
+		
+func get_build_params() -> Array:
+	return ['entity_definition_set']
