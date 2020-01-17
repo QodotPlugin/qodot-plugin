@@ -1,8 +1,8 @@
-![](https://raw.githubusercontent.com/ShiftyAxel/Qodot/master/extras/graphics/qodot_logo_small.png)
+![](https://raw.githubusercontent.com/Shfty/qodot-extras/master/graphics/qodot_logo_small.png)
 
 Quake *.map* file support for Godot.
 
-![](https://raw.githubusercontent.com/ShiftyAxel/Qodot/master/extras/screenshots/heading.png)
+![](https://raw.githubusercontent.com/Shfty/qodot-extras/master/screenshots/heading.png)
 
 ## Overview
 
@@ -26,11 +26,11 @@ Qodot extends the Godot editor to import Quake *.map* files, and provides an ext
 
 ## Showcase
 
-[![](https://raw.githubusercontent.com/ShiftyAxel/Qodot/master/extras/examples/sunkper-props-thumbnail.jpg)](https://raw.githubusercontent.com/ShiftyAxel/Qodot/master/extras/examples/sunkper-props.jpg)
+[![](https://raw.githubusercontent.com/Shfty/qodot-extras/master/showcase/sunkper-props-thumbnail.jpg)](https://raw.githubusercontent.com/Shfty/qodot-extras/master/showcase/sunkper-props.jpg)
 
 Assorted props by [@SunkPer](https://twitter.com/SunkPer)
 
-[![](https://raw.githubusercontent.com/Shfty/Qodot/master/extras/examples/sunkper-summer-island.gif)](https://cdn.discordapp.com/attachments/651209074930876416/659427504309796876/Project_Summer_Island_WIP_25.mp4)
+[![](https://raw.githubusercontent.com/Shfty/qodot-extras/master/showcase/sunkper-summer-island.gif)](https://cdn.discordapp.com/attachments/651209074930876416/659427504309796876/Project_Summer_Island_WIP_25.mp4)
 
 Summer Island by [@SunkPer](https://twitter.com/SunkPer)
 

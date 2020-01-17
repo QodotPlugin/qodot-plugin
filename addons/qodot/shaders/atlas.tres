@@ -1,6 +1,8 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+[gd_resource type="ShaderMaterial" load_steps=3 format=2]
 
-[sub_resource type="Shader" id=1]
+[sub_resource type="ShaderMaterial" id=1]
+
+[sub_resource type="Shader" id=2]
 code = "shader_type spatial;
 
 uniform lowp sampler2DArray atlas_array: hint_albedo;
@@ -39,4 +41,5 @@ void fragment() {
 }"
 
 [resource]
-shader = SubResource( 1 )
+next_pass = SubResource( 1 )
+shader = SubResource( 2 )
