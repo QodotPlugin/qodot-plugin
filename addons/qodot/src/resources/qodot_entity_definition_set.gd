@@ -1,5 +1,5 @@
 class_name QodotEntityDefintionSet
-extends QodotSpatial
+extends Resource
 tool
 
 ## A node used to to express a set of entity definitions that can be exproted
@@ -31,7 +31,7 @@ const base_text = """
 #psuedo-button to export
 export(bool) var export_file_button setget set_export_file_button
 export(String, FILE, GLOBAL, "*.fgd") var target_export_file
-
+export(Array, Resource) var entity_defintions
 
 func set_export_file_button(new_export_file_button = true):
 	if new_export_file_button != export_file_button:
@@ -50,26 +50,29 @@ func build_def_text() -> String:
 		res += "\n\n\n" + ent_text
 	return res
 
+#This getter does a little bit of validation. Providing only an array of non-null uniquely-named entity definitions
 func get_entities() -> Array:
 	var res = []
-	var used_names = {"Light": true, "light": true, "trigger": true, "worldspawn" : true}
-	#I'll search the children recursively using this queue
-	#in case you wanted to use like other nodes for grouping or whatever, I don't know
-	var search_queue = get_children().duplicate()
-	while search_queue.size() > 0:
-		var cur_child = search_queue.pop_front()
-		if cur_child is QodotEntityDefinition:
-			var ent_name = cur_child.determine_entity_class_name()
-			if used_names.has(ent_name):
-				printerr("Class name collision on %s, please rename!" % ent_name)
-				return []
-			res.append(cur_child)
-		for c in cur_child.get_children():
-			search_queue.append(c)
+	#Remember indices so our errors can be a little more helpful
+	var used_names = {"Light": -1, "light": -1, "trigger": -1, "worldspawn" : -1}
+	for cur_ent_def_ind in range(entity_defintions.size()):
+		var cur_ent_def = entity_defintions[cur_ent_def_ind]
+		if cur_ent_def == null:
+			continue
+		elif not (cur_ent_def is QodotPointEntityDefinition):
+			printerr("Bad value in entity definition set at position %s! Not an entity defintion." % cur_ent_def_ind)
+			continue
+		var ent_name = cur_ent_def.classname
+		if used_names.has(ent_name):
+			printerr("Entity defintion class name collision with name %s, at positions %s and %s please rename!" % [ent_name, used_names[ent_name], cur_ent_def_ind])
+			continue
+		used_names[ent_name] = cur_ent_def_ind
+		res.append(cur_ent_def)
 	return res
 
-func get_entity_scenes() -> Dictionary:
+func get_point_entity_scene_map() -> Dictionary:
 	var res = {}
 	for ent in get_entities():
-		res[ent.determine_entity_class_name()] = ent.scene_file
+		if ent is QodotPointEntityDefinition:
+			res[ent.classname] = ent.scene_file
 	return res
