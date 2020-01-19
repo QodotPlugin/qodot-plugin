@@ -1,4 +1,4 @@
-class_name QodotEntityDefintionSet
+class_name QodotEntityDefinitionSet
 extends Resource
 tool
 
