@@ -80,7 +80,7 @@ export(String) var material_extension = '.tres'
 export (SpatialMaterial) var default_material
 
 # Entity defintions
-export(String, FILE, "*.tscn,*.scn") var entity_definitions
+export(Resource) var entity_definitions
 
 # Threads
 export(String) var threading = CATEGORY_STRING
@@ -171,22 +171,14 @@ func build_map(map_file: String) -> void:
 
 	# Loading entity defintions
 	var entity_set = {}
-
 	print_log("\nLoading entity definition set...")
-	if entity_definitions != null and entity_definitions != "":
-		var ent_definitions_scene = load(entity_definitions)
-		if ent_definitions_scene != null:
-			#This is a tad weird. Instancing the scene but not adding it
-			var loaded_entity_definitions = ent_definitions_scene.instance()
-			
-			entity_set = loaded_entity_definitions.get_entity_scenes()
-			for key in entity_set.keys():
-				if entity_set[key] == "" or entity_set[key] == null:
-					print("WARNING: No scene file set entity: %s, Position3Ds will be used instead" % key)
-					entity_set.erase(key) #erasing it to avoid errors further down the line
-	
-			context["entity_definition_set"] = entity_set
-			loaded_entity_definitions.queue_free()
+	if entity_definitions != null:
+		entity_set = entity_definitions.get_point_entity_scene_map()
+		for key in entity_set.keys():
+			if entity_set[key] == "":
+				print("WARNING: No scene file set for entity classname: %s, Position3Ds will be used instead" % key)
+				entity_set.erase(key) #erasing it to avoid errors further down the line
+		context["entity_definition_set"] = entity_set
 	context["entity_definition_set"] = entity_set
 	
 	# Initialize thread pool

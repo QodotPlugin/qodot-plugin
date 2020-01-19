@@ -8,3 +8,9 @@ const DEBUG = false
 static func debug_print(msg):
 	if(DEBUG):
 		print(msg)
+
+static func newline():
+	if OS.get_name() == "Windows":
+		return "\r\n"
+	else:
+		return "\n"
