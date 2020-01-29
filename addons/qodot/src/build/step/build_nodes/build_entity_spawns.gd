@@ -86,7 +86,8 @@ func _run(context) -> Dictionary:
 				'trigger':
 					node = null
 				_:
-					node = Position3D.new()
+					node = QodotEntity.new()
+					node.properties = entity_properties
 					if 'angle' in entity_properties:
 						node.rotation.y = deg2rad(180 + entity_properties['angle'])
 
