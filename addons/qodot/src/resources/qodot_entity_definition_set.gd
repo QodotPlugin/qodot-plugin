@@ -29,17 +29,17 @@ const base_text = """
 """
 
 #psuedo-button to export
-export(bool) var export_file_button setget set_export_file_button
-export(String, FILE, GLOBAL, "*.fgd") var target_export_file
+export(bool) var export_file setget set_export_file
+export(String, FILE, GLOBAL, "*.fgd") var target_file
 export(Array, Resource) var entity_defintions
 
-func set_export_file_button(new_export_file_button = true):
-	if new_export_file_button != export_file_button:
+func set_export_file(new_export_file = true):
+	if new_export_file != export_file:
 		if Engine.is_editor_hint() and get_entities().size() > 0:
-			if not target_export_file:
+			if not target_file:
 				print("Skipping export: No target file")
 			var file_obj = File.new()
-			file_obj.open(target_export_file, File.WRITE)
+			file_obj.open(target_file, File.WRITE)
 			file_obj.store_string(build_def_text())
 			file_obj.close()
 	

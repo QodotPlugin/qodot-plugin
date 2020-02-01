@@ -80,6 +80,7 @@ export(String) var material_extension = '.tres'
 export (SpatialMaterial) var default_material
 
 # Entity defintions
+export(String) var entities = CATEGORY_STRING
 export(Resource) var entity_definitions
 
 # Threads
