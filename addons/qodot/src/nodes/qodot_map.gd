@@ -178,7 +178,6 @@ func build_map(map_file: String) -> void:
 			if entity_set[key] == "":
 				print("WARNING: No scene file set for entity classname: %s, Position3Ds will be used instead" % key)
 				entity_set.erase(key) #erasing it to avoid errors further down the line
-		context["entity_definition_set"] = entity_set
 	context["entity_definition_set"] = entity_set
 	
 	# Initialize thread pool
