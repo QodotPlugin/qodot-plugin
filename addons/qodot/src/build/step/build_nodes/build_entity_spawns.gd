@@ -88,8 +88,12 @@ func _run(context) -> Dictionary:
 				_:
 					var entity_defintion_set = context['entity_definition_set']
 					if entity_defintion_set.has(classname):
-						var entity_def_scene = load(entity_defintion_set[classname])
+						var entity_def_scene = load(entity_defintion_set[classname]["scene"])
 						node = entity_def_scene.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
+						for property in entity_defintion_set[classname]["defined_properties"]:
+							if entity_properties.has(property.name):
+								print("%s : %s" % [property.name, entity_properties[property.name]])
+								node.set(property.name, entity_properties[property.name])
 						is_child_scene = true
 					else:
 						node = QodotEntity.new()

@@ -20,6 +20,9 @@ export var size_point_2 = Vector3(8, 8, 8)
 # to the map
 export(String, FILE, '*.tscn,*.scn') var scene_file
 
+# the properties to be exported
+# QodotEntityProperties
+export(Array, Resource) var entity_properties
 
 func build_def_text() -> String:
 	var res = "@PointClass size(%s %s %s, %s %s %s) color(%s %s %s) = %s" % [int(size_point_1.x), int(size_point_1.y), int(size_point_1.z), int(size_point_2.x), int(size_point_2.y), int(size_point_2.z), color.r8, color.g8, color.b8, classname]
@@ -28,8 +31,11 @@ func build_def_text() -> String:
 	if normalized_description != "":
 		res += " : \"%s\"%s" % [normalized_description, QodotUtil.newline()]
 	res += "[" + QodotUtil.newline()
-	res += "\tangle(float) : \"0.0\"" + QodotUtil.newline()
-	#eventually custom properties would go here!
+	for property in entity_properties:
+		if(not (property is QodotEntityProperties)):
+			printerr("Property in Entity_Properties is not a QodotEntityProperties!")
+			continue
+		res += "\t{name}({type_string}) : \"{short_description}\" : {default_value} : \"{long_description}\"\n".format(property.get_properties_dictionary())
 	res += "]" + QodotUtil.newline()
 
 	return res

@@ -74,5 +74,5 @@ func get_point_entity_scene_map() -> Dictionary:
 	var res = {}
 	for ent in get_entities():
 		if ent is QodotPointEntityDefinition:
-			res[ent.classname] = ent.scene_file
+			res[ent.classname] = {"scene": ent.scene_file, "defined_properties": ent.entity_properties}
 	return res
