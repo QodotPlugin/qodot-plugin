@@ -121,7 +121,7 @@ func set_texture_wads(new_texture_wads):
 	if(texture_wads != tw):
 		texture_wads = tw
 		print(texture_wads)
-	
+
 func print_log(msg):
 	if(print_to_log):
 		QodotPrinter.print_typed(msg)
@@ -180,7 +180,7 @@ func build_map(map_file: String) -> void:
 				print("WARNING: No scene file set for entity classname: %s, Position3Ds will be used instead" % key)
 				entity_set.erase(key) #erasing it to avoid errors further down the line
 	context["entity_definition_set"] = entity_set
-	
+
 	# Initialize thread pool
 	print_log("\nInitializing Thread Pool...")
 	var thread_init_profiler = QodotProfiler.new()
@@ -208,7 +208,7 @@ func build_map(map_file: String) -> void:
 		var job_profiler = QodotProfiler.new()
 		thread_pool.start_thread_jobs()
 		var results = yield(thread_pool, "jobs_complete")
-		
+
 		add_context_results(context, results)
 		var job_duration = job_profiler.finish()
 		print_log("Done in " + String(job_duration * 0.001) + " seconds.\n")
@@ -374,7 +374,7 @@ func add_context_nodes_recursive(context: Dictionary, context_key: String, nodes
 			if node is QodotBuildEntitySpawns.InstancedScene:
 				node = node.wrapped_node
 				is_instanced_scene = true
-				
+
 			context[context_key]['children'][node_key] = {
 				'node': node,
 				'children': {}
@@ -384,7 +384,7 @@ func add_context_nodes_recursive(context: Dictionary, context_key: String, nodes
 				context[context_key]['node'].add_child(node)
 			else:
 				add_child(node)
-				
+
 			if is_instanced_scene:
 				node.owner = get_tree().get_edited_scene_root()
 			else:
