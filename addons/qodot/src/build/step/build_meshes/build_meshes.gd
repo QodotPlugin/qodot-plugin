@@ -21,3 +21,10 @@ func should_spawn_face_mesh(entity_properties: Dictionary, brush: QuakeBrush, fa
 		return false
 
 	return true
+
+func should_smooth_face_normals(entity_properties: Dictionary) -> bool:
+	if '_phong' in entity_properties:
+		if entity_properties['_phong'] == '1':
+			return true
+
+	return false

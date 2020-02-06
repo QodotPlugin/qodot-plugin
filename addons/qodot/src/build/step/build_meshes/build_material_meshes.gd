@@ -62,7 +62,7 @@ func _run(context) -> Dictionary:
 					if albedo_texture:
 						texture_size = albedo_texture.get_size() / inverse_scale_factor
 
-			face.get_mesh(surface_tool, texture_size, Color.white, true)
+			face.get_mesh(surface_tool, texture_size, Color.white, true, should_smooth_face_normals(entity_properties_array[entity_idx]))
 
 		surface_tool.index()
 		material_surfaces[material_name] = surface_tool

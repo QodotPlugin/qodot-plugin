@@ -7,6 +7,7 @@ var plane: Plane
 var normal: Vector3
 
 var face_vertices = PoolVector3Array()
+var face_normals = PoolVector3Array()
 var center: Vector3
 
 var texture: String
@@ -44,9 +45,9 @@ func get_distance() -> float:
 func intersect_faces(face2, face3):
 	return self.plane.intersect_3(face2.plane, face3.plane)
 
-func add_unique_vertex(vertex):
-	if not self.has_vertex(vertex):
-		self.face_vertices.append(vertex)
+func add_vertex(vertex, normal):
+	self.face_vertices.append(vertex)
+	self.face_normals.append(normal)
 
 func has_vertex(vertex):
 	for comp_vertex in self.face_vertices:
@@ -67,6 +68,9 @@ func get_vertices(global_space: bool) -> PoolVector3Array:
 			vertices.append(vertex)
 	return vertices
 
+func get_normals() -> PoolVector3Array:
+	return self.face_normals
+
 func get_triangles(global_space: bool) -> PoolVector3Array:
 	var triangles = PoolVector3Array()
 	var vertices = get_vertices(global_space)
@@ -78,13 +82,19 @@ func get_triangles(global_space: bool) -> PoolVector3Array:
 
 	return triangles
 
-func get_mesh(surface_tool: SurfaceTool, texture_size: Vector2, color: Color, global_space: bool):
+func get_mesh(surface_tool: SurfaceTool, texture_size: Vector2, color: Color, global_space: bool, smooth_normals: bool):
 	var vertices = get_vertices(global_space)
 	var uvs = PoolVector2Array()
 	var colors = PoolColorArray()
 	var uv2s = PoolVector2Array()
 	var normals = PoolVector3Array()
 	var tangents = []
+
+	if smooth_normals:
+		normals = get_normals()
+	else:
+		for i in range(0, vertices.size()):
+			normals.append(self.normal)
 
 	for vertex in face_vertices:
 		var uv = get_uv(vertex, texture_size)
@@ -96,8 +106,6 @@ func get_mesh(surface_tool: SurfaceTool, texture_size: Vector2, color: Color, gl
 			uv2s.append(Vector2.ZERO)
 
 		colors.append(color)
-
-		normals.append(self.normal)
 
 		var tangent = get_tangent()
 		tangents.append(tangent)

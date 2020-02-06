@@ -88,7 +88,7 @@ func get_face_mesh(entity_key, entity_properties: Dictionary, brush_key, brush: 
 	var texture_vertex_color = Color()
 	texture_vertex_color.r = float(texture_idx) / float(atlas_texture_names.size() - 1)
 
-	face.get_mesh(brush_surface_tools[entity_key][brush_key], atlas_size, texture_vertex_color, true)
+	face.get_mesh(brush_surface_tools[entity_key][brush_key], atlas_size, texture_vertex_color, true, should_smooth_face_normals(entity_properties))
 
 	return true
 

@@ -65,7 +65,7 @@ func get_face_mesh(entity_key, entity_properties: Dictionary, brush_key, brush: 
 	var atlas_size = atlas_sizes[texture_idx] / inverse_scale_factor
 	var texture_vertex_color = Color()
 	texture_vertex_color.r = float(texture_idx) / float(atlas_texture_names.size() - 1)
-	face.get_mesh(self.surface_tool, atlas_size, texture_vertex_color, true)
+	face.get_mesh(self.surface_tool, atlas_size, texture_vertex_color, true, should_smooth_face_normals(entity_properties))
 
 func _finalize(context: Dictionary) -> Dictionary:
 	var build_atlased_mesh = context['build_atlased_mesh']
