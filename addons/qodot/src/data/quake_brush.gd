@@ -29,17 +29,12 @@ func find_face_vertices():
 	for face1 in self.faces:
 		for face2 in self.faces:
 			for face3 in self.faces:
-				if face1 == face2 or face1 == face3 or face2 == face3:
-					continue
-
 				var vertex = face1.intersect_faces(face2, face3)
-				if vertex:
+
+				if vertex != null:
 					if self.vertex_in_hull(vertex):
-						if not face1.has_vertex(vertex) and not face2.has_vertex(vertex) and not face3.has_vertex(vertex):
-							var normal = (face1.normal + face2.normal + face3.normal).normalized()
-							face1.add_vertex(vertex, normal)
-							face2.add_vertex(vertex, normal)
-							face3.add_vertex(vertex, normal)
+						var normal = (face1.normal + face2.normal + face3.normal).normalized()
+						face1.add_unique_vertex(vertex, normal)
 
 func find_face_centers():
 	for face in self.faces:

@@ -45,9 +45,10 @@ func get_distance() -> float:
 func intersect_faces(face2, face3):
 	return self.plane.intersect_3(face2.plane, face3.plane)
 
-func add_vertex(vertex, normal):
-	self.face_vertices.append(vertex)
-	self.face_normals.append(normal)
+func add_unique_vertex(vertex, normal):
+	if not has_vertex(vertex):
+		self.face_vertices.append(vertex)
+		self.face_normals.append(normal)
 
 func has_vertex(vertex):
 	for comp_vertex in self.face_vertices:
