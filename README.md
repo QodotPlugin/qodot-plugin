@@ -19,7 +19,7 @@ Qodot extends the Godot editor to import Quake *.map* files, and provides an ext
 - Extensible tree population
   - Leverages the *.map* format's simple key/value property system
   - Spawn custom entities and brushes
-- Supports the [TrenchBroom](#trenchbroom) editor
+- Supports the [TrenchBroom](https://github.com/Shfty/qodot-plugin/wiki/TrenchBroom) editor
   - Simple, intuitive map editor with a strong feature set
   - Includes a simple Qodot game preset
   - Can be built upon with game-specific entities and brush properties
@@ -54,7 +54,7 @@ Documentation is available on the [Qodot Wiki](https://github.com/ShiftyAxel/Qod
 
 ## Extra Content
 
-[The Qodot extra content repository](https://github.com/Shfty/qodot-example) contains a set of additional resources, such as map editor plugins, logo graphics, showcase content and screenshots.
+[The Qodot extra content repository](https://github.com/Shfty/qodot-extras) contains a set of additional resources, such as map editor plugins, logo graphics, showcase content and screenshots.
 
 ## Qodot Elsewhere
 
@@ -62,7 +62,7 @@ Documentation is available on the [Qodot Wiki](https://github.com/ShiftyAxel/Qod
 
 [Reddit - Qodot](https://www.reddit.com/r/godot/comments/e41ldk/qodot_quake_map_file_support_for_godot/)
 
-[Godot Forums - Qodot](https://godotforums.org/discussion/comment/30450#Comment_30450)
+[Godot Forums - Qodot](https://godotforums.org/discussion/21573/qodot-quake-map-file-support-for-godot)
 
 [Godot Asset Library - Qodot](https://godotengine.org/asset-library/asset/446)
 
