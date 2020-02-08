@@ -170,17 +170,6 @@ func build_map(map_file: String) -> void:
 		"inverse_scale_factor": inverse_scale_factor
 	}
 
-	# Loading entity defintions
-	var entity_set = {}
-	print_log("\nLoading entity definition set...")
-	if entity_definitions != null:
-		entity_set = entity_definitions.get_entity_scene_map()
-		for key in entity_set.keys():
-			if not entity_set[key]:
-				print("WARNING: No scene file or script class set for entity classname: %s, Position3Ds will be used instead" % key)
-				entity_set.erase(key) #erasing it to avoid errors further down the line
-	context["entity_definition_set"] = entity_set
-
 	# Initialize thread pool
 	print_log("\nInitializing Thread Pool...")
 	var thread_init_profiler = QodotProfiler.new()
@@ -190,6 +179,13 @@ func build_map(map_file: String) -> void:
 	context['thread_pool'] = thread_pool
 	var thread_init_duration = thread_init_profiler.finish()
 	print_log("Done in " + String(thread_init_duration * 0.001) + " seconds.\n")
+
+	# Loading entity defintions
+	print_log("\nLoading entity definition set...")
+	var entity_set = {}
+	if entity_definitions != null:
+		entity_set = entity_definitions.get_entity_scene_map()
+	context["entity_definition_set"] = entity_set
 
 	# Run build steps
 	var build_steps = get_build_steps()

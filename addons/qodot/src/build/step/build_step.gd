@@ -105,7 +105,7 @@ func foreach_entity_brush(entity_properties_array: Array, brush_data_dict: Dicti
 
 	return entity_brush_results
 
-func foreach_entity_brush_face(entity_properties_array: Array, brush_data_dict: Dictionary, entity_predicate: FuncRef, brush_predicate: FuncRef, face_predicate: FuncRef, function: FuncRef):
+func foreach_entity_brush_face(entity_definitions: Dictionary, entity_properties_array: Array, brush_data_dict: Dictionary, entity_predicate: FuncRef, brush_predicate: FuncRef, face_predicate: FuncRef, function: FuncRef):
 	var entity_brush_face_results = {}
 
 	for entity_key in brush_data_dict:
@@ -119,21 +119,21 @@ func foreach_entity_brush_face(entity_properties_array: Array, brush_data_dict: 
 			var face_data = entity_brushes[brush_key]
 			var brush = create_brush_from_face_data(face_data)
 
-			if not brush_predicate.call_func(entity_properties, brush):
+			if not brush_predicate.call_func(entity_definitions, entity_properties, brush):
 				continue
 
 			entity_brush_face_results[brush_key] = foreach_face(entity_key, entity_properties, brush_key, brush, face_predicate, function)
 
 	return entity_brush_face_results
 
-func foreach_brush_face(entity_key, entity_properties: Dictionary, entity_brushes: Dictionary, brush_predicate: FuncRef, face_predicate: FuncRef, function: FuncRef):
+func foreach_brush_face(entity_definitions: Dictionary, entity_key, entity_properties: Dictionary, entity_brushes: Dictionary, brush_predicate: FuncRef, face_predicate: FuncRef, function: FuncRef):
 	var brush_face_results = {}
 
 	for brush_key in entity_brushes:
 		var face_data = entity_brushes[brush_key]
 		var brush = create_brush_from_face_data(face_data)
 
-		if not brush_predicate.call_func(entity_properties, brush):
+		if not brush_predicate.call_func(entity_definitions, entity_properties, brush):
 			continue
 
 		brush_face_results[brush_key] = foreach_face(entity_key, entity_properties, brush_key, brush, face_predicate, function)

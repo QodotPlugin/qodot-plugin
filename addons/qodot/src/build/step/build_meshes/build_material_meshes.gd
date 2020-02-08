@@ -8,7 +8,7 @@ func get_type() -> int:
 	return self.Type.SINGLE
 
 func get_build_params() -> Array:
-	return ['entity_properties_array', 'brush_data_dict', 'material_dict', 'inverse_scale_factor']
+	return ['entity_definition_set', 'entity_properties_array', 'brush_data_dict', 'material_dict', 'inverse_scale_factor']
 
 func get_finalize_params() -> Array:
 	return ['material_meshes']
@@ -21,12 +21,14 @@ var material_index_paths = {}
 
 func _run(context) -> Dictionary:
 	# Fetch context variables
+	var entity_definition_set = context['entity_definition_set']
 	var entity_properties_array = context['entity_properties_array']
 	var brush_data_dict = context['brush_data_dict']
 	var material_dict = context['material_dict']
 	var inverse_scale_factor = context['inverse_scale_factor']
 
 	foreach_entity_brush_face(
+		entity_definition_set,
 		entity_properties_array,
 		brush_data_dict,
 		funcref(self, 'boolean_true'),

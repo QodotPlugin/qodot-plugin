@@ -2,14 +2,14 @@ class_name QodotBuildMeshes
 extends QodotBuildStep
 
 # Determine whether the given brush should create a set of visual face meshes
-func should_spawn_brush_mesh(entity_properties: Dictionary, brush: QuakeBrush) -> bool:
+func should_spawn_brush_mesh(entity_definitions: Dictionary, entity_properties: Dictionary, brush: QuakeBrush) -> bool:
 	if(brush.is_clip_brush()):
 		return false
 
-	# Classname-specific behavior
 	if('classname' in entity_properties):
-		# Don't spawn collision for trigger brushes
-		return entity_properties['classname'].findn('trigger') == -1
+		var classname = entity_properties['classname']
+		if classname in entity_definitions.keys():
+			return entity_definitions[classname].is_worldspawn
 
 	# Default to true for entities with empty classnames
 	return true

@@ -8,7 +8,7 @@ func get_type() -> int:
 	return self.Type.SINGLE
 
 func get_build_params() -> Array:
-	return ['brush_data_dict', 'entity_properties_array', 'texture_atlas', 'texture_layered_mesh', 'inverse_scale_factor']
+	return ['brush_data_dict', 'entity_definition_set', 'entity_properties_array', 'texture_atlas', 'texture_layered_mesh', 'inverse_scale_factor']
 
 func get_wants_finalize() -> bool:
 	return true
@@ -24,6 +24,7 @@ var inverse_scale_factor = null
 func _run(context) -> Dictionary:
 	# Fetch context data
 	var brush_data_dict = context['brush_data_dict']
+	var entity_definition_set = context['entity_definition_set']
 	var entity_properties_array = context['entity_properties_array']
 	var texture_atlas = context['texture_atlas']
 	var texture_layered_mesh = context['texture_layered_mesh']
@@ -38,6 +39,7 @@ func _run(context) -> Dictionary:
 	self.surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
 
 	foreach_entity_brush_face(
+		entity_definition_set,
 		entity_properties_array,
 		brush_data_dict,
 		funcref(self, 'boolean_true'),

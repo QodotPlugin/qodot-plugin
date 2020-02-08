@@ -23,27 +23,31 @@ func _run(context) -> Dictionary:
 	var node = null
 	if('classname' in entity_properties):
 		var classname = entity_properties['classname']
-		if classname.substr(0, 5) == 'func_':
+		if classname == 'worldspawn':
 			node = null
 		else:
 			var entity_definition_set = context['entity_definition_set']
 			if entity_definition_set.has(classname):
 				var entity_def_data = entity_definition_set[classname]
-				if entity_def_data is String:
-					print("entity_def_data ", entity_def_data)
-					var entity_def_scene = load(entity_def_data)
-					node = entity_def_scene.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
-					is_child_scene = true
-				elif entity_def_data is Script:
-					node = entity_def_data.new()
+
+				if entity_def_data is QodotFGDPointClass:
+					if entity_def_data.scene_file:
+						var entity_def_scene = load(entity_def_data.scene_file)
+						node = entity_def_scene.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
+						is_child_scene = true
+					elif entity_def_data.script_class:
+						node = entity_def_data.script_class.new()
+				elif entity_def_data is QodotFGDSolidClass:
+					if entity_def_data.script_class:
+						node = entity_def_data.script_class.new()
 			else:
 				node = QodotEntity.new()
 
+		if node:
+			node.name = 'entity_' + String(entity_idx) + '_' + classname\
+
 			if 'properties' in node:
 				node.properties = entity_properties
-
-		if node:
-			node.name = 'entity_' + String(entity_idx) + '_' + classname
 
 	if not node:
 		return {}

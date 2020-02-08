@@ -8,7 +8,7 @@ func get_type() -> int:
 	return self.Type.PER_BRUSH
 
 func get_build_params() -> Array:
-	return ['material_dict', 'inverse_scale_factor']
+	return ['entity_definition_set', 'material_dict', 'inverse_scale_factor']
 
 func get_finalize_params() -> Array:
 	return ['brush_face_meshes']
@@ -19,6 +19,7 @@ func get_wants_finalize():
 func _run(context) -> Dictionary:
 	var entity_idx = context['entity_idx']
 	var brush_idx = context['brush_idx']
+	var entity_definition_set = context['entity_definition_set']
 	var entity_properties = context['entity_properties']
 	var brush_data = context['brush_data']
 	var material_dict = context['material_dict']
@@ -26,7 +27,7 @@ func _run(context) -> Dictionary:
 
 	var brush = create_brush_from_face_data(brush_data)
 
-	if not should_spawn_brush_mesh(entity_properties, brush):
+	if not should_spawn_brush_mesh(entity_definition_set, entity_properties, brush):
 		return {}
 
 	var face_nodes = {}

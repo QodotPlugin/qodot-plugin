@@ -47,9 +47,6 @@ func get_fgd_classes() -> Array:
 func get_entity_scene_map() -> Dictionary:
 	var res = {}
 	for ent in get_fgd_classes():
-		if ent is QodotFGDPointClass:
-			if ent.scene_file:
-				res[ent.classname] = ent.scene_file
-			elif ent.script_class:
-				res[ent.classname] = ent.script_class
+		if ent is QodotFGDPointClass or ent is QodotFGDSolidClass:
+			res[ent.classname] = ent
 	return res

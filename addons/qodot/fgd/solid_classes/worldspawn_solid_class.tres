@@ -15,4 +15,4 @@ class_property_descriptions = {
 }
 classname = "worldspawn"
 description = "World Entity"
-script_class = null
+is_worldspawn = true

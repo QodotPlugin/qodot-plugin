@@ -13,6 +13,6 @@ class_properties = {
 class_property_descriptions = {
 
 }
-classname = "trigger"
-description = "Trigger Volume"
-is_worldspawn = false
+classname = "group"
+description = "Brush Group"
+is_worldspawn = true
