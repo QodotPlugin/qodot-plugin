@@ -7,18 +7,18 @@ static func get_build_steps() -> Array:
 
 		QodotBuildTextureList.new(),
 		QodotBuildMaterials.new(),
-		QodotBuildNode.new("mesh_node", "Meshes", QodotSpatial),
+		QodotBuildNode.new("worldspawn_node", "Worldspawn", QodotSpatial),
 		QodotBuildMaterialMeshes.new(),
 
 		QodotBuildNode.new("collision_node", "Collision", QodotSpatial),
 		QodotBuildNode.new("static_body", "Static Collision", StaticBody, ['collision_node']),
 		QodotBuildStaticConvexCollisionPerBrush.new(),
 
-		QodotBuildNode.new("triggers_node", "Triggers", QodotSpatial),
+		QodotBuildNode.new("brush_entities_node", "Brush Entities", QodotSpatial),
 		QodotBuildAreaConvexCollision.new(),
 
-		QodotBuildNode.new("entity_spawns_node", "Entity Spawns", QodotSpatial),
-		QodotBuildEntitySpawns.new(),
+		QodotBuildNode.new("point_entities_node", "Point Entities", QodotSpatial),
+		QodotBuildPointEntities.new(),
 
 		QodotBuildUnwrapUVs.new(),
 	]

@@ -111,7 +111,7 @@ func _finalize(context) -> Dictionary:
 			'material_mesh': array_mesh
 		},
 		'nodes': {
-			'mesh_node': {
+			'worldspawn_node': {
 				'materials_node': materials_node
 			}
 		}

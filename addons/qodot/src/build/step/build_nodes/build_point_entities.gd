@@ -1,4 +1,4 @@
-class_name QodotBuildEntitySpawns
+class_name QodotBuildPointEntities
 extends QodotBuildStep
 
 class InstancedScene:
@@ -57,7 +57,7 @@ func _run(context) -> Dictionary:
 
 	return {
 		'nodes': {
-			'entity_spawns_node': {
+			'point_entities_node': {
 				get_entity_key(entity_idx): InstancedScene.new(node) if is_child_scene else node
 			}
 		}

@@ -14,11 +14,11 @@ static func get_build_steps() -> Array:
 		QodotBuildNode.new("static_body", "Static Collision", StaticBody, ['collision_node']),
 		QodotBuildStaticConcaveCollisionSingle.new(),
 
-		QodotBuildNode.new("triggers_node", "Triggers", QodotSpatial),
+		QodotBuildNode.new("brush_entities_node", "Brush Entities", QodotSpatial),
 		QodotBuildAreaConvexCollision.new(),
 
-		QodotBuildNode.new("entity_spawns_node", "Entity Spawns", QodotSpatial),
-		QodotBuildEntitySpawns.new(),
+		QodotBuildNode.new("point_entities_node", "Point Entities", QodotSpatial),
+		QodotBuildPointEntities.new(),
 
 		QodotBuildUnwrapUVs.new(),
 	]

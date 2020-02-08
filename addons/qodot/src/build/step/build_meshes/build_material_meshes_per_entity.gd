@@ -126,6 +126,6 @@ func _finalize(context) -> Dictionary:
 	return {
 		'meshes_to_unwrap': array_meshes,
 		'nodes': {
-			'mesh_node': materials_nodes
+			'worldspawn_node': materials_nodes
 		}
 	}

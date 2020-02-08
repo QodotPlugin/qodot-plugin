@@ -27,7 +27,7 @@ func _finalize(context) -> Dictionary:
 	for entity_key in area_collision_shapes:
 		for brush_key in area_collision_shapes[entity_key]:
 			var area_collision_shape_data = area_collision_shapes[entity_key][brush_key]
-			var area_collision_shape_key = get_entity_brush_key(entity_key, brush_key) + '_trigger'
+			var area_collision_shape_key = entity_key + '_' + brush_key + '_trigger'
 
 			var brush_center = area_collision_shape_data['brush_center']
 			var brush_collision_vertices = area_collision_shape_data['brush_collision_vertices']
@@ -43,6 +43,6 @@ func _finalize(context) -> Dictionary:
 
 	return {
 		'nodes': {
-			'triggers_node': area_collision_dict
+			'brush_entities_node': area_collision_dict
 		}
 	}
