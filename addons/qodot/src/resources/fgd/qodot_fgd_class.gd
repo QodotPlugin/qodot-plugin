@@ -85,6 +85,12 @@ func build_def_text() -> String:
 				var choice_val = value[choice]
 				prop_val += "\t\t" + String(choice_val) + " : \"" + choice + "\"\n"
 			prop_val += "\t]"
+		elif value is Array:
+			prop_type = "flags"
+			prop_val = "[" + "\n"
+			for arr_val in value:
+				prop_val += "\t\t" + String(arr_val[1]) + " : \"" + String(arr_val[0]) + "\" : " + ("1" if arr_val[2] else "0") + "\n"
+			prop_val += "\t]"
 
 		if(prop_val):
 			res += "\t"
@@ -92,13 +98,17 @@ func build_def_text() -> String:
 			res += "("
 			res += prop_type
 			res += ")"
-			res += " : \""
-			res += prop_description
-			res += "\" "
-			if value is Dictionary:
+
+			if not value is Array:
+				res += " : \""
+				res += prop_description
+				res += "\" "
+
+			if value is Dictionary or value is Array:
 				res += " = "
 			else:
 				res += " : "
+
 			res += prop_val
 			res += QodotUtil.newline()
 
