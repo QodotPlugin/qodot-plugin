@@ -1,11 +1,19 @@
 class_name QodotBuildEntitySpawns
 extends QodotBuildStep
 
+class InstancedScene:
+	var wrapped_node
+	func _init(node : Node):
+		wrapped_node = node
+
 func get_name() -> String:
 	return "entity_spawns"
 
 func get_type() -> int:
 	return self.Type.PER_ENTITY
+
+func get_build_params() -> Array:
+	return ['entity_definition_set']
 
 func _run(context) -> Dictionary:
 	var entity_idx = context['entity_idx']
@@ -109,15 +117,7 @@ func _run(context) -> Dictionary:
 	return {
 		'nodes': {
 			'entity_spawns_node': {
-				get_entity_key(entity_idx): InstancedScene.new(node) if is_child_scene else node 
+				get_entity_key(entity_idx): InstancedScene.new(node) if is_child_scene else node
 			}
 		}
 	}
-
-class InstancedScene:
-	var wrapped_node
-	func _init(node : Node):
-		wrapped_node = node
-		
-func get_build_params() -> Array:
-	return ['entity_definition_set']
