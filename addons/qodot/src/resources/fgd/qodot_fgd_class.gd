@@ -8,13 +8,9 @@ export(Dictionary) var meta_properties := {
 	"color": Color(0.8, 0.8, 0.8)
 }
 
-export(Dictionary) var class_properties := {
-	"angle": 0.0
-}
+export(Dictionary) var class_properties := {}
 
-export(Dictionary) var class_property_descriptions := {
-	"angle": "Rotation Angle"
-}
+export(Dictionary) var class_property_descriptions := {}
 
 ## A node used to define an entity in a QodotEntityDefinitionSet
 export(String) var classname

@@ -174,10 +174,10 @@ func build_map(map_file: String) -> void:
 	var entity_set = {}
 	print_log("\nLoading entity definition set...")
 	if entity_definitions != null:
-		entity_set = entity_definitions.get_point_entity_scene_map()
+		entity_set = entity_definitions.get_entity_scene_map()
 		for key in entity_set.keys():
-			if entity_set[key] == "":
-				print("WARNING: No scene file set for entity classname: %s, Position3Ds will be used instead" % key)
+			if not entity_set[key]:
+				print("WARNING: No scene file or script class set for entity classname: %s, Position3Ds will be used instead" % key)
 				entity_set.erase(key) #erasing it to avoid errors further down the line
 	context["entity_definition_set"] = entity_set
 

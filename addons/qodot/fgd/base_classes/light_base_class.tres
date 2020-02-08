@@ -1,0 +1,30 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://addons/qodot/src/resources/fgd/qodot_fgd_base_class.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+meta_properties = {
+"color": Color( 1, 1, 0.156863, 1 )
+}
+class_properties = {
+"delay": {
+"Inverse distance falloff": 1,
+"Inverse distance squared": 2,
+"Inverse distance squared B": 5,
+"Linear falloff (Default)": 0,
+"Local minlight": 4,
+"No falloff": 3
+},
+"light": 300,
+"mangle": Vector3( 0, 0, 0 ),
+"wait": 1
+}
+class_property_descriptions = {
+"delay": "Attenuation",
+"light": "Brightness",
+"mangle": "Spotlight angle",
+"wait": "Fade distance multiplier"
+}
+classname = "Light"
+description = ""

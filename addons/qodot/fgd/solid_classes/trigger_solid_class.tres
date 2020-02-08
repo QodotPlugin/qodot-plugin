@@ -1,0 +1,18 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://addons/qodot/src/resources/fgd/qodot_fgd_solid_class.gd" type="Script" id=1]
+
+
+[resource]
+script = ExtResource( 1 )
+meta_properties = {
+
+}
+class_properties = {
+
+}
+class_property_descriptions = {
+
+}
+classname = "trigger"
+description = "Trigger Volume"

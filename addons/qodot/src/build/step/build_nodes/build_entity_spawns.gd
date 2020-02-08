@@ -25,85 +25,22 @@ func _run(context) -> Dictionary:
 		var classname = entity_properties['classname']
 		if classname.substr(0, 5) == 'func_':
 			node = null
-		elif classname.substr(0, 5) == 'light':
-			if 'mangle' in entity_properties:
-				node = SpotLight.new()
-
-				var comps = entity_properties['mangle'].split(' ')
-				var yaw = comps[0]
-				var pitch = comps[1]
-				node.rotate(Vector3.RIGHT, deg2rad(180 + int(yaw)))
-				node.rotate(Vector3.UP, deg2rad(int(pitch)))
-
-				if 'angle' in entity_properties:
-					node.set_param(Light.PARAM_SPOT_ANGLE, (int(entity_properties['angle'])))
-			else:
-				node = OmniLight.new()
-
-			var light_brightness = 300
-			if 'light' in entity_properties:
-				light_brightness = int(entity_properties['light'])
-				node.set_param(Light.PARAM_ENERGY, light_brightness / 100.0)
-				node.set_param(Light.PARAM_INDIRECT_ENERGY, light_brightness / 100.0)
-
-			var light_range = 1
-			if 'wait' in entity_properties:
-				light_range = float(entity_properties['wait'])
-
-			var normalized_brightness = light_brightness / 300.0
-			node.set_param(Light.PARAM_RANGE, 16.0 * light_range * (normalized_brightness * normalized_brightness))
-
-			var light_attenuation = 0
-			if 'delay' in entity_properties:
-				light_attenuation = int(entity_properties['delay'])
-
-			var attenuation = 0
-			match light_attenuation:
-				0:
-					attenuation = 1.0
-				1:
-					attenuation = 0.5
-				2:
-					attenuation = 0.25
-				3:
-					attenuation = 0.15
-				4:
-					attenuation = 0
-				5:
-					attenuation = 0.9
-				_:
-					attenuation = 1
-
-			node.set_param(Light.PARAM_ATTENUATION, attenuation)
-			node.set_shadow(true)
-
-			node.set_bake_mode(Light.BAKE_ALL)
-
-			var light_color = Color.white
-			if '_color' in entity_properties:
-				var comps = entity_properties['_color'].split(' ')
-				var red = int(comps[0]) / 255.0
-				var green = int(comps[1]) / 255.0
-				var blue = int(comps[2]) / 255.0
-				light_color = Color(red, green, blue)
-			node.set_color(light_color)
 		else:
-			match classname:
-				'worldspawn':
-					node = null
-				'trigger':
-					node = null
-				_:
-					var entity_defintion_set = context['entity_definition_set']
-					if entity_defintion_set.has(classname):
-						var entity_def_scene = load(entity_defintion_set[classname])
-						node = entity_def_scene.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
-						is_child_scene = true
-					else:
-						node = QodotEntity.new()
-						node.properties = entity_properties
-					if 'angle' in entity_properties:
-						node.rotation.y = deg2rad(180 + entity_properties['angle'])
+			var entity_definition_set = context['entity_definition_set']
+			if entity_definition_set.has(classname):
+				var entity_def_data = entity_definition_set[classname]
+				if entity_def_data is String:
+					print("entity_def_data ", entity_def_data)
+					var entity_def_scene = load(entity_def_data)
+					node = entity_def_scene.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
+					is_child_scene = true
+				elif entity_def_data is Script:
+					node = entity_def_data.new()
+			else:
+				node = QodotEntity.new()
+
+			if 'properties' in node:
+				node.properties = entity_properties
 
 		if node:
 			node.name = 'entity_' + String(entity_idx) + '_' + classname

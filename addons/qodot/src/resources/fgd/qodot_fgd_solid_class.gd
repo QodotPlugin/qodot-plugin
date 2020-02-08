@@ -1,10 +1,11 @@
-class_name QodotFGDPointClass
+class_name QodotFGDSolidClass
 extends QodotFGDClass
 tool
 
 func _init():
-	prefix = "@PointClass"
+	prefix = "@SolidClass"
 
-# The scene file to associate with this PointClass
-# On building the map, this scene will be instanced into the scene tree
-export(String, FILE, '*.tscn,*.scn') var scene_file
+# The script file to associate with this SolidClass
+# On building the map, this will be attached to any brush entities created
+# via this classname
+export(Script) var script_class
