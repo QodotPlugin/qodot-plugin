@@ -23,3 +23,9 @@ func add_child_editor(child):
 		return
 
 	child.set_owner(edited_scene_root)
+
+func _ready():
+	# Prevent QodotMap children from inheriting its tool mode process callbacks in the editor
+	if Engine.is_editor_hint():
+		set_process(false)
+		set_physics_process(false)
