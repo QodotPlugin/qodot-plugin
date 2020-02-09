@@ -76,6 +76,8 @@ Documentation is available on the [Qodot Wiki](https://github.com/ShiftyAxel/Qod
 
 [TheRektafire](https://github.com/TheRektafire) - For a variety of useful tidbits on the .map format
 
+[lordee](https://github.com/lordee), [DistractedMOSFET](https://github.com/distractedmosfet) and [winadam](https://github.com/winadam) - For laying the groundwork of the FGD export and entity scripting systems.
+
 [Calinou](https://github.com/Calinou) - For making Qodot work on case-sensitive systems
 
 [Redhacker2](https://github.com/donovan1212) - For stress-testing Qodot to within an inch of its life and motivating me to improve it
