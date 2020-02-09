@@ -19,6 +19,9 @@ func get_wants_finalize():
 var brush_material_names = {}
 var brush_material_index_paths = {}
 
+func _init(brush_entities := false) -> void:
+	._init(brush_entities)
+
 func _run(context) -> Dictionary:
 	# Fetch context variables
 	var entity_definition_set = context['entity_definition_set']
@@ -68,7 +71,7 @@ func _run(context) -> Dictionary:
 						var albedo_texture = material.get_texture(SpatialMaterial.TEXTURE_ALBEDO)
 						texture_size = albedo_texture.get_size() / inverse_scale_factor
 
-					face.get_mesh(surface_tool, texture_size, Color.white, true, should_smooth_face_normals(entity_properties_array[entity_key]))
+					face.get_mesh(surface_tool, texture_size, Color.white, face.center, should_smooth_face_normals(entity_properties_array[entity_key]))
 
 				surface_tool.index()
 				brush_material_surfaces[entity_key][brush_key][material_name] = surface_tool

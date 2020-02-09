@@ -21,6 +21,9 @@ var atlas_texture_names = null
 var atlas_sizes = null
 var inverse_scale_factor = null
 
+func _init(brush_entities := false) -> void:
+	._init(brush_entities)
+
 func _run(context) -> Dictionary:
 	# Fetch context data
 	var brush_data_dict = context['brush_data_dict']
@@ -75,7 +78,7 @@ func get_face_mesh(entity_key, entity_properties: Dictionary, brush_key, brush: 
 	var atlas_size = atlas_sizes[texture_idx] / inverse_scale_factor
 	var texture_vertex_color = Color()
 	texture_vertex_color.r = float(texture_idx) / float(atlas_texture_names.size() - 1)
-	face.get_mesh(entity_surface_tools[entity_key], atlas_size, texture_vertex_color, true, should_smooth_face_normals(entity_properties))
+	face.get_mesh(entity_surface_tools[entity_key], atlas_size, texture_vertex_color, face.center, should_smooth_face_normals(entity_properties))
 
 	return true
 

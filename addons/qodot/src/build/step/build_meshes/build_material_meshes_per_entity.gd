@@ -19,6 +19,9 @@ func get_wants_finalize():
 var entity_material_names = {}
 var entity_material_index_paths = {}
 
+func _init(brush_entities := false) -> void:
+	._init(brush_entities)
+
 func _run(context) -> Dictionary:
 	# Fetch context variables
 	var entity_definition_set = context['entity_definition_set']
@@ -65,7 +68,7 @@ func _run(context) -> Dictionary:
 					var albedo_texture = material.get_texture(SpatialMaterial.TEXTURE_ALBEDO)
 					texture_size = albedo_texture.get_size() / inverse_scale_factor
 
-				face.get_mesh(surface_tool, texture_size, Color.white, true, should_smooth_face_normals(entity_properties_array[entity_key]))
+				face.get_mesh(surface_tool, texture_size, Color.white, face.center - brush.center if brush_entities else face.center, should_smooth_face_normals(entity_properties_array[entity_key]))
 
 			surface_tool.index()
 			entity_material_surfaces[entity_key][material_name] = surface_tool
@@ -118,14 +121,34 @@ func _finalize(context) -> Dictionary:
 
 		# Create MeshInstance, configure, and apply mesh
 		var materials_node = MeshInstance.new()
-		materials_node.name = entity_key
+
+		if brush_entities:
+			materials_node.name = 'visuals'
+		else:
+			materials_node.name = entity_key
+
 		materials_node.set_flag(MeshInstance.FLAG_USE_BAKED_LIGHT, true)
 		materials_node.set_mesh(array_mesh)
-		materials_nodes[entity_key] = materials_node
+
+		if brush_entities:
+			materials_nodes[entity_key] = {
+				entity_key: materials_node
+			}
+		else:
+			materials_nodes[entity_key] = materials_node
+
+
+	var node_dict = null
+	if brush_entities:
+		node_dict = {
+			'brush_entities_node': materials_nodes
+		}
+	else:
+		node_dict = {
+			'worldspawn_node': materials_nodes
+		}
 
 	return {
 		'meshes_to_unwrap': array_meshes,
-		'nodes': {
-			'worldspawn_node': materials_nodes
-		}
+		'nodes': node_dict
 	}

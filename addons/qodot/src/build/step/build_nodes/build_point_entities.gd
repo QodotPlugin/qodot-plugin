@@ -17,31 +17,28 @@ func get_build_params() -> Array:
 
 func _run(context) -> Dictionary:
 	var entity_idx = context['entity_idx']
+	var entity_definition_set = context['entity_definition_set']
 	var entity_properties = context['entity_properties']
 
 	var is_child_scene = false
 	var node = null
 	if('classname' in entity_properties):
 		var classname = entity_properties['classname']
-		if classname == 'worldspawn':
-			node = null
-		else:
-			var entity_definition_set = context['entity_definition_set']
-			if entity_definition_set.has(classname):
-				var entity_def_data = entity_definition_set[classname]
+		if entity_definition_set.has(classname):
+			var entity_def_data = entity_definition_set[classname]
 
-				if entity_def_data is QodotFGDPointClass:
-					if entity_def_data.scene_file:
-						var entity_def_scene = load(entity_def_data.scene_file)
-						node = entity_def_scene.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
-						is_child_scene = true
-					elif entity_def_data.script_class:
-						node = entity_def_data.script_class.new()
-				elif entity_def_data is QodotFGDSolidClass:
-					if entity_def_data.script_class:
-						node = entity_def_data.script_class.new()
-			else:
-				node = QodotEntity.new()
+			if entity_def_data is QodotFGDPointClass:
+				if entity_def_data.scene_file:
+					var entity_def_scene = load(entity_def_data.scene_file)
+					node = entity_def_scene.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
+					is_child_scene = true
+				elif entity_def_data.script_class:
+					node = entity_def_data.script_class.new()
+			elif entity_def_data is QodotFGDSolidClass:
+				if entity_def_data.script_class:
+					node = entity_def_data.script_class.new()
+		else:
+			node = QodotEntity.new()
 
 		if node:
 			node.name = 'entity_' + String(entity_idx) + '_' + classname\

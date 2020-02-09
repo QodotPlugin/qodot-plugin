@@ -13,8 +13,8 @@ class_properties = {
 class_property_descriptions = {
 
 }
-classname = "group"
-description = "Brush Group"
-is_worldspawn = true
+classname = "detail"
+description = "Detail Brush"
+is_worldspawn = false
 has_visuals = true
 collision_type = 2

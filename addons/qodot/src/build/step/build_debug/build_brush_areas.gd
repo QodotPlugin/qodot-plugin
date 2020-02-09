@@ -7,15 +7,19 @@ func get_name() -> String:
 func get_type() -> int:
 	return self.Type.PER_BRUSH
 
+func get_build_params() -> Array:
+	return ['entity_definition_set']
+
 func get_finalize_params() -> Array:
 	return ['brush_areas']
 
 func _run(context) -> Dictionary:
 	var entity_idx = context['entity_idx']
 	var brush_idx = context['brush_idx']
+	var entity_definition_set = context['entity_definition_set']
 	var entity_properties = context['entity_properties']
 
-	if not has_area_collision(entity_properties):
+	if not has_brush_entity_collision(entity_definition_set, entity_properties):
 		return {}
 
 	return {

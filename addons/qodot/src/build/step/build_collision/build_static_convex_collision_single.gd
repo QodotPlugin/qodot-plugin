@@ -13,8 +13,8 @@ func get_wants_finalize():
 func get_context_key():
 	return 'static_convex_collision'
 
-func should_spawn_collision_shapes(entity_properties):
-	return has_static_collision(entity_properties)
+func should_spawn_collision_shapes(entity_definition_set: Dictionary, entity_properties: Dictionary) -> bool:
+	return has_worldspawn_collision(entity_definition_set, entity_properties)
 
 func _finalize(context) -> Dictionary:
 	var static_convex_collision = context['static_convex_collision']
@@ -36,7 +36,7 @@ func _finalize(context) -> Dictionary:
 
 	return {
 		'nodes': {
-			'collision_node': {
+			'worldspawn_node': {
 				'static_body': {
 					'entity_collision': collision_shape
 				}

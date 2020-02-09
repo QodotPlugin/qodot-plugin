@@ -13,9 +13,10 @@ func get_finalize_params() -> Array:
 func _run(context):
 	var entity_idx = context['entity_idx']
 	var brush_idx = context['brush_idx']
+	var entity_definition_set = context['entity_definition_set']
 	var entity_properties = context['entity_properties']
 
-	if not has_static_collision(entity_properties):
+	if not has_worldspawn_collision(entity_definition_set, entity_properties):
 		return null
 
 	var static_body = StaticBody.new()

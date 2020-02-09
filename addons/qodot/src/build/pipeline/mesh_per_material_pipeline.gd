@@ -10,8 +10,7 @@ static func get_build_steps() -> Array:
 		QodotBuildNode.new("worldspawn_node", "Worldspawn", QodotSpatial),
 		QodotBuildMaterialMeshes.new(),
 
-		QodotBuildNode.new("collision_node", "Collision", QodotSpatial),
-		QodotBuildNode.new("static_body", "Static Collision", StaticBody, ['collision_node']),
+		QodotBuildNode.new("static_body", "collision", StaticBody, ['worldspawn_node']),
 		QodotBuildStaticConvexCollisionPerBrush.new(),
 
 		QodotBuildNode.new("brush_entities_node", "Brush Entities", QodotSpatial),

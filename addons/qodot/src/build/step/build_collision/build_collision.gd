@@ -40,34 +40,29 @@ func get_brush_collision_triangles(brush: QuakeBrush, global_space: bool = false
 
 	return collision_triangles
 
-# Create and return a CollisionObject for the given .map classname
-func spawn_brush_collision_object(entity_properties: Dictionary) -> CollisionObject:
-	var node = null
-
-	# Use an Area for trigger brushes
-	if('classname' in entity_properties):
-		if(entity_properties['classname'].find('trigger') > -1):
-			return Area.new()
-
-	return StaticBody.new()
-
-func has_static_collision(entity_properties):
+func has_worldspawn_collision(entity_definition_set: Dictionary, entity_properties: Dictionary) -> bool:
 	if not 'classname' in entity_properties:
 		return false
 
-	if entity_properties['classname'].find('trigger') != -1:
-		return false
+	var classname = entity_properties['classname']
+	var entity_definition = entity_definition_set[classname]
 
-	if entity_properties['classname'] == 'func_illusionary':
-		return false
+	if entity_definition is QodotFGDSolidClass:
+		return entity_definition.is_worldspawn
 
-	return true
+	return false
 
-func has_area_collision(entity_properties):
+func has_brush_entity_collision(entity_definition_set: Dictionary, entity_properties: Dictionary) -> bool:
 	if not 'classname' in entity_properties:
 		return false
 
-	if entity_properties['classname'].find('trigger') != -1:
-		return true
+	var classname = entity_properties['classname']
+	var entity_definition = entity_definition_set[classname]
+
+	if entity_definition is QodotFGDSolidClass:
+		if entity_definition.is_worldspawn:
+			return false
+
+		return entity_definition.collision_type != entity_definition.SolidClassCollisionType.NONE
 
 	return false

@@ -16,3 +16,5 @@ class_property_descriptions = {
 classname = "trigger"
 description = "Trigger Volume"
 is_worldspawn = false
+has_visuals = false
+collision_type = 1

@@ -7,13 +7,17 @@ func get_name() -> String:
 func get_type() -> int:
 	return self.Type.PER_BRUSH
 
+func get_build_params():
+	return ['entity_definition_set']
+
 func _run(context) -> Dictionary:
 	var entity_idx = context['entity_idx']
 	var brush_idx = context['brush_idx']
 	var brush_data = context['brush_data']
+	var entity_definition_set = context['entity_definition_set']
 	var entity_properties = context['entity_properties']
 
-	if not should_spawn_collision_shapes(entity_properties):
+	if not should_spawn_collision_shapes(entity_definition_set, entity_properties):
 		return {}
 
 	var brush = create_brush_from_face_data(brush_data)
@@ -32,5 +36,5 @@ func _run(context) -> Dictionary:
 func get_context_key() -> String:
 	return 'collision_shapes'
 
-func should_spawn_collision_shapes(entity_properties) -> bool:
+func should_spawn_collision_shapes(entity_definition_set: Dictionary, entity_properties: Dictionary) -> bool:
 	return false

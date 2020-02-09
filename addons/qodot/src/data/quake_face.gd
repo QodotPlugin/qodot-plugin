@@ -60,21 +60,18 @@ func has_vertex(vertex):
 func set_center(new_center):
 	self.center = new_center
 
-func get_vertices(global_space: bool) -> PoolVector3Array:
+func get_vertices(vertex_offset: Vector3) -> PoolVector3Array:
 	var vertices = PoolVector3Array()
 	for vertex in face_vertices:
-		if(global_space):
-			vertices.append(vertex + self.center)
-		else:
-			vertices.append(vertex)
+		vertices.append(vertex + vertex_offset)
 	return vertices
 
 func get_normals() -> PoolVector3Array:
 	return self.face_normals
 
-func get_triangles(global_space: bool) -> PoolVector3Array:
+func get_triangles(vertex_offset: Vector3) -> PoolVector3Array:
 	var triangles = PoolVector3Array()
-	var vertices = get_vertices(global_space)
+	var vertices = get_vertices(vertex_offset)
 
 	for vertex_idx in range(1, vertices.size() - 1):
 		triangles.append(vertices[0])
@@ -83,8 +80,8 @@ func get_triangles(global_space: bool) -> PoolVector3Array:
 
 	return triangles
 
-func get_mesh(surface_tool: SurfaceTool, texture_size: Vector2, color: Color, global_space: bool, smooth_normals: bool):
-	var vertices = get_vertices(global_space)
+func get_mesh(surface_tool: SurfaceTool, texture_size: Vector2, color: Color, vertex_offset: Vector3, smooth_normals: bool):
+	var vertices = get_vertices(vertex_offset)
 	var uvs = PoolVector2Array()
 	var colors = PoolColorArray()
 	var uv2s = PoolVector2Array()

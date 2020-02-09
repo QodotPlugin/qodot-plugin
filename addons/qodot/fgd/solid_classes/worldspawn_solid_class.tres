@@ -16,3 +16,5 @@ class_property_descriptions = {
 classname = "worldspawn"
 description = "World Entity"
 is_worldspawn = true
+has_visuals = true
+collision_type = 2

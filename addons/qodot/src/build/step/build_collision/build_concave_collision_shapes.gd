@@ -8,9 +8,10 @@ func _run(context) -> Dictionary:
 	var entity_idx = context['entity_idx']
 	var brush_idx = context['brush_idx']
 	var brush_data = context['brush_data']
+	var entity_definition_set = context['entity_definition_set']
 	var entity_properties = context['entity_properties']
 
-	if not should_spawn_collision_shapes(entity_properties):
+	if not should_spawn_collision_shapes(entity_definition_set, entity_properties):
 		return {}
 
 	var brush = create_brush_from_face_data(brush_data)
