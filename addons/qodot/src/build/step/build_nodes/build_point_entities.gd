@@ -34,9 +34,6 @@ func _run(context) -> Dictionary:
 					is_child_scene = true
 				elif entity_def_data.script_class:
 					node = entity_def_data.script_class.new()
-			elif entity_def_data is QodotFGDSolidClass:
-				if entity_def_data.script_class:
-					node = entity_def_data.script_class.new()
 		else:
 			node = QodotEntity.new()
 
