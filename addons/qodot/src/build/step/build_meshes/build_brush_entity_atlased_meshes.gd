@@ -129,21 +129,23 @@ func _run(context) -> Dictionary:
 		if not entity_key in texture_layered_mesh_nodes:
 			texture_layered_mesh_nodes[entity_key] = {}
 
-		if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.ENTITY:
+		if entity_definition.physics_body_type == QodotFGDSolidClass.PhysicsBodyType.NONE:
 			texture_layered_mesh_nodes[entity_key] = {
-				entity_key: texture_layered_mesh
+				'atlased_mesh': texture_layered_mesh
 			}
 		else:
-			texture_layered_mesh_nodes[entity_key][get_entity_key(entity_idx)] = texture_layered_mesh
+			texture_layered_mesh_nodes[entity_key] = {
+				'entity_physics_body': {
+					'atlased_mesh': texture_layered_mesh
+				}
+			}
 
 	return {
 		'brush_entity_atlased_meshes': {
+			'texture_layered_mesh_nodes': texture_layered_mesh_nodes,
 			'texture_layered_mesh_dict': texture_layered_mesh_dict,
 			'array_mesh_dict': array_mesh_dict,
 			'atlased_surfaces': entity_surface_tools
-		},
-		'nodes': {
-			'brush_entities_node': texture_layered_mesh_nodes
 		}
 	}
 
@@ -172,6 +174,7 @@ func get_face_mesh(entity_key, entity_definitions: Dictionary, entity_properties
 func _finalize(context: Dictionary) -> Dictionary:
 	var brush_entity_atlased_meshes = context['brush_entity_atlased_meshes']
 
+	var texture_layered_mesh_nodes = brush_entity_atlased_meshes['texture_layered_mesh_nodes']
 	var texture_layered_mesh_dict = brush_entity_atlased_meshes['texture_layered_mesh_dict']
 	var array_mesh_dict = brush_entity_atlased_meshes['array_mesh_dict']
 	var atlased_surfaces = brush_entity_atlased_meshes['atlased_surfaces']
@@ -191,5 +194,8 @@ func _finalize(context: Dictionary) -> Dictionary:
 			meshes_to_unwrap[entity_idx] = atlased_mesh
 
 	return {
+		'nodes': {
+			'brush_entities_node': texture_layered_mesh_nodes
+		},
 		'meshes_to_unwrap': meshes_to_unwrap
 	}

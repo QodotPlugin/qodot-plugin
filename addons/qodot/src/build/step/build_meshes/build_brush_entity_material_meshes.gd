@@ -216,11 +216,9 @@ func _finalize(context) -> Dictionary:
 		if not entity_key in materials_nodes:
 			materials_nodes[entity_key] = {}
 
-		if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.ENTITY:
+		if entity_definition.physics_body_type == QodotFGDSolidClass.PhysicsBodyType.NONE:
 			materials_nodes[entity_key] = {
-				'entity_physics_body': {
-					'materials_node': materials_node
-				}
+				'materials_node': materials_node
 			}
 		else:
 			materials_nodes[entity_key] = {
