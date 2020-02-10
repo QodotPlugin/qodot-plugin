@@ -6,7 +6,7 @@ func get_name() -> String:
 
 func get_wants_finalize():
 	return true
-	
+
 func get_finalize_params() -> Array:
 	return ['entity_definition_set', 'entity_properties_array', 'brush_entity_collision_shapes']
 

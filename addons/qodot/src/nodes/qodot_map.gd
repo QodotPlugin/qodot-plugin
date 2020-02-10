@@ -374,10 +374,6 @@ func build_complete() -> void:
 	var build_duration = build_profiler.finish()
 	print("Build complete after " + String(build_duration * 0.001) + " seconds.\n")
 
-func add_children_to_editor(edited_scene_root) -> void:
-	for child in get_children():
-		recursive_set_owner(child, edited_scene_root)
-
 func recursive_set_owner(node, new_owner) -> void:
 	if not node.get_parent() is QodotTextureLayeredMesh:
 		node.set_owner(new_owner)

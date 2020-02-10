@@ -63,7 +63,6 @@ func should_spawn_collision_shapes(entity_definition_set: Dictionary, entity_pro
 	return false
 
 func create_convex_collision_shape(vertices) -> CollisionShape:
-	print("vertices: ", vertices)
 	var convex_polygon = ConvexPolygonShape.new()
 	convex_polygon.set_points(vertices)
 
