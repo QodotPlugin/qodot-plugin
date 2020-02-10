@@ -98,8 +98,11 @@ func _run(context) -> Dictionary:
 
 		var brush_data = brush_data_dict[entity_idx]
 		var entity_center = Vector3.ZERO
+
+		var brushes = []
 		for brush_idx in brush_data:
 			var brush = create_brush_from_face_data(brush_data[brush_idx])
+			brushes.append(brush)
 			entity_center += brush.center
 		entity_center /= brush_data.size()
 
@@ -119,7 +122,7 @@ func _run(context) -> Dictionary:
 				var face_idx = face_index_path[2]
 				var face_data = brush_data_dict[face_entity_idx][brush_idx]
 
-				var brush = create_brush_from_face_data(face_data)
+				var brush = brushes[brush_idx]
 				var face = brush.faces[face_idx]
 
 				var texture_size = Vector2.ZERO
