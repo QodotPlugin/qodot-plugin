@@ -4,11 +4,11 @@ extends QodotBuildStep
 func get_name() -> String:
 	return 'brush_entity_physics_bodies'
 
+func get_wants_finalize() -> bool:
+	return true
+
 func get_finalize_params() -> Array:
 	return ['entity_definition_set', 'entity_properties_array']
-
-func get_wants_finalize():
-	return true
 
 func _finalize(context) -> Dictionary:
 	var entity_definition_set = context['entity_definition_set']

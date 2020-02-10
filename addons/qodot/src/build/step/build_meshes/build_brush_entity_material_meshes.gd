@@ -215,15 +215,20 @@ func _finalize(context) -> Dictionary:
 
 		if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.ENTITY:
 			materials_nodes[entity_key] = {
-				entity_key: materials_node
+				'entity_physics_body': {
+					'materials_node': materials_node
+				}
 			}
 		else:
-			materials_nodes[entity_key][get_entity_key(entity_idx)] = materials_node
-
+			materials_nodes[entity_key] = {
+				'entity_physics_body': {
+					'materials_node': materials_node
+				}
+			}
 
 	var node_dict = {
-			'brush_entities_node': materials_nodes
-		}
+		'brush_entities_node': materials_nodes
+	}
 
 	return {
 		'meshes_to_unwrap': array_meshes,

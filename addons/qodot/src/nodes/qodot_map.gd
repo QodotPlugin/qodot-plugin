@@ -201,9 +201,9 @@ func get_build_steps() -> Array:
 			brush_entity_build_steps = [
 				QodotBuildNode.new("brush_entities_node", "Brush Entities", QodotSpatial),
 				QodotBuildBrushEntityNodes.new(),
+				QodotBuildBrushEntityPhysicsBodies.new(),
 				QodotBuildBrushEntityMaterialMeshes.new(),
 				QodotBuildBrushEntityAtlasedMeshes.new(),
-				QodotBuildBrushEntityPhysicsBodies.new(),
 				QodotBuildBrushEntityCollisionShapes.new(),
 			]
 
@@ -242,6 +242,8 @@ func cleanup_thread_pool(context, thread_pool):
 	var thread_cleanup_duration = thread_cleanup_profiler.finish()
 	print_log("Done in " + String(thread_cleanup_duration * 0.001) + " seconds...\n")
 
+var prev_node = self
+
 func add_context_results(context: Dictionary, results):
 	for result_key in results:
 		var result = results[result_key]
@@ -251,6 +253,8 @@ func add_context_results(context: Dictionary, results):
 					add_context_nodes_recursive(context, data_key, result[data_key])
 				else:
 					add_context_data_recursive(context, data_key, result[data_key])
+
+			var prev_node = self
 
 func add_context_data_recursive(context: Dictionary, data_key, result):
 	if not data_key in context:
@@ -264,6 +268,8 @@ func add_context_nodes_recursive(context: Dictionary, context_key: String, nodes
 	for node_key in nodes:
 		var node = nodes[node_key]
 		if node is Dictionary:
+			if 'node' in context[context_key]:
+				prev_node = context[context_key]['node']
 			add_context_nodes_recursive(context[context_key]['children'], node_key, node)
 		else:
 			if not context_key in context:
@@ -283,7 +289,7 @@ func add_context_nodes_recursive(context: Dictionary, context_key: String, nodes
 			if 'node' in context[context_key]:
 				context[context_key]['node'].add_child(node)
 			else:
-				add_child(node)
+				prev_node.add_child(node)
 
 			if is_instanced_scene:
 				node.owner = get_tree().get_edited_scene_root()

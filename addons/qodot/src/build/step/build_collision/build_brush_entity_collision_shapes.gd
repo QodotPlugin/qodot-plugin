@@ -4,11 +4,11 @@ extends QodotBuildCollision
 func get_name() -> String:
 	return 'brush_entity_collision_shapes'
 
-func get_finalize_params() -> Array:
-	return ['entity_definition_set', 'entity_properties_array', 'brush_entity_collision_shapes']
-
 func get_wants_finalize():
 	return true
+	
+func get_finalize_params() -> Array:
+	return ['entity_definition_set', 'entity_properties_array', 'brush_entity_collision_shapes']
 
 func get_context_key():
 	return 'brush_entity_collision_shapes'
