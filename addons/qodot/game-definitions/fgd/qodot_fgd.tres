@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=9 format=2]
+
+[ext_resource path="res://addons/qodot/game-definitions/fgd/solid_classes/worldspawn_solid_class.tres" type="Resource" id=1]
+[ext_resource path="res://addons/qodot/game-definitions/fgd/point_classes/light_point_class.tres" type="Resource" id=2]
+[ext_resource path="res://addons/qodot/game-definitions/fgd/base_classes/light_base_class.tres" type="Resource" id=3]
+[ext_resource path="res://addons/qodot/game-definitions/fgd/solid_classes/trigger_solid_class.tres" type="Resource" id=4]
+[ext_resource path="res://addons/qodot/game-definitions/fgd/solid_classes/group_solid_class.tres" type="Resource" id=5]
+[ext_resource path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_file.gd" type="Script" id=6]
+[ext_resource path="res://addons/qodot/game-definitions/fgd/solid_classes/detail_solid_class.tres" type="Resource" id=7]
+[ext_resource path="res://addons/qodot/game-definitions/fgd/solid_classes/illusionary_solid_class.tres" type="Resource" id=8]
+
+[resource]
+script = ExtResource( 6 )
+export_file = false
+target_folder = "C:/OtherPrograms/TrenchBroom/games/Qodot"
+fgd_name = "Qodot"
+entity_definitions = [ ExtResource( 1 ), ExtResource( 5 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 4 ), ExtResource( 3 ), ExtResource( 2 ) ]

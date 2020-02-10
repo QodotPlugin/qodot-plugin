@@ -1,6 +1,6 @@
 [gd_resource type="Resource" load_steps=2 format=2]
 
-[ext_resource path="res://addons/qodot/src/resources/fgd/qodot_fgd_solid_class.gd" type="Script" id=1]
+[ext_resource path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_solid_class.gd" type="Script" id=1]
 
 [resource]
 script = ExtResource( 1 )
@@ -14,14 +14,14 @@ class_properties = {
 class_property_descriptions = {
 
 }
-classname = "group"
-description = "Brush Group"
+classname = "illusionary"
+description = "Non-colliding Brush"
 spawn = "================================================================"
-spawn_type = 1
+spawn_type = 2
 visual_build = "================================================================"
 visual_build_type = 1
 collision_build = "================================================================"
-physics_body_type = 2
-collision_shape_type = 1
+physics_body_type = 0
+collision_shape_type = 0
 merge_brush_collision = false
 scripting = "================================================================"

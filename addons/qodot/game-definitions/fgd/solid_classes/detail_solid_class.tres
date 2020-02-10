@@ -1,6 +1,6 @@
 [gd_resource type="Resource" load_steps=2 format=2]
 
-[ext_resource path="res://addons/qodot/src/resources/fgd/qodot_fgd_solid_class.gd" type="Script" id=1]
+[ext_resource path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_solid_class.gd" type="Script" id=1]
 
 [resource]
 script = ExtResource( 1 )
@@ -25,3 +25,4 @@ physics_body_type = 2
 collision_shape_type = 1
 merge_brush_collision = false
 scripting = "================================================================"
+script_class = null

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://addons/qodot/src/resources/game-definitions/trenchbroom/trenchbroom_game_config_file.gd" type="Script" id=1]
+[ext_resource path="res://addons/qodot/game-definitions/trenchbroom/brush_tags/trigger_tag.tres" type="Resource" id=2]
+
+[resource]
+script = ExtResource( 1 )
+export_file = false
+target_file = "C:/OtherPrograms/TrenchBroom/games/Qodot/GameConfig.cfg"
+brush_tags = [ ExtResource( 2 ) ]
+face_tags = [  ]
+face_attrib_surface_flags = [  ]
+face_attrib_content_flags = [  ]
+fgd_filenames = [ "Qodot.fgd" ]

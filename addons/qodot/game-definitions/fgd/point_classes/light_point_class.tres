@@ -1,6 +1,6 @@
 [gd_resource type="Resource" load_steps=3 format=2]
 
-[ext_resource path="res://addons/qodot/src/resources/fgd/qodot_fgd_point_class.gd" type="Script" id=1]
+[ext_resource path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_point_class.gd" type="Script" id=1]
 [ext_resource path="res://addons/qodot/src/nodes/qodot_light.gd" type="Script" id=2]
 
 [resource]
