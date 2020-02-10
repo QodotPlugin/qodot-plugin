@@ -29,7 +29,9 @@ func _run(context) -> Dictionary:
 
 	if texture_names.size() <= 0:
 		print("No textures to atlas.")
-		return {}
+		return {
+			'texture_atlas': null
+		}
 
 	var max_size = Vector2.ZERO
 	for size in atlas_sizes:

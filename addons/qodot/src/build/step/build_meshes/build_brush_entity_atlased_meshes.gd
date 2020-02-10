@@ -50,6 +50,11 @@ func _run(context) -> Dictionary:
 	var texture_atlas = context['texture_atlas']
 	self.inverse_scale_factor = context['inverse_scale_factor']
 
+	if not texture_atlas:
+		return {
+			'brush_entity_atlased_meshes': null
+		}
+
 	# Fetch subdata
 	var atlas_textures = texture_atlas['atlas_textures']
 	var atlas_data_texture = texture_atlas['atlas_data_texture']
@@ -173,6 +178,9 @@ func get_face_mesh(entity_key, entity_definitions: Dictionary, entity_properties
 
 func _finalize(context: Dictionary) -> Dictionary:
 	var brush_entity_atlased_meshes = context['brush_entity_atlased_meshes']
+
+	if not brush_entity_atlased_meshes:
+		return {}
 
 	var texture_layered_mesh_nodes = brush_entity_atlased_meshes['texture_layered_mesh_nodes']
 	var texture_layered_mesh_dict = brush_entity_atlased_meshes['texture_layered_mesh_dict']

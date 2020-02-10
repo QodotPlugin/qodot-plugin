@@ -73,16 +73,21 @@ func _finalize(context) -> Dictionary:
 
 		if entity_definition.merge_brush_collision:
 			var entity_collision_vertices = PoolVector3Array()
+			var entity_collision_triangles = PoolVector3Array()
 			for brush_idx in brush_entity_collision_shapes[entity_idx]:
 				var area_collision_shape_data = brush_entity_collision_shapes[entity_idx][brush_idx]
 
 				var brush_center = area_collision_shape_data['brush_center']
 				var brush_collision_vertices = area_collision_shape_data['brush_collision_vertices']
+				var brush_collision_triangles = area_collision_shape_data['brush_collision_triangles']
 
 				for vert_idx in range(0, brush_collision_vertices.size()):
 					entity_collision_vertices.append(brush_collision_vertices[vert_idx] + (brush_center - entity_center))
 
-			var entity_collision_shape = create_collision_shape(entity_definition, entity_collision_vertices)
+				for vert_idx in range(0, brush_collision_triangles.size()):
+					entity_collision_triangles.append(brush_collision_triangles[vert_idx] + (brush_center - entity_center))
+
+			var entity_collision_shape = create_collision_shape(entity_definition, entity_collision_vertices, entity_collision_vertices)
 
 			if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.ENTITY:
 				entity_collision_shape.name = 'collision'
@@ -97,6 +102,7 @@ func _finalize(context) -> Dictionary:
 
 				var brush_center = area_collision_shape_data['brush_center']
 				var brush_collision_vertices = area_collision_shape_data['brush_collision_vertices']
+				var brush_collision_triangles = area_collision_shape_data['brush_collision_triangles']
 
 				var brush_collision_key = null
 				if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.ENTITY:
@@ -104,7 +110,7 @@ func _finalize(context) -> Dictionary:
 				else:
 					brush_collision_key = get_entity_key(entity_idx) + "_" + get_brush_key(brush_idx)
 
-				var brush_collision_shape = create_collision_shape(entity_definition, brush_collision_vertices)
+				var brush_collision_shape = create_collision_shape(entity_definition, brush_collision_vertices, brush_collision_triangles)
 				brush_collision_shape.name = brush_collision_key
 				brush_collision_shape.translation = brush_center - entity_center
 
@@ -116,11 +122,11 @@ func _finalize(context) -> Dictionary:
 		}
 	}
 
-func create_collision_shape(entity_definition: QodotFGDSolidClass, entity_collision_vertices: PoolVector3Array) -> CollisionShape:
+func create_collision_shape(entity_definition: QodotFGDSolidClass, entity_collision_vertices: PoolVector3Array, entity_collision_triangles: PoolVector3Array) -> CollisionShape:
 	match entity_definition.collision_shape_type:
 		QodotFGDSolidClass.CollisionShapeType.CONVEX:
 			return create_convex_collision_shape(entity_collision_vertices)
 		QodotFGDSolidClass.CollisionShapeType.CONCAVE:
-			return create_concave_collision_shape(entity_collision_vertices)
+			return create_concave_collision_shape(entity_collision_triangles)
 
 	return null

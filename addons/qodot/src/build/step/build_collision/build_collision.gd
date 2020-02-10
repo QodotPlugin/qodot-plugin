@@ -9,20 +9,29 @@ func get_brush_collision_vertices(
 	var collision_vertices = PoolVector3Array()
 
 	for face in brush.faces:
-		for vertex in face.face_vertices:
-
+		for vertex in face.get_vertices(face.center - brush.center):
 			var vertex_present = false
 			for collision_vertex in collision_vertices:
 				if((vertex - collision_vertex).length() < 0.001):
 					vertex_present = true
 
 			if not vertex_present:
-				if(world_space):
-					collision_vertices.append(vertex + face.center - brush.center)
-				else:
-					collision_vertices.append(vertex + face.center - brush.center)
+				collision_vertices.append(vertex)
 
 	return collision_vertices
+
+func get_brush_collision_triangles(
+	entity_properties: Dictionary,
+	brush: QuakeBrush,
+	world_space: bool = false
+	) -> PoolVector3Array:
+	var collision_triangles = PoolVector3Array()
+
+	for face in brush.faces:
+		for vertex in face.get_triangles(face.center - brush.center):
+			collision_triangles.append(vertex)
+
+	return collision_triangles
 
 func get_name() -> String:
 	return 'collision_shapes'
@@ -50,7 +59,8 @@ func _run(context) -> Dictionary:
 			get_entity_key(entity_idx): {
 				get_brush_key(brush_idx): {
 					'brush_center': brush.center,
-					'brush_collision_vertices': get_brush_collision_vertices(entity_properties, brush, true)
+					'brush_collision_vertices': get_brush_collision_vertices(entity_properties, brush, true),
+					'brush_collision_triangles': get_brush_collision_triangles(entity_properties, brush, true)
 				}
 			}
 		}
