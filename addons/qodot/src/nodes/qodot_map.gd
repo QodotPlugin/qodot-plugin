@@ -27,7 +27,7 @@ export(float) var inverse_scale_factor = 16.0
 
 # Entity definitions
 export(String) var entities = QodotUtil.CATEGORY_STRING
-export(Resource) var entity_definitions = preload('res://addons/qodot/fgd/qodot_fgd.tres')
+export(Resource) var entity_definitions = preload('res://addons/qodot/game-definitions/fgd/qodot_fgd.tres')
 
 # Textures
 export(String) var textures = QodotUtil.CATEGORY_STRING
