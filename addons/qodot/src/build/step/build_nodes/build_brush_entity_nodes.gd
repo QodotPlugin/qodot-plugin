@@ -31,26 +31,31 @@ func _run(context) -> Dictionary:
 		var classname = entity_properties['classname']
 		var entity_definition = entity_definition_set[classname]
 
-		if entity_definition is QodotFGDSolidClass:
-			if not entity_definition.is_worldspawn:
-				if entity_definition.script_class:
-					node = entity_definition.script_class.new()
-				else:
-					node = QodotEntity.new()
+		if not entity_definition is QodotFGDSolidClass:
+			return {}
 
-				node.name = 'entity_' + String(entity_idx) + '_' + classname
-				node.translation = entity_center
-				node.set_meta("_edit_lock_", true)
+		if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.MERGE_WORLDSPAWN:
+			return {}
 
-				if 'properties' in node:
-					node.properties = entity_properties
+		if entity_definition.script_class:
+			node = entity_definition.script_class.new()
+		else:
+			node = QodotEntity.new()
 
-				return {
-					'nodes': {
-						'brush_entities_node': {
-							get_entity_key(entity_idx): node
-						}
-					}
+		node.name = 'entity_' + String(entity_idx) + '_' + classname
+		if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.ENTITY:
+			node.translation = entity_center
+		node.set_meta("_edit_lock_", true)
+
+		if 'properties' in node:
+			node.properties = entity_properties
+
+		return {
+			'nodes': {
+				'brush_entities_node': {
+					get_entity_key(entity_idx): node
 				}
+			}
+		}
 
 	return {}

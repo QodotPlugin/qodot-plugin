@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource( 1 )
+class_options = "================================================================"
 meta_properties = {
 
 }
@@ -15,6 +16,12 @@ class_property_descriptions = {
 }
 classname = "trigger"
 description = "Trigger Volume"
-is_worldspawn = false
-has_visuals = false
-collision_type = 1
+spawn = "================================================================"
+spawn_type = 2
+visual_build = "================================================================"
+visual_build_type = 0
+collision_build = "================================================================"
+physics_body_type = 1
+collision_shape_type = 1
+merge_brush_collision = false
+scripting = "================================================================"

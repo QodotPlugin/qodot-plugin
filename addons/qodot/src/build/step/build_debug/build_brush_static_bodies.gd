@@ -16,9 +16,6 @@ func _run(context):
 	var entity_definition_set = context['entity_definition_set']
 	var entity_properties = context['entity_properties']
 
-	if not has_worldspawn_collision(entity_definition_set, entity_properties):
-		return null
-
 	var static_body = StaticBody.new()
 
 	return {

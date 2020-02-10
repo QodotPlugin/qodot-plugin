@@ -7,7 +7,7 @@ class InstancedScene:
 		wrapped_node = node
 
 func get_name() -> String:
-	return "entity_spawns"
+	return "point_entities"
 
 func get_type() -> int:
 	return self.Type.PER_ENTITY

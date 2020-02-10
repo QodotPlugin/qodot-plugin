@@ -3,6 +3,8 @@ extends Resource
 
 var prefix: String = ""
 
+export(String) var class_options = QodotUtil.CATEGORY_STRING
+
 export(Dictionary) var meta_properties := {
 	"size": AABB(Vector3(-8, -8, -8), Vector3(8, 8, 8)),
 	"color": Color(0.8, 0.8, 0.8)

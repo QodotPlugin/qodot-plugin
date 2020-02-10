@@ -78,7 +78,7 @@ func foreach_brush(entity_key, entity_properties: Dictionary, entity_brushes: Di
 
 	return brush_results
 
-func foreach_face(entity_key, entity_properties: Dictionary, brush_key, brush: QuakeBrush, predicate: FuncRef, function: FuncRef):
+func foreach_face(entity_key, entity_definition_set: Dictionary, entity_properties: Dictionary, brush_key, brush: QuakeBrush, predicate: FuncRef, function: FuncRef):
 	var face_results = {}
 
 	for face_idx in range(0, brush.faces.size()):
@@ -87,7 +87,7 @@ func foreach_face(entity_key, entity_properties: Dictionary, brush_key, brush: Q
 		if not predicate.call_func(entity_properties, brush, face):
 			continue
 
-		face_results[face_idx] = function.call_func(entity_key, entity_properties, brush_key, brush, face_idx, face)
+		face_results[face_idx] = function.call_func(entity_key, entity_definition_set, entity_properties, brush_key, brush, face_idx, face)
 
 	return face_results
 
@@ -122,7 +122,7 @@ func foreach_entity_brush_face(entity_definitions: Dictionary, entity_properties
 			if not brush_predicate.call_func(entity_definitions, entity_properties, brush):
 				continue
 
-			entity_brush_face_results[brush_key] = foreach_face(entity_key, entity_properties, brush_key, brush, face_predicate, function)
+			entity_brush_face_results[brush_key] = foreach_face(entity_key, entity_definitions, entity_properties, brush_key, brush, face_predicate, function)
 
 	return entity_brush_face_results
 
@@ -136,7 +136,7 @@ func foreach_brush_face(entity_definitions: Dictionary, entity_key, entity_prope
 		if not brush_predicate.call_func(entity_definitions, entity_properties, brush):
 			continue
 
-		brush_face_results[brush_key] = foreach_face(entity_key, entity_properties, brush_key, brush, face_predicate, function)
+		brush_face_results[brush_key] = foreach_face(entity_key, entity_definitions, entity_properties, brush_key, brush, face_predicate, function)
 
 	return brush_face_results
 

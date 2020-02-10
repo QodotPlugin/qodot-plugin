@@ -27,9 +27,6 @@ func _run(context) -> Dictionary:
 
 	var brush = create_brush_from_face_data(brush_data)
 
-	if not should_spawn_brush_mesh(entity_definition_set, entity_properties, brush):
-		return {}
-
 	var face_nodes = {}
 	var face_surfaces = {}
 

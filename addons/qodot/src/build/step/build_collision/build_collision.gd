@@ -1,12 +1,6 @@
 class_name QodotBuildCollision
 extends QodotBuildStep
 
-func should_spawn_brush_collision(entity_properties: Dictionary) -> bool:
-	if('classname' in entity_properties):
-		return entity_properties['classname'] != 'func_illusionary'
-
-	return true
-
 func get_brush_collision_vertices(
 	entity_properties: Dictionary,
 	brush: QuakeBrush,
@@ -30,39 +24,58 @@ func get_brush_collision_vertices(
 
 	return collision_vertices
 
-func get_brush_collision_triangles(brush: QuakeBrush, global_space: bool = false) -> PoolVector3Array:
-	var collision_triangles = PoolVector3Array()
+func get_name() -> String:
+	return 'collision_shapes'
 
-	for face in brush.faces:
-		var face_triangles = face.get_triangles(global_space)
-		for triangle_vertex in face_triangles:
-			collision_triangles.append(triangle_vertex)
+func get_type() -> int:
+	return self.Type.PER_BRUSH
 
-	return collision_triangles
+func get_build_params():
+	return ['entity_definition_set']
 
-func has_worldspawn_collision(entity_definition_set: Dictionary, entity_properties: Dictionary) -> bool:
-	if not 'classname' in entity_properties:
-		return false
+func _run(context) -> Dictionary:
+	var entity_idx = context['entity_idx']
+	var brush_idx = context['brush_idx']
+	var brush_data = context['brush_data']
+	var entity_definition_set = context['entity_definition_set']
+	var entity_properties = context['entity_properties']
 
-	var classname = entity_properties['classname']
-	var entity_definition = entity_definition_set[classname]
+	if not should_spawn_collision_shapes(entity_definition_set, entity_properties):
+		return {}
 
-	if entity_definition is QodotFGDSolidClass:
-		return entity_definition.is_worldspawn
+	var brush = create_brush_from_face_data(brush_data)
 
+	return {
+		get_context_key(): {
+			get_entity_key(entity_idx): {
+				get_brush_key(brush_idx): {
+					'brush_center': brush.center,
+					'brush_collision_vertices': get_brush_collision_vertices(entity_properties, brush, true)
+				}
+			}
+		}
+	}
+
+func get_context_key() -> String:
+	return 'collision_shapes'
+
+func should_spawn_collision_shapes(entity_definition_set: Dictionary, entity_properties: Dictionary) -> bool:
 	return false
 
-func has_brush_entity_collision(entity_definition_set: Dictionary, entity_properties: Dictionary) -> bool:
-	if not 'classname' in entity_properties:
-		return false
+func create_convex_collision_shape(vertices) -> CollisionShape:
+	var convex_polygon = ConvexPolygonShape.new()
+	convex_polygon.set_points(vertices)
 
-	var classname = entity_properties['classname']
-	var entity_definition = entity_definition_set[classname]
+	var brush_collision_shape = CollisionShape.new()
+	brush_collision_shape.set_shape(convex_polygon)
 
-	if entity_definition is QodotFGDSolidClass:
-		if entity_definition.is_worldspawn:
-			return false
+	return brush_collision_shape
 
-		return entity_definition.collision_type != entity_definition.SolidClassCollisionType.NONE
+func create_concave_collision_shape(triangles: PoolVector3Array) -> CollisionShape:
+	var concave_polygon = ConcavePolygonShape.new()
+	concave_polygon.set_faces(triangles)
 
-	return false
+	var brush_collision_shape = CollisionShape.new()
+	brush_collision_shape.set_shape(concave_polygon)
+
+	return brush_collision_shape

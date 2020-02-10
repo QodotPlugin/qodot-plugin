@@ -2,17 +2,20 @@ class_name QodotMap
 extends QodotSpatial
 tool
 
-const CATEGORY_STRING = '================================================================'
-
 ### Spatial node for rendering a QuakeMap resource into an entity/brush tree
+
+enum StaticLightingBuildType {
+	NONE,
+	UNWRAP_UV2
+}
 
 # Pseudo-button for forcing a refresh after asset reimport
 export(bool) var reload setget set_reload
 
-# Pseudo-button for forcing a refresh after asset reimport
+# Print profiling data to the log if true
 export(bool) var print_to_log
 
-export(String) var map = CATEGORY_STRING
+export(String) var map = QodotUtil.CATEGORY_STRING
 
 # .map Resource to auto-load when updating the map from the editor
 # (Works around references being held and preventing refresh on reimport)
@@ -22,69 +25,33 @@ export(String, FILE, '*.map') var map_file setget set_map_file
 # (16 is a best-effort conversion from Quake 3 units to metric)
 export(float) var inverse_scale_factor = 16.0
 
-export(String) var build = CATEGORY_STRING
-
-enum VisualBuildType {
-	NONE,
-	MATERIAL_MESHES,
-	MATERIAL_MESHES_PER_ENTITY,
-	MATERIAL_MESHES_PER_BRUSH,
-	ATLASED_MESH,
-	ATLASED_MESH_PER_ENTITY,
-	ATLASED_MESH_PER_BRUSH
-}
-
-enum StaticCollisionBuildType {
-	NONE,
-	CONVEX_SINGLE,
-	CONVEX_PER_ENTITY,
-	CONVEX_PER_BRUSH,
-	CONCAVE_SINGLE,
-	CONCAVE_PER_ENTITY,
-	CONCAVE_PER_BRUSH
-}
-
-enum BrushEntityBuildType {
-	NONE,
-	BRUSH_ENTITIES
-}
-
-enum PointEntityBuildType {
-	NONE,
-	POINT_ENTITIES
-}
-
-enum StaticLightingBuildType {
-	NONE,
-	UNWRAP_UV2
-}
-
-export(VisualBuildType) var visual_build_type = VisualBuildType.MATERIAL_MESHES
-export(StaticCollisionBuildType) var static_collision_build_type = StaticCollisionBuildType.CONVEX_PER_BRUSH
-export(BrushEntityBuildType) var brush_entity_build_type = BrushEntityBuildType.BRUSH_ENTITIES
-export(PointEntityBuildType) var point_entity_build_type = PointEntityBuildType.POINT_ENTITIES
-export(StaticLightingBuildType) var static_lighting_build_type = StaticLightingBuildType.NONE
-
-export(bool) var use_custom_build_pipeline = false
-export(Script) var custom_build_pipeline= preload('res://addons/qodot/src/build/pipeline/debug_pipeline.gd')
+# Entity definitions
+export(String) var entities = QodotUtil.CATEGORY_STRING
+export(Resource) var entity_definitions = preload('res://addons/qodot/fgd/qodot_fgd.tres')
 
 # Textures
-export(String) var textures = CATEGORY_STRING
+export(String) var textures = QodotUtil.CATEGORY_STRING
 export(String, DIR) var base_texture_path = 'res://textures'
 export(String) var texture_extension = '.png'
 export(Array, String, FILE, "*.wad") var texture_wads = []
 
 # Materials
-export(String) var materials = CATEGORY_STRING
+export(String) var materials = QodotUtil.CATEGORY_STRING
 export(String) var material_extension = '.tres'
 export (SpatialMaterial) var default_material
 
-# Entity defintions
-export(String) var entities = CATEGORY_STRING
-export(Resource) var entity_definitions
+# Build options
+export(String) var build = QodotUtil.CATEGORY_STRING
+
+export(bool) var build_brush_entities = true
+export(bool) var build_point_entities = true
+export(StaticLightingBuildType) var static_lighting_build_type = StaticLightingBuildType.NONE
+
+export(bool) var use_custom_build_pipeline = false
+export(Script) var custom_build_pipeline= preload('res://addons/qodot/src/build/pipeline/debug_pipeline.gd')
 
 # Threads
-export(String) var threading = CATEGORY_STRING
+export(String) var threading = QodotUtil.CATEGORY_STRING
 export(int) var max_build_threads = 4
 export(int) var build_bucket_size = 4
 
@@ -221,83 +188,27 @@ func get_build_steps() -> Array:
 		build_steps = [
 			QodotBuildParseMap.new(),
 			QodotBuildTextureList.new(),
-			QodotBuildNode.new("worldspawn_node", "Worldspawn", QodotSpatial),
 		]
 
-		var visual_build_steps = []
-		match visual_build_type:
-			VisualBuildType.MATERIAL_MESHES:
-				visual_build_steps = [
-					QodotBuildMaterials.new(),
-					QodotBuildMaterialMeshes.new()
-				]
-			VisualBuildType.MATERIAL_MESHES_PER_ENTITY:
-				visual_build_steps = [
-					QodotBuildMaterials.new(),
-					QodotBuildMaterialMeshesPerEntity.new()
-				]
-			VisualBuildType.MATERIAL_MESHES_PER_BRUSH:
-				visual_build_steps = [
-					QodotBuildMaterials.new(),
-					QodotBuildMaterialMeshesPerBrush.new()
-				]
-			VisualBuildType.ATLASED_MESH:
-				visual_build_steps = [
-					QodotBuildTextures.new(),
-					QodotBuildTextureAtlas.new(),
-					QodotBuildTextureLayeredMesh.new(preload('res://addons/qodot/shaders/atlas.tres'), 'atlas_array'),
-					QodotBuildTextureLayeredMeshAtlas.new(),
-					QodotBuildAtlasedMesh.new(),
-				]
-			VisualBuildType.ATLASED_MESH_PER_ENTITY:
-				visual_build_steps = [
-					QodotBuildTextures.new(),
-					QodotBuildTextureAtlas.new(),
-					QodotBuildTextureLayeredMesh.new(preload('res://addons/qodot/shaders/atlas.tres'), 'atlas_array'),
-					QodotBuildTextureLayeredMeshAtlas.new(),
-					QodotBuildAtlasedMeshPerEntity.new(),
-				]
-			VisualBuildType.ATLASED_MESH_PER_BRUSH:
-				visual_build_steps = [
-					QodotBuildTextures.new(),
-					QodotBuildTextureAtlas.new(),
-					QodotBuildTextureLayeredMesh.new(preload('res://addons/qodot/shaders/atlas.tres'), 'atlas_array'),
-					QodotBuildTextureLayeredMeshAtlas.new(),
-					QodotBuildAtlasedMeshPerBrush.new(),
-				]
+		var visual_build_steps = [
+			QodotBuildTextures.new(),
+			QodotBuildTextureAtlas.new(),
+			QodotBuildMaterials.new(),
+		]
 
-		var static_collision_build_steps = []
-
-		if static_collision_build_type != StaticCollisionBuildType.NONE:
-			static_collision_build_steps.append(QodotBuildNode.new("static_body", "collision", StaticBody, ['worldspawn_node']))
-
-			match static_collision_build_type:
-				StaticCollisionBuildType.CONVEX_SINGLE:
-					static_collision_build_steps.append(QodotBuildStaticConvexCollisionSingle.new())
-				StaticCollisionBuildType.CONVEX_PER_ENTITY:
-					static_collision_build_steps.append(QodotBuildStaticConvexCollisionPerEntity.new())
-				StaticCollisionBuildType.CONVEX_PER_BRUSH:
-					static_collision_build_steps.append(QodotBuildStaticConvexCollisionPerBrush.new())
-				StaticCollisionBuildType.CONCAVE_SINGLE:
-					static_collision_build_steps.append(QodotBuildStaticConcaveCollisionSingle.new())
-				StaticCollisionBuildType.CONCAVE_PER_ENTITY:
-					static_collision_build_steps.append(QodotBuildStaticConcaveCollisionPerEntity.new())
-				StaticCollisionBuildType.CONCAVE_PER_BRUSH:
-					static_collision_build_steps.append(QodotBuildStaticConcaveCollisionPerBrush.new())
-
-		var trigger_collision_build_steps = []
-		match brush_entity_build_type:
-			BrushEntityBuildType.BRUSH_ENTITIES:
-				trigger_collision_build_steps = [
-					QodotBuildNode.new("brush_entities_node", "Brush Entities", QodotSpatial),
-					QodotBuildBrushEntityNodes.new(),
-					QodotBuildMaterialMeshesPerEntity.new(true),
-					QodotBuildAreaConvexCollision.new(),
-				]
+		var brush_entity_build_steps = []
+		if build_brush_entities:
+			brush_entity_build_steps = [
+				QodotBuildNode.new("brush_entities_node", "Brush Entities", QodotSpatial),
+				QodotBuildBrushEntityNodes.new(),
+				QodotBuildBrushEntityMaterialMeshes.new(),
+				QodotBuildBrushEntityAtlasedMeshes.new(),
+				QodotBuildBrushEntityPhysicsBodies.new(),
+				QodotBuildBrushEntityCollisionShapes.new(),
+			]
 
 		var entity_spawn_build_steps = []
-		match point_entity_build_type:
-			PointEntityBuildType.POINT_ENTITIES:
+		if build_point_entities:
 				entity_spawn_build_steps = [
 					QodotBuildNode.new("point_entities_node", "Point Entities", QodotSpatial),
 					QodotBuildPointEntities.new(),
@@ -312,8 +223,7 @@ func get_build_steps() -> Array:
 
 		var build_step_arrays = [
 			visual_build_steps,
-			static_collision_build_steps,
-			trigger_collision_build_steps,
+			brush_entity_build_steps,
 			entity_spawn_build_steps,
 			static_lighting_build_steps
 		]

@@ -5,6 +5,7 @@
 
 [resource]
 script = ExtResource( 1 )
+class_options = "================================================================"
 meta_properties = {
 "base": "Light",
 "size": AABB( -8, -8, -8, 8, 8, 8 )
@@ -17,5 +18,7 @@ class_property_descriptions = {
 }
 classname = "light"
 description = "Invisible light source"
+scene = "================================================================"
 scene_file = ""
+scripting = "================================================================"
 script_class = ExtResource( 2 )

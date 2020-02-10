@@ -4,6 +4,8 @@ class_name QodotUtil
 
 const DEBUG = false
 
+const CATEGORY_STRING = '================================================================'
+
 # Const-predicated print function to avoid excess log spam
 static func debug_print(msg):
 	if(DEBUG):
