@@ -63,9 +63,19 @@ func update_properties():
 	var light_color = Color.white
 	if '_color' in properties:
 		var comps = properties['_color'].split(' ')
-		var red = int(comps[0]) / 255.0
-		var green = int(comps[1]) / 255.0
-		var blue = int(comps[2]) / 255.0
+
+		var red = null
+		var green = null
+		var blue = null
+
+		if "." in comps[0] or "." in comps[1] or "." in comps[2]:
+			red = comps[0].to_float()
+			green = comps[1].to_float()
+			blue = comps[2].to_float()
+		else:
+			red = int(comps[0]) / 255.0
+			green = int(comps[1]) / 255.0
+			blue = int(comps[2]) / 255.0
 		light_color = Color(red, green, blue)
 
 	light_node.set_color(light_color)
