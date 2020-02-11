@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://addons/qodot/src/resources/game-definitions/trenchbroom/trenchbroom_tag.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+tag_name = "Skip"
+tag_attributes = [ "transparent" ]
+tag_match_type = 0
+tag_pattern = "skip"
+texture_name = ""
