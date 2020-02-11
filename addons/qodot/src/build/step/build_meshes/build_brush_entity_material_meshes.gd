@@ -8,7 +8,7 @@ func get_type() -> int:
 	return self.Type.SINGLE
 
 func get_build_params() -> Array:
-	return ['entity_definition_set', 'entity_properties_array', 'brush_data_dict', 'material_dict', 'inverse_scale_factor']
+	return ['entity_centers', 'entity_definition_set', 'entity_properties_array', 'brush_data_dict', 'material_dict', 'inverse_scale_factor']
 
 func get_wants_finalize():
 	return true
@@ -41,6 +41,7 @@ var entity_material_index_paths = {}
 
 func _run(context) -> Dictionary:
 	# Fetch context variables
+	var entity_centers = context['entity_centers']
 	var entity_definition_set = context['entity_definition_set']
 	var entity_properties_array = context['entity_properties_array']
 	var brush_data_dict = context['brush_data_dict']
@@ -97,14 +98,12 @@ func _run(context) -> Dictionary:
 		var entity_definition = entity_definition_set[classname]
 
 		var brush_data = brush_data_dict[entity_idx]
-		var entity_center = Vector3.ZERO
 
+		var entity_center = entity_centers[entity_idx]
 		var brushes = []
 		for brush_idx in brush_data:
 			var brush = create_brush_from_face_data(brush_data[brush_idx])
 			brushes.append(brush)
-			entity_center += brush.center
-		entity_center /= brush_data.size()
 
 		var material_names = entity_material_names[entity_idx]
 		for material_name in material_names:

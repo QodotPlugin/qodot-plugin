@@ -8,7 +8,7 @@ func get_wants_finalize():
 	return true
 
 func get_finalize_params() -> Array:
-	return ['entity_definition_set', 'entity_properties_array', 'brush_entity_collision_shapes']
+	return ['entity_centers', 'entity_definition_set', 'entity_properties_array', 'brush_entity_collision_shapes']
 
 func get_context_key():
 	return 'brush_entity_collision_shapes'
@@ -29,6 +29,7 @@ func _finalize(context) -> Dictionary:
 	if not 'brush_entity_collision_shapes' in context:
 		return {}
 
+	var entity_centers = context['entity_centers']
 	var brush_entity_collision_shapes = context['brush_entity_collision_shapes']
 	var entity_definition_set = context['entity_definition_set']
 	var entity_properties_array = context['entity_properties_array']
@@ -50,14 +51,8 @@ func _finalize(context) -> Dictionary:
 			continue
 
 		var entity_center = Vector3.ZERO
-
 		if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.ENTITY:
-			# Calculate entity center
-			for brush_idx in brush_entity_collision_shapes[get_entity_key(entity_idx)]:
-				var area_collision_shape_data = brush_entity_collision_shapes[get_entity_key(entity_idx)][brush_idx]
-				var brush_center = area_collision_shape_data['brush_center']
-				entity_center += brush_center
-			entity_center /= brush_entity_collision_shapes[get_entity_key(entity_idx)].size()
+			entity_center = entity_centers[entity_idx]
 
 		var entity_key = null
 		if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.ENTITY:

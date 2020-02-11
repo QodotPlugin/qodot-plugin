@@ -7,26 +7,18 @@ func get_type() -> int:
 	return self.Type.PER_ENTITY
 
 func get_build_params() -> Array:
-	return ['entity_definition_set', 'brush_data_dict']
+	return ['entity_definition_set', 'entity_centers', 'brush_data_dict']
 
 func _run(context) -> Dictionary:
 	var entity_idx = context['entity_idx']
+	var entity_centers = context['entity_centers']
 	var entity_definition_set = context['entity_definition_set']
 	var entity_properties = context['entity_properties']
 	var brush_data_dict = context['brush_data_dict']
 
-	var entity_center = Vector3.ZERO
-
-	var brush_data = brush_data_dict[entity_idx]
-	for brush_idx in brush_data:
-		var face_data = brush_data[brush_idx]
-		var brush = create_brush_from_face_data(face_data)
-		entity_center += brush.center
-
-	entity_center /= brush_data.size()
+	var entity_center = entity_centers[entity_idx]
 
 	var node = null
-
 	if 'classname' in entity_properties:
 		var classname = entity_properties['classname']
 		var entity_definition = entity_definition_set[classname]

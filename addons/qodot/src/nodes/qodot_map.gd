@@ -187,6 +187,7 @@ func get_build_steps() -> Array:
 	else:
 		build_steps = [
 			QodotBuildParseMap.new(),
+			QodotBuildEntityCenters.new(),
 			QodotBuildTextureList.new(),
 		]
 

@@ -8,7 +8,7 @@ func get_type() -> int:
 	return self.Type.SINGLE
 
 func get_build_params() -> Array:
-	return ['brush_data_dict', 'entity_definition_set', 'entity_properties_array', 'texture_atlas', 'inverse_scale_factor']
+	return ['entity_centers', 'brush_data_dict', 'entity_definition_set', 'entity_properties_array', 'texture_atlas', 'inverse_scale_factor']
 
 func get_wants_finalize() -> bool:
 	return true
@@ -44,6 +44,7 @@ var entity_center = Vector3.ZERO
 
 func _run(context) -> Dictionary:
 	# Fetch context data
+	var entity_centers = context['entity_centers']
 	var brush_data_dict = context['brush_data_dict']
 	var entity_definition_set = context['entity_definition_set']
 	var entity_properties_array = context['entity_properties_array']
@@ -82,11 +83,7 @@ func _run(context) -> Dictionary:
 		surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
 		entity_surface_tools[entity_idx] = surface_tool
 
-		entity_center = Vector3.ZERO
-		for brush_idx in brush_data:
-			var brush = create_brush_from_face_data(brush_data[brush_idx])
-			entity_center += brush.center
-		entity_center /= brush_data.size()
+		entity_center = entity_centers[entity_idx]
 
 		var results = foreach_brush_face(
 			entity_definition_set,
