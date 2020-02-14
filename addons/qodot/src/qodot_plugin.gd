@@ -4,11 +4,11 @@ tool
 
 # Qodot editor plugin
 
-var map_import_plugin = null
-var palette_import_plugin = null
-var wad_import_plugin = null
+var map_import_plugin : QuakeMapImportPlugin = null
+var palette_import_plugin : QuakePaletteImportPlugin = null
+var wad_import_plugin : QuakeWadImportPlugin = null
 
-func _enter_tree():
+func _enter_tree() -> void:
 	map_import_plugin = QuakeMapImportPlugin.new()
 	palette_import_plugin = QuakePaletteImportPlugin.new()
 	wad_import_plugin = QuakeWadImportPlugin.new()
@@ -17,7 +17,7 @@ func _enter_tree():
 	add_import_plugin(palette_import_plugin)
 	add_import_plugin(wad_import_plugin)
 
-func _exit_tree():
+func _exit_tree() -> void:
 	remove_import_plugin(map_import_plugin)
 	remove_import_plugin(palette_import_plugin)
 	remove_import_plugin(wad_import_plugin)

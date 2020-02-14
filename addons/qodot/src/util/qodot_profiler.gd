@@ -1,10 +1,10 @@
 class_name QodotProfiler
 
-var start_timestamp = null
+var start_timestamp := 0
 
-func _init():
+func _init() -> void:
 	start_timestamp = OS.get_ticks_msec()
 
-func finish():
-	var end_timestamp = OS.get_ticks_msec()
-	return end_timestamp - start_timestamp
+func finish() -> int:
+	var end_timestamp := OS.get_ticks_msec() - start_timestamp 
+	return end_timestamp
