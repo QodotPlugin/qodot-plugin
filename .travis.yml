@@ -1,0 +1,33 @@
+language: c
+before_script:
+    - mkdir build
+before_deploy:
+    - export TRAVIS_TAG=latest
+    - git tag $TRAVIS_TAG
+matrix:
+    include:
+        - os: osx
+          osx_image: xcode8
+          before_install: easy_install scons
+          script: scons platform=osx bits=64 target=release
+        - os: linux
+          script: scons platform=linux bits=64 target=release
+          addons:
+              apt:
+                  packages:
+                      - scons
+                  update: true
+deploy:
+    provider: releases
+    file_glob: true
+    skip_cleanup: true
+    api_key:
+        secure: pvb/wzXpjofgj+Y+to3l6sPUR9MdCFoSGaiVf/Y4Ryc1O3LNJX9WOoLobpKnmUHiBi7rpza8xrAZLSlDWV4xJE+hp6J6KFORvQHMjp/syUjMvQq7IwLCASwp+wuPqvPdqgyb7BEZJtZ4gV1YaO+a1dgR1KajBkHq+BJhoOwv01qO3cBLJqn2dDfzN0Z7LlbxZ1DUdq+ie+Jb6+XQ7fubRb04gGW5lECU7VF5oUxG4lhhpzzXwHWQnuLqgh+TuAZkIlY+ngjKFvSE8GxEZkxE04SUxFkVhYFIWTXNAFBAbutm5m8rYvZz+BHczOgnIOsd1GE3ak1uikLfeZWZNm4Mv2zjD09emZFtFT9ENxb1kHVU0YT1r3T9AKqBOdkcnv/cxZNknToc6M5iGL2eqqGdUfLgcVHpqz6AW/taUIxoJwFf9NaueqML/9FzgRV7YqvCUtsJzhtML90f6VKhPKMk49IsTWGzBF3mOWC9Tayfy6ZmJHaDbpk1vHvoz5mOQveF3ltjjcog+n3MednEkQFOf9mgTK1fHMkZFlHtsa5XKLqUNGJfNNE+YEuDTK3noiJQRfd7oAtZIcRLq+X5cSn0FyGcNTGtgp5p+OUvONUEpTOFP+8U6KyhvG6d8R6eh5MqCUeUW/gCd8W4EBjH4+NfOm2pDOKf7zbKeqjAGb4Askw=
+    file:
+        - "addons/qodot/bin/*.dll"
+        - "addons/qodot/bin/*.so"
+        - "addons/qodot/bin/*.dylib"
+    on:
+        repo: Shfty/qodot-plugin
+    draft: true
+    overwrite: true
