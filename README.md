@@ -68,6 +68,12 @@ Documentation is available on the [Qodot Wiki](https://github.com/ShiftyAxel/Qod
 
 [Shifty's Twitter](https://twitter.com/ShiftyAxel)
 
+## Support
+
+If you'd like to support the ongoing development of Qodot, donations are accepted via PayPal:
+
+[![Donate with PayPal button](https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D8FJ3RX3WSQJS&source=url)
+
 ## Credits
 
 [Kristian Duske](https://twitter.com/kristianduske) - For creating TrenchBroom and inspiring the creation of Qodot
@@ -87,9 +93,3 @@ Documentation is available on the [Qodot Wiki](https://github.com/ShiftyAxel/Qod
 [Corruptinator](https://github.com/Corruptinator) - For the idea of using TrenchBroom groups as a scene tree.
 
 [FreePBR.com](https://freepbr.com) - For royalty-free PBR example textures
-
-## Support
-
-If you'd like to support the ongoing development of Qodot, donations are accepted via PayPal:
-
-[![Donate with PayPal button](https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D8FJ3RX3WSQJS&source=url)
