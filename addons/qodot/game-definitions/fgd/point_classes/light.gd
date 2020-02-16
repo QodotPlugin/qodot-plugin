@@ -82,8 +82,9 @@ func update_properties():
 
 	add_child(light_node)
 
-	var tree = get_tree()
-	if tree:
-		var edited_scene_root = tree.get_edited_scene_root()
-		if edited_scene_root:
-			light_node.set_owner(edited_scene_root)
+	if is_inside_tree():
+		var tree = get_tree()
+		if tree:
+			var edited_scene_root = tree.get_edited_scene_root()
+			if edited_scene_root:
+				light_node.set_owner(edited_scene_root)

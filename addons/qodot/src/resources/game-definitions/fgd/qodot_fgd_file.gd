@@ -59,7 +59,7 @@ func get_fgd_classes() -> Array:
 		res.append(cur_ent_def)
 	return res
 
-func get_entity_scene_map() -> Dictionary:
+func get_entity_definitions() -> Dictionary:
 	var res = {}
 	for ent in get_fgd_classes():
 		if ent is QodotFGDPointClass or ent is QodotFGDSolidClass:

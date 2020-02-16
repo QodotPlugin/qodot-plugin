@@ -10,7 +10,7 @@ func set_properties(new_properties):
 
 func update_properties():
 	if 'angle' in properties:
-		rotation.y = deg2rad(180 + properties['angle'])
+		rotation.y = deg2rad(180 + properties['angle'].to_int())
 
 func get_class():
 	return 'QodotEntity'

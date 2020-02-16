@@ -3,9 +3,9 @@ extends QodotFGDClass
 tool
 
 enum SpawnType {
-	WORLDSPAWN,
-	MERGE_WORLDSPAWN,
-	ENTITY
+	WORLDSPAWN = 0,
+	MERGE_WORLDSPAWN = 1,
+	ENTITY = 2
 }
 
 enum VisualBuildType {
@@ -41,7 +41,6 @@ export(VisualBuildType) var visual_build_type = VisualBuildType.MATERIAL_MESHES
 export(String) var collision_build = QodotUtil.CATEGORY_STRING
 export(PhysicsBodyType) var physics_body_type = PhysicsBodyType.KINEMATIC_BODY
 export(CollisionShapeType) var collision_shape_type = CollisionShapeType.CONVEX
-export(bool) var merge_brush_collision = false
 
 # The script file to associate with this SolidClass
 # On building the map, this will be attached to any brush entities created

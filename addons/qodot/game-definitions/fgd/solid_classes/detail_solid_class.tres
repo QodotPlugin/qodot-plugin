@@ -23,6 +23,4 @@ visual_build_type = 1
 collision_build = "================================================================"
 physics_body_type = 2
 collision_shape_type = 1
-merge_brush_collision = false
 scripting = "================================================================"
-script_class = null

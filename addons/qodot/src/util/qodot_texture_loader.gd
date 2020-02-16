@@ -76,10 +76,10 @@ func create_materials(texture_list: Array, material_extension: String, default_m
 	var texture_materials := {}
 	for texture in texture_list:
 		texture_materials[texture] = create_material(
-		texture,
-		material_extension,
-		default_material
-	)
+			texture,
+			material_extension,
+			default_material
+		)
 	return texture_materials
 
 func create_material(
@@ -138,7 +138,7 @@ func get_pbr_textures(texture_name: String, texture: Texture) -> Dictionary:
 	for suffix in PBR_SUFFICES:
 		var suffix_string : String = suffix[0]
 		pbr_textures[suffix_string] = get_pbr_texture(texture_name, suffix_string)
-	
+
 	return pbr_textures
 
 func create_pbr_material(texture_name: String, albedo_texture: Texture, default_material: SpatialMaterial) -> SpatialMaterial:
@@ -174,7 +174,7 @@ func get_pbr_texture(texture_name: String, suffix: String) -> Texture:
 	var texture_string = ''
 	for comp in texture_comps:
 		texture_string += '/' + comp
-	
+
 	var path : String = base_texture_path + texture_string + '/' + texture_comps[-1] + '_' + suffix + texture_extension
 	if(directory.file_exists(path)):
 		return load(path) as Texture
