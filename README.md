@@ -68,6 +68,12 @@ Documentation is available on the [Qodot Wiki](https://github.com/ShiftyAxel/Qod
 
 [Shifty's Twitter](https://twitter.com/ShiftyAxel)
 
+## Support
+
+If you'd like to support the ongoing development of Qodot, donations are accepted via PayPal:
+
+[![Donate with PayPal button](https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D8FJ3RX3WSQJS&source=url)
+
 ## Credits
 
 [Kristian Duske](https://twitter.com/kristianduske) - For creating TrenchBroom and inspiring the creation of Qodot
@@ -76,18 +82,14 @@ Documentation is available on the [Qodot Wiki](https://github.com/ShiftyAxel/Qod
 
 [TheRektafire](https://github.com/TheRektafire) - For a variety of useful tidbits on the .map format
 
-[lordee](https://github.com/lordee), [DistractedMOSFET](https://github.com/distractedmosfet) and [winadam](https://github.com/winadam) - For laying the groundwork of the FGD export and entity scripting systems.
-
 [Calinou](https://github.com/Calinou) - For making Qodot work on case-sensitive systems
-
-[Redhacker2](https://github.com/donovan1212) - For stress-testing Qodot to within an inch of its life and motivating me to improve it
-
-[FreePBR.com](https://freepbr.com) - For royalty-free PBR example textures
 
 [SunkPer](https://twitter.com/SunkPer) - For showcase screenshots
 
-## Support
+[lordee](https://github.com/lordee), [DistractedMOSFET](https://github.com/distractedmosfet) and [winadam](https://github.com/winadam) - For laying the groundwork of the FGD export and entity scripting systems.
 
-If you'd like to support the ongoing development of Qodot, donations are accepted via PayPal:
+[fossegutten](https://github.com/fossegutten) - For a typed GDScript pass
 
-[![Donate with PayPal button](https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D8FJ3RX3WSQJS&source=url)
+[Corruptinator](https://github.com/Corruptinator) - For the idea of using TrenchBroom groups as a scene tree.
+
+[FreePBR.com](https://freepbr.com) - For royalty-free PBR example textures
