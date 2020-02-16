@@ -27,7 +27,8 @@ build_script:
   - scons platform=%LM_PLATFORM% bits=64 target=%TARGET%
 
 artifacts:
-  - path: build/*.dll
+  - path: build/libmap.dll
+  - path: build/libqodot.dll
 
 deploy:
   - provider: GitHub
