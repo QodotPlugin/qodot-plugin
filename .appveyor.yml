@@ -33,7 +33,7 @@ deploy:
   - provider: GitHub
     auth_token:
       secure: YCKQJa/VO6nHDC8/iCOtJbqQ0nri+/S6zhEHnYzUAj43tmZwxnWQ6NjDB78FZY0v
-    repository: Shfty/libqodot
+    repository: Shfty/qodot-plugin
     artifact: build/*.dll
     draft: true
     force_update: true
