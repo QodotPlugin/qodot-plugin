@@ -4,6 +4,8 @@ before_script:
 before_deploy:
     - export TRAVIS_TAG=latest
     - git tag $TRAVIS_TAG
+    - ls libqodot
+    - ls libqodot/libmap
 matrix:
     include:
         - os: osx
