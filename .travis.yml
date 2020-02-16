@@ -1,11 +1,11 @@
 language: c
 before_script:
     - mkdir build
+    - ls libqodot
+    - ls libqodot/libmap
 before_deploy:
     - export TRAVIS_TAG=latest
     - git tag $TRAVIS_TAG
-    - ls libqodot
-    - ls libqodot/libmap
 matrix:
     include:
         - os: osx
