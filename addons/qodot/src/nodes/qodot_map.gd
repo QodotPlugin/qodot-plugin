@@ -29,6 +29,7 @@ export(float) var uv_unwrap_resolution_scale := 1.0
 export(int) var tree_attach_batch_size = 16
 export(int) var set_owner_batch_size = 16
 
+# Build context variables
 var qodot = null
 
 var profile_timestamps = {}
@@ -38,11 +39,25 @@ var set_owner_array = []
 
 var cached_name = null
 
+var texture_list := []
+var texture_loader = null
+var texture_dict := {}
+var texture_size_dict := {}
+var material_dict := {}
+var entity_definitions := {}
+var entity_dicts := []
+var mesh_dict := {}
+var entity_nodes := []
+var entity_mesh_instances := {}
+var entity_physics_bodies := []
+var entity_collision_shapes := []
+
 func set_action(new_action) -> void:
 	if action != new_action:
 		match new_action:
 			QodotMapAction.BUILD_MAP:
-				build_map()
+				if verify_parameters():
+					build_map()
 			QodotMapAction.UNWRAP_UV2:
 				print("Unwrapping mesh UV2s\n")
 				unwrap_uv2(self)
@@ -53,9 +68,49 @@ func _ready() -> void:
 		return
 
 	if not Engine.is_editor_hint():
-		build_map()
+		if verify_parameters():
+			build_map()
 
 # Utility
+func verify_parameters():
+	if not qodot:
+		var lib_qodot := load("res://addons/qodot/bin/qodot.gdns")
+		if lib_qodot:
+			qodot = lib_qodot.new()
+
+	if not qodot:
+		push_error("Error: Failed to load libqodot")
+		return false
+
+	if map_file == "":
+		push_error("Error: Map file not set")
+		return false
+
+	var map = File.new()
+	if not map.file_exists(map_file):
+		push_error("Error: No such file %s" % map_file)
+		return false
+
+	return true
+
+func reset_build_context():
+	texture_list = []
+	texture_loader = null
+	texture_dict = {}
+	texture_size_dict = {}
+	material_dict = {}
+	entity_definitions = {}
+	entity_dicts = []
+	entity_nodes = []
+	entity_mesh_instances = {}
+	entity_physics_bodies = []
+	entity_collision_shapes = []
+	mesh_dict = {}
+
+	add_child_array = []
+	set_owner_array = []
+
+	cached_name = null
 
 func start_profile(item_name: String) -> void:
 	name = "%s [%s]" % [cached_name, item_name]
@@ -104,8 +159,9 @@ func set_owner_editor(node):
 	node.set_owner(edited_scene_root)
 
 # Actions
-
 func build_map() -> void:
+	reset_build_context()
+
 	cached_name = name
 
 	print('Building %s\n' % map_file)
@@ -113,11 +169,6 @@ func build_map() -> void:
 
 	run_build_step('remove_children')
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
-
-	if not qodot:
-		yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
-		run_build_step('init_qodot')
-		yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
 	run_build_step('load_map', [map_file])
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
@@ -138,7 +189,6 @@ func build_map() -> void:
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
 	# Load entity definitions
-	var entity_definitions := {}
 	if entity_fgd:
 		entity_definitions = run_build_step('fetch_entity_definitions')
 		yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
@@ -152,22 +202,24 @@ func build_map() -> void:
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
 	# Get entity metadata, populate scene tree
-	var entity_dicts := run_build_step('fetch_entity_dicts') as Array
+	entity_dicts = run_build_step('fetch_entity_dicts') as Array
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
-	var entity_nodes := run_build_step('build_entity_nodes', [entity_dicts, entity_definitions]) as Array
+	entity_nodes = run_build_step('build_entity_nodes', [entity_dicts, entity_definitions]) as Array
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
 	if use_trenchbroom_group_hierarchy:
 		run_build_step('resolve_group_hierarchy', [entity_nodes])
 		yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
-	var entity_physics_bodies := run_build_step('build_entity_physics_body_nodes', [entity_dicts, entity_definitions, entity_nodes]) as Array
+	entity_physics_bodies = run_build_step('build_entity_physics_body_nodes', [entity_dicts, entity_definitions, entity_nodes]) as Array
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
-	run_build_step('build_surfaces_by_texture', [
-		texture_dict,
-		material_dict,
+	mesh_dict = run_build_step('build_mesh_dict', [texture_dict, material_dict, entity_dicts, entity_definitions]) as Dictionary
+	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
+
+	entity_mesh_instances = run_build_step('build_mesh_instances', [
+		mesh_dict,
 		entity_dicts,
 		entity_definitions,
 		entity_nodes,
@@ -175,12 +227,9 @@ func build_map() -> void:
 	])
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
-	var entity_collision_shapes := run_build_step('build_entity_collision_shape_nodes', [
+	entity_collision_shapes = run_build_step('build_entity_collision_shape_nodes', [
 		entity_dicts, entity_definitions, entity_physics_bodies
 	]) as Array
-	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
-
-	run_build_step('build_entity_collision_shapes', [entity_dicts, entity_definitions, entity_collision_shapes])
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
 	start_profile('add_children')
@@ -201,10 +250,6 @@ func remove_children() -> void:
 	for child in get_children():
 		remove_child(child)
 		child.queue_free()
-
-func init_qodot() -> void:
-	var lib_qodot := preload("res://addons/qodot/bin/qodot.gdns")
-	qodot = lib_qodot.new()
 
 func load_map(map_file: String) -> void:
 	qodot.load_map(map_file)
@@ -550,8 +595,9 @@ func build_entity_collision_shapes(entity_dicts: Array, entity_definitions: Dict
 			var collision_shape = entity_collision_shapes[entity_idx][0]
 			collision_shape.set_shape(shape)
 
-func build_surfaces_by_texture(texture_dict: Dictionary, material_dict: Dictionary, entity_dicts: Array, entity_definitions: Dictionary, entity_nodes: Array, entity_physics_bodies: Array) -> void:
+func build_mesh_dict(texture_dict: Dictionary, material_dict: Dictionary, entity_dicts: Array, entity_definitions: Dictionary) -> Dictionary:
 	var meshes := {}
+
 	for texture in texture_dict:
 		qodot.gather_texture_surfaces(texture, brush_clip_texture, face_skip_texture)
 		var texture_surfaces := qodot.fetch_surfaces(inverse_scale_factor) as Array
@@ -584,7 +630,12 @@ func build_surfaces_by_texture(texture_dict: Dictionary, material_dict: Dictiona
 			mesh.add_surface_from_arrays(ArrayMesh.PRIMITIVE_TRIANGLES, entity_surface)
 			mesh.surface_set_material(mesh.get_surface_count() - 1, material_dict[texture])
 
-	for entity_idx in meshes:
+	return meshes
+
+func build_mesh_instances(mesh_dict: Dictionary, entity_dicts: Array, entity_definitions: Dictionary, entity_nodes: Array, entity_physics_bodies: Array) -> Dictionary:
+	var entity_mesh_instances := {}
+
+	for entity_idx in mesh_dict:
 		var use_in_baked_light = false
 
 		var entity_dict := entity_dicts[entity_idx] as Dictionary
@@ -599,15 +650,33 @@ func build_surfaces_by_texture(texture_dict: Dictionary, material_dict: Dictiona
 					if properties['_shadow'] == "1":
 						use_in_baked_light = true
 
-		var mesh := meshes[entity_idx] as Mesh
+		var mesh := mesh_dict[entity_idx] as Mesh
 
 		if not mesh:
 			continue
 
 		var mesh_instance := MeshInstance.new()
 		mesh_instance.name = 'entity_%s_mesh_instance' % entity_idx
-		mesh_instance.set_mesh(mesh)
 		mesh_instance.set_flag(MeshInstance.FLAG_USE_BAKED_LIGHT, use_in_baked_light)
+
+		if not entity_physics_bodies[entity_idx]:
+			queue_add_child(entity_nodes[entity_idx], mesh_instance)
+		else:
+			queue_add_child(entity_physics_bodies[entity_idx], mesh_instance)
+
+		entity_mesh_instances[entity_idx] = mesh_instance
+
+	return entity_mesh_instances
+
+func apply_meshes(mesh_dict: Dictionary, entity_mesh_instances: Dictionary) -> void:
+	for entity_idx in mesh_dict:
+		var mesh := mesh_dict[entity_idx] as Mesh
+		var mesh_instance := entity_mesh_instances[entity_idx] as MeshInstance
+
+		if not mesh or not mesh_instance:
+			continue
+
+		mesh_instance.set_mesh(mesh)
 
 		if not entity_physics_bodies[entity_idx]:
 			queue_add_child(entity_nodes[entity_idx], mesh_instance)
@@ -651,6 +720,13 @@ func set_owners():
 
 func set_owners_complete():
 	stop_profile('set_owners')
+	post_attach()
+
+func post_attach():
+	run_build_step('build_entity_collision_shapes', [entity_dicts, entity_definitions, entity_collision_shapes])
+	run_build_step('apply_meshes', [mesh_dict, entity_mesh_instances])
+	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
+
 	build_complete()
 
 func build_complete():
