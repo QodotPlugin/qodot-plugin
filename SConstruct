@@ -64,7 +64,3 @@ env.Append(CPPPATH=['libqodot/libmap/src/h'])
 
 env.SConscript("libqodot/libmap/SConscript", exports='env')
 env.SConscript("libqodot/SConscript", exports='env')
-
-env.Install(dir = env['target_path'], source = "libqodot/libmap/build/*.dll")
-env.Install(dir = env['target_path'], source = "libqodot/libmap/build/*.dylib")
-env.Install(dir = env['target_path'], source = "libqodot/libmap/build/*.so")

@@ -26,9 +26,10 @@ deploy:
     api_key:
         secure: Cd7OtnWdLA6LDv3IXJC848RzX6QAf7UxWcKEcqhT+0oWeRXv5RhvmmCU2oQxsLjlPzBiOsryPJBdVgrnj/EooqlaRpOXIhGQe2sj++ZW1YteSDDoMAbnrFhx+SWsibb4cMxrwEEXisePQzpEN/iznFB1g+Zocj1wQLO1dpLbg//MFAQPZKjCzEsQOYOF65lWGZ7JgGca53BuSK3ZIkr9f1pTO00x9MDKHvTcBhx99dfZqOIW3ZUJZyCsf6RYm0wqYnNSGpvLqMUvP5O3hYkzE7tZ6qY5RUuxu8aI97ziWay2QhmGF5sWsjifinCtRlDMaIdC/SPtb/AlRgB08nzX+sCwamSf6mSmSBTVjSMRaSDd5MF07VB8ZOx74cyQTpYAJf8IehlxbJqmg2XChGHUg4eeheW2Xd+yjYmib3rF53mJuSGMqFKQEBUSqPJjch1Av/n3M2SkNbePJOC1gsn3r23MZVvAqXVkDMwxmoqXkKXRXPBU3ZpSu+GRmkbM6HpfA+TX2cM/o0hhjXNDLZjLRsc1GSzw/16Q5LVrs06WIQXlxZSRTeEpPKWwJaVq66bjFvvgzEV1bSSg1Y0hrqzDse6nowwBgRHuyF+m0q2UMCYPT4gqkXQH4CeGK0TF2FjiHNgFPqkk0TrVXtXuq755D5f/r1+Pf5uJR5adF4wgCfE=
     file:
-        - "addons/qodot/bin/*.dll"
-        - "addons/qodot/bin/*.so"
-        - "addons/qodot/bin/*.dylib"
+        - "libqodot/build/*.so"
+        - "libqodot/build/*.dylib"
+        - "libqodot/libmap/build/*.so"
+        - "libqodot/libmap/build/*.dylib"
     on:
         repo: Shfty/qodot-plugin
     draft: true
