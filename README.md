@@ -29,7 +29,7 @@ Qodot extends the Godot editor to import Quake *.map* files, and provides an ext
 
 ![](https://raw.githubusercontent.com/Shfty/qodot-extras/master/screenshots/heading.png)
 
-![](https://raw.githubusercontent.com/Shfty/qodot-extras/master/screenshots/heading.png)[![](https://raw.githubusercontent.com/Shfty/qodot-extras/master/showcase/sunkper-props-thumbnail.jpg)](https://raw.githubusercontent.com/Shfty/qodot-extras/master/showcase/sunkper-props.jpg)
+[![](https://raw.githubusercontent.com/Shfty/qodot-extras/master/showcase/sunkper-props-thumbnail.jpg)](https://raw.githubusercontent.com/Shfty/qodot-extras/master/showcase/sunkper-props.jpg)
 
 Assorted props by [@SunkPer](https://twitter.com/SunkPer)
 
