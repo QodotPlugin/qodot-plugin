@@ -63,9 +63,9 @@ elif env['platform'] == "windows":
 env.Append(CPPPATH=['libqodot/libmap/src/h'])
 
 env.SConscript("libqodot/libmap/SConscript", exports='env')
-# env.SConscript("libqodot/SConscript", exports='env')
+env.SConscript("libqodot/SConscript", exports='env')
 
-env.Install(dir = env['target_path'], source = "libqodot/libmap/build/libmap.dll")
-env.Install(dir = env['target_path'], source = "libqodot/libmap/build/libmap.pdb")
+# env.Install(dir = env['target_path'], source = "libqodot/libmap/build/libmap.dll")
+# env.Install(dir = env['target_path'], source = "libqodot/libmap/build/libmap.pdb")
 # env.Install(dir = env['target_path'], source = "libqodot/build/libqodot.dll")
 # env.Install(dir = env['target_path'], source = "libqodot/build/libqodot.pdb")
