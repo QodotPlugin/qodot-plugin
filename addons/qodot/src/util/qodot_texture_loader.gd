@@ -42,8 +42,7 @@ func _init(
 func load_texture_wad_resources(texture_wads: Array) -> void:
 	texture_wad_resources.clear()
 
-	for texture_wad_path in texture_wads:
-		var texture_wad = load(texture_wad_path) as QuakeWadFile
+	for texture_wad in texture_wads:
 		if texture_wad and not texture_wad in texture_wad_resources:
 			texture_wad_resources.append(texture_wad)
 
