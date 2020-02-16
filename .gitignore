@@ -1,3 +1,6 @@
+*.dblite
+build-windows.bat
+
 # Godot-specific ignores
 .import/
 export.cfg
