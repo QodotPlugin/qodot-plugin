@@ -2,7 +2,8 @@
 
 Quake *.map* file support for Godot.
 
-![](https://raw.githubusercontent.com/Shfty/qodot-extras/master/screenshots/heading.png)
+[![](https://ci.appveyor.com/api/projects/status/jtapjc9vocrry02g?svg=true)](https://ci.appveyor.com/project/Shfty/qodot-plugin)
+[![](https://travis-ci.com/Shfty/qodot-plugin.svg?branch=master)](https://travis-ci.com/Shfty/qodot-plugin)
 
 ## Overview
 
@@ -26,7 +27,9 @@ Qodot extends the Godot editor to import Quake *.map* files, and provides an ext
 
 ## Showcase
 
-[![](https://raw.githubusercontent.com/Shfty/qodot-extras/master/showcase/sunkper-props-thumbnail.jpg)](https://raw.githubusercontent.com/Shfty/qodot-extras/master/showcase/sunkper-props.jpg)
+![](https://raw.githubusercontent.com/Shfty/qodot-extras/master/screenshots/heading.png)
+
+![](https://raw.githubusercontent.com/Shfty/qodot-extras/master/screenshots/heading.png)[![](https://raw.githubusercontent.com/Shfty/qodot-extras/master/showcase/sunkper-props-thumbnail.jpg)](https://raw.githubusercontent.com/Shfty/qodot-extras/master/showcase/sunkper-props.jpg)
 
 Assorted props by [@SunkPer](https://twitter.com/SunkPer)
 
