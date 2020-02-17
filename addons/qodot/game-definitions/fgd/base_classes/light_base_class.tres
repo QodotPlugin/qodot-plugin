@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource( 1 )
-class_options = null
+class_options = "----------------------------------------------------------------"
 meta_properties = {
 "color": Color( 1, 1, 0.156863, 1 )
 }

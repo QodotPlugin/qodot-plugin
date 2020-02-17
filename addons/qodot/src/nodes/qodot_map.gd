@@ -621,7 +621,7 @@ func build_mesh_dict(texture_dict: Dictionary, material_dict: Dictionary, entity
 						if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.MERGE_WORLDSPAWN:
 							entity_surface = null
 
-						if entity_definition.visual_build_type == QodotFGDSolidClass.VisualBuildType.NONE:
+						if not entity_definition.build_visuals:
 							entity_surface = null
 
 			if not entity_surface:

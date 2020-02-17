@@ -8,12 +8,6 @@ enum SpawnType {
 	ENTITY = 2
 }
 
-enum VisualBuildType {
-	NONE,
-	MATERIAL_MESHES,
-	ATLASED_MESHES
-}
-
 enum PhysicsBodyType {
 	NONE,
 	AREA,
@@ -35,7 +29,7 @@ export(SpawnType) var spawn_type = SpawnType.ENTITY
 
 # Controls how visuals are built for this SolidClass
 export(String) var visual_build = QodotUtil.CATEGORY_STRING
-export(VisualBuildType) var visual_build_type = VisualBuildType.MATERIAL_MESHES
+export(bool) var build_visuals = true
 
 # Controls how collisions are built for this SolidClass
 export(String) var collision_build = QodotUtil.CATEGORY_STRING
