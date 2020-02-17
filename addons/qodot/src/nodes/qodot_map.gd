@@ -15,7 +15,7 @@ enum QodotMapAction {
 export(QodotMapAction) var action  setget set_action
 export(bool) var print_profiling_data := false
 export(String) var map := QodotUtil.CATEGORY_STRING
-export(String, FILE, GLOBAL, "*.map") var map_file
+export(String, FILE, GLOBAL, "*.map") var map_file setget set_map_file
 export(float) var inverse_scale_factor = 16.0
 export(String) var entities := QodotUtil.CATEGORY_STRING
 export(Resource) var entity_fgd = preload("res://addons/qodot/game-definitions/fgd/qodot_fgd.tres")
@@ -67,6 +67,10 @@ func set_action(new_action) -> void:
 				print("Unwrapping mesh UV2s\n")
 				unwrap_uv2(self)
 				print("Unwrap complete\n")
+
+func set_map_file(new_map_file: String) -> void:
+	if map_file != new_map_file:
+		map_file = new_map_file
 
 func _ready() -> void:
 	if not DEBUG:
