@@ -11,19 +11,21 @@ Qodot extends the Godot editor to import Quake *.map* files, and provides an ext
 
 ## Features
 
-- Natively import *.map* files into Godot
+- Natively import `.map` files into Godot and convert them into a usable scene tree
 - Supports
   - Brush geometry
-  - Per-face textures and customized UVs
-  - Precise trimesh collision
-  - Entities with arbitrary collections of parameters
-- Extensible tree population
-  - Leverages the *.map* format's simple key/value property system
-  - Spawn custom entities and brushes
-- Supports the [TrenchBroom](https://github.com/Shfty/qodot-plugin/wiki/TrenchBroom) editor
+  - Textures and customized UVs
+  - Convex and concave collision volumes
+  - Gameplay entities
+  - FGD (Forge Game Data) export for custom game definitions
+- Configurable scene population
+  - Leverages the map format's classname and key/value property systems
+  - Spawn and configure custom Godot scenes and scripts based on entities defined in the map editor
+  - Define the visual and collision properties of brush entities on a per-classname basis
+- TrenchBroom Integration
   - Simple, intuitive map editor with a strong feature set
-  - Includes a simple Qodot game preset
-  - Can be built upon with game-specific entities and brush properties
+  - TrenchBroom game configurations can be exported for tighter workflow integration
+  - Nested TrenchBroom groups can be used to build a tree hierarchy from the format's standard flat structure
 
 ## Showcase
 
