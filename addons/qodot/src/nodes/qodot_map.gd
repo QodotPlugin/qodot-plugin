@@ -14,17 +14,22 @@ enum QodotMapAction {
 
 export(QodotMapAction) var action  setget set_action
 export(bool) var print_profiling_data := false
+export(String) var map := QodotUtil.CATEGORY_STRING
 export(String, FILE, GLOBAL, "*.map") var map_file
 export(float) var inverse_scale_factor = 16.0
+export(String) var entities := QodotUtil.CATEGORY_STRING
 export(Resource) var entity_fgd = preload("res://addons/qodot/game-definitions/fgd/qodot_fgd.tres")
 export(bool) var use_trenchbroom_group_hierarchy = true
+export(String) var textures := QodotUtil.CATEGORY_STRING
 export(String, DIR) var base_texture_dir := "res://textures"
 export(String) var texture_file_extension := ".png"
 export(String) var brush_clip_texture := "special/clip"
 export(String) var face_skip_texture := "special/skip"
 export(Array, Resource) var texture_wads := []
+export(String) var materials := QodotUtil.CATEGORY_STRING
 export(String) var material_file_extension := ".tres"
 export(SpatialMaterial) var default_material = SpatialMaterial.new()
+export(String) var uv_unwrap := QodotUtil.CATEGORY_STRING
 export(float) var uv_unwrap_resolution_scale := 1.0
 export(int) var tree_attach_batch_size = 16
 export(int) var set_owner_batch_size = 16
