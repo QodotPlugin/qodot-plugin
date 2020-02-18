@@ -31,6 +31,7 @@ export(String) var material_file_extension := ".tres"
 export(SpatialMaterial) var default_material = SpatialMaterial.new()
 export(String) var uv_unwrap := QodotUtil.CATEGORY_STRING
 export(float) var uv_unwrap_resolution_scale := 1.0
+export(String) var build := QodotUtil.CATEGORY_STRING
 export(int) var tree_attach_batch_size = 16
 export(int) var set_owner_batch_size = 16
 
