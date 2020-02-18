@@ -5,20 +5,18 @@ var prefix: String = ""
 
 export(String) var class_options = QodotUtil.CATEGORY_STRING
 
-export(Dictionary) var meta_properties := {
-	"size": AABB(Vector3(-8, -8, -8), Vector3(8, 8, 8)),
-	"color": Color(0.8, 0.8, 0.8)
-}
+export(String) var classname
+
+export var description = ""
 
 export(Dictionary) var class_properties := {}
 
 export(Dictionary) var class_property_descriptions := {}
 
-## A node used to define an entity in a QodotEntityDefinitionSet
-export(String) var classname
-
-# description for the entity def
-export var description = ""
+export(Dictionary) var meta_properties := {
+	"size": AABB(Vector3(-8, -8, -8), Vector3(8, 8, 8)),
+	"color": Color(0.8, 0.8, 0.8)
+}
 
 func build_def_text() -> String:
 	# Class prefix
@@ -75,7 +73,18 @@ func build_def_text() -> String:
 			prop_val = "\"" + value + "\""
 		elif value is Vector3:
 			prop_type = "string"
-			prop_val = "\"%s %s %s\"" % [value.x, value.y, value.z]
+			prop_val = "\"%s %s %s\"" % [
+				value.x,
+				value.y,
+				value.z
+			]
+		elif value is Color:
+			prop_type = "color255"
+			prop_val = "\"%s %s %s\"" % [
+				value.r8,
+				value.g8,
+				value.b8
+			]
 		elif value is Dictionary:
 			prop_type = "choices"
 			prop_val = "[" + "\n"
