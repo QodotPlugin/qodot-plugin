@@ -27,15 +27,15 @@ build_script:
   - scons platform=%LM_PLATFORM% bits=64 target=%TARGET%
 
 artifacts:
-  - path: addons/qodot/bin/win64/libmap.dll
-  - path: addons/qodot/bin/win64/libqodot.dll
+  - path: libqodot/libmap/build/libmap.dll 
+  - path: libqodot/build/libqodot.dll 
 
 deploy:
   - provider: GitHub
     auth_token:
       secure: YCKQJa/VO6nHDC8/iCOtJbqQ0nri+/S6zhEHnYzUAj43tmZwxnWQ6NjDB78FZY0v
     repository: Shfty/qodot-plugin
-    artifact: addons/qodot/bin/win64/libmap.dll, addons/qodot/bin/win64/libqodot.dll
+    artifact: libqodot/libmap/build/libmap.dll , libqodot/build/libqodot.dll
     draft: true
     force_update: true
     tag: latest
