@@ -5,9 +5,8 @@
 [resource]
 script = ExtResource( 1 )
 class_options = "----------------------------------------------------------------"
-meta_properties = {
-"color": Color( 1, 1, 0.156863, 1 )
-}
+classname = "Light"
+description = ""
 class_properties = {
 "delay": {
 "Inverse distance falloff": 1,
@@ -27,5 +26,6 @@ class_property_descriptions = {
 "mangle": "Spotlight angle",
 "wait": "Fade distance multiplier"
 }
-classname = "Light"
-description = ""
+meta_properties = {
+"color": Color( 1, 1, 0.156863, 1 )
+}

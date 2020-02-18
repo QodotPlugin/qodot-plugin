@@ -5,17 +5,17 @@
 [resource]
 script = ExtResource( 1 )
 class_options = "----------------------------------------------------------------"
-meta_properties = {
-
-}
+classname = "trigger"
+description = "Trigger Volume"
 class_properties = {
 
 }
 class_property_descriptions = {
 
 }
-classname = "trigger"
-description = "Trigger Volume"
+meta_properties = {
+
+}
 spawn = "----------------------------------------------------------------"
 spawn_type = 2
 visual_build = "----------------------------------------------------------------"
