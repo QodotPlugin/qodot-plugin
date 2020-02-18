@@ -30,7 +30,7 @@ export(String) var materials := QodotUtil.CATEGORY_STRING
 export(String) var material_file_extension := ".tres"
 export(SpatialMaterial) var default_material = SpatialMaterial.new()
 export(String) var uv_unwrap := QodotUtil.CATEGORY_STRING
-export(float) var uv_unwrap_resolution_scale := 1.0
+export(float) var uv_unwrap_texel_size := 1.0
 export(String) var build := QodotUtil.CATEGORY_STRING
 export(int) var tree_attach_batch_size = 16
 export(int) var set_owner_batch_size = 16
@@ -249,7 +249,7 @@ func unwrap_uv2(node: Node) -> void:
 	if node is MeshInstance:
 		var mesh = node.get_mesh()
 		if mesh is ArrayMesh:
-			mesh.lightmap_unwrap(Transform.IDENTITY, (1.0 / 16.0) * uv_unwrap_resolution_scale)
+			mesh.lightmap_unwrap(Transform.IDENTITY, uv_unwrap_texel_size / inverse_scale_factor)
 
 	for child in node.get_children():
 		unwrap_uv2(child)

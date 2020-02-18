@@ -6,18 +6,18 @@
 [resource]
 script = ExtResource( 1 )
 class_options = "----------------------------------------------------------------"
-meta_properties = {
-"base": "Light",
-"size": AABB( -8, -8, -8, 8, 8, 8 )
-}
+classname = "light"
+description = "Invisible light source"
 class_properties = {
 "angle": 0.0
 }
 class_property_descriptions = {
 "angle": "Rotation Angle"
 }
-classname = "light"
-description = "Invisible light source"
+meta_properties = {
+"base": "Light",
+"size": AABB( -8, -8, -8, 8, 8, 8 )
+}
 scene = "----------------------------------------------------------------"
 scripting = "----------------------------------------------------------------"
 script_class = ExtResource( 2 )
