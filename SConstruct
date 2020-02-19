@@ -35,10 +35,18 @@ if env['platform'] == "osx":
     env['target_path'] += 'osx/'
     if env['target'] in ('debug', 'd'):
         env.Append(CCFLAGS = ['-g','-O2', '-arch', 'x86_64'])
-        env.Append(LINKFLAGS = ['-arch', 'x86_64'])
+        env.Append(LINKFLAGS = [
+            '-arch',
+            'x86_64',
+            '-Wl,-rpath,\'$$ORIGIN\''
+        ])
     else:
         env.Append(CCFLAGS = ['-g','-O3', '-arch', 'x86_64'])
-        env.Append(LINKFLAGS = ['-arch', 'x86_64'])
+        env.Append(LINKFLAGS = [
+            '-arch',
+            'x86_64',
+            '-Wl,-rpath,\'$$ORIGIN\''
+        ])
 
 elif env['platform'] in ('x11', 'linux'):
     env['target_path'] += 'x11/'
