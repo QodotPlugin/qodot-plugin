@@ -5,17 +5,17 @@ tool
 ## A node used to to express a set of entity definitions that can be exproted
 
 #psuedo-button to export
-export(bool) var export_file setget set_export_file
-export(String, DIR, GLOBAL) var trenchbroom_games_folder
+export(bool) var export_file : bool setget set_export_file
+export(String, DIR, GLOBAL) var trenchbroom_games_folder : String
 
-export(String) var game_name = "Qodot"
-export(Image) var icon = preload("res://icon.png")
-export(Resource) var game_config_file = preload("res://addons/qodot/game-definitions/trenchbroom/qodot_trenchbroom_config_file.tres")
-export(Array, Resource) var fgd_files = [
+export(String) var game_name := "Qodot"
+export(Texture) var icon : Texture = preload("res://icon.png")
+export(Resource) var game_config_file : Resource = preload("res://addons/qodot/game-definitions/trenchbroom/qodot_trenchbroom_config_file.tres")
+export(Array, Resource) var fgd_files : Array = [
 	preload("res://addons/qodot/game-definitions/fgd/qodot_fgd.tres")
 ]
 
-func set_export_file(new_export_file = true):
+func set_export_file(new_export_file : bool = true) -> void:
 	if new_export_file != export_file:
 		if Engine.is_editor_hint():
 			if not trenchbroom_games_folder:
@@ -43,10 +43,11 @@ func set_export_file(new_export_file = true):
 
 			print("Exporting TrenchBroom Game Config Folder to ", config_folder)
 
-			var icon_path = config_folder + "/Icon.png"
+			var icon_path : String = config_folder + "/Icon.png"
 
 			print("Exporting icon to ", icon_path)
-			var export_icon = icon.duplicate()
+			
+			var export_icon : Image = icon.get_data()
 			export_icon.resize(32, 32, Image.INTERPOLATE_LANCZOS)
 			export_icon.save_png(icon_path)
 
@@ -63,7 +64,7 @@ func set_export_file(new_export_file = true):
 				if not fgd_file is QodotFGDFile:
 					print("Skipping %s: Not a valid FGD file" % [fgd_file])
 
-				var export_fgd = fgd_file.duplicate()
+				var export_fgd : QodotFGDFile = fgd_file.duplicate()
 				export_fgd.target_folder = config_folder
 				export_fgd.set_export_file(true)
 

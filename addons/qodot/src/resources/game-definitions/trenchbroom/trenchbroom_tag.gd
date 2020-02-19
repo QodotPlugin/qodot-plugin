@@ -9,8 +9,8 @@ enum TagMatchType {
 	CLASSNAME
 }
 
-export(String) var tag_name
-export(Array, String) var tag_attributes
-export(TagMatchType) var tag_match_type
-export(String) var tag_pattern
-export(String) var texture_name
+export(String) var tag_name : String
+export(Array, String) var tag_attributes : Array
+export(TagMatchType) var tag_match_type : int
+export(String) var tag_pattern : String
+export(String) var texture_name : String
