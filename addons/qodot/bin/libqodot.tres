@@ -4,9 +4,9 @@
 entry/Windows.64 = "res://addons/qodot/bin/win64/libqodot.dll"
 dependency/Windows.64 = [ "res://addons/qodot/bin/win64/libmap.dll" ]
 
-entry/OSX.64="res://addons/qodot/bin/osx/libsimple.dylib"
+entry/OSX.64="res://addons/qodot/bin/osx/libqodot.dylib"
 dependency/OSX.64 = [ "res://addons/qodot/bin/osx/libmap.dylib" ]
 
 
-entry/X11.64="res://addons/qodot/bin/x11/libsimple.so"
+entry/X11.64="res://addons/qodot/bin/x11/libqodot.so"
 dependency/X11.64 = [ "res://addons/qodot/bin/x11/libmap.so" ]
