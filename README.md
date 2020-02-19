@@ -7,7 +7,9 @@ Quake *.map* file support for Godot.
 
 ## Overview
 
-Qodot extends the Godot editor to import Quake *.map* files, and provides an extensible framework for converting the entities and brushes contained therein into a scene-based node hierarchy with custom properties.
+Qodot extends the Godot editor to import Quake *.map* files, and provides a data-driven framework for converting the entities and brushes contained therein into a custom node hierarchy.
+
+![](https://raw.githubusercontent.com/wiki/Shfty/qodot-plugin/images/2-usage/in-editor.gif)
 
 ## Features
 
@@ -28,8 +30,6 @@ Qodot extends the Godot editor to import Quake *.map* files, and provides an ext
   - Nested TrenchBroom groups can be used to build a tree hierarchy from the format's standard flat structure
 
 ## Showcase
-
-![](https://raw.githubusercontent.com/Shfty/qodot-extras/master/screenshots/heading.png)
 
 [![](https://raw.githubusercontent.com/Shfty/qodot-extras/master/showcase/sunkper-props-thumbnail.jpg)](https://raw.githubusercontent.com/Shfty/qodot-extras/master/showcase/sunkper-props.jpg)
 
@@ -75,7 +75,11 @@ Documentation is available on the [Qodot Wiki](https://github.com/ShiftyAxel/Qod
 
 ## Support
 
-If you'd like to support the ongoing development of Qodot, donations are accepted via PayPal:
+If you'd like to support the ongoing development of Qodot, a Patreon page is available for the project:
+
+[Shifty Studio - Patreon](https://www.patreon.com/shifty_studio)
+
+Donations via PayPal are also accepted:
 
 [![Donate with PayPal button](https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D8FJ3RX3WSQJS&source=url)
 
