@@ -3,11 +3,11 @@ extends Resource
 
 var prefix: String = ""
 
-export(String) var class_options = QodotUtil.CATEGORY_STRING
+export(String) var class_options : String = QodotUtil.CATEGORY_STRING
 
-export(String) var classname
+export(String) var classname : String
 
-export var description = ""
+export var description : String = ""
 
 export(Dictionary) var class_properties := {}
 
@@ -20,7 +20,7 @@ export(Dictionary) var meta_properties := {
 
 func build_def_text() -> String:
 	# Class prefix
-	var res = prefix
+	var res : String = prefix
 
 	# Class properties
 	for prop in meta_properties:

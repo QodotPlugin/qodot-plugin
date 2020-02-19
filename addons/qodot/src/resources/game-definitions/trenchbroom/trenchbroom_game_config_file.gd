@@ -2,15 +2,15 @@ class_name TrenchBroomGameConfigFile
 extends Resource
 tool
 
-export(bool) var export_file setget set_export_file
-export(String, FILE, GLOBAL, "*.cfg") var target_file
+export(bool) var export_file : bool setget set_export_file
+export(String, FILE, GLOBAL, "*.cfg") var target_file : String
 
-export(Array, Resource) var brush_tags = []
-export(Array, Resource) var face_tags = []
-export(Array, Resource) var face_attrib_surface_flags = []
-export(Array, Resource) var face_attrib_content_flags = []
+export(Array, Resource) var brush_tags : Array = []
+export(Array, Resource) var face_tags : Array = []
+export(Array, Resource) var face_attrib_surface_flags : Array = []
+export(Array, Resource) var face_attrib_content_flags : Array = []
 
-export(Array, String) var fgd_filenames = []
+export(Array, String) var fgd_filenames : Array = []
 
 var base_text: String = """{
 	version: 3,
@@ -58,7 +58,7 @@ var base_text: String = """{
 }
 """
 
-func set_export_file(new_export_file = true):
+func set_export_file(new_export_file : bool = true) -> void:
 	if new_export_file != export_file:
 		if not Engine.is_editor_hint():
 			return
@@ -68,13 +68,13 @@ func set_export_file(new_export_file = true):
 			return
 
 		print("Exporting TrenchBroom Game Config File to ", target_file)
-		var file_obj = File.new()
+		var file_obj := File.new()
 		file_obj.open(target_file, File.WRITE)
 		file_obj.store_string(build_class_text())
 		file_obj.close()
 
 func build_class_text() -> String:
-	var fgd_filename_str = ""
+	var fgd_filename_str := ""
 	for fgd_filename in fgd_filenames:
 		fgd_filename_str += "\"%s\"" % fgd_filename
 		if fgd_filename != fgd_filenames[-1]:
@@ -105,12 +105,12 @@ static func get_match_key(tag_match_type: int) -> String:
 	return tag_keys[tag_match_type]
 
 func parse_tags(tags: Array) -> String:
-	var tags_str = ""
+	var tags_str := ""
 	for brush_tag in tags:
 		tags_str += "{\n"
 		tags_str += "\t\t\t\t\"name\": \"%s\",\n" % brush_tag.tag_name
 
-		var attribs_str = ""
+		var attribs_str := ""
 		for brush_tag_attrib in brush_tag.tag_attributes:
 			attribs_str += "\"%s\"" % brush_tag_attrib
 			if brush_tag_attrib != brush_tag.tag_attributes[-1]:
@@ -135,7 +135,7 @@ func parse_tags(tags: Array) -> String:
 	return tags_str
 
 func parse_flags(flags: Array) -> String:
-	var flags_str = ""
+	var flags_str := ""
 
 	for attrib_flag in flags:
 		flags_str += "{\n"
