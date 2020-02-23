@@ -48,7 +48,8 @@ var add_child_array = []
 var set_owner_array = []
 
 var cached_name = null
-var populate_editor_tree := true
+var should_add_children := true
+var should_set_owners := true
 
 var texture_list := []
 var texture_loader = null
@@ -67,10 +68,12 @@ func set_action(new_action) -> void:
 	if action != new_action:
 		match new_action:
 			QodotMapAction.QUICK_BUILD:
-				populate_editor_tree = false
+				should_add_children = true
+				should_set_owners = false
 				verify_and_build()
 			QodotMapAction.FULL_BUILD:
-				populate_editor_tree = true
+				should_add_children = true
+				should_set_owners = true
 				verify_and_build()
 			QodotMapAction.UNWRAP_UV2:
 				print("Unwrapping mesh UV2s\n")
@@ -95,6 +98,11 @@ func verify_and_build():
 		build_map()
 	else:
 		emit_signal("build_failed")
+
+func manual_build():
+	should_add_children = false
+	should_set_owners = false
+	verify_and_build()
 
 func verify_parameters():
 	if not qodot:
@@ -232,7 +240,7 @@ func build_map() -> void:
 	entity_nodes = run_build_step('build_entity_nodes', [entity_dicts, entity_definitions]) as Array
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
-	if use_trenchbroom_group_hierarchy:
+	if use_trenchbroom_group_hierarchy and should_add_children:
 		run_build_step('resolve_group_hierarchy', [entity_nodes])
 		yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
@@ -369,7 +377,9 @@ func build_entity_nodes(entity_dicts: Array, entity_definitions: Dictionary) -> 
 			node.properties = properties
 
 		entity_nodes.append(node)
-		queue_add_child(self, node)
+
+		if should_add_children:
+			queue_add_child(self, node)
 
 	return entity_nodes
 
@@ -718,8 +728,9 @@ func add_children() -> void:
 				add_child_editor(data['parent'], data['node'], data['below'])
 				if 'properties' in data['node']:
 					var properties = data['node']['properties']
-					if '_tb_id' in properties or '_tb_group' in properties:
-						data['node'].global_transform.origin -= data['parent'].global_transform.origin
+					if use_trenchbroom_group_hierarchy and should_add_children:
+						if '_tb_id' in properties or '_tb_group' in properties:
+							data['node'].global_transform.origin -= data['parent'].global_transform.origin
 			else:
 				add_children_complete()
 				return
@@ -728,7 +739,7 @@ func add_children() -> void:
 func add_children_complete():
 	stop_profile('add_children')
 
-	if populate_editor_tree:
+	if should_set_owners:
 		start_profile('set_owners')
 		set_owners()
 	else:
@@ -765,4 +776,4 @@ func build_complete():
 	name = cached_name
 	cached_name = null
 
-	emit_signal("build_complete", get_children())
+	emit_signal("build_complete", entity_nodes)
