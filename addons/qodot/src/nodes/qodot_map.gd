@@ -14,6 +14,7 @@ enum QodotMapAction {
 }
 
 signal build_complete(entity_nodes)
+signal build_failed()
 
 export(QodotMapAction) var action  setget set_action
 export(bool) var print_profiling_data := false
@@ -67,14 +68,10 @@ func set_action(new_action) -> void:
 		match new_action:
 			QodotMapAction.QUICK_BUILD:
 				populate_editor_tree = false
-
-				if verify_parameters():
-					build_map()
+				verify_and_build()
 			QodotMapAction.FULL_BUILD:
 				populate_editor_tree = true
-
-				if verify_parameters():
-					build_map()
+				verify_and_build()
 			QodotMapAction.UNWRAP_UV2:
 				print("Unwrapping mesh UV2s\n")
 				unwrap_uv2(self)
@@ -93,6 +90,12 @@ func _ready() -> void:
 			build_map()
 
 # Utility
+func verify_and_build():
+	if verify_parameters():
+		build_map()
+	else:
+		emit_signal("build_failed")
+
 func verify_parameters():
 	if not qodot:
 		var lib_qodot := load("res://addons/qodot/bin/qodot.gdns")
