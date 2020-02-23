@@ -8,9 +8,12 @@ const YIELD_SIGNAL = "timeout"
 
 enum QodotMapAction {
 	SELECT_AN_ACTION,
-	BUILD_MAP,
+	QUICK_BUILD,
+	FULL_BUILD,
 	UNWRAP_UV2
 }
+
+signal build_complete(entity_nodes)
 
 export(QodotMapAction) var action  setget set_action
 export(bool) var print_profiling_data := false
@@ -32,8 +35,8 @@ export(SpatialMaterial) var default_material = SpatialMaterial.new()
 export(String) var uv_unwrap := QodotUtil.CATEGORY_STRING
 export(float) var uv_unwrap_texel_size := 1.0
 export(String) var build := QodotUtil.CATEGORY_STRING
-export(int) var tree_attach_batch_size = 16
-export(int) var set_owner_batch_size = 16
+export(int) var tree_attach_batch_size := 16
+export(int) var set_owner_batch_size := 16
 
 # Build context variables
 var qodot = null
@@ -44,6 +47,7 @@ var add_child_array = []
 var set_owner_array = []
 
 var cached_name = null
+var populate_editor_tree := true
 
 var texture_list := []
 var texture_loader = null
@@ -61,7 +65,14 @@ var entity_collision_shapes := []
 func set_action(new_action) -> void:
 	if action != new_action:
 		match new_action:
-			QodotMapAction.BUILD_MAP:
+			QodotMapAction.QUICK_BUILD:
+				populate_editor_tree = false
+
+				if verify_parameters():
+					build_map()
+			QodotMapAction.FULL_BUILD:
+				populate_editor_tree = true
+
 				if verify_parameters():
 					build_map()
 			QodotMapAction.UNWRAP_UV2:
@@ -714,8 +725,11 @@ func add_children() -> void:
 func add_children_complete():
 	stop_profile('add_children')
 
-	start_profile('set_owners')
-	set_owners()
+	if populate_editor_tree:
+		start_profile('set_owners')
+		set_owners()
+	else:
+		post_attach()
 
 func set_owners():
 	while true:
@@ -747,3 +761,5 @@ func build_complete():
 
 	name = cached_name
 	cached_name = null
+
+	emit_signal("build_complete", get_children())
