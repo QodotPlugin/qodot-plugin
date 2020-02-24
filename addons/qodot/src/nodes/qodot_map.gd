@@ -241,7 +241,7 @@ func build_map() -> void:
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
 	if use_trenchbroom_group_hierarchy and should_add_children:
-		run_build_step('resolve_group_hierarchy', [entity_nodes])
+		run_build_step('resolve_group_hierarchy', [entity_nodes, entity_dicts])
 		yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
 	entity_physics_bodies = run_build_step('build_entity_physics_body_nodes', [entity_dicts, entity_definitions, entity_nodes]) as Array
@@ -389,14 +389,14 @@ func get_node_properties(node: Node):
 
 	return node['properties']
 
-func resolve_group_hierarchy(entity_nodes: Array) -> void:
-	var func_groups = []
-	var group_entities = []
+func resolve_group_hierarchy(entity_nodes: Array, entity_dicts: Array) -> void:
+	var func_groups := {}
+	var group_entities := {}
 
 	# Gather func_groups and their child entities
 	for node_idx in range(0, entity_nodes.size()):
 		var node = entity_nodes[node_idx]
-		var properties = get_node_properties(node)
+		var properties = entity_dicts[node_idx]['properties']
 
 		if not properties: continue
 
@@ -407,52 +407,81 @@ func resolve_group_hierarchy(entity_nodes: Array) -> void:
 		var classname = properties['classname']
 
 		if classname == 'func_group':
-			func_groups.append(node)
+			func_groups[node_idx] = node
 		else:
-			group_entities.append(node)
+			group_entities[node_idx] = node
 
-	# Replace child entity dict reference and ids with func_group's
-	for node in group_entities:
-		var properties = get_node_properties(node)
+	var group_to_entity_map := {}
+
+	for node_idx in group_entities:
+		var node = group_entities[node_idx]
+		var properties = entity_dicts[node_idx]['properties']
 		var tb_group = properties['_tb_group']
-		var parent = get_node_by_tb_id(tb_group, func_groups)
+
+		var parent_idx = null
+		var parent = null
+		var parent_properties = null
+		for group_idx in func_groups:
+			var func_group = func_groups[group_idx]
+			var group_properties = entity_dicts[group_idx]['properties']
+			if group_properties['_tb_id'] == tb_group:
+				parent_idx = group_idx
+				parent = func_group
+				parent_properties = group_properties
+				break
 
 		if parent:
-			node.properties['_tb_id'] = parent.properties['_tb_id']
-			if not '_tb_group' in parent.properties:
-				node.properties.erase('_tb_group')
-			else:
-				node.properties['_tb_group'] = parent.properties['_tb_group']
+			group_to_entity_map[parent_idx] = node_idx
 
-	# Replicate func_group hierarchy with entities
-	for node in group_entities:
-		var properties = get_node_properties(node)
+	var group_to_group_map := {}
+
+	for node_idx in func_groups:
+		var node = func_groups[node_idx]
+		var properties = entity_dicts[node_idx]['properties']
 
 		if not '_tb_group' in properties:
 			continue
 
 		var tb_group = properties['_tb_group']
 
-		for parent in group_entities:
-			var parent_properties = get_node_properties(parent)
-
-			var tb_id = parent_properties['_tb_id']
-
-			if tb_id == tb_group:
-				queue_add_child(parent, node)
-
-	# Attach func_groups to their respective entities
-	for child in func_groups:
-		var child_properties = get_node_properties(child)
-
-		var tb_id = child_properties['_tb_id']
-		var parent = get_node_by_tb_id(tb_id, group_entities)
+		var parent_idx = null
+		var parent = null
+		var parent_properties = null
+		for group_idx in func_groups:
+			var func_group = func_groups[group_idx]
+			var group_properties = entity_dicts[group_idx]['properties']
+			if group_properties['_tb_id'] == tb_group:
+				parent_idx = group_idx
+				parent = func_group
+				parent_properties = group_properties
+				break
 
 		if parent:
-			queue_add_child(parent, child)
+			group_to_group_map[parent_idx] = node_idx
 
-func get_node_by_tb_id(target_id: String, entity_nodes: Array):
-	for node in entity_nodes:
+	for parent_idx in group_to_group_map:
+		var child_idx = group_to_group_map[parent_idx]
+
+		var parent_entity_idx = group_to_entity_map[parent_idx]
+		var child_entity_idx = group_to_entity_map[child_idx]
+
+		var parent = entity_nodes[parent_entity_idx]
+		var child = entity_nodes[child_entity_idx]
+
+		queue_add_child(parent, child, null, true)
+
+	for child_idx in group_to_entity_map:
+		var parent_idx = group_to_entity_map[child_idx]
+
+		var parent = entity_nodes[parent_idx]
+		var child = entity_nodes[child_idx]
+
+		queue_add_child(parent, child, null, true)
+
+func get_node_by_tb_id(target_id: String, entity_nodes: Dictionary):
+	for node_idx in entity_nodes:
+		var node = entity_nodes[node_idx]
+
 		if not node:
 			continue
 
@@ -714,8 +743,8 @@ func apply_meshes(mesh_dict: Dictionary, entity_mesh_instances: Dictionary) -> v
 		else:
 			queue_add_child(entity_physics_bodies[entity_idx], mesh_instance)
 
-func queue_add_child(parent, node, below = null) -> void:
-	add_child_array.append({"parent": parent, "node": node, "below": below})
+func queue_add_child(parent, node, below = null, relative = false) -> void:
+	add_child_array.append({"parent": parent, "node": node, "below": below, "relative": relative})
 
 func add_children() -> void:
 	while true:
@@ -726,7 +755,7 @@ func add_children() -> void:
 				if 'properties' in data['node']:
 					var properties = data['node']['properties']
 					if use_trenchbroom_group_hierarchy and should_add_children:
-						if '_tb_id' in properties or '_tb_group' in properties:
+						if data['relative']:
 							data['node'].global_transform.origin -= data['parent'].global_transform.origin
 			else:
 				add_children_complete()
@@ -759,7 +788,11 @@ func set_owners_complete():
 
 func post_attach():
 	run_build_step('build_entity_collision_shapes', [entity_dicts, entity_definitions, entity_collision_shapes])
+	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
+
 	run_build_step('apply_meshes', [mesh_dict, entity_mesh_instances])
+	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
+
 	run_build_step('apply_properties', [entity_nodes, entity_dicts, entity_definitions])
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
