@@ -9,6 +9,8 @@ export(String) var classname : String
 
 export var description : String = ""
 
+export(Array, Resource) var base_classes := []
+
 export(Dictionary) var class_properties := {}
 
 export(Dictionary) var class_property_descriptions := {}
@@ -22,9 +24,24 @@ func build_def_text() -> String:
 	# Class prefix
 	var res : String = prefix
 
-	# Class properties
-	for prop in meta_properties:
-		var value = meta_properties[prop]
+	# Meta properties
+	var base_str = ""
+	var meta_props = meta_properties.duplicate()
+
+	for base_class in base_classes:
+		if not 'classname' in base_class:
+			continue
+
+		base_str += base_class.classname
+
+		if base_class != base_classes.back():
+			base_str += ", "
+
+	if base_str != "":
+		meta_props['base'] = base_str
+
+	for prop in meta_props:
+		var value = meta_props[prop]
 		res += " " + prop + "("
 
 		if value is AABB:
@@ -55,6 +72,7 @@ func build_def_text() -> String:
 
 	res += "[" + QodotUtil.newline()
 
+	# Class properties
 	for prop in class_properties:
 		var value = class_properties[prop]
 

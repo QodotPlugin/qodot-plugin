@@ -349,7 +349,7 @@ func build_entity_nodes(entity_dicts: Array, entity_definitions: Dictionary) -> 
 			var classname = properties['classname']
 			node_name += "_" + classname
 			if classname in entity_definitions:
-				var entity_definition = entity_definitions[classname]
+				var entity_definition := entity_definitions[classname] as QodotFGDClass
 				if entity_definition is QodotFGDSolidClass:
 					if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.MERGE_WORLDSPAWN:
 						entity_nodes.append(null)
@@ -372,9 +372,6 @@ func build_entity_nodes(entity_dicts: Array, entity_definitions: Dictionary) -> 
 		else:
 			if entity_idx != 0:
 				node.translation = entity_dict['center'] / inverse_scale_factor
-
-		if 'properties' in node:
-			node.properties = properties
 
 		entity_nodes.append(node)
 
@@ -763,9 +760,57 @@ func set_owners_complete():
 func post_attach():
 	run_build_step('build_entity_collision_shapes', [entity_dicts, entity_definitions, entity_collision_shapes])
 	run_build_step('apply_meshes', [mesh_dict, entity_mesh_instances])
+	run_build_step('apply_properties', [entity_nodes, entity_dicts, entity_definitions])
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
 	build_complete()
+
+func apply_properties(entity_nodes: Array, entity_dicts: Array, entity_definitions: Dictionary) -> void:
+	for entity_idx in range(0, entity_nodes.size()):
+		var entity_node = entity_nodes[entity_idx]
+		if not entity_node:
+			continue
+
+		var entity_dict := entity_dicts[entity_idx] as Dictionary
+		var properties := entity_dict['properties'] as Dictionary
+
+		if 'classname' in properties:
+			var classname = properties['classname']
+			if classname in entity_definitions:
+				var entity_definition := entity_definitions[classname] as QodotFGDClass
+
+				for property in properties:
+					var prop_string = properties[property]
+					if property in entity_definition.class_properties:
+						var prop_default = entity_definition.class_properties[property]
+						if prop_default is int:
+							properties[property] = prop_string.to_int()
+						elif prop_default is float:
+							properties[property] = prop_string.to_float()
+						elif prop_default is Vector3:
+							var prop_comps = prop_string.split(" ")
+							properties[property] = Vector3(prop_comps[0].to_float(), prop_comps[1].to_float(), prop_comps[2].to_float())
+						elif prop_default is Color:
+							var prop_comps = prop_string.split(" ")
+							var prop_color = Color()
+
+							if "." in prop_comps[0] or "." in prop_comps[1] or "." in prop_comps[2]:
+								prop_color.r = prop_comps[0].to_float()
+								prop_color.g = prop_comps[1].to_float()
+								prop_color.b = prop_comps[2].to_float()
+							else:
+								prop_color.r8 = prop_comps[0].to_int()
+								prop_color.g8 = prop_comps[1].to_int()
+								prop_color.b8 = prop_comps[2].to_int()
+
+							properties[property] = prop_color
+						elif prop_default is Dictionary:
+							properties[property] = prop_string.to_int()
+						elif prop_default is Array:
+							properties[property] = prop_string.to_int()
+
+		if 'properties' in entity_node:
+			entity_node.properties = properties
 
 func build_complete():
 	stop_profile('build_map')

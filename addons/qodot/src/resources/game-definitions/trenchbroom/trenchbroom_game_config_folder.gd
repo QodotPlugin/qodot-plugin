@@ -46,7 +46,7 @@ func set_export_file(new_export_file : bool = true) -> void:
 			var icon_path : String = config_folder + "/Icon.png"
 
 			print("Exporting icon to ", icon_path)
-			
+
 			var export_icon : Image = icon.get_data()
 			export_icon.resize(32, 32, Image.INTERPOLATE_LANCZOS)
 			export_icon.save_png(icon_path)

@@ -7,6 +7,7 @@ script = ExtResource( 1 )
 class_options = "----------------------------------------------------------------"
 classname = "worldspawn"
 description = "World Entity"
+base_classes = [  ]
 class_properties = {
 
 }
