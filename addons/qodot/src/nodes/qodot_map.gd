@@ -354,14 +354,12 @@ func build_entity_nodes(entity_dicts: Array, entity_definitions: Dictionary) -> 
 					if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.MERGE_WORLDSPAWN:
 						entity_nodes.append(null)
 						continue
-
-					if entity_definition.script_class:
-						node.set_script(entity_definition.script_class)
 				elif entity_definition is QodotFGDPointClass:
 					if entity_definition.scene_file:
 						node = entity_definition.scene_file.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
-					elif entity_definition.script_class:
-						node.set_script(entity_definition.script_class)
+
+				if entity_definition.script_class:
+					node.set_script(entity_definition.script_class)
 
 		node.name = node_name
 
