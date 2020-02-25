@@ -7,6 +7,7 @@ script = ExtResource( 1 )
 class_options = "----------------------------------------------------------------"
 classname = "Light"
 description = ""
+qodot_internal = false
 base_classes = [  ]
 class_properties = {
 "_color": Color( 1, 1, 1, 1 ),
@@ -32,3 +33,4 @@ class_property_descriptions = {
 meta_properties = {
 "color": Color( 1, 1, 0.156863, 1 )
 }
+node_class = ""

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=9 format=2]
+[gd_resource type="Resource" load_steps=10 format=2]
 
 [ext_resource path="res://addons/qodot/game-definitions/fgd/solid_classes/detail_solid_class.tres" type="Resource" id=1]
 [ext_resource path="res://addons/qodot/game-definitions/fgd/solid_classes/worldspawn_solid_class.tres" type="Resource" id=2]
@@ -8,10 +8,11 @@
 [ext_resource path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_file.gd" type="Script" id=6]
 [ext_resource path="res://addons/qodot/game-definitions/fgd/point_classes/light_point_class.tres" type="Resource" id=7]
 [ext_resource path="res://addons/qodot/game-definitions/fgd/base_classes/light_base_class.tres" type="Resource" id=8]
+[ext_resource path="res://addons/qodot/game-definitions/fgd/solid_classes/func_group_solid_class.tres" type="Resource" id=9]
 
 [resource]
 script = ExtResource( 6 )
 export_file = false
 target_folder = ""
 fgd_name = "Qodot"
-entity_definitions = [ ExtResource( 2 ), ExtResource( 5 ), ExtResource( 1 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 8 ), ExtResource( 7 ) ]
+entity_definitions = [ ExtResource( 2 ), ExtResource( 9 ), ExtResource( 5 ), ExtResource( 1 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 8 ), ExtResource( 7 ) ]

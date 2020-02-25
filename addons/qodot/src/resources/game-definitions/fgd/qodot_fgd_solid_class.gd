@@ -5,15 +5,8 @@ tool
 enum SpawnType {
 	WORLDSPAWN = 0,
 	MERGE_WORLDSPAWN = 1,
-	ENTITY = 2
-}
-
-enum PhysicsBodyType {
-	NONE,
-	AREA,
-	STATIC_BODY,
-	KINEMATIC_BODY,
-	RIGID_BODY
+	ENTITY = 2,
+	GROUP = 3
 }
 
 enum CollisionShapeType {
@@ -33,7 +26,6 @@ export(bool) var build_visuals := true
 
 # Controls how collisions are built for this SolidClass
 export(String) var collision_build : String = QodotUtil.CATEGORY_STRING
-export(PhysicsBodyType) var physics_body_type : int = PhysicsBodyType.KINEMATIC_BODY
 export(CollisionShapeType) var collision_shape_type : int = CollisionShapeType.CONVEX
 
 # The script file to associate with this SolidClass

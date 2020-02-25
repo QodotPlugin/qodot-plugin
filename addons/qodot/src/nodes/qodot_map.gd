@@ -23,7 +23,6 @@ export(String, FILE, GLOBAL, "*.map") var map_file setget set_map_file
 export(float) var inverse_scale_factor = 16.0
 export(String) var entities := QodotUtil.CATEGORY_STRING
 export(Resource) var entity_fgd = preload("res://addons/qodot/game-definitions/fgd/qodot_fgd.tres")
-export(bool) var use_trenchbroom_group_hierarchy = true
 export(String) var textures := QodotUtil.CATEGORY_STRING
 export(String, DIR) var base_texture_dir := "res://textures"
 export(String) var texture_file_extension := ".png"
@@ -61,7 +60,6 @@ var entity_dicts := []
 var mesh_dict := {}
 var entity_nodes := []
 var entity_mesh_instances := {}
-var entity_physics_bodies := []
 var entity_collision_shapes := []
 
 func set_action(new_action) -> void:
@@ -135,7 +133,6 @@ func reset_build_context():
 	entity_dicts = []
 	entity_nodes = []
 	entity_mesh_instances = {}
-	entity_physics_bodies = []
 	entity_collision_shapes = []
 	mesh_dict = {}
 
@@ -240,11 +237,7 @@ func build_map() -> void:
 	entity_nodes = run_build_step('build_entity_nodes', [entity_dicts, entity_definitions]) as Array
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
-	if use_trenchbroom_group_hierarchy and should_add_children:
-		run_build_step('resolve_group_hierarchy', [entity_nodes, entity_dicts])
-		yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
-
-	entity_physics_bodies = run_build_step('build_entity_physics_body_nodes', [entity_dicts, entity_definitions, entity_nodes]) as Array
+	run_build_step('resolve_group_hierarchy', [entity_nodes, entity_dicts, entity_definitions])
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
 	mesh_dict = run_build_step('build_mesh_dict', [texture_dict, material_dict, entity_dicts, entity_definitions]) as Dictionary
@@ -254,13 +247,12 @@ func build_map() -> void:
 		mesh_dict,
 		entity_dicts,
 		entity_definitions,
-		entity_nodes,
-		entity_physics_bodies
+		entity_nodes
 	])
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
 	entity_collision_shapes = run_build_step('build_entity_collision_shape_nodes', [
-		entity_dicts, entity_definitions, entity_physics_bodies
+		entity_dicts, entity_definitions, entity_nodes
 	]) as Array
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
@@ -354,6 +346,8 @@ func build_entity_nodes(entity_dicts: Array, entity_definitions: Dictionary) -> 
 					if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.MERGE_WORLDSPAWN:
 						entity_nodes.append(null)
 						continue
+					if entity_definition.node_class != "":
+						node = ClassDB.instance(entity_definition.node_class)
 				elif entity_definition is QodotFGDPointClass:
 					if entity_definition.scene_file:
 						node = entity_definition.scene_file.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
@@ -387,11 +381,11 @@ func get_node_properties(node: Node):
 
 	return node['properties']
 
-func resolve_group_hierarchy(entity_nodes: Array, entity_dicts: Array) -> void:
-	var func_groups := {}
+func resolve_group_hierarchy(entity_nodes: Array, entity_dicts: Array, entity_definitions: Dictionary) -> void:
 	var group_entities := {}
+	var owner_entities := {}
 
-	# Gather func_groups and their child entities
+	# Gather group entities and their owning children
 	for node_idx in range(0, entity_nodes.size()):
 		var node = entity_nodes[node_idx]
 		var properties = entity_dicts[node_idx]['properties']
@@ -404,27 +398,30 @@ func resolve_group_hierarchy(entity_nodes: Array, entity_dicts: Array) -> void:
 		if not 'classname' in properties: continue
 		var classname = properties['classname']
 
-		if classname == 'func_group':
-			func_groups[node_idx] = node
-		else:
+		if not classname in entity_definitions: continue
+		var entity_definition = entity_definitions[classname]
+
+		if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.GROUP:
 			group_entities[node_idx] = node
+		else:
+			owner_entities[node_idx] = node
 
 	var group_to_entity_map := {}
 
-	for node_idx in group_entities:
-		var node = group_entities[node_idx]
+	for node_idx in owner_entities:
+		var node = owner_entities[node_idx]
 		var properties = entity_dicts[node_idx]['properties']
 		var tb_group = properties['_tb_group']
 
 		var parent_idx = null
 		var parent = null
 		var parent_properties = null
-		for group_idx in func_groups:
-			var func_group = func_groups[group_idx]
+		for group_idx in group_entities:
+			var group_entity = group_entities[group_idx]
 			var group_properties = entity_dicts[group_idx]['properties']
 			if group_properties['_tb_id'] == tb_group:
 				parent_idx = group_idx
-				parent = func_group
+				parent = group_entity
 				parent_properties = group_properties
 				break
 
@@ -433,8 +430,8 @@ func resolve_group_hierarchy(entity_nodes: Array, entity_dicts: Array) -> void:
 
 	var group_to_group_map := {}
 
-	for node_idx in func_groups:
-		var node = func_groups[node_idx]
+	for node_idx in group_entities:
+		var node = group_entities[node_idx]
 		var properties = entity_dicts[node_idx]['properties']
 
 		if not '_tb_group' in properties:
@@ -445,12 +442,12 @@ func resolve_group_hierarchy(entity_nodes: Array, entity_dicts: Array) -> void:
 		var parent_idx = null
 		var parent = null
 		var parent_properties = null
-		for group_idx in func_groups:
-			var func_group = func_groups[group_idx]
+		for group_idx in group_entities:
+			var group_entity = group_entities[group_idx]
 			var group_properties = entity_dicts[group_idx]['properties']
 			if group_properties['_tb_id'] == tb_group:
 				parent_idx = group_idx
-				parent = func_group
+				parent = group_entity
 				parent_properties = group_properties
 				break
 
@@ -497,60 +494,16 @@ func get_node_by_tb_id(target_id: String, entity_nodes: Dictionary):
 
 	return null
 
-func build_entity_physics_body_nodes(entity_dicts: Array, entity_definitions: Dictionary, entity_nodes: Array) -> Array:
-	var entity_physics_bodies = []
-
-	for entity_idx in range(0, entity_dicts.size()):
-		var entity_dict := entity_dicts[entity_idx] as Dictionary
-		var properties = entity_dict['properties']
-
-		var body_class = StaticBody
-
-		if 'classname' in properties:
-			var classname = properties['classname']
-			if classname in entity_definitions:
-				var entity_definition = entity_definitions[classname]
-
-				if entity_definition is QodotFGDSolidClass:
-					if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.MERGE_WORLDSPAWN:
-						body_class = null
-					else:
-						match(entity_definition.physics_body_type):
-							QodotFGDSolidClass.PhysicsBodyType.NONE:
-								body_class = null
-							QodotFGDSolidClass.PhysicsBodyType.AREA:
-								body_class = Area
-							QodotFGDSolidClass.PhysicsBodyType.STATIC_BODY:
-								body_class = StaticBody
-							QodotFGDSolidClass.PhysicsBodyType.KINEMATIC_BODY:
-								body_class = KinematicBody
-							QodotFGDSolidClass.PhysicsBodyType.RIGID_BODY:
-								body_class = RigidBody
-
-		var brush_count := entity_dict['brush_count'] as int
-
-		if brush_count == 0 or not body_class:
-			entity_physics_bodies.append(null)
-			continue
-
-		var node := entity_nodes[entity_idx] as Node
-		var physics_body = body_class.new()
-		physics_body.name = 'entity_%s_physics_body' % entity_idx
-		entity_physics_bodies.append(physics_body)
-		queue_add_child(node, physics_body)
-
-	return entity_physics_bodies
-
-func build_entity_collision_shape_nodes(entity_dicts: Array, entity_definitions: Dictionary, entity_physics_bodies: Array) -> Array:
+func build_entity_collision_shape_nodes(entity_dicts: Array, entity_definitions: Dictionary, entity_nodes: Array) -> Array:
 	var entity_collision_shapes_arr := []
 
-	for entity_idx in range(0, entity_physics_bodies.size()):
+	for entity_idx in range(0, entity_nodes.size()):
 		var entity_collision_shapes := []
 
 		var entity_dict = entity_dicts[entity_idx]
 		var properties = entity_dict['properties']
 
-		var physics_body: CollisionObject = entity_physics_bodies[entity_idx] as CollisionObject
+		var node := entity_nodes[entity_idx] as Node
 		var concave = false
 
 		if 'classname' in properties:
@@ -566,9 +519,9 @@ func build_entity_collision_shape_nodes(entity_dicts: Array, entity_definitions:
 
 					if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.MERGE_WORLDSPAWN:
 						# TODO: Find the worldspawn object instead of assuming index 0
-						physics_body = entity_physics_bodies[0] as CollisionObject
+						node = entity_nodes[0] as Node
 
-		if not physics_body:
+		if not node:
 			entity_collision_shapes_arr.append(null)
 			continue
 
@@ -576,13 +529,13 @@ func build_entity_collision_shape_nodes(entity_dicts: Array, entity_definitions:
 			var collision_shape := CollisionShape.new()
 			collision_shape.name = "entity_%s_collision_shape" % entity_idx
 			entity_collision_shapes.append(collision_shape)
-			queue_add_child(physics_body, collision_shape)
+			queue_add_child(node, collision_shape)
 		else:
 			for brush_idx in range(0, entity_dict['brush_count']):
 				var collision_shape := CollisionShape.new()
 				collision_shape.name = "entity_%s_brush_%s_collision_shape" % [entity_idx, brush_idx]
 				entity_collision_shapes.append(collision_shape)
-				queue_add_child(physics_body, collision_shape)
+				queue_add_child(node, collision_shape)
 
 		entity_collision_shapes_arr.append(entity_collision_shapes)
 
@@ -690,7 +643,7 @@ func build_mesh_dict(texture_dict: Dictionary, material_dict: Dictionary, entity
 
 	return meshes
 
-func build_mesh_instances(mesh_dict: Dictionary, entity_dicts: Array, entity_definitions: Dictionary, entity_nodes: Array, entity_physics_bodies: Array) -> Dictionary:
+func build_mesh_instances(mesh_dict: Dictionary, entity_dicts: Array, entity_definitions: Dictionary, entity_nodes: Array) -> Dictionary:
 	var entity_mesh_instances := {}
 
 	for entity_idx in mesh_dict:
@@ -717,10 +670,7 @@ func build_mesh_instances(mesh_dict: Dictionary, entity_dicts: Array, entity_def
 		mesh_instance.name = 'entity_%s_mesh_instance' % entity_idx
 		mesh_instance.set_flag(MeshInstance.FLAG_USE_BAKED_LIGHT, use_in_baked_light)
 
-		if not entity_physics_bodies[entity_idx]:
-			queue_add_child(entity_nodes[entity_idx], mesh_instance)
-		else:
-			queue_add_child(entity_physics_bodies[entity_idx], mesh_instance)
+		queue_add_child(entity_nodes[entity_idx], mesh_instance)
 
 		entity_mesh_instances[entity_idx] = mesh_instance
 
@@ -736,10 +686,7 @@ func apply_meshes(mesh_dict: Dictionary, entity_mesh_instances: Dictionary) -> v
 
 		mesh_instance.set_mesh(mesh)
 
-		if not entity_physics_bodies[entity_idx]:
-			queue_add_child(entity_nodes[entity_idx], mesh_instance)
-		else:
-			queue_add_child(entity_physics_bodies[entity_idx], mesh_instance)
+		queue_add_child(entity_nodes[entity_idx], mesh_instance)
 
 func queue_add_child(parent, node, below = null, relative = false) -> void:
 	add_child_array.append({"parent": parent, "node": node, "below": below, "relative": relative})
@@ -750,11 +697,8 @@ func add_children() -> void:
 			var data = add_child_array.pop_front()
 			if data:
 				add_child_editor(data['parent'], data['node'], data['below'])
-				if 'properties' in data['node']:
-					var properties = data['node']['properties']
-					if use_trenchbroom_group_hierarchy and should_add_children:
-						if data['relative']:
-							data['node'].global_transform.origin -= data['parent'].global_transform.origin
+				if data['relative']:
+					data['node'].global_transform.origin -= data['parent'].global_transform.origin
 			else:
 				add_children_complete()
 				return

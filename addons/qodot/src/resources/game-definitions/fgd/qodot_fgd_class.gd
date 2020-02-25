@@ -5,9 +5,11 @@ var prefix: String = ""
 
 export(String) var class_options : String = QodotUtil.CATEGORY_STRING
 
-export(String) var classname : String
+export(String) var classname := ""
 
-export var description : String = ""
+export(String) var description := ""
+
+export(bool) var qodot_internal := false
 
 export(Array, Resource) var base_classes := []
 
@@ -19,6 +21,8 @@ export(Dictionary) var meta_properties := {
 	"size": AABB(Vector3(-8, -8, -8), Vector3(8, 8, 8)),
 	"color": Color(0.8, 0.8, 0.8)
 }
+
+export(String) var node_class := ""
 
 func build_def_text() -> String:
 	# Class prefix
