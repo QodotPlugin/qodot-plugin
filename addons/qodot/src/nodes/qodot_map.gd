@@ -809,23 +809,30 @@ func connect_signals(entity_nodes: Array, entity_dicts: Array, entity_definition
 		if not 'target' in entity_properties:
 			continue
 
-		var signal_nodes := get_nodes_by_targetname(entity_properties['target'])
-		for signal_node in signal_nodes:
-			if signal_node.properties['classname'] != 'signal':
+		var target_nodes := get_nodes_by_targetname(entity_properties['target'])
+		for target_node in target_nodes:
+			connect_signal(entity_node, target_node)
+
+func connect_signal(entity_node: Node, target_node: Node) -> void:
+	if target_node.properties['classname'] == 'signal':
+		var signal_name = target_node.properties['signal_name']
+
+		var slot_nodes := get_nodes_by_targetname(target_node.properties['target'])
+		for slot_node in slot_nodes:
+			if slot_node.properties['classname'] != 'slot':
 				continue
 
-			var signal_name = signal_node.properties['signal_name']
+			var slot_name = slot_node.properties['slot_name']
 
-			var slot_nodes := get_nodes_by_targetname(signal_node.properties['target'])
-			for slot_node in slot_nodes:
-				if slot_node.properties['classname'] != 'slot':
-					continue
-
-				var slot_name = slot_node.properties['slot_name']
-
-				var target_nodes := get_nodes_by_targetname(slot_node.properties['target'])
-				for target_node in target_nodes:
-					entity_node.connect(signal_name, target_node, slot_name, [], CONNECT_PERSIST)
+			var target_nodes := get_nodes_by_targetname(slot_node.properties['target'])
+			for target_node in target_nodes:
+				entity_node.connect(signal_name, target_node, slot_name, [], CONNECT_PERSIST)
+	else:
+		var signal_list = entity_node.get_signal_list()
+		for signal_dict in signal_list:
+			if signal_dict['name'] == 'trigger':
+				entity_node.connect("trigger", target_node, "use", [], CONNECT_PERSIST)
+				break
 
 func remove_transient_nodes(entity_nodes: Array, entity_dicts: Array, entity_definitions: Dictionary) -> void:
 	for entity_idx in range(0, entity_nodes.size()):
