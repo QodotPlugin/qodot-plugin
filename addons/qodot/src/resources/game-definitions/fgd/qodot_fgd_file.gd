@@ -68,6 +68,12 @@ func get_fgd_classes() -> Array:
 
 func get_entity_definitions() -> Dictionary:
 	var res : Dictionary = {}
+
+	for base_fgd in base_fgd_files:
+		var fgd_res = base_fgd.get_entity_definitions()
+		for key in fgd_res:
+			res[key] = fgd_res[key]
+
 	for ent in get_fgd_classes():
 		if ent is QodotFGDPointClass or ent is QodotFGDSolidClass:
 			var entity_def = ent.duplicate()
