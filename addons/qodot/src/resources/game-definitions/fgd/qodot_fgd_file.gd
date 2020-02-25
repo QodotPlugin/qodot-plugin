@@ -8,6 +8,7 @@ tool
 export(bool) var export_file : bool setget set_export_file
 export(String, DIR, GLOBAL) var target_folder : String
 export(String) var fgd_name : String = "Qodot"
+export(Array, Resource) var base_fgd_files := []
 export(Array, Resource) var entity_definitions := [
 	preload("res://addons/qodot/game-definitions/fgd/solid_classes/worldspawn_solid_class.tres"),
 	preload("res://addons/qodot/game-definitions/fgd/solid_classes/group_solid_class.tres"),
@@ -38,6 +39,10 @@ func set_export_file(new_export_file = true) -> void:
 
 func build_class_text() -> String:
 	var res : String = ""
+
+	for base_fgd in base_fgd_files:
+		res += base_fgd.build_class_text()
+
 	var entities = get_fgd_classes()
 	for ent in entities:
 		if ent.qodot_internal:
