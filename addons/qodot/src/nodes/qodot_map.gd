@@ -337,6 +337,8 @@ func build_entity_nodes(entity_dicts: Array, entity_definitions: Dictionary) -> 
 		var node = QodotEntity.new()
 		var node_name = "entity_%s" % entity_idx
 
+		var should_add_child = should_add_children
+
 		if 'classname' in properties:
 			var classname = properties['classname']
 			node_name += "_" + classname
@@ -346,6 +348,8 @@ func build_entity_nodes(entity_dicts: Array, entity_definitions: Dictionary) -> 
 					if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.MERGE_WORLDSPAWN:
 						entity_nodes.append(null)
 						continue
+					elif entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.GROUP:
+						should_add_child = false
 					if entity_definition.node_class != "":
 						node = ClassDB.instance(entity_definition.node_class)
 				elif entity_definition is QodotFGDPointClass:
@@ -367,7 +371,7 @@ func build_entity_nodes(entity_dicts: Array, entity_definitions: Dictionary) -> 
 
 		entity_nodes.append(node)
 
-		if should_add_children:
+		if should_add_child:
 			queue_add_child(self, node)
 
 	return entity_nodes
