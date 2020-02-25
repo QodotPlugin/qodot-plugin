@@ -22,7 +22,11 @@ export(Dictionary) var meta_properties := {
 	"color": Color(0.8, 0.8, 0.8)
 }
 
+export(String) var node_options : String = QodotUtil.CATEGORY_STRING
+
 export(String) var node_class := ""
+
+export(bool) var transient_node := false
 
 func build_def_text() -> String:
 	# Class prefix
@@ -120,6 +124,10 @@ func build_def_text() -> String:
 			for arr_val in value:
 				prop_val += "\t\t" + String(arr_val[1]) + " : \"" + String(arr_val[0]) + "\" : " + ("1" if arr_val[2] else "0") + "\n"
 			prop_val += "\t]"
+		elif value is NodePath:
+			prop_type = "target_destination"
+		elif value is Object:
+			prop_type = "target_source"
 
 		if(prop_val):
 			res += "\t"

@@ -742,6 +742,12 @@ func post_attach():
 	run_build_step('apply_properties', [entity_nodes, entity_dicts, entity_definitions])
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
+	run_build_step('connect_signals', [entity_nodes, entity_dicts, entity_definitions])
+	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
+
+	run_build_step('remove_transient_nodes', [entity_nodes, entity_dicts, entity_definitions])
+	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
+
 	build_complete()
 
 func apply_properties(entity_nodes: Array, entity_dicts: Array, entity_definitions: Dictionary) -> void:
@@ -790,6 +796,78 @@ func apply_properties(entity_nodes: Array, entity_dicts: Array, entity_definitio
 
 		if 'properties' in entity_node:
 			entity_node.properties = properties
+
+func connect_signals(entity_nodes: Array, entity_dicts: Array, entity_definitions: Dictionary) -> void:
+	for entity_idx in range(0, entity_nodes.size()):
+		var entity_node = entity_nodes[entity_idx]
+		if not entity_node:
+			continue
+
+		var entity_dict := entity_dicts[entity_idx] as Dictionary
+		var entity_properties := entity_dict['properties'] as Dictionary
+
+		if not 'target' in entity_properties:
+			continue
+
+		var signal_nodes := get_nodes_by_targetname(entity_properties['target'])
+		for signal_node in signal_nodes:
+			if signal_node.properties['classname'] != 'signal':
+				continue
+
+			var signal_name = signal_node.properties['signal_name']
+
+			var slot_nodes := get_nodes_by_targetname(signal_node.properties['target'])
+			for slot_node in slot_nodes:
+				if slot_node.properties['classname'] != 'slot':
+					continue
+
+				var slot_name = slot_node.properties['slot_name']
+
+				var target_nodes := get_nodes_by_targetname(slot_node.properties['target'])
+				for target_node in target_nodes:
+					entity_node.connect(signal_name, target_node, slot_name, [], CONNECT_PERSIST)
+
+func remove_transient_nodes(entity_nodes: Array, entity_dicts: Array, entity_definitions: Dictionary) -> void:
+	for entity_idx in range(0, entity_nodes.size()):
+		var entity_node = entity_nodes[entity_idx]
+		if not entity_node:
+			continue
+
+		var entity_dict := entity_dicts[entity_idx] as Dictionary
+		var entity_properties := entity_dict['properties'] as Dictionary
+
+		if not 'classname' in entity_properties:
+			continue
+
+		var classname = entity_properties['classname']
+
+		if not classname in entity_definitions:
+			continue
+
+		var entity_definition = entity_definitions[classname]
+		if entity_definition.transient_node:
+			entity_node.get_parent().remove_child(entity_node)
+			entity_node.queue_free()
+
+
+func get_nodes_by_targetname(targetname: String) -> Array:
+	var nodes := []
+
+	for node_idx in range(0, entity_nodes.size()):
+		var node = entity_nodes[node_idx]
+		if not node:
+			continue
+
+		var entity_dict := entity_dicts[node_idx] as Dictionary
+		var entity_properties := entity_dict['properties'] as Dictionary
+
+		if not 'targetname' in entity_properties:
+			continue
+
+		if entity_properties['targetname'] == targetname:
+			nodes.append(node)
+
+	return nodes
 
 func build_complete():
 	stop_profile('build_map')

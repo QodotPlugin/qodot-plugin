@@ -5,33 +5,18 @@
 [resource]
 script = ExtResource( 1 )
 class_options = "----------------------------------------------------------------"
-classname = "Light"
+classname = "Target"
 description = ""
 qodot_internal = false
 base_classes = [  ]
 class_properties = {
-"_color": Color( 1, 1, 1, 1 ),
-"delay": {
-"Inverse distance falloff": 1,
-"Inverse distance squared": 2,
-"Inverse distance squared B": 5,
-"Linear falloff (Default)": 0,
-"Local minlight": 4,
-"No falloff": 3
-},
-"light": 300,
-"mangle": Vector3( 0.005, 0, 0 ),
-"wait": 1
+
 }
 class_property_descriptions = {
-"_color": "Light color",
-"delay": "Attenuation",
-"light": "Brightness",
-"mangle": "Spotlight angle",
-"wait": "Fade distance multiplier"
+
 }
 meta_properties = {
-"color": Color( 1, 1, 0.156863, 1 )
+
 }
 node_options = "----------------------------------------------------------------"
 node_class = ""

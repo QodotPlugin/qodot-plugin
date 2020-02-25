@@ -20,7 +20,9 @@ class_property_descriptions = {
 meta_properties = {
 "size": AABB( -8, -8, -8, 8, 8, 8 )
 }
+node_options = "----------------------------------------------------------------"
 node_class = "Spatial"
+transient_node = false
 scene = "----------------------------------------------------------------"
 scripting = "----------------------------------------------------------------"
 script_class = ExtResource( 2 )
