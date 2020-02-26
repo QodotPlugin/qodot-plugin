@@ -69,6 +69,7 @@ var texture_size_dict := {}
 var material_dict := {}
 var entity_definitions := {}
 var entity_dicts := []
+var worldspawn_layer_dicts := []
 var mesh_dict := {}
 var entity_nodes := []
 var worldspawn_layer_nodes := []
@@ -143,6 +144,7 @@ func reset_build_context():
 	texture_size_dict = {}
 	material_dict = {}
 	entity_definitions = {}
+	worldspawn_layer_dicts = []
 	entity_dicts = []
 	entity_nodes = []
 	entity_mesh_instances = {}
@@ -247,9 +249,15 @@ func build_map() -> void:
 	run_build_step('generate_geometry', [texture_size_dict])
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
-	# Get entity metadata, populate scene tree
+	# Get entity metadata
 	entity_dicts = run_build_step('fetch_entity_dicts') as Array
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
+
+	# Get worldspawn layer metadata
+	worldspawn_layer_dicts = run_build_step('fetch_worldspawn_layer_dicts') as Array
+	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
+
+	print(worldspawn_layer_dicts)
 
 	entity_nodes = run_build_step('build_entity_nodes', [entity_dicts, entity_definitions]) as Array
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
@@ -320,14 +328,17 @@ func fetch_entity_definitions() -> Dictionary:
 func set_entity_definitions(entity_definitions: Dictionary) -> void:
 	qodot.set_entity_definitions(build_libmap_entity_definitions(entity_definitions))
 
-func generate_geometry(texture_size_dict: Dictionary) -> void:
-	qodot.generate_geometry(texture_size_dict);
-
 func set_worldspawn_layers(worldspawn_layers: Array) -> void:
 	qodot.set_worldspawn_layers(worldspawn_layers)
 
+func generate_geometry(texture_size_dict: Dictionary) -> void:
+	qodot.generate_geometry(texture_size_dict);
+
 func fetch_entity_dicts() -> Array:
 	return qodot.get_entity_dicts()
+
+func fetch_worldspawn_layer_dicts() -> Array:
+	return qodot.get_worldspawn_layer_dicts()
 
 func build_texture_size_dict(texture_dict: Dictionary) -> Dictionary:
 	var texture_size_dict := {}
@@ -354,7 +365,6 @@ func build_entity_nodes(entity_dicts: Array, entity_definitions: Dictionary) -> 
 
 	for entity_idx in range(0, entity_dicts.size()):
 		var entity_dict := entity_dicts[entity_idx] as Dictionary
-		var brush_count := entity_dict['brush_count'] as int
 		var properties := entity_dict['properties'] as Dictionary
 
 		var node = QodotEntity.new()
