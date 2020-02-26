@@ -1,5 +1,4 @@
 *.dblite
-build-windows.bat
 .DS_Store
 
 # Godot-specific ignores
