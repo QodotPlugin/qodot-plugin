@@ -26,6 +26,18 @@ export(Resource) var entity_fgd = preload("res://addons/qodot/game-definitions/f
 export(String) var textures := QodotUtil.CATEGORY_STRING
 export(String, DIR) var base_texture_dir := "res://textures"
 export(String) var texture_file_extension := ".png"
+
+export(Array, Dictionary) var worldspawn_layers := [
+	{
+		"name": "water",
+		"texture": "special/water",
+		"node_class": "Area",
+		"build_visuals": true,
+		"collision_shape_type": 1,
+		"script_class": preload("res://game-definitions/fgd/solid_classes/water.gd")
+	}
+]
+
 export(String) var brush_clip_texture := "special/clip"
 export(String) var face_skip_texture := "special/skip"
 export(Array, Resource) var texture_wads := []
@@ -59,6 +71,7 @@ var entity_definitions := {}
 var entity_dicts := []
 var mesh_dict := {}
 var entity_nodes := []
+var worldspawn_layer_nodes := []
 var entity_mesh_instances := {}
 var entity_collision_shapes := []
 
@@ -226,6 +239,10 @@ func build_map() -> void:
 	run_build_step('set_entity_definitions', [entity_definitions])
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
+	# Send worldspawn layers to libmap
+	run_build_step('set_worldspawn_layers', [worldspawn_layers])
+	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
+
 	# Generate geometry
 	run_build_step('generate_geometry', [texture_size_dict])
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
@@ -237,13 +254,16 @@ func build_map() -> void:
 	entity_nodes = run_build_step('build_entity_nodes', [entity_dicts, entity_definitions]) as Array
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
+	worldspawn_layer_nodes = run_build_step('build_worldspawn_layer_nodes', [entity_nodes, worldspawn_layers]) as Array
+	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
+
 	run_build_step('resolve_group_hierarchy', [entity_nodes, entity_dicts, entity_definitions])
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
 	mesh_dict = run_build_step('build_mesh_dict', [texture_dict, material_dict, entity_dicts, entity_definitions]) as Dictionary
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
-	entity_mesh_instances = run_build_step('build_mesh_instances', [
+	entity_mesh_instances = run_build_step('build_entity_mesh_instances', [
 		mesh_dict,
 		entity_dicts,
 		entity_definitions,
@@ -302,6 +322,9 @@ func set_entity_definitions(entity_definitions: Dictionary) -> void:
 
 func generate_geometry(texture_size_dict: Dictionary) -> void:
 	qodot.generate_geometry(texture_size_dict);
+
+func set_worldspawn_layers(worldspawn_layers: Array) -> void:
+	qodot.set_worldspawn_layers(worldspawn_layers)
 
 func fetch_entity_dicts() -> Array:
 	return qodot.get_entity_dicts()
@@ -376,14 +399,19 @@ func build_entity_nodes(entity_dicts: Array, entity_definitions: Dictionary) -> 
 
 	return entity_nodes
 
-func get_node_properties(node: Node):
-	if not node:
-		return null
+func build_worldspawn_layer_nodes(entity_nodes: Array, worldspawn_layers: Array) -> Array:
+	var worldspawn_layer_nodes := []
 
-	if not 'properties' in node:
-		return null
+	for worldspawn_layer in worldspawn_layers:
+		var node = ClassDB.instance(worldspawn_layer['node_class'])
+		node.name = "entity_0_" + worldspawn_layer['name']
+		if worldspawn_layer.script_class:
+			node.set_script(worldspawn_layer.script_class)
 
-	return node['properties']
+		worldspawn_layer_nodes.append(node)
+		queue_add_child(self, node, entity_nodes[0])
+
+	return worldspawn_layer_nodes
 
 func resolve_group_hierarchy(entity_nodes: Array, entity_dicts: Array, entity_definitions: Dictionary) -> void:
 	var group_entities := {}
@@ -535,7 +563,7 @@ func build_entity_collision_shape_nodes(entity_dicts: Array, entity_definitions:
 			entity_collision_shapes.append(collision_shape)
 			queue_add_child(node, collision_shape)
 		else:
-			for brush_idx in range(0, entity_dict['brush_count']):
+			for brush_idx in entity_dict['brush_indices']:
 				var collision_shape := CollisionShape.new()
 				collision_shape.name = "entity_%s_brush_%s_collision_shape" % [entity_idx, brush_idx]
 				entity_collision_shapes.append(collision_shape)
@@ -647,7 +675,7 @@ func build_mesh_dict(texture_dict: Dictionary, material_dict: Dictionary, entity
 
 	return meshes
 
-func build_mesh_instances(mesh_dict: Dictionary, entity_dicts: Array, entity_definitions: Dictionary, entity_nodes: Array) -> Dictionary:
+func build_entity_mesh_instances(mesh_dict: Dictionary, entity_dicts: Array, entity_definitions: Dictionary, entity_nodes: Array) -> Dictionary:
 	var entity_mesh_instances := {}
 
 	for entity_idx in mesh_dict:
