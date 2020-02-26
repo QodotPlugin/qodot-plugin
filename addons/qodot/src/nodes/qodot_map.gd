@@ -70,7 +70,7 @@ var material_dict := {}
 var entity_definitions := {}
 var entity_dicts := []
 var worldspawn_layer_dicts := []
-var mesh_dict := {}
+var entity_mesh_dict := {}
 var entity_nodes := []
 var worldspawn_layer_nodes := []
 var entity_mesh_instances := {}
@@ -149,7 +149,7 @@ func reset_build_context():
 	entity_nodes = []
 	entity_mesh_instances = {}
 	entity_collision_shapes = []
-	mesh_dict = {}
+	entity_mesh_dict = {}
 
 	add_child_array = []
 	set_owner_array = []
@@ -268,11 +268,11 @@ func build_map() -> void:
 	run_build_step('resolve_group_hierarchy', [entity_nodes, entity_dicts, entity_definitions])
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
-	mesh_dict = run_build_step('build_mesh_dict', [texture_dict, material_dict, entity_dicts, entity_definitions]) as Dictionary
+	entity_mesh_dict = run_build_step('build_entity_mesh_dict', [texture_dict, material_dict, entity_dicts, entity_definitions]) as Dictionary
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
 	entity_mesh_instances = run_build_step('build_entity_mesh_instances', [
-		mesh_dict,
+		entity_mesh_dict,
 		entity_dicts,
 		entity_definitions,
 		entity_nodes
@@ -648,7 +648,7 @@ func build_entity_collision_shapes(entity_dicts: Array, entity_definitions: Dict
 			var collision_shape = entity_collision_shapes[entity_idx][0]
 			collision_shape.set_shape(shape)
 
-func build_mesh_dict(texture_dict: Dictionary, material_dict: Dictionary, entity_dicts: Array, entity_definitions: Dictionary) -> Dictionary:
+func build_entity_mesh_dict(texture_dict: Dictionary, material_dict: Dictionary, entity_dicts: Array, entity_definitions: Dictionary) -> Dictionary:
 	var meshes := {}
 
 	for texture in texture_dict:
@@ -685,10 +685,10 @@ func build_mesh_dict(texture_dict: Dictionary, material_dict: Dictionary, entity
 
 	return meshes
 
-func build_entity_mesh_instances(mesh_dict: Dictionary, entity_dicts: Array, entity_definitions: Dictionary, entity_nodes: Array) -> Dictionary:
+func build_entity_mesh_instances(entity_mesh_dict: Dictionary, entity_dicts: Array, entity_definitions: Dictionary, entity_nodes: Array) -> Dictionary:
 	var entity_mesh_instances := {}
 
-	for entity_idx in mesh_dict:
+	for entity_idx in entity_mesh_dict:
 		var use_in_baked_light = false
 
 		var entity_dict := entity_dicts[entity_idx] as Dictionary
@@ -703,7 +703,7 @@ func build_entity_mesh_instances(mesh_dict: Dictionary, entity_dicts: Array, ent
 					if properties['_shadow'] == "1":
 						use_in_baked_light = true
 
-		var mesh := mesh_dict[entity_idx] as Mesh
+		var mesh := entity_mesh_dict[entity_idx] as Mesh
 
 		if not mesh:
 			continue
@@ -718,9 +718,9 @@ func build_entity_mesh_instances(mesh_dict: Dictionary, entity_dicts: Array, ent
 
 	return entity_mesh_instances
 
-func apply_meshes(mesh_dict: Dictionary, entity_mesh_instances: Dictionary) -> void:
-	for entity_idx in mesh_dict:
-		var mesh := mesh_dict[entity_idx] as Mesh
+func apply_meshes(entity_mesh_dict: Dictionary, entity_mesh_instances: Dictionary) -> void:
+	for entity_idx in entity_mesh_dict:
+		var mesh := entity_mesh_dict[entity_idx] as Mesh
 		var mesh_instance := entity_mesh_instances[entity_idx] as MeshInstance
 
 		if not mesh or not mesh_instance:
@@ -774,7 +774,7 @@ func post_attach():
 	run_build_step('build_entity_collision_shapes', [entity_dicts, entity_definitions, entity_collision_shapes])
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
-	run_build_step('apply_meshes', [mesh_dict, entity_mesh_instances])
+	run_build_step('apply_meshes', [entity_mesh_dict, entity_mesh_instances])
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
 	run_build_step('apply_properties', [entity_nodes, entity_dicts, entity_definitions])
