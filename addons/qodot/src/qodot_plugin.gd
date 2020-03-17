@@ -2,14 +2,14 @@ class_name QodotPlugin
 extends EditorPlugin
 tool
 
-# Qodot editor plugin
-
 var map_import_plugin : QuakeMapImportPlugin = null
 var palette_import_plugin : QuakePaletteImportPlugin = null
 var wad_import_plugin : QuakeWadImportPlugin = null
 
 var qodot_map_control: Control = null
 var edited_object_ref: WeakRef = weakref(null)
+
+var http_request: HTTPRequest = null
 
 func get_plugin_name() -> String:
 	return "Qodot"
@@ -42,6 +42,13 @@ func _enter_tree() -> void:
 	qodot_map_control.set_visible(false)
 	add_control_to_container(EditorPlugin.CONTAINER_SPATIAL_EDITOR_MENU, qodot_map_control)
 
+	# Download libraries
+	http_request = HTTPRequest.new()
+	http_request.use_threads = true
+	add_child(http_request)
+
+	QodotDependencies.check_dependencies(http_request)
+
 func _exit_tree() -> void:
 	remove_import_plugin(map_import_plugin)
 	remove_import_plugin(palette_import_plugin)
@@ -54,7 +61,8 @@ func _exit_tree() -> void:
 	qodot_map_control.queue_free()
 	qodot_map_control = null
 
-
+	remove_child(http_request)
+	http_request.queue_free()
 
 func create_qodot_map_control() -> Control:
 	var separator = VSeparator.new()
