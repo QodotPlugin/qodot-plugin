@@ -16,18 +16,15 @@ enum QodotMapAction {
 signal build_complete(entity_nodes)
 signal build_failed()
 
-export(QodotMapAction) var action  setget set_action
-export(bool) var print_profiling_data := false
-export(String) var map := QodotUtil.CATEGORY_STRING
-export(String, FILE, GLOBAL, "*.map") var map_file setget set_map_file
-export(float) var inverse_scale_factor = 16.0
-export(String) var entities := QodotUtil.CATEGORY_STRING
-export(Resource) var entity_fgd = preload("res://addons/qodot/game-definitions/fgd/qodot_fgd.tres")
-export(String) var textures := QodotUtil.CATEGORY_STRING
-export(String, DIR) var base_texture_dir := "res://textures"
-export(String) var texture_file_extension := ".png"
+var action  setget set_action
+var print_profiling_data := false
+var map_file setget set_map_file
+var inverse_scale_factor = 16.0
+var entity_fgd = preload("res://addons/qodot/game-definitions/fgd/qodot_fgd.tres")
+var base_texture_dir := "res://textures"
+var texture_file_extension := ".png"
 
-export(Array, Dictionary) var worldspawn_layers := [
+var worldspawn_layers := [
 	{
 		"name": "water",
 		"texture": "special/water",
@@ -38,17 +35,14 @@ export(Array, Dictionary) var worldspawn_layers := [
 	}
 ]
 
-export(String) var brush_clip_texture := "special/clip"
-export(String) var face_skip_texture := "special/skip"
-export(Array, Resource) var texture_wads := []
-export(String) var materials := QodotUtil.CATEGORY_STRING
-export(String) var material_file_extension := ".tres"
-export(SpatialMaterial) var default_material = SpatialMaterial.new()
-export(String) var uv_unwrap := QodotUtil.CATEGORY_STRING
-export(float) var uv_unwrap_texel_size := 1.0
-export(String) var build := QodotUtil.CATEGORY_STRING
-export(int) var tree_attach_batch_size := 16
-export(int) var set_owner_batch_size := 16
+var brush_clip_texture := "special/clip"
+var face_skip_texture := "special/skip"
+var texture_wads := [] setget set_texture_wads
+var material_file_extension := ".tres"
+var default_material = SpatialMaterial.new()
+var uv_unwrap_texel_size := 1.0
+var tree_attach_batch_size := 16
+var set_owner_batch_size := 16
 
 # Build context variables
 var qodot = null
@@ -99,6 +93,16 @@ func set_map_file(new_map_file: String) -> void:
 	if map_file != new_map_file:
 		map_file = new_map_file
 
+func set_texture_wads(new_texture_wads: Array) -> void:
+	if texture_wads != new_texture_wads:
+		texture_wads = new_texture_wads
+
+		for i in range(0, texture_wads.size()):
+			var texture_wad = texture_wads[i]
+			if not texture_wad:
+				texture_wads[i] = Object()
+
+# Overrides
 func _ready() -> void:
 	if not DEBUG:
 		return
@@ -106,6 +110,53 @@ func _ready() -> void:
 	if not Engine.is_editor_hint():
 		if verify_parameters():
 			build_map()
+
+func _get_property_list() -> Array:
+	return [
+		category_dict('QodotMap'),
+		property_dict('action', TYPE_INT, PROPERTY_HINT_ENUM, 'Select an action,Quick Build,Full Build,Unwrap UV2'),
+		property_dict('print_profiling_data', TYPE_BOOL),
+		category_dict('Map'),
+		property_dict('map_file', TYPE_STRING, PROPERTY_HINT_GLOBAL_FILE, '*.map'),
+		property_dict('inverse_scale_factor', TYPE_INT),
+		category_dict('Entities'),
+		property_dict('entity_fgd', TYPE_OBJECT, PROPERTY_HINT_RESOURCE_TYPE),
+		category_dict('Textures'),
+		property_dict('base_texture_dir', TYPE_STRING, PROPERTY_HINT_DIR),
+		property_dict('texture_file_extension', TYPE_STRING),
+		property_dict('worldspawn_layers', TYPE_DICTIONARY),
+		property_dict('brush_clip_texture', TYPE_STRING),
+		property_dict('face_skip_texture', TYPE_STRING),
+		property_dict('texture_wads', TYPE_ARRAY, -1),
+		category_dict('Materials'),
+		property_dict('material_file_extension', TYPE_STRING),
+		property_dict('default_material', TYPE_OBJECT, PROPERTY_HINT_RESOURCE_TYPE, 'SpatialMaterial'),
+		category_dict('UV Unwrap'),
+		property_dict('uv_unwrap_texel_size', TYPE_REAL),
+		category_dict('Build'),
+		property_dict('tree_attach_batch_size', TYPE_INT),
+		property_dict('set_owner_batch_size', TYPE_INT)
+	]
+
+func category_dict(name: String) -> Dictionary:
+	return property_dict(name, TYPE_STRING, -1, "", PROPERTY_USAGE_CATEGORY)
+
+func property_dict(name: String, type: int, hint: int = -1, hint_string: String = "", usage: int = -1) -> Dictionary:
+	var dict := {
+		'name': name,
+		'type': type
+	}
+
+	if hint != -1:
+		dict['hint'] = hint
+
+	if hint_string != "":
+		dict['hint_string'] = hint_string
+
+	if usage != -1:
+		dict['usage'] = usage
+
+	return dict
 
 # Utility
 func verify_and_build():
@@ -299,8 +350,6 @@ func build_map() -> void:
 		worldspawn_layers, worldspawn_layer_dicts, worldspawn_layer_nodes
 	])
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
-
-	print(worldspawn_layer_collision_shapes)
 
 	start_profile('add_children')
 	add_children()
