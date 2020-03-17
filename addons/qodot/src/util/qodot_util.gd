@@ -16,3 +16,23 @@ static func newline() -> String:
 		return "\r\n"
 	else:
 		return "\n"
+
+static func category_dict(name: String) -> Dictionary:
+	return property_dict(name, TYPE_STRING, -1, "", PROPERTY_USAGE_CATEGORY)
+
+static func property_dict(name: String, type: int, hint: int = -1, hint_string: String = "", usage: int = -1) -> Dictionary:
+	var dict := {
+		'name': name,
+		'type': type
+	}
+
+	if hint != -1:
+		dict['hint'] = hint
+
+	if hint_string != "":
+		dict['hint_string'] = hint_string
+
+	if usage != -1:
+		dict['usage'] = usage
+
+	return dict
