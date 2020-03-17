@@ -71,10 +71,13 @@ var entity_definitions := {}
 var entity_dicts := []
 var worldspawn_layer_dicts := []
 var entity_mesh_dict := {}
+var worldspawn_layer_mesh_dict := {}
 var entity_nodes := []
 var worldspawn_layer_nodes := []
 var entity_mesh_instances := {}
+var worldspawn_layer_mesh_instances := {}
 var entity_collision_shapes := []
+var worldspawn_layer_collision_shapes := []
 
 func set_action(new_action) -> void:
 	if action != new_action:
@@ -257,8 +260,6 @@ func build_map() -> void:
 	worldspawn_layer_dicts = run_build_step('fetch_worldspawn_layer_dicts') as Array
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
-	print(worldspawn_layer_dicts)
-
 	entity_nodes = run_build_step('build_entity_nodes', [entity_dicts, entity_definitions]) as Array
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
@@ -271,6 +272,9 @@ func build_map() -> void:
 	entity_mesh_dict = run_build_step('build_entity_mesh_dict', [texture_dict, material_dict, entity_dicts, entity_definitions]) as Dictionary
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
+	worldspawn_layer_mesh_dict = run_build_step('build_worldspawn_layer_mesh_dict', [texture_dict, material_dict, worldspawn_layer_dicts]) as Dictionary
+	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
+
 	entity_mesh_instances = run_build_step('build_entity_mesh_instances', [
 		entity_mesh_dict,
 		entity_dicts,
@@ -279,10 +283,24 @@ func build_map() -> void:
 	])
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
+	worldspawn_layer_mesh_instances = run_build_step('build_worldspawn_layer_mesh_instances', [
+		worldspawn_layers,
+		worldspawn_layer_mesh_dict,
+		worldspawn_layer_nodes
+	])
+	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
+
 	entity_collision_shapes = run_build_step('build_entity_collision_shape_nodes', [
 		entity_dicts, entity_definitions, entity_nodes
 	]) as Array
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
+
+	worldspawn_layer_collision_shapes = run_build_step('build_worldspawn_layer_collision_shape_nodes', [
+		worldspawn_layers, worldspawn_layer_dicts, worldspawn_layer_nodes
+	])
+	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
+
+	print(worldspawn_layer_collision_shapes)
 
 	start_profile('add_children')
 	add_children()
@@ -583,8 +601,41 @@ func build_entity_collision_shape_nodes(entity_dicts: Array, entity_definitions:
 
 	return entity_collision_shapes_arr
 
+func build_worldspawn_layer_collision_shape_nodes(worldspawn_layers: Array, worldspawn_layer_dicts: Array, worldspawn_layer_nodes: Array) -> Array:
+	var worldspawn_layer_collision_shapes := []
+
+	for layer_idx in range(0, worldspawn_layers.size()):
+		var layer = worldspawn_layers[layer_idx]
+		var layer_dict = worldspawn_layer_dicts[layer_idx]
+		var node := worldspawn_layer_nodes[layer_idx] as Node
+		var concave = false
+
+		if layer['collision_shape_type'] == QodotFGDSolidClass.CollisionShapeType.NONE:
+			worldspawn_layer_collision_shapes.append(null)
+			continue
+		elif layer['collision_shape_type'] == QodotFGDSolidClass.CollisionShapeType.CONCAVE:
+			concave = true
+
+		if not node:
+			worldspawn_layer_collision_shapes.append(null)
+			continue
+
+		if concave:
+			var collision_shape := CollisionShape.new()
+			collision_shape.name = "entity_0_%s_collision_shape" % layer['name']
+			worldspawn_layer_collision_shapes.append(collision_shape)
+			queue_add_child(node, collision_shape)
+		else:
+			for brush_idx in layer_dict['brush_indices']:
+				var collision_shape := CollisionShape.new()
+				collision_shape.name = "entity_0_%s_brush_%s_collision_shape" % [layer['name'], brush_idx]
+				worldspawn_layer_collision_shapes.append(collision_shape)
+				queue_add_child(node, collision_shape)
+
+	return worldspawn_layer_collision_shapes
+
 func build_entity_collision_shapes(entity_dicts: Array, entity_definitions: Dictionary, entity_collision_shapes: Array) -> void:
-	for entity_idx in range(0, entity_collision_shapes.size()):
+	for entity_idx in range(0, entity_dicts.size()):
 		var entity_dict := entity_dicts[entity_idx] as Dictionary
 		var properties = entity_dict['properties']
 
@@ -607,9 +658,9 @@ func build_entity_collision_shapes(entity_dicts: Array, entity_definitions: Dict
 			continue
 
 		if concave:
-			qodot.gather_concave_collision_surfaces(entity_idx)
+			qodot.gather_entity_concave_collision_surfaces(entity_idx)
 		else:
-			qodot.gather_convex_collision_surfaces(entity_idx)
+			qodot.gather_entity_convex_collision_surfaces(entity_idx)
 
 		var entity_surfaces := qodot.fetch_surfaces(inverse_scale_factor) as Array
 
@@ -646,6 +697,66 @@ func build_entity_collision_shapes(entity_dicts: Array, entity_definitions: Dict
 			shape.set_faces(entity_verts)
 
 			var collision_shape = entity_collision_shapes[entity_idx][0]
+			collision_shape.set_shape(shape)
+
+func build_worldspawn_layer_collision_shapes(worldspawn_layers: Array, worldspawn_layer_dicts: Array, worldspawn_layer_collision_shapes: Array) -> void:
+	for layer_idx in range(0, worldspawn_layers.size()):
+		var layer = worldspawn_layers[layer_idx]
+		var concave = false
+
+		match(layer['collision_shape_type']):
+			QodotFGDSolidClass.CollisionShapeType.NONE:
+				continue
+			QodotFGDSolidClass.CollisionShapeType.CONVEX:
+				concave = false
+			QodotFGDSolidClass.CollisionShapeType.CONCAVE:
+				concave = true
+
+		var layer_dict = worldspawn_layer_dicts[layer_idx]
+
+		if not worldspawn_layer_collision_shapes[layer_idx]:
+			continue
+
+		if concave:
+			qodot.gather_worldspawn_layer_concave_collision_surfaces(0)
+		else:
+			qodot.gather_worldspawn_layer_convex_collision_surfaces(0)
+
+		var layer_surfaces := qodot.fetch_surfaces(inverse_scale_factor) as Array
+
+		var verts := PoolVector3Array()
+
+		for surface_idx in range(0, layer_surfaces.size()):
+			var surface_verts = layer_surfaces[surface_idx]
+
+			if not surface_verts:
+				continue
+
+			if concave:
+				var vertices := surface_verts[0] as PoolVector3Array
+				var indices := surface_verts[8] as PoolIntArray
+				for vert_idx in indices:
+					verts.append(vertices[vert_idx])
+			else:
+				var shape_points = PoolVector3Array()
+				for vertex in surface_verts[0]:
+					if not vertex in shape_points:
+						shape_points.append(vertex)
+
+				var shape = ConvexPolygonShape.new()
+				shape.set_points(shape_points)
+
+				var collision_shape = worldspawn_layer_collision_shapes[layer_idx]
+				collision_shape.set_shape(shape)
+
+		if concave:
+			if verts.size() == 0:
+				continue
+
+			var shape = ConcavePolygonShape.new()
+			shape.set_faces(verts)
+
+			var collision_shape = worldspawn_layer_collision_shapes[layer_idx]
 			collision_shape.set_shape(shape)
 
 func build_entity_mesh_dict(texture_dict: Dictionary, material_dict: Dictionary, entity_dicts: Array, entity_definitions: Dictionary) -> Dictionary:
@@ -685,6 +796,24 @@ func build_entity_mesh_dict(texture_dict: Dictionary, material_dict: Dictionary,
 
 	return meshes
 
+func build_worldspawn_layer_mesh_dict(texture_dict: Dictionary, material_dict: Dictionary, worldspawn_layer_dicts: Array) -> Dictionary:
+	var meshes := {}
+
+	for layer in worldspawn_layer_dicts:
+		var texture = layer['texture']
+		qodot.gather_worldspawn_layer_surfaces(texture, brush_clip_texture, face_skip_texture)
+		var texture_surfaces := qodot.fetch_surfaces(inverse_scale_factor) as Array
+
+		var mesh: Mesh = null
+		if not texture in meshes:
+			meshes[texture] = ArrayMesh.new()
+
+		mesh = meshes[texture]
+		mesh.add_surface_from_arrays(ArrayMesh.PRIMITIVE_TRIANGLES, texture_surfaces[0])
+		mesh.surface_set_material(mesh.get_surface_count() - 1, material_dict[texture])
+
+	return meshes
+
 func build_entity_mesh_instances(entity_mesh_dict: Dictionary, entity_dicts: Array, entity_definitions: Dictionary, entity_nodes: Array) -> Dictionary:
 	var entity_mesh_instances := {}
 
@@ -718,7 +847,30 @@ func build_entity_mesh_instances(entity_mesh_dict: Dictionary, entity_dicts: Arr
 
 	return entity_mesh_instances
 
-func apply_meshes(entity_mesh_dict: Dictionary, entity_mesh_instances: Dictionary) -> void:
+func build_worldspawn_layer_mesh_instances(worldspawn_layers: Array, worldspawn_layer_mesh_dict: Dictionary, worldspawn_layer_nodes: Array) -> Dictionary:
+	var worldspawn_layer_mesh_instances := {}
+
+	var idx = 0
+	for i in range(0, worldspawn_layers.size()):
+		var worldspawn_layer = worldspawn_layers[i]
+		var texture_name = worldspawn_layer['texture']
+		var mesh := worldspawn_layer_mesh_dict[texture_name] as Mesh
+
+		if not mesh:
+			continue
+
+		var mesh_instance := MeshInstance.new()
+		mesh_instance.name = 'entity_0_%s_mesh_instance' % worldspawn_layer['name']
+		mesh_instance.set_flag(MeshInstance.FLAG_USE_BAKED_LIGHT, true)
+
+		queue_add_child(worldspawn_layer_nodes[idx], mesh_instance)
+		idx += 1
+
+		worldspawn_layer_mesh_instances[texture_name] = mesh_instance
+
+	return worldspawn_layer_mesh_instances
+
+func apply_entity_meshes(entity_mesh_dict: Dictionary, entity_mesh_instances: Dictionary) -> void:
 	for entity_idx in entity_mesh_dict:
 		var mesh := entity_mesh_dict[entity_idx] as Mesh
 		var mesh_instance := entity_mesh_instances[entity_idx] as MeshInstance
@@ -729,6 +881,16 @@ func apply_meshes(entity_mesh_dict: Dictionary, entity_mesh_instances: Dictionar
 		mesh_instance.set_mesh(mesh)
 
 		queue_add_child(entity_nodes[entity_idx], mesh_instance)
+
+func apply_worldspawn_layer_meshes(worldspawn_layer_mesh_dict: Dictionary, worldspawn_layer_mesh_instances: Dictionary) -> void:
+	for texture_name in worldspawn_layer_mesh_dict:
+		var mesh = worldspawn_layer_mesh_dict[texture_name]
+		var mesh_instance = worldspawn_layer_mesh_instances[texture_name]
+
+		if not mesh or not mesh_instance:
+			continue
+
+		mesh_instance.set_mesh(mesh)
 
 func queue_add_child(parent, node, below = null, relative = false) -> void:
 	add_child_array.append({"parent": parent, "node": node, "below": below, "relative": relative})
@@ -774,7 +936,13 @@ func post_attach():
 	run_build_step('build_entity_collision_shapes', [entity_dicts, entity_definitions, entity_collision_shapes])
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
-	run_build_step('apply_meshes', [entity_mesh_dict, entity_mesh_instances])
+	run_build_step('build_worldspawn_layer_collision_shapes', [worldspawn_layers, worldspawn_layer_dicts, worldspawn_layer_collision_shapes])
+	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
+
+	run_build_step('apply_entity_meshes', [entity_mesh_dict, entity_mesh_instances])
+	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
+
+	run_build_step('apply_worldspawn_layer_meshes', [worldspawn_layer_mesh_dict, worldspawn_layer_mesh_instances])
 	yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
 	run_build_step('apply_properties', [entity_nodes, entity_dicts, entity_definitions])
