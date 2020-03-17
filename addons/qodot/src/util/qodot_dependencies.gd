@@ -51,7 +51,13 @@ static func check_dependencies(http_request: HTTPRequest) -> void:
 			var result = yield(http_request, "request_completed")
 			match result[0]:
 				HTTPRequest.RESULT_SUCCESS:
-					print("Download complete")
+					match result[1]:
+						200:
+							print("Download complete")
+						_:
+							print("Download failed")
+							var dir = Directory.new()
+							dir.remove(dependency)
 				HTTPRequest.RESULT_CHUNKED_BODY_SIZE_MISMATCH:
 					printerr("Error: Chunked body size mismatch")
 				HTTPRequest.RESULT_CANT_CONNECT:
