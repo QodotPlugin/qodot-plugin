@@ -101,4 +101,6 @@ Donations via PayPal are also accepted:
 
 [Corruptinator](https://github.com/Corruptinator) - For the idea of using TrenchBroom groups as a scene tree.
 
+[grenappels](https://github.com/grenappels) - For implementing smoothed brush normal edge splitting
+
 [FreePBR.com](https://freepbr.com) - For royalty-free PBR example textures
