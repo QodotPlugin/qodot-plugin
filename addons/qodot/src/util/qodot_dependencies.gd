@@ -91,9 +91,10 @@ static func check_dependency(http_request: HTTPRequest, dependency: String, url:
 		print("Dependency satisfied")
 		return true
 
-	var dependency_comps = dependency.split('/')
+	var dependency_comps = dependency.split("/")
 	dependency_comps.resize(dependency_comps.size() - 1)
-	var dependency_dir = dependency_comps.join('/')
+	var dependency_dir = dependency_comps.join("/")
+
 	if not dir.dir_exists(dependency_dir):
 		dir.make_dir_recursive(dependency_dir)
 

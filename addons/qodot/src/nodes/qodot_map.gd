@@ -12,7 +12,6 @@ signal build_failed()
 
 signal unwrap_uv2_complete()
 
-var print_profiling_data := false
 var map_file := "" setget set_map_file
 var inverse_scale_factor := 16.0
 var entity_fgd := preload("res://addons/qodot/game-definitions/fgd/qodot_fgd.tres")
@@ -27,6 +26,8 @@ var texture_wads := [] setget set_texture_wads
 var material_file_extension := ".tres"
 var default_material := SpatialMaterial.new()
 var uv_unwrap_texel_size := 1.0
+var print_profiling_data := false
+var use_trenchbroom_group_hierarchy := false
 var tree_attach_batch_size := 16
 var set_owner_batch_size := 16
 
@@ -109,6 +110,7 @@ func _get_property_list() -> Array:
 		QodotUtil.property_dict('uv_unwrap_texel_size', TYPE_REAL),
 		QodotUtil.category_dict('Build'),
 		QodotUtil.property_dict('print_profiling_data', TYPE_BOOL),
+		QodotUtil.property_dict('use_trenchbroom_group_hierarchy', TYPE_BOOL),
 		QodotUtil.property_dict('tree_attach_batch_size', TYPE_INT),
 		QodotUtil.property_dict('set_owner_batch_size', TYPE_INT)
 	]
@@ -411,7 +413,7 @@ func build_entity_nodes() -> Array:
 					if entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.MERGE_WORLDSPAWN:
 						entity_nodes.append(null)
 						continue
-					elif entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.GROUP:
+					elif use_trenchbroom_group_hierarchy and entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.GROUP:
 						should_add_child = false
 					if entity_definition.node_class != "":
 						node = ClassDB.instance(entity_definition.node_class)
@@ -454,6 +456,9 @@ func build_worldspawn_layer_nodes() -> Array:
 	return worldspawn_layer_nodes
 
 func resolve_group_hierarchy() -> void:
+	if not use_trenchbroom_group_hierarchy:
+		return
+
 	var group_entities := {}
 	var owner_entities := {}
 
