@@ -7,6 +7,7 @@ var palette_import_plugin : QuakePaletteImportPlugin = null
 var wad_import_plugin : QuakeWadImportPlugin = null
 
 var qodot_map_control: Control = null
+var qodot_map_progress_bar: Control = null
 var edited_object_ref: WeakRef = weakref(null)
 
 var http_request: HTTPRequest = null
@@ -27,6 +28,9 @@ func make_visible(visible: bool) -> void:
 	if qodot_map_control:
 		qodot_map_control.set_visible(visible)
 
+	if qodot_map_progress_bar:
+		qodot_map_progress_bar.set_visible(visible)
+
 func _enter_tree() -> void:
 	# Import plugins
 	map_import_plugin = QuakeMapImportPlugin.new()
@@ -41,6 +45,10 @@ func _enter_tree() -> void:
 	qodot_map_control = create_qodot_map_control()
 	qodot_map_control.set_visible(false)
 	add_control_to_container(EditorPlugin.CONTAINER_SPATIAL_EDITOR_MENU, qodot_map_control)
+
+	qodot_map_progress_bar = create_qodot_map_progress_bar()
+	qodot_map_progress_bar.set_visible(false)
+	add_control_to_container(EditorPlugin.CONTAINER_PROPERTY_EDITOR_BOTTOM, qodot_map_progress_bar)
 
 	# Download libraries
 	http_request = HTTPRequest.new()
@@ -60,6 +68,10 @@ func _exit_tree() -> void:
 	remove_control_from_container(EditorPlugin.CONTAINER_SPATIAL_EDITOR_MENU, qodot_map_control)
 	qodot_map_control.queue_free()
 	qodot_map_control = null
+
+	remove_control_from_container(EditorPlugin.CONTAINER_PROPERTY_EDITOR_BOTTOM, qodot_map_progress_bar)
+	qodot_map_progress_bar.queue_free()
+	qodot_map_progress_bar = null
 
 	remove_child(http_request)
 	http_request.queue_free()
@@ -83,6 +95,16 @@ func create_qodot_map_control() -> Control:
 	unwrap_uv2_button.text = "Unwrap UV2"
 	unwrap_uv2_button.connect("pressed", self, "qodot_map_unwrap_uv2")
 
+	var control = HBoxContainer.new()
+	control.add_child(separator)
+	control.add_child(icon)
+	control.add_child(quick_build_button)
+	control.add_child(full_build_button)
+	control.add_child(unwrap_uv2_button)
+
+	return control
+
+func create_qodot_map_progress_bar() -> Control:
 	var progress_label = Label.new()
 	progress_label.name = "ProgressLabel"
 	progress_label.align = Label.ALIGN_LEFT
@@ -93,22 +115,15 @@ func create_qodot_map_control() -> Control:
 	progress_bar.percent_visible = false
 	progress_bar.min_value = 0.0
 	progress_bar.max_value = 1.0
-	progress_bar.rect_min_size = Vector2(330, 0)
-	progress_bar.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	progress_bar.rect_min_size.y = 30
+	progress_bar.set_anchors_and_margins_preset(Control.PRESET_WIDE)
 	progress_bar.add_child(progress_label)
 	progress_label.set_anchors_and_margins_preset(Control.PRESET_WIDE)
 	progress_label.margin_top = -9
 	progress_label.margin_left = 3
 
-	var control = HBoxContainer.new()
-	control.add_child(separator)
-	control.add_child(icon)
-	control.add_child(quick_build_button)
-	control.add_child(full_build_button)
-	control.add_child(unwrap_uv2_button)
-	control.add_child(progress_bar)
+	return progress_bar
 
-	return control
 
 func qodot_map_quick_build() -> void:
 	var edited_object = edited_object_ref.get_ref()
@@ -168,14 +183,12 @@ func set_qodot_map_control_disabled(disabled: bool) -> void:
 			child.set_disabled(disabled)
 
 func qodot_map_build_progress(step: String, progress: float) -> void:
-	var progress_bar = qodot_map_control.get_node("ProgressBar")
-	var progress_label = progress_bar.get_node("ProgressLabel")
-	progress_bar.value = progress
+	var progress_label = qodot_map_progress_bar.get_node("ProgressLabel")
+	qodot_map_progress_bar.value = progress
 	progress_label.text = step.capitalize()
 
 func qodot_map_build_complete(qodot_map: QodotMap) -> void:
-	var progress_bar = qodot_map_control.get_node("ProgressBar")
-	var progress_label = progress_bar.get_node("ProgressLabel")
+	var progress_label = qodot_map_progress_bar.get_node("ProgressLabel")
 	progress_label.text = "Build Complete"
 
 	set_qodot_map_control_disabled(false)
