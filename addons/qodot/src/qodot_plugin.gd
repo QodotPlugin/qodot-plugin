@@ -32,6 +32,9 @@ func make_visible(visible: bool) -> void:
 		qodot_map_progress_bar.set_visible(visible)
 
 func _enter_tree() -> void:
+	# Project settings
+	setup_project_settings()
+
 	# Import plugins
 	map_import_plugin = QuakeMapImportPlugin.new()
 	palette_import_plugin = QuakePaletteImportPlugin.new()
@@ -75,6 +78,28 @@ func _exit_tree() -> void:
 
 	remove_child(http_request)
 	http_request.queue_free()
+
+func setup_project_settings() -> void:
+	try_add_project_setting('qodot/textures/normal_pattern', TYPE_STRING, QodotTextureLoader.PBR_SUFFIX_PATTERNS[QodotTextureLoader.PBRSuffix.NORMAL])
+	try_add_project_setting('qodot/textures/metallic_pattern', TYPE_STRING, QodotTextureLoader.PBR_SUFFIX_PATTERNS[QodotTextureLoader.PBRSuffix.METALLIC])
+	try_add_project_setting('qodot/textures/roughness_pattern', TYPE_STRING, QodotTextureLoader.PBR_SUFFIX_PATTERNS[QodotTextureLoader.PBRSuffix.ROUGHNESS])
+	try_add_project_setting('qodot/textures/emission_pattern', TYPE_STRING, QodotTextureLoader.PBR_SUFFIX_PATTERNS[QodotTextureLoader.PBRSuffix.EMISSION])
+	try_add_project_setting('qodot/textures/ao_pattern', TYPE_STRING, QodotTextureLoader.PBR_SUFFIX_PATTERNS[QodotTextureLoader.PBRSuffix.AO])
+	try_add_project_setting('qodot/textures/depth_pattern', TYPE_STRING, QodotTextureLoader.PBR_SUFFIX_PATTERNS[QodotTextureLoader.PBRSuffix.DEPTH])
+
+func try_add_project_setting(name: String, type: int, value, info: Dictionary = {}) -> void:
+	if not ProjectSettings.has_setting(name):
+		add_project_setting(name, type, value, info)
+
+func add_project_setting(name: String, type: int, value, info: Dictionary = {}) -> void:
+	ProjectSettings.set(name, value)
+
+	var info_dict := info.duplicate()
+	info_dict['name'] = name
+	info_dict['type'] = type
+
+	ProjectSettings.add_property_info(info_dict)
+	ProjectSettings.set_initial_value(name, value)
 
 func create_qodot_map_control() -> Control:
 	var separator = VSeparator.new()
