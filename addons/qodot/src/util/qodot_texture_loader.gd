@@ -86,9 +86,6 @@ func create_material(
 	material_extension: String,
 	default_material: SpatialMaterial
 	) -> SpatialMaterial:
-	if(texture_name == TEXTURE_EMPTY):
-		return null
-
 	# Autoload material if it exists
 	var material_dict := {}
 
@@ -102,16 +99,16 @@ func create_material(
 	if material_path in material_dict:
 		return material_dict[material_path]
 
-	var texture : Texture = load_texture(texture_name)
-	if not texture:
-		return null
-
 	var material : SpatialMaterial = null
 
 	if default_material:
 		material = default_material.duplicate()
 	else:
 		material = SpatialMaterial.new()
+
+	var texture : Texture = load_texture(texture_name)
+	if not texture:
+		return material
 
 	material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, texture)
 
