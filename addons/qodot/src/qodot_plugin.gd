@@ -15,9 +15,6 @@ var http_request: HTTPRequest = null
 func get_plugin_name() -> String:
 	return "Qodot"
 
-func get_plugin_icon() -> Texture:
-	return preload("res://addons/qodot/icon.png")
-
 func handles(object: Object) -> bool:
 	return object is QodotMap
 
