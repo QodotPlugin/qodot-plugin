@@ -16,14 +16,14 @@ var map_file := "" setget set_map_file
 var inverse_scale_factor := 16.0
 var entity_fgd := preload("res://addons/qodot/game-definitions/fgd/qodot_fgd.tres")
 var base_texture_dir := "res://textures"
-var texture_file_extension := ".png"
+var texture_file_extension := "png"
 
 var worldspawn_layers := [] setget set_worldspawn_layers
 
 var brush_clip_texture := "special/clip"
 var face_skip_texture := "special/skip"
 var texture_wads := [] setget set_texture_wads
-var material_file_extension := ".tres"
+var material_file_extension := "tres"
 var default_material := SpatialMaterial.new()
 var uv_unwrap_texel_size := 1.0
 var print_profiling_data := false
