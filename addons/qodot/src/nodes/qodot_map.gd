@@ -763,7 +763,7 @@ func build_worldspawn_layer_collision_shapes() -> void:
 				var shape = ConvexPolygonShape.new()
 				shape.set_points(shape_points)
 
-				var collision_shape = worldspawn_layer_collision_shapes[layer_idx]
+				var collision_shape = worldspawn_layer_collision_shapes[surface_idx]
 				collision_shape.set_shape(shape)
 
 		if concave:
