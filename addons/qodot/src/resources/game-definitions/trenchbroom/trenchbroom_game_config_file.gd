@@ -5,6 +5,8 @@ tool
 export(bool) var export_file : bool setget set_export_file
 export(String, FILE, GLOBAL, "*.cfg") var target_file : String
 
+export(String) var game_name := "Qodot"
+
 export(Array, Resource) var brush_tags : Array = []
 export(Array, Resource) var face_tags : Array = []
 export(Array, Resource) var face_attrib_surface_flags : Array = []
@@ -14,7 +16,7 @@ export(Array, String) var fgd_filenames : Array = []
 
 var base_text: String = """{
 	version: 3,
-	name: "Qodot",
+	name: "%s",
 	icon: "Icon.png",
 	"fileformats": [
 		{ "format": "Standard", "initialmap": "initial_standard.map" },
@@ -86,6 +88,7 @@ func build_class_text() -> String:
 	var content_flags_str = parse_flags(face_attrib_content_flags)
 
 	return base_text % [
+		game_name,
 		fgd_filename_str,
 		brush_tags_str,
 		face_tags_str,

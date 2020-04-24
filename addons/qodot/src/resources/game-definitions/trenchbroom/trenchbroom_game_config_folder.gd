@@ -52,6 +52,7 @@ func set_export_file(new_export_file : bool = true) -> void:
 			export_icon.save_png(icon_path)
 
 			var export_config_file: TrenchBroomGameConfigFile = game_config_file.duplicate()
+			export_config_file.game_name = game_name
 			export_config_file.target_file = config_folder + "/GameConfig.cfg"
 
 			export_config_file.fgd_filenames = []

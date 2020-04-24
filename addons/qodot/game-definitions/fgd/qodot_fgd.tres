@@ -15,7 +15,7 @@
 [resource]
 script = ExtResource( 6 )
 export_file = false
-target_folder = ""
+target_folder = "C:/OtherPrograms/TrenchBroom/games/Qodot"
 fgd_name = "Qodot"
 base_fgd_files = [  ]
 entity_definitions = [ ExtResource( 2 ), ExtResource( 9 ), ExtResource( 5 ), ExtResource( 1 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 8 ), ExtResource( 7 ), ExtResource( 10 ), ExtResource( 11 ) ]
