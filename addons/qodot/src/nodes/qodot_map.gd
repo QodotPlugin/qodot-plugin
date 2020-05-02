@@ -129,12 +129,22 @@ func manual_build():
 
 func verify_parameters():
 	if not qodot:
-		var lib_qodot := load("res://addons/qodot/bin/qodot.gdns")
-		if lib_qodot:
-			qodot = lib_qodot.new()
+		var qodot_lib = GDNativeLibrary.new()
+		qodot_lib.set("entry/OSX.64", "res://addons/qodot/bin/osx/libqodot.dylib")
+		qodot_lib.set("entry/Windows.64", "res://addons/qodot/bin/win64/libqodot.dll")
+		qodot_lib.set("entry/X11.64", "res://addons/qodot/bin/x11/libqodot.so")
+		qodot_lib.set("dependency/OSX.64", ["res://addons/qodot/bin/osx/libmap.dylib"])
+		qodot_lib.set("dependency/Windows.64", ["res://addons/qodot/bin/win64/libmap.dll"])
+		qodot_lib.set("dependency/X11.64", ["res://addons/qodot/bin/x11/libmap.so"])
+
+		var qodot_script = NativeScript.new()
+		qodot_script.set("class_name", "Qodot")
+		qodot_script.library = qodot_lib
+
+		qodot = qodot_script.new()
 
 	if not qodot:
-		push_error("Error: Failed to load libqodot")
+		push_error("Error: Failed to load libqodot.")
 		return false
 
 	if map_file == "":
