@@ -128,7 +128,7 @@ func manual_build():
 	verify_and_build()
 
 func verify_parameters():
-	if not qodot:
+	if not qodot or DEBUG:
 		var qodot_lib = GDNativeLibrary.new()
 		qodot_lib.set("entry/OSX.64", "res://addons/qodot/bin/osx/libqodot.dylib")
 		qodot_lib.set("entry/Windows.64", "res://addons/qodot/bin/win64/libqodot.dll")
