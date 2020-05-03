@@ -830,7 +830,6 @@ func build_worldspawn_layer_mesh_dict() -> Dictionary:
 
 	for layer in worldspawn_layer_dicts:
 		var texture = layer.texture
-		print('gathering surfaces for layer %s' % [texture])
 		qodot.gather_worldspawn_layer_surfaces(texture, brush_clip_texture, face_skip_texture)
 		var texture_surfaces := qodot.fetch_surfaces(inverse_scale_factor) as Array
 
