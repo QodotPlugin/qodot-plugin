@@ -2,7 +2,7 @@ class_name QodotMap
 extends QodotSpatial
 tool
 
-const DEBUG := false
+const DEBUG := true
 const YIELD_DURATION := 0.0
 const YIELD_SIGNAL := "timeout"
 
@@ -637,27 +637,31 @@ func build_worldspawn_layer_collision_shape_nodes() -> Array:
 		var node := worldspawn_layer_nodes[layer_idx] as Node
 		var concave = false
 
+		var shapes := []
+
 		if layer.collision_shape_type == QodotFGDSolidClass.CollisionShapeType.NONE:
-			worldspawn_layer_collision_shapes.append(null)
+			worldspawn_layer_collision_shapes.append(shapes)
 			continue
 		elif layer.collision_shape_type == QodotFGDSolidClass.CollisionShapeType.CONCAVE:
 			concave = true
 
 		if not node:
-			worldspawn_layer_collision_shapes.append(null)
+			worldspawn_layer_collision_shapes.append(shapes)
 			continue
 
 		if concave:
 			var collision_shape := CollisionShape.new()
 			collision_shape.name = "entity_0_%s_collision_shape" % layer.name
-			worldspawn_layer_collision_shapes.append(collision_shape)
+			shapes.append(collision_shape)
 			queue_add_child(node, collision_shape)
 		else:
 			for brush_idx in layer_dict['brush_indices']:
 				var collision_shape := CollisionShape.new()
 				collision_shape.name = "entity_0_%s_brush_%s_collision_shape" % [layer.name, brush_idx]
-				worldspawn_layer_collision_shapes.append(collision_shape)
+				shapes.append(collision_shape)
 				queue_add_child(node, collision_shape)
+
+		worldspawn_layer_collision_shapes.append(shapes)
 
 	return worldspawn_layer_collision_shapes
 
@@ -744,16 +748,14 @@ func build_worldspawn_layer_collision_shapes() -> void:
 		if not worldspawn_layer_collision_shapes[layer_idx]:
 			continue
 
-		if concave:
-			qodot.gather_worldspawn_layer_concave_collision_surfaces(0)
-		else:
-			qodot.gather_worldspawn_layer_convex_collision_surfaces(0)
+		qodot.gather_worldspawn_layer_collision_surfaces(0)
 
 		var layer_surfaces := qodot.fetch_surfaces(inverse_scale_factor) as Array
 
 		var verts := PoolVector3Array()
 
-		for surface_idx in range(0, layer_surfaces.size()):
+		for i in range(0, layer_dict.brush_indices.size()):
+			var surface_idx = layer_dict.brush_indices[i]
 			var surface_verts = layer_surfaces[surface_idx]
 
 			if not surface_verts:
@@ -773,7 +775,7 @@ func build_worldspawn_layer_collision_shapes() -> void:
 				var shape = ConvexPolygonShape.new()
 				shape.set_points(shape_points)
 
-				var collision_shape = worldspawn_layer_collision_shapes[surface_idx]
+				var collision_shape = worldspawn_layer_collision_shapes[layer_idx][i]
 				collision_shape.set_shape(shape)
 
 		if concave:
@@ -783,7 +785,7 @@ func build_worldspawn_layer_collision_shapes() -> void:
 			var shape = ConcavePolygonShape.new()
 			shape.set_faces(verts)
 
-			var collision_shape = worldspawn_layer_collision_shapes[layer_idx]
+			var collision_shape = worldspawn_layer_collision_shapes[layer_idx][0]
 			collision_shape.set_shape(shape)
 
 func build_entity_mesh_dict() -> Dictionary:
@@ -828,6 +830,7 @@ func build_worldspawn_layer_mesh_dict() -> Dictionary:
 
 	for layer in worldspawn_layer_dicts:
 		var texture = layer.texture
+		print('gathering surfaces for layer %s' % [texture])
 		qodot.gather_worldspawn_layer_surfaces(texture, brush_clip_texture, face_skip_texture)
 		var texture_surfaces := qodot.fetch_surfaces(inverse_scale_factor) as Array
 
