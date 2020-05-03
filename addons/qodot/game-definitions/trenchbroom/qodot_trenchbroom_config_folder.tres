@@ -8,7 +8,7 @@
 [resource]
 script = ExtResource( 3 )
 export_file = false
-trenchbroom_games_folder = "C:/OtherPrograms/TrenchBroom/games"
+trenchbroom_games_folder = "C:/OtherPrograms/TrenchBroom/2020.1/games"
 game_name = "Qodot"
 icon = ExtResource( 2 )
 game_config_file = ExtResource( 4 )
