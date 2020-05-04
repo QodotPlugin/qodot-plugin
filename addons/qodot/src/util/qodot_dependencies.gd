@@ -4,7 +4,7 @@ const PROTOCOL := "https"
 const GITHUB_DOMAIN := "github.com"
 const GIT_USER := "Shfty"
 const RELEASE_DOWNLOADS := "releases/download"
-const DEPENDENCY_TAG := "v1.6.5"
+const DEPENDENCY_TAG := "v1.7.0"
 
 static func get_platform_string() -> String:
 	match OS.get_name():
