@@ -2,9 +2,6 @@
 
 Quake *.map* file support for Godot.
 
-[![](https://ci.appveyor.com/api/projects/status/jtapjc9vocrry02g?svg=true)](https://ci.appveyor.com/project/Shfty/qodot-plugin)
-[![](https://travis-ci.com/Shfty/qodot-plugin.svg?branch=master)](https://travis-ci.com/Shfty/qodot-plugin)
-
 ## Overview
 
 Qodot extends the Godot editor to import Quake *.map* files, and provides a data-driven framework for converting the entities and brushes contained therein into a custom node hierarchy.
