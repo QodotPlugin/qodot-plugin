@@ -10,4 +10,6 @@
 /.gitignore export-ignore
 /LICENSE export-ignore
 /README.md export-ignore
+/build-windows.bat export-ignore
+/build-x11.sh export-ignore
 /SConstruct export-ignore
