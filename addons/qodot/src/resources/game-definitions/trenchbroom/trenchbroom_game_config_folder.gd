@@ -10,9 +10,9 @@ export(String, DIR, GLOBAL) var trenchbroom_games_folder : String
 
 export(String) var game_name := "Qodot"
 export(Texture) var icon : Texture = preload("res://icon.png")
-export(Resource) var game_config_file : Resource = preload("res://addons/qodot/game-definitions/trenchbroom/qodot_trenchbroom_config_file.tres")
+export(Resource) var game_config_file : Resource = preload("res://addons/qodot/game_definitions/trenchbroom/qodot_trenchbroom_config_file.tres")
 export(Array, Resource) var fgd_files : Array = [
-	preload("res://addons/qodot/game-definitions/fgd/qodot_fgd.tres")
+	preload("res://addons/qodot/game_definitions/fgd/qodot_fgd.tres")
 ]
 
 func set_export_file(new_export_file : bool = true) -> void:

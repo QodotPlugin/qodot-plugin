@@ -1,0 +1,61 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_solid_class.gd" type="Script" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "class_name QodotRotateEntity
+extends KinematicBody
+
+export(Dictionary) var properties setget set_properties
+
+var rotate_axis := Vector3.UP
+var rotate_speed := 360.0
+
+func set_properties(new_properties : Dictionary) -> void:
+	if(properties != new_properties):
+		properties = new_properties
+		update_properties()
+
+func update_properties():
+	if 'axis' in properties:
+		rotate_axis = properties['axis']
+
+	if 'speed' in properties:
+		rotate_speed = properties['speed']
+
+func _ready() -> void:
+	update_properties()
+
+func _process(delta: float) -> void:
+	rotate(rotate_axis, deg2rad(rotate_speed * delta))
+"
+
+[resource]
+script = ExtResource( 1 )
+class_options = "----------------------------------------------------------------"
+classname = "rotate"
+description = "Rotating Brush"
+qodot_internal = false
+base_classes = [  ]
+class_properties = {
+"axis": Vector3( 0, 1, 0 ),
+"speed": 360.0
+}
+class_property_descriptions = {
+"axis": "Rotation Axis",
+"speed": "Rotation Speed"
+}
+meta_properties = {
+
+}
+node_options = "----------------------------------------------------------------"
+node_class = "KinematicBody"
+transient_node = false
+spawn = "----------------------------------------------------------------"
+spawn_type = 2
+visual_build = "================================================================"
+build_visuals = true
+collision_build = "----------------------------------------------------------------"
+collision_shape_type = 1
+scripting = "----------------------------------------------------------------"
+script_class = SubResource( 1 )

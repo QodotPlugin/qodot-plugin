@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/1-runtime-map-building.map-270a7da2aa5a56fb0b059d46c6490252.tres"
+
+[deps]
+
+source_file="res://addons/qodot/example_scenes/2-miscallaneous/1-runtime-map-building/1-runtime-map-building.map"
+dest_files=[ "res://.import/1-runtime-map-building.map-270a7da2aa5a56fb0b059d46c6490252.tres" ]
+
+[params]
+

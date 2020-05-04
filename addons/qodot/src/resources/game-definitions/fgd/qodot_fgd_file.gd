@@ -10,13 +10,13 @@ export(String, DIR, GLOBAL) var target_folder : String
 export(String) var fgd_name : String = "Qodot"
 export(Array, Resource) var base_fgd_files := []
 export(Array, Resource) var entity_definitions := [
-	preload("res://addons/qodot/game-definitions/fgd/solid_classes/worldspawn_solid_class.tres"),
-	preload("res://addons/qodot/game-definitions/fgd/solid_classes/group_solid_class.tres"),
-	preload("res://addons/qodot/game-definitions/fgd/solid_classes/detail_solid_class.tres"),
-	preload("res://addons/qodot/game-definitions/fgd/solid_classes/illusionary_solid_class.tres"),
-	preload("res://addons/qodot/game-definitions/fgd/solid_classes/trigger_solid_class.tres"),
-	preload("res://addons/qodot/game-definitions/fgd/base_classes/light_base_class.tres"),
-	preload("res://addons/qodot/game-definitions/fgd/point_classes/light_point_class.tres"),
+	preload("res://addons/qodot/game_definitions/fgd/solid_classes/worldspawn_solid_class.tres"),
+	preload("res://addons/qodot/game_definitions/fgd/solid_classes/group_solid_class.tres"),
+	preload("res://addons/qodot/game_definitions/fgd/solid_classes/detail_solid_class.tres"),
+	preload("res://addons/qodot/game_definitions/fgd/solid_classes/illusionary_solid_class.tres"),
+	preload("res://addons/qodot/game_definitions/fgd/solid_classes/worldspawn_solid_class.tres"),
+	preload("res://addons/qodot/game_definitions/fgd/base_classes/light_base_class.tres"),
+	preload("res://addons/qodot/game_definitions/fgd/point_classes/light_point_class.tres"),
 ]
 
 func set_export_file(new_export_file = true) -> void:

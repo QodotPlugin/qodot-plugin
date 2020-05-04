@@ -1,0 +1,51 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_point_class.gd" type="Script" id=1]
+[ext_resource path="res://addons/qodot/game_definitions/fgd/point_classes/physics_ball.tscn" type="PackedScene" id=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "class_name PhysicsBall
+extends PhysicsEntity
+tool
+
+func update_properties():
+	.update_properties()
+	if 'size' in properties:
+		$MeshInstance.mesh.radius = properties.size * 0.5
+		$MeshInstance.mesh.height = properties.size
+
+		$CollisionShape.shape.radius = properties.size * 0.5
+
+
+func use():
+	bounce()
+
+func bounce():
+	linear_velocity.y = 10
+"
+
+[resource]
+script = ExtResource( 1 )
+class_options = "----------------------------------------------------------------"
+classname = "physics_ball"
+description = "Physics Ball"
+qodot_internal = false
+base_classes = [  ]
+class_properties = {
+"mass": 1.0,
+"size": 1.0,
+"velocity": Vector3( 0, 0, 0 )
+}
+class_property_descriptions = {
+"velocity": "Initial velocity"
+}
+meta_properties = {
+"size": AABB( -8, -8, -8, 8, 8, 8 )
+}
+node_options = "----------------------------------------------------------------"
+node_class = ""
+transient_node = false
+scene = "----------------------------------------------------------------"
+scene_file = ExtResource( 2 )
+scripting = "----------------------------------------------------------------"
+script_class = SubResource( 1 )

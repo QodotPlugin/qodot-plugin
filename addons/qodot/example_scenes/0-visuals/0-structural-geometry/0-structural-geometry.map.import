@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/0-structural-geometry.map-0f01126fbea3af47c289c27a710025f3.tres"
+
+[deps]
+
+source_file="res://addons/qodot/example_scenes/0-visuals/0-structural-geometry/0-structural-geometry.map"
+dest_files=[ "res://.import/0-structural-geometry.map-0f01126fbea3af47c289c27a710025f3.tres" ]
+
+[params]
+

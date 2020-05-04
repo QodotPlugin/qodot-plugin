@@ -1,0 +1,30 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_point_class.gd" type="Script" id=1]
+[ext_resource path="res://addons/qodot/game_definitions/fgd/point_classes/light.gd" type="Script" id=2]
+[ext_resource path="res://addons/qodot/game_definitions/fgd/base_classes/light_base_class.tres" type="Resource" id=3]
+
+
+
+[resource]
+script = ExtResource( 1 )
+class_options = "----------------------------------------------------------------"
+classname = "light"
+description = "Invisible light source"
+qodot_internal = false
+base_classes = [ ExtResource( 3 ) ]
+class_properties = {
+"angle": 0.0
+}
+class_property_descriptions = {
+"angle": "Rotation Angle"
+}
+meta_properties = {
+"size": AABB( -8, -8, -8, 8, 8, 8 )
+}
+node_options = "----------------------------------------------------------------"
+node_class = "Spatial"
+transient_node = false
+scene = "----------------------------------------------------------------"
+scripting = "----------------------------------------------------------------"
+script_class = ExtResource( 2 )

@@ -1,0 +1,113 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://addons/qodot/src/nodes/qodot_map.gd" type="Script" id=1]
+[ext_resource path="res://addons/qodot/game_definitions/fgd/qodot_fgd.tres" type="Resource" id=2]
+[ext_resource path="res://addons/qodot/textures/pbr/military-panel/military-panel_depth.png" type="Texture" id=3]
+[ext_resource path="res://addons/qodot/textures/pbr/military-panel/military-panel_metallic.png" type="Texture" id=4]
+[ext_resource path="res://addons/qodot/textures/pbr/military-panel/military-panel_normal.png" type="Texture" id=5]
+[ext_resource path="res://addons/qodot/textures/pbr/military-panel/military-panel_roughness.png" type="Texture" id=6]
+[ext_resource path="res://addons/qodot/textures/pbr/military-panel/military-panel_ao.png" type="Texture" id=7]
+[ext_resource path="res://addons/qodot/textures/pbr/military-panel.png" type="Texture" id=8]
+
+[sub_resource type="ProceduralSky" id=1]
+sun_latitude = 30.0
+sun_longitude = -60.0
+
+[sub_resource type="Environment" id=2]
+background_mode = 2
+background_sky = SubResource( 1 )
+
+[sub_resource type="SpatialMaterial" id=3]
+
+[sub_resource type="SpatialMaterial" id=4]
+albedo_texture = ExtResource( 8 )
+metallic_texture = ExtResource( 4 )
+roughness_texture = ExtResource( 6 )
+normal_enabled = true
+normal_scale = 1.0
+normal_texture = ExtResource( 5 )
+ao_enabled = true
+ao_light_affect = 0.0
+ao_texture = ExtResource( 7 )
+ao_on_uv2 = false
+ao_texture_channel = 0
+depth_enabled = true
+depth_scale = 0.05
+depth_deep_parallax = false
+depth_flip_tangent = false
+depth_flip_binormal = false
+depth_texture = ExtResource( 3 )
+
+[sub_resource type="ArrayMesh" id=5]
+surfaces/0 = {
+"aabb": AABB( -4, -4, -4, 8, 8.00001, 8 ),
+"array_data": PoolByteArray( 0, 0, 128, 192, 0, 0, 128, 64, 0, 0, 128, 192, 0, 0, 129, 0, 129, 0, 0, 127, 0, 56, 0, 184, 0, 0, 128, 192, 0, 0, 128, 192, 0, 0, 128, 192, 0, 0, 129, 0, 129, 0, 0, 127, 0, 56, 0, 56, 0, 0, 128, 64, 0, 0, 128, 192, 0, 0, 128, 192, 0, 0, 129, 0, 129, 0, 0, 127, 0, 184, 0, 56, 0, 0, 128, 64, 0, 0, 128, 64, 0, 0, 128, 192, 0, 0, 129, 0, 129, 0, 0, 127, 0, 184, 0, 184, 0, 0, 128, 192, 0, 0, 128, 64, 0, 0, 128, 192, 129, 0, 0, 0, 0, 0, 127, 127, 0, 184, 0, 184, 0, 0, 128, 192, 0, 0, 128, 64, 0, 0, 128, 64, 129, 0, 0, 0, 0, 0, 127, 127, 0, 56, 0, 184, 0, 0, 128, 192, 0, 0, 128, 192, 0, 0, 128, 64, 129, 0, 0, 0, 0, 0, 127, 127, 0, 56, 0, 56, 0, 0, 128, 192, 0, 0, 128, 192, 0, 0, 128, 192, 129, 0, 0, 0, 0, 0, 127, 127, 0, 184, 0, 56, 0, 0, 128, 64, 0, 0, 128, 192, 0, 0, 128, 192, 0, 129, 0, 0, 0, 0, 129, 127, 0, 56, 0, 184, 0, 0, 128, 192, 0, 0, 128, 192, 0, 0, 128, 192, 0, 129, 0, 0, 0, 0, 129, 127, 0, 56, 0, 56, 0, 0, 128, 192, 0, 0, 128, 192, 0, 0, 128, 64, 0, 129, 0, 0, 0, 0, 129, 127, 0, 184, 0, 56, 0, 0, 128, 64, 0, 0, 128, 192, 0, 0, 128, 64, 0, 129, 0, 0, 0, 0, 129, 127, 0, 184, 0, 184, 0, 0, 128, 64, 0, 0, 128, 64, 0, 0, 128, 192, 0, 127, 0, 0, 0, 0, 127, 127, 0, 184, 0, 184, 0, 0, 128, 64, 0, 0, 128, 64, 0, 0, 128, 64, 0, 127, 0, 0, 0, 0, 127, 127, 0, 56, 0, 184, 0, 0, 128, 192, 0, 0, 128, 64, 0, 0, 128, 64, 0, 127, 0, 0, 0, 0, 127, 127, 0, 56, 0, 56, 0, 0, 128, 192, 0, 0, 128, 64, 0, 0, 128, 192, 0, 127, 0, 0, 0, 0, 127, 127, 0, 184, 0, 56, 0, 0, 128, 64, 0, 0, 128, 64, 0, 0, 128, 192, 127, 0, 0, 0, 0, 0, 129, 127, 0, 56, 0, 184, 0, 0, 128, 64, 0, 0, 128, 192, 0, 0, 128, 192, 127, 0, 0, 0, 0, 0, 129, 127, 0, 56, 0, 56, 0, 0, 128, 64, 0, 0, 128, 192, 0, 0, 128, 64, 127, 0, 0, 0, 0, 0, 129, 127, 0, 184, 0, 56, 0, 0, 128, 64, 0, 0, 128, 64, 0, 0, 128, 64, 127, 0, 0, 0, 0, 0, 129, 127, 0, 184, 0, 184, 0, 0, 128, 192, 0, 0, 128, 64, 0, 0, 128, 64, 0, 0, 127, 0, 127, 0, 0, 127, 0, 184, 0, 184, 0, 0, 128, 64, 0, 0, 128, 64, 0, 0, 128, 64, 0, 0, 127, 0, 127, 0, 0, 127, 0, 56, 0, 184, 0, 0, 128, 64, 0, 0, 128, 192, 0, 0, 128, 64, 0, 0, 127, 0, 127, 0, 0, 127, 0, 56, 0, 56, 0, 0, 128, 192, 0, 0, 128, 192, 0, 0, 128, 64, 0, 0, 127, 0, 127, 0, 0, 127, 0, 184, 0, 56 ),
+"array_index_data": PoolByteArray( 0, 0, 1, 0, 2, 0, 0, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 4, 0, 6, 0, 7, 0, 8, 0, 9, 0, 10, 0, 8, 0, 10, 0, 11, 0, 12, 0, 13, 0, 14, 0, 12, 0, 14, 0, 15, 0, 16, 0, 17, 0, 18, 0, 16, 0, 18, 0, 19, 0, 20, 0, 21, 0, 22, 0, 20, 0, 22, 0, 23, 0 ),
+"blend_shape_data": [  ],
+"format": 97559,
+"index_count": 36,
+"material": SubResource( 4 ),
+"primitive": 4,
+"skeleton_aabb": [  ],
+"vertex_count": 24
+}
+
+[sub_resource type="ConvexPolygonShape" id=6]
+points = PoolVector3Array( -4, 4, -4, -4, -4, -4, 4, -4, -4, 4, 4, -4, -4, 4, 4, -4, -4, 4, 4, -4, 4, 4, 4, 4 )
+
+[node name="AutoPBR" type="Spatial"]
+
+[node name="README" type="Node" parent="."]
+__meta__ = {
+"_editor_description_": "This scene introduces automatic PBR application.
+
+The standard `SpatialMaterial` used for rendering in Godot supports much more than the basic Albedo channel specified in a map file. Qodot accounts for this by allowing for the automatic application of the normal, metallic, roughness, emission, ambient occlusion and depth texture channels.
+
+These can be enabled by creating a folder with the same name as your texture, and storing it alongside it in the filesystem. Textures with specific prefixes stored in this folder will be treated as custom texture channels to be applied alongside their parent texture.
+
+The default prefixes are as follows:
+Normal - texture-name_normal.extension
+Metallic - texture-name_metallic.extension
+Roughness - texture-name_roughness.extension
+Emission - texture-name_emission.extension
+Ambient Occlusion - texture-name_ao.extension
+Depth - texture-name_depth.extension
+
+These can be modified in the `Qodot/Textures` category of the Project Settings window, and are stored in Godot's standard string matching format. For example, the default normal pattern is `%s_normal.%s`, and will have the first %s replaced with the texture name, and the second %s replaced with the texture extension specified on the QodotMap node."
+}
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 2 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( -0.5, 0.612372, -0.612373, 0, 0.707107, 0.707106, 0.866025, 0.353553, -0.353554, 0, 8, 0 )
+shadow_enabled = true
+
+[node name="QodotMap" type="Spatial" parent="."]
+script = ExtResource( 1 )
+map_file = "P:/Personal/Godot/Qodot/qodot-example/addons/qodot/example_scenes/0-visuals/3-auto-pbr/3-auto-pbr.map"
+inverse_scale_factor = 16.0
+entity_fgd = ExtResource( 2 )
+base_texture_dir = "res://addons/qodot/textures"
+texture_file_extension = "png"
+worldspawn_layers = [  ]
+brush_clip_texture = "special/clip"
+face_skip_texture = "special/skip"
+texture_wads = [  ]
+material_file_extension = "tres"
+default_material = SubResource( 3 )
+uv_unwrap_texel_size = 1.0
+print_profiling_data = false
+use_trenchbroom_group_hierarchy = false
+tree_attach_batch_size = 16
+set_owner_batch_size = 16
+
+[node name="entity_0_worldspawn" type="StaticBody" parent="QodotMap"]
+
+[node name="entity_0_mesh_instance" type="MeshInstance" parent="QodotMap/entity_0_worldspawn"]
+use_in_baked_light = true
+mesh = SubResource( 5 )
+material/0 = null
+
+[node name="entity_0_brush_0_collision_shape" type="CollisionShape" parent="QodotMap/entity_0_worldspawn"]
+shape = SubResource( 6 )

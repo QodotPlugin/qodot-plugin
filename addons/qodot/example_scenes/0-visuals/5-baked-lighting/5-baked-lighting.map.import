@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/5-baked-lighting.map-b281afb7cccc41782b7294fcabab6165.tres"
+
+[deps]
+
+source_file="res://addons/qodot/example_scenes/0-visuals/5-baked-lighting/5-baked-lighting.map"
+dest_files=[ "res://.import/5-baked-lighting.map-b281afb7cccc41782b7294fcabab6165.tres" ]
+
+[params]
+

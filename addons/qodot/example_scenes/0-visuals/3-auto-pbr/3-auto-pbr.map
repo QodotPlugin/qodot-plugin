@@ -1,0 +1,17 @@
+// Game: Qodot
+// Format: Valve
+// entity 0
+{
+"classname" "worldspawn"
+"mapversion" "220"
+"_tb_textures" "textures/pbr;textures/special"
+// brush 0
+{
+( -64 -64 -160 ) ( -64 -63 -160 ) ( -64 -64 -159 ) pbr/military-panel [ 0 -1 0 0 ] [ -0 -0 -1 0 ] 0 0.25 0.25
+( -64 -64 -160 ) ( -64 -64 -159 ) ( -63 -64 -160 ) pbr/military-panel [ 1 0 -0 0 ] [ 0 -0 -1 0 ] 0 0.25 0.25
+( -64 -64 -64 ) ( -63 -64 -64 ) ( -64 -63 -64 ) pbr/military-panel [ -1 0 0 0 ] [ -0 -1 -0 0 ] 0 0.25 0.25
+( 64 64 64 ) ( 64 65 64 ) ( 65 64 64 ) pbr/military-panel [ 1 0 0 0 ] [ 0 -1 0 0 ] 0 0.25 0.25
+( 64 64 64 ) ( 65 64 64 ) ( 64 64 65 ) pbr/military-panel [ -1 0 0 0 ] [ 0 0 -1 0 ] 0 0.25 0.25
+( 64 64 64 ) ( 64 64 65 ) ( 64 65 64 ) pbr/military-panel [ 0 1 0 0 ] [ 0 0 -1 0 ] 0 0.25 0.25
+}
+}

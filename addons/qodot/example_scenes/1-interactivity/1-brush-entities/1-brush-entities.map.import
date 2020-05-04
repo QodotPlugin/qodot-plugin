@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/1-brush-entities.map-57d1589b7fcdfd8fed0eb9423518ae87.tres"
+
+[deps]
+
+source_file="res://addons/qodot/example_scenes/1-interactivity/1-brush-entities/1-brush-entities.map"
+dest_files=[ "res://.import/1-brush-entities.map-57d1589b7fcdfd8fed0eb9423518ae87.tres" ]
+
+[params]
+

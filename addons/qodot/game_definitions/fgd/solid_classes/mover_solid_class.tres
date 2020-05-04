@@ -1,0 +1,82 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_solid_class.gd" type="Script" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends KinematicBody
+
+export(Dictionary) var properties setget set_properties
+
+var base_transform: Transform
+var offset_transform: Transform
+var target_transform: Transform
+
+var speed := 1.0
+
+func set_properties(new_properties: Dictionary) -> void:
+	if properties != new_properties:
+		properties = new_properties
+		update_properties()
+
+func update_properties() -> void:
+	if 'translation' in properties:
+		offset_transform.origin = properties.translation
+
+	if 'rotation' in properties:
+		offset_transform.basis = offset_transform.basis.rotated(Vector3.RIGHT, properties.rotation.x)
+		offset_transform.basis = offset_transform.basis.rotated(Vector3.UP, properties.rotation.y)
+		offset_transform.basis = offset_transform.basis.rotated(Vector3.FORWARD, properties.rotation.z)
+
+	if 'scale' in properties:
+		offset_transform.basis = offset_transform.basis.scaled(properties.scale)
+
+	if 'speed' in properties:
+		speed = properties.speed
+
+func _process(delta: float) -> void:
+	transform = transform.interpolate_with(target_transform, speed * delta)
+
+func _init() -> void:
+	base_transform = transform
+	target_transform = base_transform
+
+func use() -> void:
+	play_motion()
+
+func play_motion() -> void:
+	target_transform = base_transform * offset_transform
+
+func reverse_motion() -> void:
+	target_transform = base_transform
+"
+
+[resource]
+script = ExtResource( 1 )
+class_options = "----------------------------------------------------------------"
+classname = "mover"
+description = "Moving brush."
+qodot_internal = false
+base_classes = [  ]
+class_properties = {
+"rotation": Vector3( 0, 0, 0 ),
+"scale": Vector3( 1, 1, 1 ),
+"speed": 1.0,
+"translation": Vector3( 0, 0, 0 )
+}
+class_property_descriptions = {
+
+}
+meta_properties = {
+
+}
+node_options = "----------------------------------------------------------------"
+node_class = "KinematicBody"
+transient_node = false
+spawn = "----------------------------------------------------------------"
+spawn_type = 2
+visual_build = "----------------------------------------------------------------"
+build_visuals = true
+collision_build = "----------------------------------------------------------------"
+collision_shape_type = 1
+scripting = "----------------------------------------------------------------"
+script_class = SubResource( 1 )

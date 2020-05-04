@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/1-textures.map-5749e8464adf648f34c97742f003fc76.tres"
+
+[deps]
+
+source_file="res://addons/qodot/example_scenes/0-visuals/1-textures/1-textures.map"
+dest_files=[ "res://.import/1-textures.map-5749e8464adf648f34c97742f003fc76.tres" ]
+
+[params]
+

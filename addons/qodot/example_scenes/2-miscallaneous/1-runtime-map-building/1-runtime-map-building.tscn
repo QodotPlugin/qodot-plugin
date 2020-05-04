@@ -1,0 +1,174 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://addons/qodot/src/nodes/qodot_map.gd" type="Script" id=3]
+[ext_resource path="res://addons/qodot/example_scenes/2-miscallaneous/1-runtime-map-building/orbit_arm.gd" type="Script" id=5]
+[ext_resource path="res://addons/qodot/game_definitions/fgd/qodot_fgd.tres" type="Resource" id=14]
+
+[sub_resource type="ProceduralSky" id=1]
+sky_top_color = Color( 0.654902, 0.647059, 0.945098, 1 )
+sky_curve = 0.0170518
+sky_energy = 0.4
+ground_bottom_color = Color( 0.133333, 0.109804, 0.203922, 1 )
+ground_horizon_color = Color( 0.372549, 0.4, 0.423529, 1 )
+ground_energy = 0.4
+sun_longitude = 180.0
+sun_energy = 0.4
+
+[sub_resource type="Environment" id=2]
+background_mode = 2
+background_sky = SubResource( 1 )
+ssao_enabled = true
+ssao_intensity = 1.2
+ssao_light_affect = 1.0
+ssao_ao_channel_affect = 1.0
+ssao_quality = 2
+glow_enabled = true
+glow_intensity = 1.0
+glow_bicubic_upscale = true
+
+[sub_resource type="SpatialMaterial" id=3]
+
+[node name="RuntimeMapBuilding" type="Spatial"]
+
+[node name="README" type="Node" parent="."]
+__meta__ = {
+"_editor_description_": "This scene introduces runtime map building.
+
+Qodot usage isn't limited only to the editor - if you ship the requisite platform-specific native libraries with your project, you can invoke map builds at runtime using the `verify_and_build()` function in QodotMap to allow for user map creation.
+
+Note that only in-project WAD files are currently supported for runtime builds, as their implementation is tightly coupled to the Godot resource system."
+}
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 2 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( -1, 8.74228e-08, 8.26597e-14, -7.92319e-08, -0.906308, 0.422618, 3.69465e-08, 0.422618, 0.906308, 0, 13.4201, 0 )
+light_color = Color( 0.654902, 0.647059, 0.945098, 1 )
+shadow_enabled = true
+
+[node name="OrbitCameraController" type="Spatial" parent="."]
+transform = Transform( 0.85264, -0.245298, 0.461339, 0, 0.882947, 0.469472, -0.522499, -0.40029, 0.752836, 1.73346, -1.42268, -7.17249 )
+script = ExtResource( 5 )
+
+[node name="Camera" type="Camera" parent="OrbitCameraController"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 40 )
+current = true
+far = 500.0
+
+[node name="QodotMap" type="Spatial" parent="."]
+script = ExtResource( 3 )
+__meta__ = {
+"_editor_description_": ""
+}
+map_file = "P:/Personal/Godot/Qodot/qodot-example/addons/qodot/example_scenes/2-miscallaneous/1-runtime-map-building/1-runtime-map-building.map"
+inverse_scale_factor = 16.0
+entity_fgd = ExtResource( 14 )
+base_texture_dir = "res://addons/qodot/textures"
+texture_file_extension = "png"
+worldspawn_layers = [  ]
+brush_clip_texture = "special/clip"
+face_skip_texture = "special/skip"
+texture_wads = [  ]
+material_file_extension = "tres"
+default_material = SubResource( 3 )
+uv_unwrap_texel_size = 1.0
+print_profiling_data = false
+use_trenchbroom_group_hierarchy = true
+tree_attach_batch_size = 16
+set_owner_batch_size = 16
+
+[node name="UI" type="Control" parent="."]
+margin_top = -1.0
+margin_right = 1042.0
+margin_bottom = 599.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="UI"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_top = -60.0
+margin_right = 682.0
+margin_bottom = -20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Panel/MarginContainer"]
+margin_right = 642.0
+margin_bottom = 20.0
+custom_constants/separation = 10
+
+[node name="MapFileHBox" type="HBoxContainer" parent="UI/Panel/MarginContainer/VBoxContainer"]
+margin_right = 642.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="TitleLabel" type="Label" parent="UI/Panel/MarginContainer/VBoxContainer/MapFileHBox"]
+margin_right = 70.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 70, 0 )
+size_flags_vertical = 3
+text = "Map File"
+valign = 1
+
+[node name="FilenameLabel" type="Label" parent="UI/Panel/MarginContainer/VBoxContainer/MapFileHBox"]
+margin_left = 74.0
+margin_right = 555.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+valign = 1
+clip_text = true
+
+[node name="OpenButton" type="Button" parent="UI/Panel/MarginContainer/VBoxContainer/MapFileHBox"]
+margin_left = 559.0
+margin_right = 583.0
+margin_bottom = 20.0
+size_flags_vertical = 4
+text = "..."
+
+[node name="ReloadButton" type="Button" parent="UI/Panel/MarginContainer/VBoxContainer/MapFileHBox"]
+margin_left = 587.0
+margin_right = 642.0
+margin_bottom = 20.0
+size_flags_vertical = 4
+text = "Reload"
+
+[node name="MapFileDialog" type="FileDialog" parent="UI"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -200.0
+margin_top = -140.0
+margin_right = 200.0
+margin_bottom = 140.0
+window_title = "Open Map File"
+mode_overrides_title = false
+mode = 0
+access = 2
+filters = PoolStringArray( "*.map" )
+current_dir = "P:/Personal/Godot/Qodot/qodot-example"
+current_file = "qodot_example.map"
+current_path = "P:/Personal/Godot/Qodot/qodot-example/qodot_example.map"
+[connection signal="pressed" from="UI/Panel/MarginContainer/VBoxContainer/MapFileHBox/OpenButton" to="UI/MapFileDialog" method="popup"]
+[connection signal="pressed" from="UI/Panel/MarginContainer/VBoxContainer/MapFileHBox/ReloadButton" to="QodotMap" method="verify_and_build"]
+[connection signal="file_selected" from="UI/MapFileDialog" to="UI/Panel/MarginContainer/VBoxContainer/MapFileHBox/FilenameLabel" method="set_text"]
+[connection signal="file_selected" from="UI/MapFileDialog" to="QodotMap" method="set_map_file"]

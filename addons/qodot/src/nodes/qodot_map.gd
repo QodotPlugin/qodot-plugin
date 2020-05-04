@@ -2,7 +2,7 @@ class_name QodotMap
 extends QodotSpatial
 tool
 
-const DEBUG := true
+const DEBUG := false
 const YIELD_DURATION := 0.0
 const YIELD_SIGNAL := "timeout"
 
@@ -14,7 +14,7 @@ signal unwrap_uv2_complete()
 
 var map_file := "" setget set_map_file
 var inverse_scale_factor := 16.0
-var entity_fgd := preload("res://addons/qodot/game-definitions/fgd/qodot_fgd.tres")
+var entity_fgd := preload("res://addons/qodot/game_definitions/fgd/qodot_fgd.tres")
 var base_texture_dir := "res://textures"
 var texture_file_extension := "png"
 
@@ -632,7 +632,11 @@ func build_worldspawn_layer_collision_shape_nodes() -> Array:
 	var worldspawn_layer_collision_shapes := []
 
 	for layer_idx in range(0, worldspawn_layers.size()):
+		if layer_idx >= worldspawn_layer_dicts.size():
+			continue
+
 		var layer = worldspawn_layers[layer_idx]
+
 		var layer_dict = worldspawn_layer_dicts[layer_idx]
 		var node := worldspawn_layer_nodes[layer_idx] as Node
 		var concave = false
@@ -732,6 +736,9 @@ func build_entity_collision_shapes() -> void:
 
 func build_worldspawn_layer_collision_shapes() -> void:
 	for layer_idx in range(0, worldspawn_layers.size()):
+		if layer_idx >= worldspawn_layer_dicts.size():
+			continue
+
 		var layer = worldspawn_layers[layer_idx]
 		var concave = false
 
@@ -883,6 +890,10 @@ func build_worldspawn_layer_mesh_instances() -> Dictionary:
 	for i in range(0, worldspawn_layers.size()):
 		var worldspawn_layer = worldspawn_layers[i]
 		var texture_name = worldspawn_layer.texture
+
+		if not texture_name in worldspawn_layer_mesh_dict:
+			continue
+
 		var mesh := worldspawn_layer_mesh_dict[texture_name] as Mesh
 
 		if not mesh:
@@ -1028,16 +1039,16 @@ func connect_signal(entity_node: Node, target_node: Node) -> void:
 	if target_node.properties['classname'] == 'signal':
 		var signal_name = target_node.properties['signal_name']
 
-		var slot_nodes := get_nodes_by_targetname(target_node.properties['target'])
-		for slot_node in slot_nodes:
-			if slot_node.properties['classname'] != 'slot':
+		var receiver_nodes := get_nodes_by_targetname(target_node.properties['target'])
+		for receiver_node in receiver_nodes:
+			if receiver_node.properties['classname'] != 'receiver':
 				continue
 
-			var slot_name = slot_node.properties['slot_name']
+			var receiver_name = receiver_node.properties['receiver_name']
 
-			var target_nodes := get_nodes_by_targetname(slot_node.properties['target'])
+			var target_nodes := get_nodes_by_targetname(receiver_node.properties['target'])
 			for target_node in target_nodes:
-				entity_node.connect(signal_name, target_node, slot_name, [], CONNECT_PERSIST)
+				entity_node.connect(signal_name, target_node, receiver_name, [], CONNECT_PERSIST)
 	else:
 		var signal_list = entity_node.get_signal_list()
 		for signal_dict in signal_list:

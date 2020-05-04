@@ -1,0 +1,13 @@
+[gd_resource type="SpatialMaterial" load_steps=2 format=2]
+
+[ext_resource path="res://addons/qodot/textures/materials/checkerboard_material.png" type="Texture" id=1]
+
+[resource]
+flags_transparent = true
+albedo_color = Color( 1, 1, 1, 0.470588 )
+albedo_texture = ExtResource( 1 )
+emission_enabled = true
+emission = Color( 0, 0, 0, 1 )
+emission_energy = 1.0
+emission_operator = 0
+emission_on_uv2 = false

@@ -1,0 +1,27 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://addons/qodot/game_definitions/fgd/base_classes/target_base_class.tres" type="Resource" id=1]
+[ext_resource path="res://addons/qodot/game_definitions/fgd/base_classes/targetname_base_class.tres" type="Resource" id=2]
+[ext_resource path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_point_class.gd" type="Script" id=3]
+
+[resource]
+script = ExtResource( 3 )
+class_options = "----------------------------------------------------------------"
+classname = "signal"
+description = "Signal"
+qodot_internal = false
+base_classes = [ ExtResource( 2 ), ExtResource( 1 ) ]
+class_properties = {
+"signal_name": ""
+}
+class_property_descriptions = {
+"signal_name": "Signal to target"
+}
+meta_properties = {
+"size": AABB( -8, -8, -8, 8, 8, 8 )
+}
+node_options = "----------------------------------------------------------------"
+node_class = ""
+transient_node = true
+scene = "----------------------------------------------------------------"
+scripting = "----------------------------------------------------------------"

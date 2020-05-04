@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/3-auto-pbr.map-1169beb6b62e21c8b5871638a8bbf505.tres"
+
+[deps]
+
+source_file="res://addons/qodot/example_scenes/0-visuals/3-auto-pbr/3-auto-pbr.map"
+dest_files=[ "res://.import/3-auto-pbr.map-1169beb6b62e21c8b5871638a8bbf505.tres" ]
+
+[params]
+

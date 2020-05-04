@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/4-advanced-signal-wiring.map-5cdeaa79448cc1beb1676661a5884591.tres"
+
+[deps]
+
+source_file="res://addons/qodot/example_scenes/1-interactivity/4-advanced-signal-wiring/4-advanced-signal-wiring.map"
+dest_files=[ "res://.import/4-advanced-signal-wiring.map-5cdeaa79448cc1beb1676661a5884591.tres" ]
+
+[params]
+
