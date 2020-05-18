@@ -28,6 +28,7 @@ var default_material := SpatialMaterial.new()
 var uv_unwrap_texel_size := 1.0
 var print_profiling_data := false
 var use_trenchbroom_group_hierarchy := false
+var block_until_complete := false
 var tree_attach_batch_size := 16
 var set_owner_batch_size := 16
 
@@ -250,7 +251,7 @@ func run_build_steps(post_attach := false) -> void:
 		build_step_index += 1
 
 		var scene_tree := get_tree()
-		if scene_tree:
+		if scene_tree and not block_until_complete:
 			yield(scene_tree.create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
 	if post_attach:
@@ -950,7 +951,7 @@ func add_children() -> void:
 				return
 
 		var scene_tree := get_tree()
-		if scene_tree:
+		if scene_tree and not block_until_complete:
 			yield(scene_tree.create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
 func add_children_complete():
@@ -973,7 +974,7 @@ func set_owners():
 				return
 
 		var scene_tree := get_tree()
-		if scene_tree:
+		if scene_tree and not block_until_complete:
 			yield(scene_tree.create_timer(YIELD_DURATION), YIELD_SIGNAL)
 
 func set_owners_complete():
