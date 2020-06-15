@@ -5,7 +5,7 @@
 "classname" "worldspawn"
 "mapversion" "220"
 "_tb_textures" "textures/base;textures/layers;textures/pbr;textures/shaders;textures/special"
-"_tb_def" "builtin:Example.fgd"
+"_tb_def" "builtin:Qodot.fgd"
 "message" "Qodot Test Map"
 // brush 0
 {

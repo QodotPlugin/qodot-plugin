@@ -5,7 +5,7 @@
 "classname" "worldspawn"
 "mapversion" "220"
 "_tb_textures" "textures/base;textures/orrery;textures/shaders;textures/special"
-"_tb_def" "builtin:Example.fgd"
+"_tb_def" "builtin:Qodot.fgd"
 // brush 0
 {
 ( -64 0 256 ) ( -59.712812921100124 -16 272.56441888656036 ) ( -61.819252882500166 -16.564418886561313 256 ) orrery/sun [ -0.0503174 -0.382199 -0.922709 223.833 ] [ 0.0208112 -0.92408 0.381632 6.10611 ] 0 1 1
