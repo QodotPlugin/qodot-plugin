@@ -76,7 +76,7 @@ func set_texture_wads(new_texture_wads: Array) -> void:
 		texture_wads = new_texture_wads
 
 		for i in range(0, texture_wads.size()):
-			var texture_wad = texture_wads[i]
+			var texture_wad = texture_wads[i] as QuakeWadFile
 			if not texture_wad:
 				texture_wads[i] = Object()
 
