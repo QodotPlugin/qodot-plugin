@@ -9,6 +9,7 @@ export(String) var game_name := "Qodot"
 
 export(Array, Resource) var brush_tags : Array = []
 export(Array, Resource) var face_tags : Array = []
+export(Resource) var face_attrib_defaults : Resource = null setget set_face_attrib_defaults
 export(Array, Resource) var face_attrib_surface_flags : Array = []
 export(Array, Resource) var face_attrib_content_flags : Array = []
 
@@ -50,6 +51,7 @@ var base_text: String = """{
 		]
 	},
 	"faceattribs": {
+		"defaults": %s,
 		"surfaceflags": [
 			%s
 		],
@@ -75,6 +77,12 @@ func set_export_file(new_export_file : bool = true) -> void:
 		file_obj.store_string(build_class_text())
 		file_obj.close()
 
+func set_face_attrib_defaults(new_face_attrib_defaults : Resource) -> void:
+	if !new_face_attrib_defaults is TrenchBroomFaceAttribDefaults:
+		face_attrib_defaults = null
+	else:
+		face_attrib_defaults = new_face_attrib_defaults
+
 func build_class_text() -> String:
 	var fgd_filename_str := ""
 	for fgd_filename in fgd_filenames:
@@ -84,6 +92,7 @@ func build_class_text() -> String:
 
 	var brush_tags_str = parse_tags(brush_tags)
 	var face_tags_str = parse_tags(face_tags)
+	var face_defaults_str = parse_defaults(face_attrib_defaults)
 	var surface_flags_str = parse_flags(face_attrib_surface_flags)
 	var content_flags_str = parse_flags(face_attrib_content_flags)
 
@@ -92,6 +101,7 @@ func build_class_text() -> String:
 		fgd_filename_str,
 		brush_tags_str,
 		face_tags_str,
+		face_defaults_str,
 		surface_flags_str,
 		content_flags_str
 	]
@@ -149,3 +159,9 @@ func parse_flags(flags: Array) -> String:
 			flags_str += ","
 
 	return flags_str
+
+func parse_defaults(defaults: TrenchBroomFaceAttribDefaults) -> String:
+	if defaults:
+		return defaults.to_string().replace("\n", "\n\t\t") 
+	else:
+		return "{}"
