@@ -81,7 +81,7 @@ func get_entity_definitions() -> Dictionary:
 			var class_properties := {}
 			var class_property_descriptions := {}
 
-			for base_class in entity_def.base_classes:
+			for base_class in _generate_base_class_list(entity_def):
 				for meta_property in base_class.meta_properties:
 					meta_properties[meta_property] = base_class.meta_properties[meta_property]
 
@@ -106,3 +106,20 @@ func get_entity_definitions() -> Dictionary:
 
 			res[ent.classname] = entity_def
 	return res
+
+
+func _generate_base_class_list(entity_def : Resource) -> Array:
+	var base_classes : Array = []
+
+	# End recursive search if no more base_classes
+	if len(entity_def.base_classes) == 0:
+		return base_classes
+
+	# Add base_classes at this level in the hierarchy
+	base_classes = entity_def.base_classes
+
+	# Traverse up to the next level of hierarchy
+	for base_class in entity_def.base_classes:
+		base_classes += _generate_base_class_list(base_class)
+
+	return base_classes
