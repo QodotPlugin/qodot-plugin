@@ -108,18 +108,21 @@ func get_entity_definitions() -> Dictionary:
 	return res
 
 
-func _generate_base_class_list(entity_def : Resource) -> Array:
+func _generate_base_class_list(entity_def : Resource, visited_base_classes = []) -> Array:
 	var base_classes : Array = []
-
-	# End recursive search if no more base_classes
+	
+	visited_base_classes.append(entity_def.classname)
+	
+	 # End recursive search if no more base_classes
 	if len(entity_def.base_classes) == 0:
 		return base_classes
-
-	# Add base_classes at this level in the hierarchy
-	base_classes = entity_def.base_classes
-
-	# Traverse up to the next level of hierarchy
+	
+	# Traverse up to the next level of hierarchy, if not already visited
 	for base_class in entity_def.base_classes:
-		base_classes += _generate_base_class_list(base_class)
+		if not base_class.classname in visited_base_classes:
+			base_classes.append(base_class)
+			base_classes += _generate_base_class_list(base_class, visited_base_classes)
+		else:
+			push_error(str("Entity '", entity_def.classname,"' contains cycle/duplicate to Entity '", base_class.classname, "'"))
 
 	return base_classes
