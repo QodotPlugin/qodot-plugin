@@ -70,16 +70,6 @@ Various example scenes with inline README nodes are available inside the plugin 
 
 [Shifty's Twitter](https://twitter.com/ShiftyAxel)
 
-## Support
-
-If you'd like to support the ongoing development of Qodot, a Patreon page is available for the project:
-
-[Shifty Studio - Patreon](https://www.patreon.com/shifty_studio)
-
-Donations via PayPal are also accepted:
-
-[![Donate with PayPal button](https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=D8FJ3RX3WSQJS&source=url)
-
 ## Credits
 
 [Kristian Duske](https://twitter.com/kristianduske) - For creating TrenchBroom and inspiring the creation of Qodot

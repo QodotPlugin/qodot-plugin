@@ -48,7 +48,7 @@ const PBR_SUFFIX_PROPERTIES := {
 
 # Parameters
 var base_texture_path: String
-var texture_extension: String
+var texture_extensions: PoolStringArray
 var texture_wads: Array
 
 # Instances
@@ -69,11 +69,11 @@ func get_pbr_suffix_pattern(suffix: int) -> String:
 # Overrides
 func _init(
 		base_texture_path: String,
-		texture_extension: String,
+		texture_extensions: PoolStringArray,
 		texture_wads: Array
 	) -> void:
 	self.base_texture_path = base_texture_path
-	self.texture_extension = texture_extension
+	self.texture_extensions = texture_extensions
 
 	load_texture_wad_resources(texture_wads)
 
@@ -98,10 +98,10 @@ func load_texture(texture_name: String) -> Texture:
 		return null
 
 	# Load albedo texture if it exists
-	var texture_path := "%s/%s.%s" % [base_texture_path, texture_name, texture_extension]
-
-	if(directory.file_exists(texture_path)):
-		return load(texture_path) as Texture
+	for texture_extension in texture_extensions:
+		var texture_path := "%s/%s.%s" % [base_texture_path, texture_name, texture_extension]
+		if(directory.file_exists(texture_path)):
+			return load(texture_path) as Texture
 
 	var texture_name_lower : String = texture_name.to_lower()
 	for texture_wad in texture_wad_resources:
@@ -180,17 +180,18 @@ func get_pbr_texture(texture: String, suffix: int) -> Texture:
 
 	if texture_comps.size() == 0:
 		return null
-
-	var path := "%s/%s/%s" % [
-		base_texture_path,
-		texture_comps.join('/'),
-		get_pbr_suffix_pattern(suffix) % [
-			texture_comps[-1],
-			texture_extension
+	
+	for texture_extension in texture_extensions:
+		var path := "%s/%s/%s" % [
+			base_texture_path,
+			texture_comps.join('/'),
+			get_pbr_suffix_pattern(suffix) % [
+				texture_comps[-1],
+				texture_extension
+			]
 		]
-	]
 
-	if(directory.file_exists(path)):
-		return load(path) as Texture
+		if(directory.file_exists(path)):
+			return load(path) as Texture
 
 	return null
