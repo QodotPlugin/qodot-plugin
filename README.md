@@ -48,7 +48,8 @@ Enter the traditional level editor: Simple tools built for games like Doom, Quak
 
 ## Documentation
 
-Documentation is available on the [Qodot Wiki](https://github.com/ShiftyAxel/Qodot/wiki)
+The User Guide, created by Ember, is available on [Coda](https://coda.io/d/Trenchbroom-Guide_d77T7fADkTg/Meta_su3kl#_luwxR)
+More technical information, such as class documentation, is available on the [Qodot Wiki](https://github.com/ShiftyAxel/Qodot/wiki)
 
 ## Example Content
 
