@@ -80,6 +80,8 @@ Various example scenes with inline README nodes are available inside the plugin 
 
 [TheRektafire](https://github.com/TheRektafire) - For a variety of useful tidbits on the .map format
 
+[Ember](https://github.com/deertears/) - For creating the user guide
+
 [Calinou](https://github.com/Calinou) - For making Qodot work on case-sensitive systems
 
 [SunkPer](https://twitter.com/SunkPer) - For showcase screenshots
