@@ -2,7 +2,7 @@ class_name QodotDependencies
 
 const PROTOCOL := "https"
 const GITHUB_DOMAIN := "github.com"
-const GIT_USER := "Shfty"
+const GIT_USER := "QodotPlugin"
 const RELEASE_DOWNLOADS := "releases/download"
 const DEPENDENCY_TAG := "v1.7.0"
 
