@@ -2,6 +2,10 @@
 
 Quake *.map* file support for Godot.
 
+## Documentation
+
+Consult the [Qodot User Guide](https://qodotplugin.github.io/).
+
 ## Overview
 
 Qodot extends the Godot editor to import Quake *.map* files, and provides a data-driven framework for converting the entities and brushes contained therein into a custom node hierarchy.
@@ -45,12 +49,6 @@ Unity, Unreal and Godot are all capable of CSG to some extent or other with vary
 Conversely, dedicated 3D modeling packages like Maya or Blender are very powerful and can iterate fast in experienced hands, but have an intimidating skill floor for users with a programming-focused background that just want to build levels for their game.
 
 Enter the traditional level editor: Simple tools built for games like Doom, Quake and Duke Nukem 3D that operate in the design language of a video game and are created for use by designers, artists and programmers alike. Thanks to years of community support, classic Quake is still alive, kicking, and producing high-quality content and mapping software alike. This continued popularity combined with its simplicity means the Quake *.map* format presents a novel solution.
-
-## Documentation
-
-The User Guide, created by Ember, is available on [Coda](https://coda.io/d/Trenchbroom-Guide_d77T7fADkTg/Meta_su3kl#_luwxR)
-
-More technical information, such as class documentation, is available on the [Qodot Wiki](https://github.com/ShiftyAxel/Qodot/wiki)
 
 ## Example Content
 
