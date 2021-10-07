@@ -100,7 +100,7 @@ func load_texture(texture_name: String) -> Texture:
 	# Load albedo texture if it exists
 	for texture_extension in texture_extensions:
 		var texture_path := "%s/%s.%s" % [base_texture_path, texture_name, texture_extension]
-		if(directory.file_exists(texture_path)):
+		if ResourceLoader.exists(texture_path, "Texture"):
 			return load(texture_path) as Texture
 
 	var texture_name_lower : String = texture_name.to_lower()
@@ -180,7 +180,7 @@ func get_pbr_texture(texture: String, suffix: int) -> Texture:
 
 	if texture_comps.size() == 0:
 		return null
-	
+
 	for texture_extension in texture_extensions:
 		var path := "%s/%s/%s" % [
 			base_texture_path,
