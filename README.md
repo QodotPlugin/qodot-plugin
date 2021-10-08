@@ -2,6 +2,10 @@
 
 Quake *.map* file support for Godot.
 
+## Documentation
+
+Consult the [Qodot User Guide](https://qodotplugin.github.io/).
+
 ## Overview
 
 Qodot extends the Godot editor to import Quake *.map* files, and provides a data-driven framework for converting the entities and brushes contained therein into a custom node hierarchy.
@@ -46,10 +50,6 @@ Conversely, dedicated 3D modeling packages like Maya or Blender are very powerfu
 
 Enter the traditional level editor: Simple tools built for games like Doom, Quake and Duke Nukem 3D that operate in the design language of a video game and are created for use by designers, artists and programmers alike. Thanks to years of community support, classic Quake is still alive, kicking, and producing high-quality content and mapping software alike. This continued popularity combined with its simplicity means the Quake *.map* format presents a novel solution.
 
-## Documentation
-
-Documentation is available on the [Qodot Wiki](https://github.com/ShiftyAxel/Qodot/wiki)
-
 ## Example Content
 
 Various example scenes with inline README nodes are available inside the plugin folder to demonstrate each aspect of Qodot's functionality.
@@ -77,6 +77,8 @@ Various example scenes with inline README nodes are available inside the plugin 
 [Arkii](https://github.com/GoomiChan) - For example code and handy documentation of the Valve 220 format
 
 [TheRektafire](https://github.com/TheRektafire) - For a variety of useful tidbits on the .map format
+
+[Ember](https://github.com/deertears/) - For creating the user guide
 
 [Calinou](https://github.com/Calinou) - For making Qodot work on case-sensitive systems
 
