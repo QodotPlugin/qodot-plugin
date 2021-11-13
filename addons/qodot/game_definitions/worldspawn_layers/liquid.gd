@@ -11,7 +11,7 @@ func _init() -> void:
 	connect("body_shape_entered", self, "body_shape_entered")
 	connect("body_shape_exited", self, "body_shape_exited")
 
-func body_shape_entered(body_id: int, body: Node, body_shape_idx: int, self_shape_idx: int) -> void:
+func body_shape_entered(body_id, body: Node, body_shape_idx: int, self_shape_idx: int) -> void:
 	if not body is RigidBody:
 		return
 
@@ -29,6 +29,10 @@ func body_shape_entered(body_id: int, body: Node, body_shape_idx: int, self_shap
 		'self_aabb': self_aabb,
 		'body_aabb': body_aabb
 	}
+
+func body_shape_exited(body_id, body: Node, body_shape_idx: int, self_shape_idx: int) -> void:
+	if body in buoyancy_dict:
+		buoyancy_dict.erase(body)
 
 func create_shape_aabb(shape: Shape) -> AABB:
 	if shape is ConvexPolygonShape:
@@ -52,10 +56,6 @@ func create_convex_aabb(convex_shape: ConvexPolygonShape) -> AABB:
 
 func create_sphere_aabb(sphere_shape: SphereShape) -> AABB:
 	return AABB(-Vector3.ONE * sphere_shape.radius, Vector3.ONE * sphere_shape.radius)
-
-func body_shape_exited(body_id: int, body: Node, body_shape_idx: int, self_shape_idx: int) -> void:
-	if body in buoyancy_dict:
-		buoyancy_dict.erase(body)
 
 func _physics_process(delta: float) -> void:
 	for body in buoyancy_dict:

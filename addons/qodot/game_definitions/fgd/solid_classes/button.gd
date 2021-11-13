@@ -56,7 +56,7 @@ func _process(delta: float) -> void:
 	var target_position = base_translation + (axis * (depth if pressed else 0.0))
 	translation = translation.linear_interpolate(target_position, speed * delta)
 
-func body_shape_entered(body_id: int, body: Node, body_shape_idx: int, self_shape_idx: int) -> void:
+func body_shape_entered(body_id, body: Node, body_shape_idx: int, self_shape_idx: int) -> void:
 	if body is StaticBody:
 		return
 
@@ -65,7 +65,7 @@ func body_shape_entered(body_id: int, body: Node, body_shape_idx: int, self_shap
 
 	overlaps += 1
 
-func body_shape_exited(body_id: int, body: Node, body_shape_idx: int, self_shape_idx: int) -> void:
+func body_shape_exited(body_id, body: Node, body_shape_idx: int, self_shape_idx: int) -> void:
 	if body is StaticBody:
 		return
 

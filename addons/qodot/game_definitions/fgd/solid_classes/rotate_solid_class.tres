@@ -46,7 +46,6 @@ class_property_descriptions = {
 "speed": "Rotation Speed"
 }
 meta_properties = {
-
 }
 node_options = "----------------------------------------------------------------"
 node_class = "KinematicBody"
