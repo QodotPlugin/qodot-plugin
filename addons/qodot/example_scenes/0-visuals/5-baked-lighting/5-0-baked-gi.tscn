@@ -588,7 +588,7 @@ __meta__ = {
 
 Godot supports baking global illumination into a voxel grid for lighting meshes at runtime. The runtime cost is higher compared to lightmaps, but the visual result and bake times are both superior, and the QodotMap can be rebuilt without forcing a lighting rebake. It also allows for the extra flexibility of automatically rebaking individual lights at runtime whenever they're moved or change visibility.
 
-Qodot marks built meshes for light baking based on the `Spawn Type` property specified in their FGD entry. By default, this includes all static non-entity geometry, otherwise known as 'worldspawn' in Quake terminology. Entity brushes can opt into light baking by specifying a `_shadow_` property with a value of `1` in the map editor.
+Qodot marks built meshes for light baking based on the `Spawn Type` property specified in their FGD entry. By default, this includes all static non-entity geometry, otherwise known as 'worldspawn' in Quake terminology. Entity brushes can opt into light baking by specifying a `_shadow` property with a value of `1` in the map editor.
 
 Lights should have their `Bake Mode` property set to either `Indirect` or `All` in order to bake. `Indirect` is a hybrid mode that uses dynamic lighting for direct light and static lighting for indirect light, whereas `All` is designed to bake both direct and indirect lighting.
 (Note that this does not work for directional lights as of 3.2. It's recommended to use a dynamic  light with `Indirect` set if you want to bake directional lighting.)
@@ -667,7 +667,7 @@ map_file = "P:/Personal/Godot/Qodot/qodot-example/addons/qodot/example_scenes/0-
 inverse_scale_factor = 16.0
 entity_fgd = ExtResource( 14 )
 base_texture_dir = "res://addons/qodot/textures"
-texture_file_extension = "png"
+texture_file_extensions = PoolStringArray( "png" )
 worldspawn_layers = [  ]
 brush_clip_texture = "special/clip"
 face_skip_texture = "special/skip"

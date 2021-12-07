@@ -572,7 +572,7 @@ Godot supports baking out lightmap textures to be used instead of dynamic lights
 
 This requires a properly-unwrapped UV2 channel for any meshes being baked, so Qodot offers the ability to unwrap the generated meshes for an entire map via the 'Unwrap UV2' button in the top bar of the 3D view.
 
-Qodot marks built meshes for light baking based on the `Spawn Type` property specified in their FGD entry. By default, this includes all static non-entity geometry, otherwise known as 'worldspawn' in Quake terminology. Entity brushes can opt into light baking by specifying a `_shadow_` property with a value of `1` in the map editor.
+Qodot marks built meshes for light baking based on the `Spawn Type` property specified in their FGD entry. By default, this includes all static non-entity geometry, otherwise known as 'worldspawn' in Quake terminology. Entity brushes can opt into light baking by specifying a `_shadow` property with a value of `1` in the map editor.
 
 Lights should have their `Bake Mode` property set to either `Indirect` or `All` in order to bake. `Indirect` is a hybrid mode that uses dynamic lighting for direct light and static lighting for indirect light, whereas `All` is designed to bake both direct and indirect lighting.
 
@@ -587,7 +587,6 @@ environment = SubResource( 2 )
 
 [node name="BakedLightmap" type="BakedLightmap" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0 )
-bake_extents = Vector3( 30, 12, 35 )
 
 [node name="Lights" type="Spatial" parent="."]
 
@@ -650,7 +649,7 @@ map_file = "P:/Personal/Godot/Qodot/qodot-example/addons/qodot/example_scenes/0-
 inverse_scale_factor = 16.0
 entity_fgd = ExtResource( 2 )
 base_texture_dir = "res://textures"
-texture_file_extension = "png"
+texture_file_extensions = PoolStringArray( "png" )
 worldspawn_layers = [  ]
 brush_clip_texture = "special/clip"
 face_skip_texture = "special/skip"
