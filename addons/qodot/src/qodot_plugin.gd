@@ -10,8 +10,6 @@ var qodot_map_control: Control = null
 var qodot_map_progress_bar: Control = null
 var edited_object_ref: WeakRef = weakref(null)
 
-var http_request: HTTPRequest = null
-
 func get_plugin_name() -> String:
 	return "Qodot"
 
@@ -50,12 +48,7 @@ func _enter_tree() -> void:
 	qodot_map_progress_bar.set_visible(false)
 	add_control_to_container(EditorPlugin.CONTAINER_PROPERTY_EDITOR_BOTTOM, qodot_map_progress_bar)
 
-	# Download libraries
-	http_request = HTTPRequest.new()
-	http_request.use_threads = true
-	add_child(http_request)
-
-	QodotDependencies.check_dependencies(http_request)
+	QodotDependencies.check_dependencies()
 
 func _exit_tree() -> void:
 	remove_import_plugin(map_import_plugin)
@@ -72,9 +65,6 @@ func _exit_tree() -> void:
 	remove_control_from_container(EditorPlugin.CONTAINER_PROPERTY_EDITOR_BOTTOM, qodot_map_progress_bar)
 	qodot_map_progress_bar.queue_free()
 	qodot_map_progress_bar = null
-
-	remove_child(http_request)
-	http_request.queue_free()
 
 func setup_project_settings() -> void:
 	try_add_project_setting('qodot/textures/normal_pattern', TYPE_STRING, QodotTextureLoader.PBR_SUFFIX_PATTERNS[QodotTextureLoader.PBRSuffix.NORMAL])

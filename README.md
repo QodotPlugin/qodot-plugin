@@ -2,6 +2,9 @@
 
 Quake *.map* file support for Godot.
 
+# About this version
+This version is modified to work with the native engine module which you can find [here](https://github.com/EIRTeam/libqodot-cpp/).
+
 ## Documentation
 
 Consult the [Qodot User Guide](https://qodotplugin.github.io/).
