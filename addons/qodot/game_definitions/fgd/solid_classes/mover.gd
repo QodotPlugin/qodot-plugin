@@ -1,17 +1,20 @@
-extends KinematicBody
+extends CharacterBody3D
 
-export(Dictionary) var properties setget set_properties
+@export var properties: Dictionary :
+	get:
+		return properties # TODOConverter40 Non existent get function 
+	set(new_properties):
+		if properties != new_properties:
+			properties = new_properties
+			update_properties()
 
-var base_transform: Transform
-var offset_transform: Transform
-var target_transform: Transform
+var base_transform: Transform3D
+var offset_transform: Transform3D
+var target_transform: Transform3D
 
 var speed := 1.0
 
-func set_properties(new_properties: Dictionary) -> void:
-	if properties != new_properties:
-		properties = new_properties
-		update_properties()
+
 
 func update_properties() -> void:
 	if 'translation' in properties:
@@ -31,7 +34,7 @@ func update_properties() -> void:
 func _process(delta: float) -> void:
 	transform = transform.interpolate_with(target_transform, speed * delta)
 
-func _init() -> void:
+func _init():
 	base_transform = transform
 	target_transform = base_transform
 

@@ -1,36 +1,37 @@
 [remap]
 
 importer="texture"
-type="StreamTexture"
-path.s3tc="res://.import/military-panel_emissive.png-c96c78f20cd467177a8d1d36d4a20879.s3tc.stex"
-path.etc2="res://.import/military-panel_emissive.png-c96c78f20cd467177a8d1d36d4a20879.etc2.stex"
+type="StreamTexture2D"
+uid="uid://bffbeqelv08o3"
+path.s3tc="res://.godot/imported/military-panel_emissive.png-c96c78f20cd467177a8d1d36d4a20879.s3tc.stex"
+path.etc2="res://.godot/imported/military-panel_emissive.png-c96c78f20cd467177a8d1d36d4a20879.etc2.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
+"imported_formats": ["s3tc", "etc2"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://addons/qodot/textures/pbr/military-panel/military-panel_emissive.png"
-dest_files=[ "res://.import/military-panel_emissive.png-c96c78f20cd467177a8d1d36d4a20879.s3tc.stex", "res://.import/military-panel_emissive.png-c96c78f20cd467177a8d1d36d4a20879.etc2.stex" ]
+dest_files=["res://.godot/imported/military-panel_emissive.png-c96c78f20cd467177a8d1d36d4a20879.s3tc.stex", "res://.godot/imported/military-panel_emissive.png-c96c78f20cd467177a8d1d36d4a20879.etc2.stex"]
 
 [params]
 
 compress/mode=2
 compress/lossy_quality=1.0
-compress/hdr_mode=0
+compress/hdr_compression=1
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=1
-flags/filter=false
-flags/mipmaps=true
-flags/anisotropic=true
-flags/srgb=1
+compress/channel_pack=0
+compress/streamed=false
+mipmaps/generate=false
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
 process/fix_alpha_border=false
 process/premult_alpha=false
+process/normal_map_invert_y=false
 process/HDR_as_SRGB=false
-process/invert_color=false
-stream=false
-size_limit=0
-detect_3d=false
+process/size_limit=0
+detect_3d/compress_to=1
 svg/scale=1.0

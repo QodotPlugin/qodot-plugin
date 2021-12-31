@@ -21,7 +21,7 @@ class_property_descriptions = {
 meta_properties = {
 }
 node_options = "----------------------------------------------------------------"
-node_class = "KinematicBody"
+node_class = "CharacterBody3D"
 transient_node = false
 spawn = "----------------------------------------------------------------"
 spawn_type = 2

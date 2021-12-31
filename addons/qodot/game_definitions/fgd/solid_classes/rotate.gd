@@ -1,15 +1,16 @@
 class_name QodotRotateEntity
-extends KinematicBody
+extends CharacterBody3D
 
-export(Dictionary) var properties setget set_properties
+@export var properties: Dictionary :
+	get:
+		return properties # TODOConverter40 Non existent get function 
+	set(new_properties):
+		if(properties != new_properties):
+			properties = new_properties
+			update_properties()
 
 var rotate_axis := Vector3.UP
 var rotate_speed := 360.0
-
-func set_properties(new_properties : Dictionary) -> void:
-	if(properties != new_properties):
-		properties = new_properties
-		update_properties()
 
 func update_properties():
 	if 'axis' in properties:

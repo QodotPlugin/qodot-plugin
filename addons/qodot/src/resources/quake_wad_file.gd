@@ -1,7 +1,7 @@
 class_name QuakeWadFile
 extends Resource
 
-export(Dictionary) var textures : Dictionary
+@export var textures: Dictionary
 
-func _init(textures: Dictionary) -> void:
+func _init(textures: Dictionary):
 	self.textures = textures

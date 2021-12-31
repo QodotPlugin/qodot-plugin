@@ -1,6 +1,6 @@
+@tool
 class_name QodotPlugin
 extends EditorPlugin
-tool
 
 var map_import_plugin : QuakeMapImportPlugin = null
 var palette_import_plugin : QuakePaletteImportPlugin = null
@@ -10,16 +10,15 @@ var qodot_map_control: Control = null
 var qodot_map_progress_bar: Control = null
 var edited_object_ref: WeakRef = weakref(null)
 
-func get_plugin_name() -> String:
+func _get_plugin_name() -> String:
 	return "Qodot"
 
-func handles(object: Object) -> bool:
+func _handles(object: Object) -> bool:
 	return object is QodotMap
-
-func edit(object: Object) -> void:
+func _edit(object: Object) -> void:
 	edited_object_ref = weakref(object)
 
-func make_visible(visible: bool) -> void:
+func _make_visible(visible: bool) -> void:
 	if qodot_map_control:
 		qodot_map_control.set_visible(visible)
 
@@ -72,7 +71,6 @@ func setup_project_settings() -> void:
 	try_add_project_setting('qodot/textures/roughness_pattern', TYPE_STRING, QodotTextureLoader.PBR_SUFFIX_PATTERNS[QodotTextureLoader.PBRSuffix.ROUGHNESS])
 	try_add_project_setting('qodot/textures/emission_pattern', TYPE_STRING, QodotTextureLoader.PBR_SUFFIX_PATTERNS[QodotTextureLoader.PBRSuffix.EMISSION])
 	try_add_project_setting('qodot/textures/ao_pattern', TYPE_STRING, QodotTextureLoader.PBR_SUFFIX_PATTERNS[QodotTextureLoader.PBRSuffix.AO])
-	try_add_project_setting('qodot/textures/depth_pattern', TYPE_STRING, QodotTextureLoader.PBR_SUFFIX_PATTERNS[QodotTextureLoader.PBRSuffix.DEPTH])
 
 func try_add_project_setting(name: String, type: int, value, info: Dictionary = {}) -> void:
 	if not ProjectSettings.has_setting(name):
@@ -95,17 +93,17 @@ func create_qodot_map_control() -> Control:
 	icon.texture = preload("res://addons/qodot/icons/icon_qodot_spatial.svg")
 	icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 
-	var quick_build_button = ToolButton.new()
+	var quick_build_button = Button.new()
 	quick_build_button.text = "Quick Build"
-	quick_build_button.connect("pressed", self, "qodot_map_quick_build")
+	quick_build_button.connect("pressed",Callable(self,"qodot_map_quick_build"))
 
-	var full_build_button = ToolButton.new()
+	var full_build_button = Button.new()
 	full_build_button.text = "Full Build"
-	full_build_button.connect("pressed", self, "qodot_map_full_build")
+	full_build_button.connect("pressed",Callable(self,"qodot_map_full_build"))
 
-	var unwrap_uv2_button = ToolButton.new()
+	var unwrap_uv2_button = Button.new()
 	unwrap_uv2_button.text = "Unwrap UV2"
-	unwrap_uv2_button.connect("pressed", self, "qodot_map_unwrap_uv2")
+	unwrap_uv2_button.connect("pressed",Callable(self,"qodot_map_unwrap_uv2"))
 
 	var control = HBoxContainer.new()
 	control.add_child(separator)
@@ -119,8 +117,8 @@ func create_qodot_map_control() -> Control:
 func create_qodot_map_progress_bar() -> Control:
 	var progress_label = Label.new()
 	progress_label.name = "ProgressLabel"
-	progress_label.align = Label.ALIGN_LEFT
-	progress_label.valign = Label.VALIGN_CENTER
+	progress_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	progress_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 
 	var progress_bar = ProgressBar.new()
 	progress_bar.name = "ProgressBar"
@@ -128,11 +126,11 @@ func create_qodot_map_progress_bar() -> Control:
 	progress_bar.min_value = 0.0
 	progress_bar.max_value = 1.0
 	progress_bar.rect_min_size.y = 30
-	progress_bar.set_anchors_and_margins_preset(Control.PRESET_WIDE)
+	progress_bar.set_anchors_and_offsets_preset(Control.PRESET_WIDE)
 	progress_bar.add_child(progress_label)
-	progress_label.set_anchors_and_margins_preset(Control.PRESET_WIDE)
-	progress_label.margin_top = -9
-	progress_label.margin_left = 3
+	progress_label.set_anchors_and_offsets_preset(Control.PRESET_WIDE)
+	progress_label.offset_top = -9
+	progress_label.offset_left = 3
 
 	return progress_bar
 
@@ -149,9 +147,9 @@ func qodot_map_quick_build() -> void:
 	edited_object.should_set_owners = false
 
 	set_qodot_map_control_disabled(true)
-	edited_object.connect("build_progress", self, "qodot_map_build_progress")
-	edited_object.connect("build_complete", self, "qodot_map_build_complete", [edited_object])
-	edited_object.connect("build_failed", self, "qodot_map_build_complete", [edited_object])
+	edited_object.connect("build_progress",Callable(self,"qodot_map_build_progress"))
+	edited_object.connect("build_complete",Callable(self,"qodot_map_build_complete"),[edited_object])
+	edited_object.connect("build_failed",Callable(self,"qodot_map_build_complete"),[edited_object])
 
 	edited_object.verify_and_build()
 
@@ -167,9 +165,9 @@ func qodot_map_full_build() -> void:
 	edited_object.should_set_owners = true
 
 	set_qodot_map_control_disabled(true)
-	edited_object.connect("build_progress", self, "qodot_map_build_progress")
-	edited_object.connect("build_complete", self, "qodot_map_build_complete", [edited_object])
-	edited_object.connect("build_failed", self, "qodot_map_build_complete", [edited_object])
+	edited_object.connect("build_progress",Callable(self,"qodot_map_build_progress"))
+	edited_object.connect("build_complete",Callable(self,"qodot_map_build_complete"),[edited_object])
+	edited_object.connect("build_failed",Callable(self,"qodot_map_build_complete"),[edited_object])
 
 	edited_object.verify_and_build()
 
@@ -182,7 +180,7 @@ func qodot_map_unwrap_uv2() -> void:
 		return
 
 	set_qodot_map_control_disabled(true)
-	edited_object.connect("unwrap_uv2_complete", self, "qodot_map_build_complete", [edited_object])
+	edited_object.connect("unwrap_uv2_complete",Callable(self,"qodot_map_build_complete"),[edited_object])
 
 	edited_object.unwrap_uv2()
 
@@ -191,7 +189,7 @@ func set_qodot_map_control_disabled(disabled: bool) -> void:
 		return
 
 	for child in qodot_map_control.get_children():
-		if child is ToolButton:
+		if child is Button:
 			child.set_disabled(disabled)
 
 func qodot_map_build_progress(step: String, progress: float) -> void:
@@ -205,11 +203,11 @@ func qodot_map_build_complete(qodot_map: QodotMap) -> void:
 
 	set_qodot_map_control_disabled(false)
 
-	if qodot_map.is_connected("build_progress", self, "qodot_map_build_progress"):
-		qodot_map.disconnect("build_progress", self, "qodot_map_build_progress")
+	if qodot_map.is_connected("build_progress",Callable(self,"qodot_map_build_progress")):
+		qodot_map.disconnect("build_progress",Callable(self,"qodot_map_build_progress"))
 
-	if qodot_map.is_connected("build_complete", self, "qodot_map_build_complete"):
-		qodot_map.disconnect("build_complete", self, "qodot_map_build_complete")
+	if qodot_map.is_connected("build_complete",Callable(self,"qodot_map_build_complete")):
+		qodot_map.disconnect("build_complete",Callable(self,"qodot_map_build_complete"))
 
-	if qodot_map.is_connected("build_failed", self, "qodot_map_build_complete"):
-		qodot_map.disconnect("build_failed", self, "qodot_map_build_complete")
+	if qodot_map.is_connected("build_failed",Callable(self,"qodot_map_build_complete")):
+		qodot_map.disconnect("build_failed",Callable(self,"qodot_map_build_complete"))

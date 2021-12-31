@@ -1,6 +1,6 @@
+@tool
 class_name QodotMap
 extends QodotSpatial
-tool
 
 const DEBUG := false
 const YIELD_DURATION := 0.0
@@ -12,19 +12,43 @@ signal build_failed()
 
 signal unwrap_uv2_complete()
 
-var map_file := "" setget set_map_file
+var map_file := "" :
+	get:
+		return map_file # TODOConverter40 Non existent get function 
+	set(new_map_file):
+		if map_file != new_map_file:
+			map_file = new_map_file
 var inverse_scale_factor := 16.0
 var entity_fgd := preload("res://addons/qodot/game_definitions/fgd/qodot_fgd.tres")
 var base_texture_dir := "res://textures"
-var texture_file_extensions := PoolStringArray(["png"])
+var texture_file_extensions := PackedStringArray(["png"])
 
-var worldspawn_layers := [] setget set_worldspawn_layers
+var worldspawn_layers := [] :
+	get:
+		return worldspawn_layers # TODOConverter40 Non existent get function 
+	set(new_worldspawn_layers):
+		if worldspawn_layers != new_worldspawn_layers:
+			worldspawn_layers = new_worldspawn_layers
+
+			for i in range(0, worldspawn_layers.size()):
+				if not worldspawn_layers[i]:
+					worldspawn_layers[i] = QodotWorldspawnLayer.new()
 
 var brush_clip_texture := "special/clip"
 var face_skip_texture := "special/skip"
-var texture_wads := [] setget set_texture_wads
+var texture_wads := [] :
+	get:
+		return texture_wads # TODOConverter40 Non existent get function 
+	set(new_texture_wads):
+		if texture_wads != new_texture_wads:
+			texture_wads = new_texture_wads
+
+			for i in range(0, texture_wads.size()):
+				var texture_wad = texture_wads[i]
+				if not texture_wad:
+					texture_wads[i] = Object()
 var material_file_extension := "tres"
-var default_material := SpatialMaterial.new()
+var default_material := StandardMaterial3D.new()
 var uv_unwrap_texel_size := 1.0
 var print_profiling_data := false
 var use_trenchbroom_group_hierarchy := false
@@ -59,27 +83,6 @@ var worldspawn_layer_mesh_instances := {}
 var entity_collision_shapes := []
 var worldspawn_layer_collision_shapes := []
 
-func set_map_file(new_map_file: String) -> void:
-	if map_file != new_map_file:
-		map_file = new_map_file
-
-func set_worldspawn_layers(new_worldspawn_layers: Array) -> void:
-	if worldspawn_layers != new_worldspawn_layers:
-		worldspawn_layers = new_worldspawn_layers
-
-		for i in range(0, worldspawn_layers.size()):
-			if not worldspawn_layers[i]:
-				worldspawn_layers[i] = QodotWorldspawnLayer.new()
-
-func set_texture_wads(new_texture_wads: Array) -> void:
-	if texture_wads != new_texture_wads:
-		texture_wads = new_texture_wads
-
-		for i in range(0, texture_wads.size()):
-			var texture_wad = texture_wads[i]
-			if not texture_wad:
-				texture_wads[i] = Object()
-
 # Overrides
 func _ready() -> void:
 	if not DEBUG:
@@ -105,9 +108,9 @@ func _get_property_list() -> Array:
 		QodotUtil.property_dict('texture_wads', TYPE_ARRAY, -1),
 		QodotUtil.category_dict('Materials'),
 		QodotUtil.property_dict('material_file_extension', TYPE_STRING),
-		QodotUtil.property_dict('default_material', TYPE_OBJECT, PROPERTY_HINT_RESOURCE_TYPE, 'SpatialMaterial'),
+		QodotUtil.property_dict('default_material', TYPE_OBJECT, PROPERTY_HINT_RESOURCE_TYPE, 'StandardMaterial3D'),
 		QodotUtil.category_dict('UV Unwrap'),
-		QodotUtil.property_dict('uv_unwrap_texel_size', TYPE_REAL),
+		QodotUtil.property_dict('uv_unwrap_texel_size', TYPE_FLOAT),
 		QodotUtil.category_dict('Build'),
 		QodotUtil.property_dict('print_profiling_data', TYPE_BOOL),
 		QodotUtil.property_dict('use_trenchbroom_group_hierarchy', TYPE_BOOL),
@@ -132,7 +135,7 @@ func verify_parameters():
 		qodot = Qodot.new()
 
 	if not qodot:
-		push_error("Error: Failed to load Qodot, did you build the engine with the Qodot C++ module?.")
+		push_error("Error: Failed to load libqodot.")
 		return false
 
 	if map_file == "":
@@ -173,12 +176,12 @@ func reset_build_context():
 func start_profile(item_name: String) -> void:
 	if print_profiling_data:
 		print(item_name)
-		profile_timestamps[item_name] = OS.get_ticks_usec()
+		profile_timestamps[item_name] = Time.get_ticks_usec()
 
 func stop_profile(item_name: String) -> void:
 	if print_profiling_data:
 		if item_name in profile_timestamps:
-			var delta = OS.get_ticks_usec() - profile_timestamps[item_name]
+			var delta = Time.get_ticks_usec() - profile_timestamps[item_name]
 			print("Done in %s sec\n" % [delta * 0.000001])
 			profile_timestamps.erase(item_name)
 
@@ -196,7 +199,7 @@ func add_child_editor(parent, node, below = null) -> void:
 		prev_parent.remove_child(node)
 
 	if below:
-		parent.add_child_below_node(below, node)
+		parent.add_sibling(below, node)
 	else:
 		parent.add_child(node)
 
@@ -237,10 +240,10 @@ func run_build_steps(post_attach := false) -> void:
 		emit_signal("build_progress", build_step[0], float(build_step_index + 1) / float(build_step_count))
 		build_step_index += 1
 
-		yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
+		await get_tree().create_timer(YIELD_DURATION).timeout
 
 	if post_attach:
-		build_complete()
+		_build_complete()
 	else:
 		start_profile('add_children')
 		add_children()
@@ -299,10 +302,10 @@ func unwrap_uv2(node: Node = null) -> void:
 		target_node = self
 		print("Unwrapping mesh UV2s")
 
-	if target_node is MeshInstance:
+	if target_node is MeshInstance3D:
 		var mesh = target_node.get_mesh()
 		if mesh is ArrayMesh:
-			mesh.lightmap_unwrap(Transform.IDENTITY, uv_unwrap_texel_size / inverse_scale_factor)
+			mesh.lightmap_unwrap(Transform3D.IDENTITY, uv_unwrap_texel_size / inverse_scale_factor)
 
 	for child in target_node.get_children():
 		unwrap_uv2(child)
@@ -361,7 +364,7 @@ func build_texture_size_dict() -> Dictionary:
 	var texture_size_dict := {}
 
 	for tex_key in texture_dict:
-		var texture := texture_dict[tex_key] as Texture
+		var texture := texture_dict[tex_key] as Texture2D
 		if texture:
 			texture_size_dict[tex_key] = texture.get_size()
 		else:
@@ -414,13 +417,13 @@ func build_entity_nodes() -> Array:
 					elif use_trenchbroom_group_hierarchy and entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.GROUP:
 						should_add_child = false
 					if entity_definition.node_class != "":
-						node = ClassDB.instance(entity_definition.node_class)
+						node = ClassDB.instantiate(entity_definition.node_class)
 				elif entity_definition is QodotFGDPointClass:
 					if entity_definition.scene_file:
 						var flag = PackedScene.GEN_EDIT_STATE_DISABLED
 						if Engine.is_editor_hint():
 							flag = PackedScene.GEN_EDIT_STATE_INSTANCE
-						node = entity_definition.scene_file.instance(flag)
+						node = entity_definition.scene_file.instantiate(flag)
 
 				if entity_definition.script_class:
 					node.set_script(entity_definition.script_class)
@@ -430,10 +433,10 @@ func build_entity_nodes() -> Array:
 		if 'origin' in properties:
 			var origin_comps = properties['origin'].split(' ')
 			var origin_vec = Vector3(origin_comps[1].to_float(), origin_comps[2].to_float(), origin_comps[0].to_float())
-			node.translation = origin_vec / inverse_scale_factor
+			node.position = origin_vec / inverse_scale_factor
 		else:
 			if entity_idx != 0:
-				node.translation = entity_dict['center'] / inverse_scale_factor
+				node.position = entity_dict['center'] / inverse_scale_factor
 
 		entity_nodes.append(node)
 
@@ -446,7 +449,7 @@ func build_worldspawn_layer_nodes() -> Array:
 	var worldspawn_layer_nodes := []
 
 	for worldspawn_layer in worldspawn_layers:
-		var node = ClassDB.instance(worldspawn_layer.node_class)
+		var node = ClassDB.instantiate(worldspawn_layer.node_class)
 		node.name = "entity_0_" + worldspawn_layer.name
 		if worldspawn_layer.script_class:
 			node.set_script(worldspawn_layer.script_class)
@@ -604,17 +607,16 @@ func build_entity_collision_shape_nodes() -> Array:
 			continue
 
 		if concave:
-			var collision_shape := CollisionShape.new()
+			var collision_shape := CollisionShape3D.new()
 			collision_shape.name = "entity_%s_collision_shape" % entity_idx
 			entity_collision_shapes.append(collision_shape)
 			queue_add_child(node, collision_shape)
 		else:
 			for brush_idx in entity_dict['brush_indices']:
-				var collision_shape := CollisionShape.new()
+				var collision_shape := CollisionShape3D.new()
 				collision_shape.name = "entity_%s_brush_%s_collision_shape" % [entity_idx, brush_idx]
 				entity_collision_shapes.append(collision_shape)
 				queue_add_child(node, collision_shape)
-
 		entity_collision_shapes_arr.append(entity_collision_shapes)
 
 	return entity_collision_shapes_arr
@@ -645,13 +647,13 @@ func build_worldspawn_layer_collision_shape_nodes() -> Array:
 			continue
 
 		if concave:
-			var collision_shape := CollisionShape.new()
+			var collision_shape := CollisionShape3D.new()
 			collision_shape.name = "entity_0_%s_collision_shape" % layer.name
 			shapes.append(collision_shape)
 			queue_add_child(node, collision_shape)
 		else:
 			for brush_idx in layer_dict['brush_indices']:
-				var collision_shape := CollisionShape.new()
+				var collision_shape := CollisionShape3D.new()
 				collision_shape.name = "entity_0_%s_brush_%s_collision_shape" % [layer.name, brush_idx]
 				shapes.append(collision_shape)
 				queue_add_child(node, collision_shape)
@@ -680,7 +682,7 @@ func build_entity_collision_shapes() -> void:
 						QodotFGDSolidClass.CollisionShapeType.CONCAVE:
 							concave = true
 
-		if not entity_collision_shapes[entity_idx]:
+		if entity_collision_shapes[entity_idx] == null:
 			continue
 
 		if concave:
@@ -690,26 +692,26 @@ func build_entity_collision_shapes() -> void:
 
 		var entity_surfaces := qodot.fetch_surfaces(inverse_scale_factor) as Array
 
-		var entity_verts := PoolVector3Array()
+		var entity_verts := PackedVector3Array()
 
 		for surface_idx in range(0, entity_surfaces.size()):
 			var surface_verts = entity_surfaces[surface_idx]
 
-			if not surface_verts:
+			if surface_verts == null:
 				continue
 
 			if concave:
-				var vertices := surface_verts[0] as PoolVector3Array
-				var indices := surface_verts[8] as PoolIntArray
+				var vertices := surface_verts[0] as PackedVector3Array
+				var indices := surface_verts[8] as PackedInt32Array
 				for vert_idx in indices:
 					entity_verts.append(vertices[vert_idx])
 			else:
-				var shape_points = PoolVector3Array()
+				var shape_points = PackedVector3Array()
 				for vertex in surface_verts[0]:
 					if not vertex in shape_points:
 						shape_points.append(vertex)
 
-				var shape = ConvexPolygonShape.new()
+				var shape = ConvexPolygonShape3D.new()
 				shape.set_points(shape_points)
 
 				var collision_shape = entity_collision_shapes[entity_idx][surface_idx]
@@ -719,7 +721,7 @@ func build_entity_collision_shapes() -> void:
 			if entity_verts.size() == 0:
 				continue
 
-			var shape = ConcavePolygonShape.new()
+			var shape = ConcavePolygonShape3D.new()
 			shape.set_faces(entity_verts)
 
 			var collision_shape = entity_collision_shapes[entity_idx][0]
@@ -750,7 +752,7 @@ func build_worldspawn_layer_collision_shapes() -> void:
 
 		var layer_surfaces := qodot.fetch_surfaces(inverse_scale_factor) as Array
 
-		var verts := PoolVector3Array()
+		var verts := PackedVector3Array()
 
 		for i in range(0, layer_dict.brush_indices.size()):
 			var surface_idx = layer_dict.brush_indices[i]
@@ -760,17 +762,17 @@ func build_worldspawn_layer_collision_shapes() -> void:
 				continue
 
 			if concave:
-				var vertices := surface_verts[0] as PoolVector3Array
-				var indices := surface_verts[8] as PoolIntArray
+				var vertices := surface_verts[0] as PackedVector3Array
+				var indices := surface_verts[8] as PackedInt32Array
 				for vert_idx in indices:
 					verts.append(vertices[vert_idx])
 			else:
-				var shape_points = PoolVector3Array()
+				var shape_points = PackedVector3Array()
 				for vertex in surface_verts[0]:
 					if not vertex in shape_points:
 						shape_points.append(vertex)
 
-				var shape = ConvexPolygonShape.new()
+				var shape = ConvexPolygonShape3D.new()
 				shape.set_points(shape_points)
 
 				var collision_shape = worldspawn_layer_collision_shapes[layer_idx][i]
@@ -780,7 +782,7 @@ func build_worldspawn_layer_collision_shapes() -> void:
 			if verts.size() == 0:
 				continue
 
-			var shape = ConcavePolygonShape.new()
+			var shape = ConcavePolygonShape3D.new()
 			shape.set_faces(verts)
 
 			var collision_shape = worldspawn_layer_collision_shapes[layer_idx][0]
@@ -810,7 +812,7 @@ func build_entity_mesh_dict() -> Dictionary:
 						if not entity_definition.build_visuals:
 							entity_surface = null
 
-			if not entity_surface:
+			if entity_surface == null:
 				continue
 
 			var mesh: Mesh = null
@@ -843,7 +845,6 @@ func build_worldspawn_layer_mesh_dict() -> Dictionary:
 
 func build_entity_mesh_instances() -> Dictionary:
 	var entity_mesh_instances := {}
-
 	for entity_idx in entity_mesh_dict:
 		var use_in_baked_light = false
 
@@ -864,9 +865,9 @@ func build_entity_mesh_instances() -> Dictionary:
 		if not mesh:
 			continue
 
-		var mesh_instance := MeshInstance.new()
+		var mesh_instance := MeshInstance3D.new()
 		mesh_instance.name = 'entity_%s_mesh_instance' % entity_idx
-		mesh_instance.set_flag(MeshInstance.FLAG_USE_BAKED_LIGHT, use_in_baked_light)
+		mesh_instance.gi_mode = MeshInstance3D.GI_MODE_BAKED if use_in_baked_light else GeometryInstance3D.GI_MODE_DYNAMIC
 
 		queue_add_child(entity_nodes[entity_idx], mesh_instance)
 
@@ -876,7 +877,6 @@ func build_entity_mesh_instances() -> Dictionary:
 
 func build_worldspawn_layer_mesh_instances() -> Dictionary:
 	var worldspawn_layer_mesh_instances := {}
-
 	var idx = 0
 	for i in range(0, worldspawn_layers.size()):
 		var worldspawn_layer = worldspawn_layers[i]
@@ -890,9 +890,9 @@ func build_worldspawn_layer_mesh_instances() -> Dictionary:
 		if not mesh:
 			continue
 
-		var mesh_instance := MeshInstance.new()
+		var mesh_instance := MeshInstance3D.new()
 		mesh_instance.name = 'entity_0_%s_mesh_instance' % worldspawn_layer.name
-		mesh_instance.set_flag(MeshInstance.FLAG_USE_BAKED_LIGHT, true)
+		mesh_instance.gi_mode = MeshInstance3D.GI_MODE_BAKED
 
 		queue_add_child(worldspawn_layer_nodes[idx], mesh_instance)
 		idx += 1
@@ -904,7 +904,7 @@ func build_worldspawn_layer_mesh_instances() -> Dictionary:
 func apply_entity_meshes() -> void:
 	for entity_idx in entity_mesh_dict:
 		var mesh := entity_mesh_dict[entity_idx] as Mesh
-		var mesh_instance := entity_mesh_instances[entity_idx] as MeshInstance
+		var mesh_instance := entity_mesh_instances[entity_idx] as MeshInstance3D
 
 		if not mesh or not mesh_instance:
 			continue
@@ -937,7 +937,7 @@ func add_children() -> void:
 			else:
 				add_children_complete()
 				return
-		yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
+		await get_tree().create_timer(YIELD_DURATION).timeout
 
 func add_children_complete():
 	stop_profile('add_children')
@@ -957,7 +957,7 @@ func set_owners():
 			else:
 				set_owners_complete()
 				return
-		yield(get_tree().create_timer(YIELD_DURATION), YIELD_SIGNAL)
+		await get_tree().create_timer(YIELD_DURATION).timeout
 
 func set_owners_complete():
 	stop_profile('set_owners')
@@ -1039,12 +1039,12 @@ func connect_signal(entity_node: Node, target_node: Node) -> void:
 
 			var target_nodes := get_nodes_by_targetname(receiver_node.properties['target'])
 			for target_node in target_nodes:
-				entity_node.connect(signal_name, target_node, receiver_name, [], CONNECT_PERSIST)
+				entity_node.connect(signal_name,Callable(target_node,receiver_name),[],CONNECT_PERSIST)
 	else:
 		var signal_list = entity_node.get_signal_list()
 		for signal_dict in signal_list:
 			if signal_dict['name'] == 'trigger':
-				entity_node.connect("trigger", target_node, "use", [], CONNECT_PERSIST)
+				entity_node.connect("trigger",Callable(target_node,"use"),[],CONNECT_PERSIST)
 				break
 
 func remove_transient_nodes() -> void:
@@ -1089,7 +1089,7 @@ func get_nodes_by_targetname(targetname: String) -> Array:
 
 	return nodes
 
-func build_complete():
+func _build_complete():
 	stop_profile('build_map')
 	if not print_profiling_data:
 		print('\n')

@@ -1,44 +1,17 @@
-[gd_resource type="Resource" load_steps=3 format=2]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://bcapv1lta45sp"]
 
-[ext_resource path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_solid_class.gd" type="Script" id=1]
-
-[sub_resource type="GDScript" id=1]
-script/source = "class_name QodotRotateEntity
-extends KinematicBody
-
-export(Dictionary) var properties setget set_properties
-
-var rotate_axis := Vector3.UP
-var rotate_speed := 360.0
-
-func set_properties(new_properties : Dictionary) -> void:
-	if(properties != new_properties):
-		properties = new_properties
-		update_properties()
-
-func update_properties():
-	if 'axis' in properties:
-		rotate_axis = properties['axis']
-
-	if 'speed' in properties:
-		rotate_speed = properties['speed']
-
-func _ready() -> void:
-	update_properties()
-
-func _process(delta: float) -> void:
-	rotate(rotate_axis, deg2rad(rotate_speed * delta))
-"
+[ext_resource type="Script" path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_solid_class.gd" id="1"]
+[ext_resource type="Script" path="res://addons/qodot/game_definitions/fgd/solid_classes/rotate.gd" id="2_iil7f"]
 
 [resource]
-script = ExtResource( 1 )
+script = ExtResource( "1" )
 class_options = "----------------------------------------------------------------"
 classname = "rotate"
 description = "Rotating Brush"
 qodot_internal = false
-base_classes = [  ]
+base_classes = []
 class_properties = {
-"axis": Vector3( 0, 1, 0 ),
+"axis": Vector3(0, 1, 0),
 "speed": 360.0
 }
 class_property_descriptions = {
@@ -48,7 +21,7 @@ class_property_descriptions = {
 meta_properties = {
 }
 node_options = "----------------------------------------------------------------"
-node_class = "KinematicBody"
+node_class = "CharacterBody3D"
 transient_node = false
 spawn = "----------------------------------------------------------------"
 spawn_type = 2
@@ -57,4 +30,4 @@ build_visuals = true
 collision_build = "----------------------------------------------------------------"
 collision_shape_type = 1
 scripting = "----------------------------------------------------------------"
-script_class = SubResource( 1 )
+script_class = ExtResource( "2_iil7f" )

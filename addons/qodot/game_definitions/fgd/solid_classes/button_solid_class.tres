@@ -24,7 +24,7 @@ class_property_descriptions = {
 meta_properties = {
 }
 node_options = "----------------------------------------------------------------"
-node_class = "Area"
+node_class = "Area3D"
 transient_node = false
 spawn = "----------------------------------------------------------------"
 spawn_type = 2

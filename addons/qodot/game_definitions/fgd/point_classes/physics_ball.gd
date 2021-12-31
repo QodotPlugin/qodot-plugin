@@ -1,14 +1,14 @@
+@tool
 class_name PhysicsBall
 extends PhysicsEntity
-tool
 
 func update_properties():
-	.update_properties()
+	super.update_properties()
 	if 'size' in properties:
-		$MeshInstance.mesh.radius = properties.size * 0.5
-		$MeshInstance.mesh.height = properties.size
+		$MeshInstance3D.mesh.radius = properties.size * 0.5
+		$MeshInstance3D.mesh.height = properties.size
 
-		$CollisionShape.shape.radius = properties.size * 0.5
+		$CollisionShape3D.shape.radius = properties.size * 0.5
 
 
 func use():

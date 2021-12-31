@@ -19,7 +19,7 @@ meta_properties = {
 
 }
 node_options = "----------------------------------------------------------------"
-node_class = "Spatial"
+node_class = "Node3D"
 transient_node = false
 spawn = "----------------------------------------------------------------"
 spawn_type = 1

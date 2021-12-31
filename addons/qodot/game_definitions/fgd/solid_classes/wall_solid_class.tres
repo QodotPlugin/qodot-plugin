@@ -19,7 +19,7 @@ meta_properties = {
 
 }
 node_options = "----------------------------------------------------------------"
-node_class = "StaticBody"
+node_class = "StaticBody3D"
 transient_node = false
 spawn = "----------------------------------------------------------------"
 spawn_type = 2

@@ -1,18 +1,34 @@
+@tool
 class_name TrenchBroomGameConfigFile
 extends Resource
-tool
 
-export(bool) var export_file : bool setget set_export_file
-export(String, FILE, GLOBAL, "*.cfg") var target_file : String
+@export var export_file: bool:
+	get:
+		return export_file # TODOConverter40 Non existent get function 
+	set(new_export_file):
+		if new_export_file != export_file:
+			if not Engine.is_editor_hint():
+				return
 
-export(String) var game_name := "Qodot"
+			if target_file.is_empty():
+				print("Skipping export: No target file")
+				return
 
-export(Array, Resource) var brush_tags : Array = []
-export(Array, Resource) var face_tags : Array = []
-export(Array, Resource) var face_attrib_surface_flags : Array = []
-export(Array, Resource) var face_attrib_content_flags : Array = []
+			print("Exporting TrenchBroom Game Config File to ", target_file)
+			var file_obj := File.new()
+			file_obj.open(target_file, File.WRITE)
+			file_obj.store_string(build_class_text())
+			file_obj.close()
+@export var target_file : String # (String, FILE, GLOBAL, "*.cfg")
 
-export(Array, String) var fgd_filenames : Array = []
+@export var game_name := "Qodot"
+
+@export var brush_tags : Array = [] # (Array, Resource)
+@export var face_tags : Array = [] # (Array, Resource)
+@export var face_attrib_surface_flags : Array = [] # (Array, Resource)
+@export var face_attrib_content_flags : Array = [] # (Array, Resource)
+
+@export var fgd_filenames : Array = [] # (Array, String)
 
 var base_text: String = """{
 	version: 3,
@@ -59,21 +75,6 @@ var base_text: String = """{
 	}
 }
 """
-
-func set_export_file(new_export_file : bool = true) -> void:
-	if new_export_file != export_file:
-		if not Engine.is_editor_hint():
-			return
-
-		if not target_file:
-			print("Skipping export: No target file")
-			return
-
-		print("Exporting TrenchBroom Game Config File to ", target_file)
-		var file_obj := File.new()
-		file_obj.open(target_file, File.WRITE)
-		file_obj.store_string(build_class_text())
-		file_obj.close()
 
 func build_class_text() -> String:
 	var fgd_filename_str := ""
