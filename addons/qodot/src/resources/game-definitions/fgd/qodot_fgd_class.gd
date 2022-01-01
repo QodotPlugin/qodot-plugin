@@ -11,7 +11,7 @@ var prefix: String = ""
 
 @export var qodot_internal := false
 
-@export var base_classes := [] # (Array, Resource)
+@export var base_classes: Array[Resource] = [] # (Array, Resource)
 
 @export var class_properties := {}
 

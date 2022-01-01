@@ -25,10 +25,10 @@ func do_export_file():
 
 @export var game_name := "Qodot"
 
-@export var brush_tags : Array = [] # (Array, Resource)
-@export var face_tags : Array = [] # (Array, Resource)
-@export var face_attrib_surface_flags : Array = [] # (Array, Resource)
-@export var face_attrib_content_flags : Array = [] # (Array, Resource)
+@export var brush_tags : Array[Resource] = [] # (Array, Resource)
+@export var face_tags : Array[Resource] = [] # (Array, Resource)
+@export var face_attrib_surface_flags : Array[Resource] = [] # (Array, Resource)
+@export var face_attrib_content_flags : Array[Resource] = [] # (Array, Resource)
 
 @export var fgd_filenames : Array = [] # (Array, String)
 
