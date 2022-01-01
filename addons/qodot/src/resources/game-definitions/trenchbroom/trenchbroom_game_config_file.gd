@@ -7,6 +7,8 @@ extends Resource
 		return export_file # TODOConverter40 Non existent get function 
 	set(new_export_file):
 		if new_export_file != export_file:
+			do_export_file()
+func do_export_file():
 			if not Engine.is_editor_hint():
 				return
 

@@ -10,7 +10,9 @@ extends Resource
 		return export_file # TODOConverter40 Non existent get function 
 	set(new_export_file):
 		if new_export_file != export_file:
-			if Engine.is_editor_hint() and get_fgd_classes().size() > 0:
+			do_export_file()
+func do_export_file():
+	if Engine.is_editor_hint() and get_fgd_classes().size() > 0:
 				if target_folder.is_empty():
 					print("Skipping export: No target folder")
 					return
