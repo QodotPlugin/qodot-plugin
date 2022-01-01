@@ -47,9 +47,16 @@ func _enter_tree() -> void:
 	qodot_map_progress_bar.set_visible(false)
 	add_control_to_container(EditorPlugin.CONTAINER_PROPERTY_EDITOR_BOTTOM, qodot_map_progress_bar)
 
+	add_custom_type("QodotMap", "Node3D", preload("res://addons/qodot/src/nodes/qodot_map.gd"), null)
+	add_custom_type("QodotEntity", "Node3D", preload("res://addons/qodot/src/nodes/qodot_entity.gd"), null)
+	add_custom_type("QodotSpatial", "Node3D", preload("res://addons/qodot/src/nodes/qodot_spatial.gd"), null)
+
 	QodotDependencies.check_dependencies()
 
 func _exit_tree() -> void:
+	remove_custom_type("QodotMap")
+	remove_custom_type("QodotEntity")
+	remove_custom_type("QodotSpatial")
 	remove_import_plugin(map_import_plugin)
 	remove_import_plugin(palette_import_plugin)
 	remove_import_plugin(wad_import_plugin)
