@@ -68,7 +68,7 @@ extends Resource
 @export var game_name := "Qodot"
 @export var icon : Texture2D
 @export var game_config_file : Resource = preload("res://addons/qodot/game_definitions/trenchbroom/qodot_trenchbroom_config_file.tres")
-@export var fgd_files : Array = [ # (Array, Resource)
+@export var fgd_files : Array[Resource] = [ # (Array, Resource)
 	preload("res://addons/qodot/game_definitions/fgd/qodot_fgd.tres")
 ]
 
