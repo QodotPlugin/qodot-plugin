@@ -57,7 +57,7 @@ var base_text: String = """{
 	"entities": {
 		"definitions": [ %s ],
 		"defaultcolor": "0.6 0.6 0.6 1.0",
-		"modelformats": [ "mdl", "md2", "md3", "bsp", "dkm" ]
+		"modelformats": [ "mdl", "md2", "md3", "bsp", "dkm", "assimp" ]
 	},
 	"tags": {
 		"brush": [
