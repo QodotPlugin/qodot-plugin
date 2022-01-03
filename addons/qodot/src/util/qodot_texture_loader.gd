@@ -49,6 +49,7 @@ var texture_wads: Array
 # Instances
 var directory := Directory.new()
 var texture_wad_resources : Array = []
+var unshaded := false
 
 # Getters
 func get_pbr_suffix_pattern(suffix: int) -> String:
@@ -145,7 +146,7 @@ func create_material(
 	var texture : Texture2D = load_texture(texture_name)
 	if not texture:
 		return material
-	print("PRELOAD2")
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED if unshaded else BaseMaterial3D.SHADING_MODE_PER_PIXEL
 
 	material.set_texture(StandardMaterial3D.TEXTURE_ALBEDO, texture)
 	print("PRELOAD3")

@@ -83,6 +83,8 @@ var worldspawn_layer_mesh_instances := {}
 var entity_collision_shapes := []
 var worldspawn_layer_collision_shapes := []
 
+var unshaded := false
+
 # Overrides
 func _ready() -> void:
 	if not DEBUG:
@@ -108,6 +110,7 @@ func _get_property_list() -> Array:
 		QodotUtil.property_dict('texture_wads', TYPE_ARRAY, -1),
 		QodotUtil.category_dict('Materials'),
 		QodotUtil.property_dict('material_file_extension', TYPE_STRING),
+		QodotUtil.property_dict('unshaded', TYPE_BOOL),
 		QodotUtil.property_dict('default_material', TYPE_OBJECT, PROPERTY_HINT_RESOURCE_TYPE, 'StandardMaterial3D'),
 		QodotUtil.category_dict('UV Unwrap'),
 		QodotUtil.property_dict('uv_unwrap_texel_size', TYPE_FLOAT),
@@ -329,11 +332,13 @@ func fetch_texture_list() -> Array:
 	return qodot.get_texture_list() as Array
 
 func init_texture_loader() -> QodotTextureLoader:
-	return QodotTextureLoader.new(
+	var tex_ldr := QodotTextureLoader.new(
 		base_texture_dir,
 		texture_file_extensions,
 		texture_wads
 	)
+	tex_ldr.unshaded = unshaded
+	return tex_ldr
 
 func load_textures() -> Dictionary:
 	return texture_loader.load_textures(texture_list) as Dictionary
