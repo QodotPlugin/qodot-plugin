@@ -410,6 +410,7 @@ func build_entity_nodes() -> Array:
 
 		var should_add_child = should_add_children
 
+
 		if 'classname' in properties:
 			var classname = properties['classname']
 			node_name += "_" + classname
@@ -422,14 +423,18 @@ func build_entity_nodes() -> Array:
 					elif use_trenchbroom_group_hierarchy and entity_definition.spawn_type == QodotFGDSolidClass.SpawnType.GROUP:
 						should_add_child = false
 					if entity_definition.node_class != "":
+						node.queue_free()
 						node = ClassDB.instantiate(entity_definition.node_class)
 				elif entity_definition is QodotFGDPointClass:
 					if entity_definition.scene_file:
 						var flag = PackedScene.GEN_EDIT_STATE_DISABLED
 						if Engine.is_editor_hint():
 							flag = PackedScene.GEN_EDIT_STATE_INSTANCE
+						node.queue_free()
 						node = entity_definition.scene_file.instantiate(flag)
-
+					elif entity_definition.node_class != "":
+						node.queue_free()
+						node = ClassDB.instantiate(entity_definition.node_class)
 				if entity_definition.script_class:
 					node.set_script(entity_definition.script_class)
 
