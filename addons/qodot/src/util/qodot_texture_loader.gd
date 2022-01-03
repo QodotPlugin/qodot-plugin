@@ -130,7 +130,6 @@ func create_material(
 		var loaded_material: Material = load(material_path)
 		if loaded_material:
 			material_dict[material_path] = loaded_material
-	print("PRELOAD0")
 
 	# If material already exists, use it
 	if material_path in material_dict:
@@ -142,7 +141,6 @@ func create_material(
 		material = default_material.duplicate()
 	else:
 		material = StandardMaterial3D.new()
-	print("PRELOAD1", texture_name)
 	var texture : Texture2D = load_texture(texture_name)
 	if not texture:
 		return material
@@ -151,13 +149,10 @@ func create_material(
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED if unshaded else BaseMaterial3D.SHADING_MODE_PER_PIXEL
 
 	material.set_texture(StandardMaterial3D.TEXTURE_ALBEDO, texture)
-	print("PRELOAD3")
 
 	var pbr_textures : Dictionary = get_pbr_textures(texture_name)
-	print("PBRSUFFIX0")
 	
 	for pbr_suffix in PBRSuffix.values():
-		print("PBRSUFFIX1")
 		var suffix = pbr_suffix
 		var tex = pbr_textures[suffix]
 		if tex:
@@ -168,7 +163,6 @@ func create_material(
 			material.set_texture(PBR_SUFFIX_TEXTURES[suffix], tex)
 
 		material_dict[material_path] = material
-	print("PRELOAD4")
 
 	return material
 
@@ -184,11 +178,8 @@ func get_pbr_textures(texture_name: String) -> Dictionary:
 func get_pbr_texture(texture: String, suffix: PBRSuffix) -> Texture2D:
 	var texture_comps : PackedStringArray = texture.split('/')
 
-	print("DAB1")
-
 	if texture_comps.size() == 0:
 		return null
-	print("DAB2")
 
 	for texture_extension in texture_extensions:
 		var path := "%s/%s/%s" % [
@@ -202,6 +193,5 @@ func get_pbr_texture(texture: String, suffix: PBRSuffix) -> Texture2D:
 
 		if(directory.file_exists(path)):
 			return load(path) as Texture2D
-	print("DAB3")
 
 	return null
