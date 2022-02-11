@@ -9,6 +9,7 @@ opts = Variables([], ARGUMENTS)
 opts.Add(EnumVariable('target', "Compilation target", 'debug', ['d', 'debug', 'r', 'release']))
 opts.Add(EnumVariable('platform', "Compilation platform", '', ['', 'windows', 'x11', 'linux', 'osx']))
 opts.Add(EnumVariable('p', "Compilation target, alias for 'platform'", '', ['', 'windows', 'x11', 'linux', 'osx']))
+opts.Add(BoolVariable('fat_binary', "(macOS Only) Produce a fat binary for Intel and Apple Silicon", 'no'))
 opts.Add(BoolVariable('use_llvm', "Use the LLVM / Clang compiler", 'no'))
 opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'addons/qodot/bin/'))
 
@@ -32,19 +33,18 @@ if env['platform'] == '':
 
 # Check our platform specifics
 if env['platform'] == "osx":
+    if env['fat_binary']:
+        archFlags = ['-arch', 'x86_64', '-arch', 'arm64']
+    else:
+        archFlags = ['-arch', 'x86_64']
+
     env['target_path'] += 'osx/'
     if env['target'] in ('debug', 'd'):
-        env.Append(CCFLAGS = ['-g','-O2', '-arch', 'x86_64'])
-        env.Append(LINKFLAGS = [
-            '-arch',
-            'x86_64'
-        ])
+        env.Append(CCFLAGS = ['-g','-O2', *archFlags])
+        env.Append(LINKFLAGS = archFlags)
     else:
-        env.Append(CCFLAGS = ['-g','-O3', '-arch', 'x86_64'])
-        env.Append(LINKFLAGS = [
-            '-arch',
-            'x86_64'
-        ])
+        env.Append(CCFLAGS = ['-g','-O3', *archFlags])
+        env.Append(LINKFLAGS = archFlags)
 
 elif env['platform'] in ('x11', 'linux'):
     env['target_path'] += 'x11/'
