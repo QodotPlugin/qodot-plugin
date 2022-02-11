@@ -1028,6 +1028,11 @@ func apply_properties() -> void:
 						elif prop_default is Array:
 							properties[property] = prop_string.to_int()
 
+				# Assign properties not defined with defaults from the entity definition
+				for property in entity_definitions[classname].class_properties:
+					if not property in properties:
+						properties[property] = entity_definition.class_properties[property]
+
 		if 'properties' in entity_node:
 			entity_node.properties = properties
 
