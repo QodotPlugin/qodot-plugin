@@ -5,7 +5,7 @@
 "classname" "worldspawn"
 "mapversion" "220"
 "_tb_textures" "textures/base;textures/layers"
-"_tb_def" "builtin:Example.fgd"
+"_tb_def" "builtin:Qodot.fgd"
 // brush 0
 {
 ( -192 -160 -16 ) ( -192 -159 -16 ) ( -192 -160 -15 ) base/grid [ 0 -1 0 0 ] [ -0 -0 -1 0 ] 0 0.125 0.125

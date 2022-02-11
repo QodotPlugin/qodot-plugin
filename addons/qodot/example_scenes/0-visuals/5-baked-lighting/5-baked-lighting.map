@@ -3,7 +3,7 @@
 // entity 0
 {
 "classname" "worldspawn"
-"_tb_def" "builtin:Example.fgd"
+"_tb_def" "builtin:Qodot.fgd"
 // brush 0
 {
 ( 400 240 0 ) ( 400 241 0 ) ( 400 240 1 ) __TB_empty 0 0 0 1 1
