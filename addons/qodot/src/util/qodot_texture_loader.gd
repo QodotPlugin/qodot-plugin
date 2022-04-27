@@ -110,21 +110,28 @@ func load_texture(texture_name: String) -> Texture:
 
 	return null
 
-func create_materials(texture_list: Array, material_extension: String, default_material: Material) -> Dictionary:
+func create_materials(
+	texture_list: Array,
+	material_extension: String,
+	default_material: Material,
+	default_material_albedo_uniform: String
+	) -> Dictionary:
 	var texture_materials := {}
 	for texture in texture_list:
 		texture_materials[texture] = create_material(
 			texture,
 			material_extension,
-			default_material
+			default_material,
+			default_material_albedo_uniform
 		)
 	return texture_materials
 
 func create_material(
 	texture_name: String,
 	material_extension: String,
-	default_material: SpatialMaterial
-	) -> SpatialMaterial:
+	default_material: Material,
+	default_material_albedo_uniform: String
+	) -> Material:
 	# Autoload material if it exists
 	var material_dict := {}
 
@@ -138,7 +145,7 @@ func create_material(
 	if material_path in material_dict:
 		return material_dict[material_path]
 
-	var material : SpatialMaterial = null
+	var material : Material = null
 
 	if default_material:
 		material = default_material.duplicate()
@@ -148,14 +155,21 @@ func create_material(
 	var texture : Texture = load_texture(texture_name)
 	if not texture:
 		return material
-
-	material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, texture)
+	
+	if material is SpatialMaterial:
+		material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, texture)
+	elif material is ShaderMaterial && default_material_albedo_uniform != "":
+		material.set_shader_param(default_material_albedo_uniform, texture)
 
 	var pbr_textures : Dictionary = get_pbr_textures(texture_name)
 	for pbr_suffix in PBRSuffix:
 		var suffix = PBRSuffix[pbr_suffix]
 		var tex = pbr_textures[suffix]
 		if tex:
+			if material is ShaderMaterial:
+				material = SpatialMaterial.new()
+				material.set_texture(SpatialMaterial.TEXTURE_ALBEDO, texture)
+
 			var enable_prop : String = PBR_SUFFIX_PROPERTIES[suffix] if suffix in PBR_SUFFIX_PROPERTIES else ""
 			if(enable_prop != ""):
 				material.set(enable_prop, true)
