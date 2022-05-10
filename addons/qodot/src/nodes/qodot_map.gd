@@ -24,7 +24,8 @@ var brush_clip_texture := "special/clip"
 var face_skip_texture := "special/skip"
 var texture_wads := [] setget set_texture_wads
 var material_file_extension := "tres"
-var default_material := SpatialMaterial.new()
+var default_material_albedo_uniform := ""
+var default_material : Material = SpatialMaterial.new()
 var uv_unwrap_texel_size := 1.0
 var print_profiling_data := false
 var use_trenchbroom_group_hierarchy := false
@@ -106,7 +107,8 @@ func _get_property_list() -> Array:
 		QodotUtil.property_dict('texture_wads', TYPE_ARRAY, -1),
 		QodotUtil.category_dict('Materials'),
 		QodotUtil.property_dict('material_file_extension', TYPE_STRING),
-		QodotUtil.property_dict('default_material', TYPE_OBJECT, PROPERTY_HINT_RESOURCE_TYPE, 'SpatialMaterial'),
+		QodotUtil.property_dict('default_material_albedo_uniform', TYPE_STRING),
+		QodotUtil.property_dict('default_material', TYPE_OBJECT, PROPERTY_HINT_RESOURCE_TYPE, 'Material'),
 		QodotUtil.category_dict('UV Unwrap'),
 		QodotUtil.property_dict('uv_unwrap_texel_size', TYPE_REAL),
 		QodotUtil.category_dict('Build'),
@@ -351,7 +353,7 @@ func load_textures() -> Dictionary:
 	return texture_loader.load_textures(texture_list) as Dictionary
 
 func build_materials() -> Dictionary:
-	return texture_loader.create_materials(texture_list, material_file_extension, default_material)
+	return texture_loader.create_materials(texture_list, material_file_extension, default_material, default_material_albedo_uniform)
 
 func fetch_entity_definitions() -> Dictionary:
 	return entity_fgd.get_entity_definitions()
