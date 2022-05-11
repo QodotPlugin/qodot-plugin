@@ -28,7 +28,7 @@ func update_properties() -> void:
 		axis = properties.axis.normalized()
 
 	if 'speed' in properties:
-		speed = properties.depth
+		speed = properties.speed
 
 	if 'depth' in properties:
 		depth = properties.depth.to_float()
