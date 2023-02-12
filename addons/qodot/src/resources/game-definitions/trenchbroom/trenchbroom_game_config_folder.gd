@@ -7,7 +7,7 @@ tool
 export(bool) var export_file : bool setget set_export_file
 
 ## The /games folder in either your Trenchbroom installation or your OS user data folder.
-export var trenchbroom_games_path : String
+export(String, DIR, GLOBAL) var trenchbroom_games_folder : String
 
 ## Name of the game in Trenchbroom's game list
 export(String) var game_name := "Qodot"
@@ -92,11 +92,11 @@ func set_export_file(new_export_file : bool = true) -> void:
 	if new_export_file != export_file:
 		if Engine.is_editor_hint():
 			# If no folder location is defined, return
-			if not trenchbroom_games_path:
+			if not trenchbroom_games_folder:
 				print("Skipping export: No TrenchBroom games folder")
 				return
 			# Create config folder name by combining games folder with the game name as a directory
-			var config_folder = trenchbroom_games_path + "/" + game_name
+			var config_folder = trenchbroom_games_folder + "/" + game_name
 			var config_dir = Directory.new()
 			var err = config_dir.open(config_folder)
 			if err != OK:
