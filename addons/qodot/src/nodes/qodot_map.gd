@@ -16,7 +16,7 @@ var map_file := "" setget set_map_file
 var inverse_scale_factor := 16.0
 var entity_fgd := preload("res://addons/qodot/game_definitions/fgd/qodot_fgd.tres")
 var base_texture_dir := "res://textures"
-var texture_file_extensions := PoolStringArray(["png"])
+var texture_file_extensions := PoolStringArray(["bmp", "exr", "hdr", "jpeg", "jpg", "png", "tga", "webp"])
 
 var worldspawn_layers := [] setget set_worldspawn_layers
 
