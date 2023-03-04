@@ -136,6 +136,7 @@ func set_export_file(new_export_file : bool = true) -> void:
 			for fgd_file in fgd_files:
 				if not fgd_file is QodotFGDFile:
 					print("Skipping %s: Not a valid FGD file" % [fgd_file])
+					continue
 				var export_fgd : QodotFGDFile = fgd_file.duplicate()
 				export_fgd.target_folder = config_folder
 				export_fgd.set_export_file(true)
