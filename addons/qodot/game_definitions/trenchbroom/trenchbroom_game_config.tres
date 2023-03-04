@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://addons/qodot/src/resources/game-definitions/trenchbroom/trenchbroom_game_config.gd" type="Script" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://addons/qodot/game_definitions/fgd/qodot_fgd.tres" type="Resource" id=3]
+
+[resource]
+script = ExtResource( 1 )
+export_file = false
+trenchbroom_games_path = ""
+game_name = "Qodot"
+icon = ExtResource( 2 )
+fgd_files = [ ExtResource( 3 ) ]
+brush_tags = [  ]
+face_tags = [  ]
+face_attrib_surface_flags = [  ]
+face_attrib_content_flags = [  ]
