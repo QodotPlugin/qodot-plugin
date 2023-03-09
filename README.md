@@ -1,10 +1,10 @@
 ![](https://raw.githubusercontent.com/Shfty/qodot-extras/master/graphics/qodot_logo_small.png)
 
-Quake *.map* file support for Godot.
+Quake *.map* file support for Godot 3.x. **For the Godot 4.x plugin, see [Qodot 4](https://github.com/QodotPlugin/Qodot/).**
 
 ## Documentation
 
-Consult the [Qodot User Guide](https://qodotplugin.github.io/).
+Hosted here: [https://qodotplugin.github.io/](https://qodotplugin.github.io/)
 
 ## Overview
 
